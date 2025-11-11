@@ -3,7 +3,8 @@
   "description": "Demo website for HART music school",
   "type": "project",
   "require": {
-    "php": "^8.0"
+    "php": "^8.0",
+    "alrik11es/cowsayphp": "^1.2"
   },
   "authors": [
     {

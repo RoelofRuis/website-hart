@@ -1,5 +1,14 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
 
-$title = "Muziekschool HART";
+use Cowsayphp\Farm;
 
-echo $title;
+header('Content-Type: text/plain');
+
+$text = "Set a message by adding ?message=<essage here> to the URL";
+if (isset($_GET['message']) && $_GET['message'] != '') {
+    $text = htmlspecialchars($_GET['message']);
+}
+
+$cow = Farm::create(\Cowsayphp\Farm\Cow::class);
+echo $cow->say($text);
