@@ -1,0 +1,13 @@
+{
+  "name": "roelofruis/hart-website",
+  "description": "Demo website for HART music school",
+  "type": "project",
+  "require": {
+    "php": "^8.0"
+  },
+  "authors": [
+    {
+      "name": "Roelof Ruis"
+    }
+  ]
+}
