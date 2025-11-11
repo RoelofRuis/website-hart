@@ -1,0 +1,21 @@
+version: '2'
+services:
+  app:
+    build: docker/php
+    ports:
+      - "8080:80"
+    env_file: .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: hart
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
