@@ -1,8 +1,9 @@
 name: website-hart
-static_sties:
+static_sites:
   - environment_slug: html
     github:
       branch: master
       deploy_on_push: true
       repo: RoelofRuis/website-hart
     name: website-hart
+    source_dir: /
