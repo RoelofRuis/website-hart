@@ -6,3 +6,4 @@ services:
       deploy_on_push: true
       repo: RoelofRuis/website-hart
     name: website-hart
+    source_dir: /web
