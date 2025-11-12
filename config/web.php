@@ -1,7 +1,9 @@
 <?php
 
+use yii\caching\FileCache;
+use yii\web\UrlManager;
+
 $db = require __DIR__ . '/db.php';
-$base_url = getenv('BASE_URL') ?: null;
 
 $config = [
     'id' => 'basic',
@@ -15,10 +17,10 @@ $config = [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
-            'baseUrl' => $base_url,
+            'baseUrl' => '',
         ],
         'urlManager' => [
-            'class' => 'yii\web\UrlManager',
+            'class' => UrlManager::class,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],
@@ -28,7 +30,7 @@ $config = [
             'loginUrl' => null,
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => FileCache::class,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
