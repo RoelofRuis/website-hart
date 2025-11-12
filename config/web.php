@@ -1,7 +1,7 @@
 <?php
 
 $db = require __DIR__ . '/db.php';
-$base_url = getenv('BASE_URL') ?: '';
+$base_url = getenv('BASE_URL') ?: null;
 
 $config = [
     'id' => 'basic',
