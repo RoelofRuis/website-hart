@@ -6,7 +6,7 @@
     "description": "Alice is a classically trained pianist with over 10 years of teaching experience.",
     "email": "alice@example.com",
     "telephone": "+31 6 1234 5678",
-    "profile_picture": "https://via.placeholder.com/600x400?text=Alice",
+    "profile_picture": "https://placehold.co/600x400",
     "course_type_id": 1
   },
   {
@@ -16,7 +16,7 @@
     "description": "Bob is a jazz saxophonist who loves improvisation and ensemble coaching.",
     "email": "bob@example.com",
     "telephone": "+31 6 8765 4321",
-    "profile_picture": "https://via.placeholder.com/600x400?text=Bob",
+    "profile_picture": "https://placehold.co/600x400",
     "course_type_id": 2
   },
   {
@@ -26,7 +26,7 @@
     "description": "Carla is a vocal coach focusing on pop technique and performance.",
     "email": "carla@example.com",
     "telephone": "+31 6 2468 1357",
-    "profile_picture": "https://via.placeholder.com/600x400?text=Carla",
+    "profile_picture": "https://placehold.co/600x400",
     "course_type_id": 3
   }
 ]
