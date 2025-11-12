@@ -5,6 +5,7 @@ $base_url = getenv('BASE_URL') ?: '';
 
 $config = [
     'id' => 'basic',
+    'name' => 'HART',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -15,6 +16,16 @@ $config = [
         'request' => [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
             'baseUrl' => $base_url,
+        ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
+        'user' => [
+            'identityClass' => app\models\Teacher::class,
+            'enableAutoLogin' => false,
+            'loginUrl' => null,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

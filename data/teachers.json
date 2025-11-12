@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "full_name": "Alice Van den Berg",
+    "slug": "alice-van-den-berg",
+    "description": "Alice is a classically trained pianist with over 10 years of teaching experience.",
+    "email": "alice@example.com",
+    "telephone": "+31 6 1234 5678",
+    "profile_picture": "https://via.placeholder.com/600x400?text=Alice",
+    "course_type_id": 1
+  },
+  {
+    "id": 2,
+    "full_name": "Bob Jansen",
+    "slug": "bob-jansen",
+    "description": "Bob is a jazz saxophonist who loves improvisation and ensemble coaching.",
+    "email": "bob@example.com",
+    "telephone": "+31 6 8765 4321",
+    "profile_picture": "https://via.placeholder.com/600x400?text=Bob",
+    "course_type_id": 2
+  },
+  {
+    "id": 3,
+    "full_name": "Carla de Vries",
+    "slug": "carla-de-vries",
+    "description": "Carla is a vocal coach focusing on pop technique and performance.",
+    "email": "carla@example.com",
+    "telephone": "+31 6 2468 1357",
+    "profile_picture": "https://via.placeholder.com/600x400?text=Carla",
+    "course_type_id": 3
+  }
+]
