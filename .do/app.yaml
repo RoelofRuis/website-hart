@@ -17,10 +17,10 @@ name: website-hart
 region: ams
 services:
   - environment_slug: php
-    git:
+    github:
       branch: master
       deploy_on_push: true
-      repo_clone_url: https://github.com/RoelofRuis/website-hart.git
+      repo: RoelofRuis/website-hart
     http_port: 8080
     instance_count: 1
     instance_size_slug: apps-s-1vcpu-0.5gb
