@@ -17,12 +17,6 @@ $config = [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
-            'baseUrl' => '',
-        ],
-        'urlManager' => [
-            'class' => UrlManager::class,
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
         ],
         'user' => [
             'identityClass' => app\models\Teacher::class,
