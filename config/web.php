@@ -1,6 +1,7 @@
 <?php
 
 $db = require __DIR__ . '/db.php';
+$base_url = getenv('BASE_URL') ?: '';
 
 $config = [
     'id' => 'basic',
@@ -13,6 +14,7 @@ $config = [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
+            'baseUrl' => $base_url,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
