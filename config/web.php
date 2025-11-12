@@ -17,11 +17,11 @@ $config = [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
             'baseUrl' => $base_url,
         ],
-        'urlManager' => [
-            'class' => 'yii\web\UrlManager',
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-        ],
+//        'urlManager' => [
+//            'class' => 'yii\web\UrlManager',
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//        ],
         'user' => [
             'identityClass' => app\models\Teacher::class,
             'enableAutoLogin' => false,
