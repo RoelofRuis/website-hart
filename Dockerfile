@@ -47,7 +47,7 @@ RUN sed -i 's#^listen = .*#listen = 127.0.0.1:9000#' /usr/local/etc/php-fpm.d/ww
 COPY docker/scripts/start-nginx.sh /usr/local/bin/start-nginx.sh
 RUN chmod +x /usr/local/bin/start-nginx.sh
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Start supervisord (which starts php-fpm and nginx)
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

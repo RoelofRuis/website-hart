@@ -16,7 +16,7 @@ ingress:
 name: website-hart
 region: ams
 services:
-  - environment_slug: php
+  - dockerfile_path: Dockerfile
     github:
       branch: master
       deploy_on_push: true
