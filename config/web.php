@@ -1,7 +1,7 @@
 <?php
 
 use yii\caching\FileCache;
-use yii\web\UrlManager;
+use yii\log\FileTarget;
 
 $db = require __DIR__ . '/db.php';
 
@@ -37,7 +37,7 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
             ],
