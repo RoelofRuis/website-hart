@@ -7,11 +7,18 @@ services:
     working_dir: /var/www
     ports:
       - "8080:8080"
+    environment:
+      - PORT=8080
     env_file: .env
     depends_on:
       - db
     volumes:
       - ./:/var/www
+      # Keep vendor inside the container so host bind mount doesn't mask it
+      - /var/www/vendor
+      # Ensure Yii writable paths are not blocked by host FS permissions
+      - /var/www/web/assets
+      - /var/www/runtime
 
   db:
     image: postgres:15

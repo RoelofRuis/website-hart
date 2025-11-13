@@ -1,0 +1,37 @@
+# VCS / IDE / OS
+.git
+.gitignore
+.gitattributes
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.history/
+*.swp
+*.swo
+
+# Local env / platform
+.env
+.env.*
+.do/
+
+# Compose isn’t needed for image builds
+docker-compose.yml
+
+# Runtime/writable paths (created/owned at container start)
+runtime/
+web/assets/
+
+# PHP dependencies are installed inside the image via Composer
+vendor/
+
+# Node tooling (if present in the future)
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Logs / caches / temp
+*.log
+*.cache/
+cache/
+tmp/

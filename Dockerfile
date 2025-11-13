@@ -28,7 +28,7 @@ COPY . /var/www
 
 # Nginx configuration
 # Copy existing project Nginx config and adapt it for single-container (fastcgi to 127.0.0.1)
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx-default.conf /etc/nginx/conf.d/default.conf
 RUN sed -i 's#fastcgi_pass\s\+app:9000;#fastcgi_pass 127.0.0.1:9000;#' /etc/nginx/conf.d/default.conf \
     && sed -i 's#root /var/www/web;#root /var/www/web;#' /etc/nginx/conf.d/default.conf \
     && mkdir -p /var/log/nginx
@@ -44,7 +44,7 @@ RUN mkdir -p /run/php /var/run/nginx /var/cache/nginx /var/www/runtime \
 RUN sed -i 's#^listen = .*#listen = 127.0.0.1:9000#' /usr/local/etc/php-fpm.d/www.conf
 
 # Startup helper script to set Nginx listen port from $PORT (App Platform) or default 8000
-COPY docker/scripts/start-nginx.sh /usr/local/bin/start-nginx.sh
+COPY docker/start-nginx.sh /usr/local/bin/start-nginx.sh
 RUN chmod +x /usr/local/bin/start-nginx.sh
 
 EXPOSE 8080
