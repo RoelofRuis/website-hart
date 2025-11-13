@@ -23,6 +23,10 @@ $config = [
             'enableAutoLogin' => false,
             'loginUrl' => null,
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
         'cache' => [
             'class' => FileCache::class,
         ],
