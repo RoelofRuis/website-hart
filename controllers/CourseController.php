@@ -10,7 +10,7 @@ class CourseController extends Controller
 {
     public function actionIndex()
     {
-        $courses = Course::findAll();
+        $courses = Course::find()->all();
         return $this->render('index', [
             'courses' => $courses,
         ]);

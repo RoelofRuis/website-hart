@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php endif; ?>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-1"><?= Html::encode($t->full_name) ?></h5>
-                        <?php if ($t->getCourseType()): ?>
-                            <div class="text-muted mb-2"><?= Html::encode($t->getCourseType()->name) ?></div>
+                        <?php if ($t->getCourseType()->exists()): ?>
+                            <div class="text-muted mb-2"><?= Html::encode($t->getCourseType()->one()->name) ?></div>
                         <?php endif; ?>
                         <p class="card-text flex-grow-1"><?= Html::encode(mb_strimwidth($t->description, 0, 140, '…')) ?></p>
                         <?= Html::a('View profile', ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-primary mt-auto']) ?>

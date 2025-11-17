@@ -2,45 +2,28 @@
 
 namespace app\models;
 
-use app\components\FileDataStore;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
-class Course extends BaseFileModel
+class Course extends ActiveRecord
 {
-    public $id;
-    public $name;
-    public $description;
-
-    protected static function fileName(): string
+    public static function tableName(): string
     {
-        return 'courses.json';
+        return '{{%courses}}';
     }
 
     public function rules(): array
     {
         return [
-            [['id', 'name', 'description'], 'safe'],
+            [['name'], 'required'],
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 150],
         ];
     }
 
-    /**
-     * @return Teacher[]
-     */
-    public function getTeachers(): array
+    public function getTeachers(): ActiveQuery
     {
-        $map = FileDataStore::load('teacher_courses.json');
-        $teacherIds = [];
-        foreach ($map as $row) {
-            if ((string)($row['course_id'] ?? '') === (string)$this->id) {
-                $teacherIds[] = (string)$row['teacher_id'];
-            }
-        }
-        $all = Teacher::findAll();
-        $out = [];
-        foreach ($all as $t) {
-            if (in_array((string)$t->id, $teacherIds, true)) {
-                $out[] = $t;
-            }
-        }
-        return $out;
+        return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
+            ->viaTable('{{%teacher_courses}}', ['course_id' => 'id']);
     }
 }

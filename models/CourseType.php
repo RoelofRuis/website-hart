@@ -2,20 +2,20 @@
 
 namespace app\models;
 
-class CourseType extends BaseFileModel
-{
-    public $id;
-    public $name;
+use yii\db\ActiveRecord;
 
-    protected static function fileName(): string
+class CourseType extends ActiveRecord
+{
+    public static function tableName(): string
     {
-        return 'course_types.json';
+        return '{{%course_types}}';
     }
 
     public function rules(): array
     {
         return [
-            [['id', 'name'], 'safe'],
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 100],
         ];
     }
 }

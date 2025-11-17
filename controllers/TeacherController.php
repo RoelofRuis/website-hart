@@ -10,7 +10,7 @@ class TeacherController extends Controller
 {
     public function actionIndex()
     {
-        $teachers = Teacher::findAll();
+        $teachers = Teacher::find()->all();
         return $this->render('index', [
             'teachers' => $teachers,
         ]);

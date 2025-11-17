@@ -1,0 +1,67 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Initializes DB schema for courses, teachers, course types and their relations.
+ */
+class m251117_152800_init_schema extends Migration
+{
+    public function safeUp()
+    {
+        // course_types
+        $this->createTable('{{%course_types}}', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(100)->notNull()->unique(),
+        ]);
+
+        // courses
+        $this->createTable('{{%courses}}', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(150)->notNull(),
+            'description' => $this->text(),
+        ]);
+        $this->createIndex('idx_courses_name', '{{%courses}}', ['name']);
+
+        // teachers
+        $this->createTable('{{%teachers}}', [
+            'id' => $this->primaryKey(),
+            'full_name' => $this->string(150)->notNull(),
+            'slug' => $this->string(150)->notNull()->unique(),
+            'description' => $this->text(),
+            'email' => $this->string(150),
+            'telephone' => $this->string(50),
+            'profile_picture' => $this->string(255),
+            'course_type_id' => $this->integer()->null(),
+        ]);
+        $this->createIndex('idx_teachers_full_name', '{{%teachers}}', ['full_name']);
+        $this->addForeignKey(
+            'fk_teachers_course_type',
+            '{{%teachers}}', 'course_type_id',
+            '{{%course_types}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+
+        // junction table teacher_courses
+        $this->createTable('{{%teacher_courses}}', [
+            'teacher_id' => $this->integer()->notNull(),
+            'course_id' => $this->integer()->notNull(),
+        ]);
+        $this->addPrimaryKey('pk_teacher_courses', '{{%teacher_courses}}', ['teacher_id', 'course_id']);
+        $this->addForeignKey('fk_tc_teacher', '{{%teacher_courses}}', 'teacher_id', '{{%teachers}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_tc_course', '{{%teacher_courses}}', 'course_id', '{{%courses}}', 'id', 'CASCADE', 'CASCADE');
+    }
+
+    public function safeDown()
+    {
+        $this->dropForeignKey('fk_tc_course', '{{%teacher_courses}}');
+        $this->dropForeignKey('fk_tc_teacher', '{{%teacher_courses}}');
+        $this->dropTable('{{%teacher_courses}}');
+
+        $this->dropForeignKey('fk_teachers_course_type', '{{%teachers}}');
+        $this->dropTable('{{%teachers}}');
+
+        $this->dropTable('{{%courses}}');
+        $this->dropTable('{{%course_types}}');
+    }
+}

@@ -16,12 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3 class="mt-4">Teachers</h3>
     <div class="row">
-        <?php foreach ($model->getTeachers() as $t): ?>
+        <?php foreach ($model->getTeachers()->all() as $t): ?>
             <div class="col-md-4 mb-3">
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-2"><?= Html::encode($t->full_name) ?></h5>
-                        <div class="text-muted mb-2"><?php if ($t->getCourseType()) echo Html::encode($t->getCourseType()->name); ?></div>
+                        <div class="text-muted mb-2"><?php if ($t->getCourseType()->exists()) echo Html::encode($t->getCourseType()->one()->name); ?></div>
                         <?= Html::a('View teacher', ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
                     </div>
                 </div>

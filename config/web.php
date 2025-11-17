@@ -26,6 +26,10 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [
+                'course/view/<id:\d+>' => 'course/view',
+                'teacher/view/<slug:[A-Za-z0-9\-]+>' => 'teacher/view',
+            ],
         ],
         'cache' => [
             'class' => FileCache::class,

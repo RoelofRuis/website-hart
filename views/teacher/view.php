@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-9">
             <h1 class="mb-1"><?= Html::encode($model->full_name) ?></h1>
-            <?php if ($model->getCourseType()): ?>
-                <div class="text-muted mb-3"><?= Html::encode($model->getCourseType()->name) ?></div>
+            <?php if ($model->getCourseType()->exists()): ?>
+                <div class="text-muted mb-3"><?= Html::encode($model->getCourseType()->one()->name) ?></div>
             <?php endif; ?>
             <p class="lead"><?= nl2br(Html::encode($model->description)) ?></p>
             <div class="mt-3">
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3 class="mt-4">Courses taught</h3>
     <div class="row">
-        <?php foreach ($model->getCourses() as $course): ?>
+        <?php foreach ($model->getCourses()->all() as $course): ?>
             <div class="col-md-6 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         <?php endforeach; ?>
-        <?php if (empty($model->getCourses())): ?>
+        <?php if (!$model->getCourses()->exists()): ?>
             <div class="col-12 text-muted">No courses assigned yet.</div>
         <?php endif; ?>
     </div>

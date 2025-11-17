@@ -2,58 +2,43 @@
 
 namespace app\models;
 
-use app\components\FileDataStore;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-class Teacher extends BaseFileModel implements IdentityInterface
+class Teacher extends ActiveRecord implements IdentityInterface
 {
-    public $id;
-    public $full_name;
-    public $slug;
-    public $description;
-    public $email;
-    public $telephone;
-    public $profile_picture;
-    public $course_type_id;
-
-    protected static function fileName(): string
+    public static function tableName(): string
     {
-        return 'teachers.json';
+        return '{{%teachers}}';
     }
-
-    protected static function pk(): string { return 'id'; }
 
     public function rules(): array
     {
         return [
-            [['id', 'full_name', 'slug', 'description', 'email', 'telephone', 'profile_picture', 'course_type_id'], 'safe'],
+            [['full_name', 'slug'], 'required'],
+            [['description'], 'string'],
+            [['full_name', 'slug'], 'string', 'max' => 150],
+            [['email'], 'string', 'max' => 150],
+            [['telephone'], 'string', 'max' => 50],
+            [['profile_picture'], 'string', 'max' => 255],
+            [['course_type_id'], 'integer'],
+            [['slug'], 'unique'],
         ];
     }
 
-    public function getCourseType(): ?CourseType
+    public function getCourseType(): ActiveQuery
     {
-        return CourseType::findOne($this->course_type_id);
+        return $this->hasOne(CourseType::class, ['id' => 'course_type_id']);
     }
 
     /**
-     * @return Course[]
+     * @return ActiveQuery
      */
-    public function getCourses(): array
+    public function getCourses(): ActiveQuery
     {
-        $map = FileDataStore::load('teacher_courses.json');
-        $courseIds = [];
-        foreach ($map as $row) {
-            if ((string)($row['teacher_id'] ?? '') === (string)$this->id) {
-                $courseIds[] = (string)$row['course_id'];
-            }
-        }
-        $out = [];
-        foreach (Course::findAll() as $c) {
-            if (in_array((string)$c->id, $courseIds, true)) {
-                $out[] = $c;
-            }
-        }
-        return $out;
+        return $this->hasMany(Course::class, ['id' => 'course_id'])
+            ->viaTable('{{%teacher_courses}}', ['teacher_id' => 'id']);
     }
 
     // IdentityInterface
@@ -84,6 +69,6 @@ class Teacher extends BaseFileModel implements IdentityInterface
 
     public static function findBySlug(string $slug): ?self
     {
-        return static::findOne($slug, 'slug');
+        return static::findOne(['slug' => $slug]);
     }
 }
