@@ -24,6 +24,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 <head>
     <title><?= Html::encode($this->title) ?></title>
+    <!-- Preconnects for faster Google Fonts fetching -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Montserrat font, loaded with display swap for performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
@@ -34,7 +39,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
+        // Use a custom class so we can style it according to the style guide colors
+        'options' => ['class' => 'navbar-expand-md navbar-dark fixed-top app-navbar']
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],

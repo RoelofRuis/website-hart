@@ -1,3 +1,291 @@
+/* -------------------------------------------------
+   Global Style Guide Variables and Base Styles
+   Colors and typography according to provided guide
+   Main colors:
+   - Yellow    #FFDC00
+   - Petrol    #2B3D4E
+   - Turquoise #55BDBE
+   Support colors:
+   - Light blue  #B2DCDA
+   - Light green #95C9A6
+   - Purple      #452680
+   - Magenta     #9D2460
+-------------------------------------------------- */
+:root {
+    /* Main palette */
+    --color-yellow:   #FFDC00;
+    --color-petrol:   #2B3D4E;
+    --color-turquoise:#55BDBE;
+    /* Support palette */
+    --color-light-blue:  #B2DCDA;
+    --color-light-green: #95C9A6;
+    --color-purple:      #452680;
+    --color-magenta:     #9D2460;
+}
+
+html, body {
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    color: var(--color-petrol);
+}
+
+/* Link colors */
+a { color: var(--color-turquoise); }
+a:hover, a:focus { color: var(--color-magenta); }
+
+/* Navbar themed with Petrol background and Yellow hover accent */
+.app-navbar {
+    background-color: var(--color-petrol) !important;
+}
+.app-navbar .navbar-brand,
+.app-navbar .nav-link {
+    color: rgba(255,255,255,0.85) !important;
+}
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link:focus,
+.app-navbar .navbar-brand:hover,
+.app-navbar .navbar-brand:focus {
+    color: var(--color-yellow) !important;
+}
+
+/* Footer with Light blue background and Petrol text */
+#footer {
+    background-color: var(--color-light-blue) !important;
+    color: var(--color-petrol);
+}
+#footer a { color: var(--color-purple); }
+#footer a:hover { color: var(--color-magenta); }
+
+/* Utility helpers for colors (minimal set) */
+.bg-petrol { background-color: var(--color-petrol) !important; }
+.bg-yellow { background-color: var(--color-yellow) !important; }
+.bg-turquoise { background-color: var(--color-turquoise) !important; }
+.text-petrol { color: var(--color-petrol) !important; }
+.text-yellow { color: var(--color-yellow) !important; }
+.text-turquoise { color: var(--color-turquoise) !important; }
+
+/* -------------------------------------------------
+   Bootstrap button theming
+   Map Bootstrap variants to the style guide palette
+   Using BS5 CSS variables for minimal, scoped overrides
+-------------------------------------------------- */
+/* Primary → Turquoise */
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--color-turquoise);
+    --bs-btn-border-color: var(--color-turquoise);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-turquoise);
+    --bs-btn-hover-border-color: var(--color-turquoise);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-turquoise);
+    --bs-btn-active-border-color: var(--color-turquoise);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--color-turquoise);
+    --bs-btn-disabled-border-color: var(--color-turquoise);
+}
+
+/* Secondary → Petrol */
+.btn-secondary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--color-petrol);
+    --bs-btn-border-color: var(--color-petrol);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-petrol);
+    --bs-btn-hover-border-color: var(--color-petrol);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-petrol);
+    --bs-btn-active-border-color: var(--color-petrol);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--color-petrol);
+    --bs-btn-disabled-border-color: var(--color-petrol);
+}
+
+/* Success → Light green */
+.btn-success {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-bg: var(--color-light-green);
+    --bs-btn-border-color: var(--color-light-green);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-light-green);
+    --bs-btn-hover-border-color: var(--color-light-green);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-light-green);
+    --bs-btn-active-border-color: var(--color-light-green);
+    --bs-btn-disabled-color: var(--color-petrol);
+    --bs-btn-disabled-bg: var(--color-light-green);
+    --bs-btn-disabled-border-color: var(--color-light-green);
+}
+
+/* Info → Light blue */
+.btn-info {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-bg: var(--color-light-blue);
+    --bs-btn-border-color: var(--color-light-blue);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-light-blue);
+    --bs-btn-hover-border-color: var(--color-light-blue);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-light-blue);
+    --bs-btn-active-border-color: var(--color-light-blue);
+    --bs-btn-disabled-color: var(--color-petrol);
+    --bs-btn-disabled-bg: var(--color-light-blue);
+    --bs-btn-disabled-border-color: var(--color-light-blue);
+}
+
+/* Warning → Yellow */
+.btn-warning {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-bg: var(--color-yellow);
+    --bs-btn-border-color: var(--color-yellow);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-yellow);
+    --bs-btn-hover-border-color: var(--color-yellow);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-yellow);
+    --bs-btn-active-border-color: var(--color-yellow);
+    --bs-btn-disabled-color: var(--color-petrol);
+    --bs-btn-disabled-bg: var(--color-yellow);
+    --bs-btn-disabled-border-color: var(--color-yellow);
+}
+
+/* Danger → Magenta */
+.btn-danger {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--color-magenta);
+    --bs-btn-border-color: var(--color-magenta);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-magenta);
+    --bs-btn-hover-border-color: var(--color-magenta);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-magenta);
+    --bs-btn-active-border-color: var(--color-magenta);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--color-magenta);
+    --bs-btn-disabled-border-color: var(--color-magenta);
+}
+
+/* Light → Light blue with Petrol text */
+.btn-light {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-bg: var(--color-light-blue);
+    --bs-btn-border-color: var(--color-light-blue);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-light-blue);
+    --bs-btn-hover-border-color: var(--color-light-blue);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-light-blue);
+    --bs-btn-active-border-color: var(--color-light-blue);
+    --bs-btn-disabled-color: var(--color-petrol);
+    --bs-btn-disabled-bg: var(--color-light-blue);
+    --bs-btn-disabled-border-color: var(--color-light-blue);
+}
+
+/* Dark → Petrol (solid) */
+.btn-dark {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--color-petrol);
+    --bs-btn-border-color: var(--color-petrol);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-petrol);
+    --bs-btn-hover-border-color: var(--color-petrol);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-petrol);
+    --bs-btn-active-border-color: var(--color-petrol);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--color-petrol);
+    --bs-btn-disabled-border-color: var(--color-petrol);
+}
+
+/* Outline variants */
+.btn-outline-primary {
+    --bs-btn-color: var(--color-turquoise);
+    --bs-btn-border-color: var(--color-turquoise);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-turquoise);
+    --bs-btn-hover-border-color: var(--color-turquoise);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-turquoise);
+    --bs-btn-active-border-color: var(--color-turquoise);
+}
+.btn-outline-secondary {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-border-color: var(--color-petrol);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-petrol);
+    --bs-btn-hover-border-color: var(--color-petrol);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-petrol);
+    --bs-btn-active-border-color: var(--color-petrol);
+}
+.btn-outline-success {
+    --bs-btn-color: var(--color-light-green);
+    --bs-btn-border-color: var(--color-light-green);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-light-green);
+    --bs-btn-hover-border-color: var(--color-light-green);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-light-green);
+    --bs-btn-active-border-color: var(--color-light-green);
+}
+.btn-outline-info {
+    --bs-btn-color: var(--color-light-blue);
+    --bs-btn-border-color: var(--color-light-blue);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-light-blue);
+    --bs-btn-hover-border-color: var(--color-light-blue);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-light-blue);
+    --bs-btn-active-border-color: var(--color-light-blue);
+}
+.btn-outline-warning {
+    --bs-btn-color: var(--color-yellow);
+    --bs-btn-border-color: var(--color-yellow);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-yellow);
+    --bs-btn-hover-border-color: var(--color-yellow);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-yellow);
+    --bs-btn-active-border-color: var(--color-yellow);
+}
+.btn-outline-danger {
+    --bs-btn-color: var(--color-magenta);
+    --bs-btn-border-color: var(--color-magenta);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-magenta);
+    --bs-btn-hover-border-color: var(--color-magenta);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-magenta);
+    --bs-btn-active-border-color: var(--color-magenta);
+}
+.btn-outline-dark {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-border-color: var(--color-petrol);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--color-petrol);
+    --bs-btn-hover-border-color: var(--color-petrol);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--color-petrol);
+    --bs-btn-active-border-color: var(--color-petrol);
+}
+.btn-outline-light {
+    --bs-btn-color: var(--color-petrol);
+    --bs-btn-border-color: var(--color-light-blue);
+    --bs-btn-hover-color: var(--color-petrol);
+    --bs-btn-hover-bg: var(--color-light-blue);
+    --bs-btn-hover-border-color: var(--color-light-blue);
+    --bs-btn-active-color: var(--color-petrol);
+    --bs-btn-active-bg: var(--color-light-blue);
+    --bs-btn-active-border-color: var(--color-light-blue);
+}
+
+/* Link-style buttons should follow link colors */
+.btn-link {
+    color: var(--color-turquoise);
+}
+.btn-link:hover, .btn-link:focus {
+    color: var(--color-magenta);
+}
+
 main > .container {
     padding: 70px 15px 20px;
 }
