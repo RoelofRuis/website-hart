@@ -27,6 +27,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'course/view/<slug:[A-Za-z0-9\-]+>' => 'course/view',
                 'course/view/<id:\d+>' => 'course/view',
                 'teacher/view/<slug:[A-Za-z0-9\-]+>' => 'teacher/view',
             ],

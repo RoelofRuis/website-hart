@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-2"><?= Html::encode($c->name) ?></h5>
                         <p class="card-text flex-grow-1"><?= Html::encode(mb_strimwidth($c->description, 0, 180, '…')) ?></p>
-                        <?= Html::a('View course', ['course/view', 'id' => $c->id], ['class' => 'btn btn-outline-primary mt-auto']) ?>
+                        <?= Html::a('View course', ['course/view', 'slug' => $c->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
                     </div>
                 </div>
             </div>

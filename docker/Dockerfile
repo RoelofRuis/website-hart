@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
   && docker-php-ext-install pdo_pgsql \
+  && docker-php-ext-install mbstring \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Composer

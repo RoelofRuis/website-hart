@@ -4,6 +4,7 @@
   "type": "project",
   "require": {
     "php": "^8.0",
+    "ext-mbstring": "*",
     "yiisoft/yii2": "2.0.53",
     "yiisoft/yii2-bootstrap5": "2.0.50",
     "yiisoft/yii2-symfonymailer": "2.0.4"

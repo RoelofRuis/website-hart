@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body">
                         <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
                         <p class="card-text mb-2"><?= Html::encode(mb_strimwidth($course->description, 0, 160, '…')) ?></p>
-                        <?= Html::a('View course', ['course/view', 'id' => $course->id], ['class' => 'btn btn-outline-primary btn-sm']) ?>
+                        <?= Html::a('View course', ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
                     </div>
                 </div>
             </div>

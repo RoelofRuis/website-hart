@@ -2,28 +2,23 @@
 
 use yii\db\Migration;
 
-/**
- * Initializes DB schema for courses, teachers, course types and their relations.
- */
-class m251117_152800_init_schema extends Migration
+class m251117_152800_init extends Migration
 {
     public function safeUp()
     {
-        // course_types
         $this->createTable('{{%course_types}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(100)->notNull()->unique(),
         ]);
 
-        // courses
         $this->createTable('{{%courses}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(150)->notNull(),
+            'slug' => $this->string(150)->notNull()->unique(),
             'description' => $this->text(),
         ]);
         $this->createIndex('idx_courses_name', '{{%courses}}', ['name']);
 
-        // teachers
         $this->createTable('{{%teachers}}', [
             'id' => $this->primaryKey(),
             'full_name' => $this->string(150)->notNull(),
@@ -42,7 +37,6 @@ class m251117_152800_init_schema extends Migration
             'SET NULL', 'CASCADE'
         );
 
-        // junction table teacher_courses
         $this->createTable('{{%teacher_courses}}', [
             'teacher_id' => $this->integer()->notNull(),
             'course_id' => $this->integer()->notNull(),

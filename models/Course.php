@@ -15,9 +15,10 @@ class Course extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'], 'required'],
+            [['name', 'slug'], 'required'],
             [['description'], 'string'],
-            [['name'], 'string', 'max' => 150],
+            [['name', 'slug'], 'string', 'max' => 150],
+            [['slug'], 'unique'],
         ];
     }
 
@@ -25,5 +26,10 @@ class Course extends ActiveRecord
     {
         return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
             ->viaTable('{{%teacher_courses}}', ['course_id' => 'id']);
+    }
+
+    public static function findBySlug(string $slug): ?self
+    {
+        return static::findOne(['slug' => $slug]);
     }
 }

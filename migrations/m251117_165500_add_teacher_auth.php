@@ -2,9 +2,6 @@
 
 use yii\db\Migration;
 
-/**
- * Adds authentication fields and admin flag to teachers table.
- */
 class m251117_165500_add_teacher_auth extends Migration
 {
     public function safeUp()

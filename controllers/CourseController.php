@@ -16,9 +16,9 @@ class CourseController extends Controller
         ]);
     }
 
-    public function actionView($id)
+    public function actionView($slug = null)
     {
-        $model = Course::findOne($id);
+        $model = Course::findBySlug($slug);
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
