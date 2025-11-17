@@ -7,8 +7,7 @@ use yii\bootstrap5\Html;
 $this->title = 'HART Music School';
 ?>
 <div class="site-index">
-
-    <section class="hero text-center text-white d-flex align-items-center" style="min-height: 50vh; background: linear-gradient(135deg,#4e54c8,#8f94fb); border-radius: .5rem;">
+    <section class="hero text-center text-white d-flex align-items-center" style="min-height: 50vh; background: #55BDBE; border-radius: .5rem;">
         <div class="container py-5">
             <h1 class="display-4 fw-bold mb-3">Welcome to HART Music School</h1>
             <p class="lead mb-4">Discover inspiring teachers and courses for every level. Start your musical journey today.</p>
