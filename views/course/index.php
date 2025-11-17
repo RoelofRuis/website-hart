@@ -2,6 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\Course[] $courses */
+/** @var string|null $q */
 
 use yii\bootstrap5\Html;
 
@@ -10,7 +11,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="course-index">
-    <h1 class="mb-4">Courses</h1>
+    <h1 class="mb-3">Courses</h1>
+
+    <form class="row gy-2 gx-2 align-items-center mb-4" method="get" action="">
+        <div class="col-sm-10">
+            <input type="text" name="q" class="form-control" placeholder="Search courses by name or description" value="<?= Html::encode($q ?? '') ?>">
+        </div>
+        <div class="col-sm-2 d-grid">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <?php if (empty($courses)): ?>
+        <div class="alert alert-info">No courses found<?= ($q ?? '') !== '' ? ' for "' . Html::encode($q) . '"' : '' ?>.</div>
+    <?php else: ?>
     <div class="row">
         <?php foreach ($courses as $c): ?>
             <div class="col-md-6 mb-4">
@@ -24,4 +38,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         <?php endforeach; ?>
     </div>
+    <?php endif; ?>
 </div>

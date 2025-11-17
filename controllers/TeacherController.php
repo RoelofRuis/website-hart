@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Teacher;
 use Yii;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -27,9 +28,30 @@ class TeacherController extends Controller
     }
     public function actionIndex()
     {
-        $teachers = Teacher::find()->all();
+        $q = Yii::$app->request->get('q');
+
+        $query = Teacher::find();
+        if ($q !== null && $q !== '') {
+            $query->andFilterWhere(['or',
+                ['ILIKE', 'full_name', $q],
+                ['ILIKE', 'description', $q],
+            ]);
+            // Prefer name matches over description matches
+            $query->orderBy(new Expression(
+                "CASE WHEN full_name ILIKE :qprefix THEN 0 WHEN full_name ILIKE :qany THEN 1 ELSE 2 END, full_name ASC",
+            ))
+            ->addParams([
+                ':qprefix' => $q . '%',
+                ':qany' => '%' . $q . '%',
+            ]);
+        } else {
+            $query->orderBy(['full_name' => SORT_ASC]);
+        }
+
+        $teachers = $query->all();
         return $this->render('index', [
             'teachers' => $teachers,
+            'q' => $q,
         ]);
     }
 
