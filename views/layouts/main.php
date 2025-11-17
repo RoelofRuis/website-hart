@@ -9,6 +9,7 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 
@@ -65,8 +66,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
-        <div class="row text-muted">
-            <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
+        <div class="row text-muted align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                &copy; My Company <?= date('Y') ?>
+                <?php if (Yii::$app->user->isGuest): ?>
+                    <span class="ms-3"><a href="<?= Url::to(['site/login']) ?>">Teacher login</a></span>
+                <?php else: ?>
+                    <span class="ms-3"><a href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>">Edit profile</a></span>
+                    <span class="ms-3"><a href="<?= Url::to(['site/logout']) ?>" data-method="post">Logout</a></span>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </footer>

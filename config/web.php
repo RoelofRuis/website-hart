@@ -21,7 +21,7 @@ $config = [
         'user' => [
             'identityClass' => app\models\Teacher::class,
             'enableAutoLogin' => false,
-            'loginUrl' => null,
+            'loginUrl' => ['site/login'],
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

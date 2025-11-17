@@ -5,6 +5,7 @@ namespace app\models;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use Yii;
 
 class Teacher extends ActiveRecord implements IdentityInterface
 {
@@ -16,13 +17,16 @@ class Teacher extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['full_name', 'slug'], 'required'],
+            [['full_name', 'slug', 'email'], 'required'],
             [['description'], 'string'],
             [['full_name', 'slug'], 'string', 'max' => 150],
             [['email'], 'string', 'max' => 150],
+            [['email'], 'email'],
+            [['email'], 'unique'],
             [['telephone'], 'string', 'max' => 50],
             [['profile_picture'], 'string', 'max' => 255],
             [['course_type_id'], 'integer'],
+            [['admin'], 'boolean'],
             [['slug'], 'unique'],
         ];
     }
@@ -59,16 +63,36 @@ class Teacher extends ActiveRecord implements IdentityInterface
 
     public function getAuthKey()
     {
-        return null;
+        return $this->auth_key;
     }
 
     public function validateAuthKey($authKey)
     {
-        return false;
+        return $this->getAuthKey() === $authKey;
     }
 
     public static function findBySlug(string $slug): ?self
     {
         return static::findOne(['slug' => $slug]);
+    }
+
+    public static function findByEmail(string $email): ?self
+    {
+        return static::findOne(['email' => $email]);
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    public function validatePassword(string $password): bool
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    public function generateAuthKey(): void
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
     }
 }
