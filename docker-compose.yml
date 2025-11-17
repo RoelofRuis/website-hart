@@ -2,7 +2,7 @@ version: '2'
 services:
   app:
     build:
-      context: .
+      context: ./docker
       dockerfile: Dockerfile
     working_dir: /var/www
     ports:

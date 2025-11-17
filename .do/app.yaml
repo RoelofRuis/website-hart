@@ -7,7 +7,6 @@ ingress:
   rules:
     - component:
         name: website-hart
-        rewrite: /web/
       match:
         authority:
           exact: ""
@@ -16,7 +15,7 @@ ingress:
 name: website-hart
 region: ams
 services:
-  - dockerfile_path: Dockerfile
+  - dockerfile_path: docker/Dockerfile
     github:
       branch: master
       deploy_on_push: true
