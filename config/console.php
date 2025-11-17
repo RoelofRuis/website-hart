@@ -2,8 +2,10 @@
 
 use yii\caching\FileCache;
 use yii\log\FileTarget;
+use yii\symfonymailer\Mailer;
 
 $db = require __DIR__ . '/db.php';
+$params = require __DIR__ . '/params.php';
 
 return [
     'id' => 'basic-console',
@@ -23,6 +25,11 @@ return [
             ],
         ],
         'db' => $db,
+        'mailer' => [
+            'class' => Mailer::class,
+            'useFileTransport' => false,
+            'transport' => getenv('MAILER_DSN') ?: 'smtp://mailhog:1025',
+        ],
     ],
     'controllerMap' => [
         'migrate' => [
@@ -34,5 +41,5 @@ return [
             'namespace' => 'app\\tests\\fixtures',
         ],
     ],
-    'params' => [],
+    'params' => $params,
 ];

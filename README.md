@@ -2,21 +2,27 @@
 
 Web application for HART Muziekschool in Haarlem.
 
-## Ontwikkelen
+## Developing
 
-### Access the development container
+Developing locally requires docker and docker-compose to be installed.
+
+After running `docker-compose up -d --build`, the application is available on http://localhost:8080.
+
+Mailhog is used to capture outgoing emails and is available on http://localhost:8025.
+
+### Accessing the development container
 ```
-docker-compose up -d --build
-
 docker-compose exec app bash
 ```
 
 ### Composer
-For local development, you need to run composer install in the container to install the dev dependencies.
+For local development, you need to run composer from within the app container to install the dev dependencies.
 ```composer install```
 
-### Migraties uitvoeren
+### Run the migrations
+To get the database in the correct state, run the migrations.
 ```./yii migrate```
 
-### Fixtures inladen
+### Loading fixtures
+Loading fixtures seeds the database with some demo data.
 ```./yii fixture --globalFixtures [] '*'```

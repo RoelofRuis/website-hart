@@ -3,8 +3,10 @@
 use yii\caching\FileCache;
 use yii\i18n\PhpMessageSource;
 use yii\log\FileTarget;
+use yii\symfonymailer\Mailer;
 
 $db = require __DIR__ . '/db.php';
+$params = require __DIR__ . '/params.php';
 
 $config = [
     'id' => 'basic',
@@ -60,8 +62,13 @@ $config = [
             ],
         ],
         'db' => $db,
+        'mailer' => [
+            'class' => Mailer::class,
+            'useFileTransport' => false,
+            'transport' => getenv('MAILER_DSN') ?: 'smtp://mailhog:1025',
+        ],
     ],
-    'params' => [],
+    'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
