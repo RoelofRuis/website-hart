@@ -1,6 +1,7 @@
 <?php
 
 use yii\caching\FileCache;
+use yii\i18n\PhpMessageSource;
 use yii\log\FileTarget;
 
 $db = require __DIR__ . '/db.php';
@@ -8,6 +9,8 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'name' => 'HART',
+    'language' => 'nl-NL',
+    'sourceLanguage' => 'en-US',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -17,6 +20,15 @@ $config = [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => PhpMessageSource::class,
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en-US',
+                ],
+            ],
         ],
         'user' => [
             'identityClass' => app\models\Teacher::class,

@@ -7,14 +7,14 @@
 use yii\bootstrap5\Html;
 use app\widgets\SearchBar;
 
-$this->title = 'Our Teachers';
+$this->title = Yii::t('app', 'Teachers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="teacher-index">
-    <h1 class="mb-3">Our Teachers</h1>
+    <h1 class="mb-3"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h1>
     <?= SearchBar::widget([
-        'placeholder' => 'Search teachers by name or description',
+        'placeholder' => Yii::t('app', 'Search teachers by name or description'),
         'value' => $q ?? '',
         'paramName' => 'q',
         'action' => '',
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <div id="search-results">
         <?php if (empty($teachers)): ?>
-            <div class="alert alert-info">No teachers found<?= ($q ?? '') !== '' ? ' for "' . Html::encode($q) . '"' : '' ?>.</div>
+            <div class="alert alert-info"><?= Html::encode(Yii::t('app', 'No teachers found')) ?><?= ($q ?? '') !== '' ? ' ' . Html::encode(Yii::t('app', 'for')) . ' "' . Html::encode($q) . '"' : '' ?>.</div>
         <?php else: ?>
         <div class="row">
             <?php foreach ($teachers as $t): ?>
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="text-muted mb-2"><?= Html::encode($t->getCourseType()->one()->name) ?></div>
                             <?php endif; ?>
                             <p class="card-text flex-grow-1"><?= Html::encode(mb_strimwidth($t->description, 0, 140, '…')) ?></p>
-                            <?= Html::a('View profile', ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-primary mt-auto']) ?>
+                            <?= Html::a(Yii::t('app', 'View profile'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-primary mt-auto']) ?>
                         </div>
                     </div>
                 </div>

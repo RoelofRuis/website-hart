@@ -13,7 +13,7 @@ use yii\bootstrap5\Html;
 class SearchBar extends Widget
 {
     /** @var string Placeholder text for the input */
-    public string $placeholder = 'Search';
+    public string $placeholder = '';
 
     /** @var string|null Current value for the input */
     public ?string $value = null;
@@ -39,6 +39,7 @@ class SearchBar extends Widget
     {
         $inputId = $this->getId() . '-input';
         $formId = $this->getId() . '-form';
+        $placeholder = $this->placeholder !== '' ? $this->placeholder : Yii::t('app', 'Search');
 
         $html = [];
         $html[] = Html::beginTag('form', [
@@ -51,11 +52,11 @@ class SearchBar extends Widget
         $html[] = Html::input('text', $this->paramName, $this->value ?? '', [
             'id' => $inputId,
             'class' => 'form-control',
-            'placeholder' => $this->placeholder,
+            'placeholder' => $placeholder,
         ]);
         $html[] = Html::endTag('div');
         $html[] = Html::beginTag('div', ['class' => 'col-sm-2 d-grid']);
-        $html[] = Html::submitButton('Search', ['class' => 'btn btn-primary']);
+        $html[] = Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']);
         $html[] = Html::endTag('div');
         $html[] = Html::endTag('form');
 

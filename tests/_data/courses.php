@@ -3,50 +3,50 @@
 return [
     [
         'id' => 1,
-        'name' => 'Piano Basics',
-        'slug' => 'piano-basics',
-        'description' => 'Introduction to piano technique, reading music, and rhythm.'
+        'name' => 'Piano basis',
+        'slug' => 'piano-basis',
+        'description' => 'Introductiecursus pianotechniek, noten lezen en ritme.'
     ],
     [
         'id' => 2,
-        'name' => 'Jazz Improvisation',
+        'name' => 'Jazzimprovisatie',
         'slug' => 'jazz-improvisation',
-        'description' => 'Explore jazz harmony and improvisation techniques.'
+        'description' => 'Verken jazzharmonie en improvisatietechnieken.'
     ],
     [
         'id' => 3,
-        'name' => 'Vocal Training',
+        'name' => 'Zangtraining',
         'slug' => 'vocal-training',
-        'description' => 'Breathing, pitch control, and performance for singers.'
+        'description' => 'Ademhaling, toonhoogtebeheersing en performance voor zangers.'
     ],
     [
         'id' => 4,
-        'name' => 'Guitar Chords 101',
+        'name' => 'Gitaarakkoorden 101',
         'slug' => 'guitar-chords-101',
-        'description' => 'Basic chords, strumming patterns, and transitions.'
+        'description' => 'Basisakkoorden, slagpatronen en overgangen.'
     ],
     [
         'id' => 5,
-        'name' => 'Drumming Foundations',
+        'name' => 'Drummen: de basis',
         'slug' => 'drumming-foundations',
-        'description' => 'Rudiments, timing, and groove building.'
+        'description' => 'Rudiments, timing en het opbouwen van groove.'
     ],
     [
         'id' => 6,
-        'name' => 'Music Theory Essentials',
+        'name' => 'Basis muziektheorie',
         'slug' => 'music-theory-essentials',
-        'description' => 'Scales, intervals, and harmony for all musicians.'
+        'description' => 'Toonladders, intervallen en harmonie. Voor alle musici.'
     ],
     [
         'id' => 7,
-        'name' => 'Advanced Piano Techniques',
+        'name' => 'Gevorderde pianotechnieken',
         'slug' => 'advanced-piano-techniques',
-        'description' => 'Arpeggios, fingering efficiency, and expression.'
+        'description' => 'Arpeggio’s, goede vingerzettingen en expressie.'
     ],
     [
         'id' => 8,
-        'name' => 'Ensemble Workshop',
+        'name' => 'Ensembleworkshop',
         'slug' => 'ensemble-workshop',
-        'description' => 'Playing in a band: listening and arranging.'
+        'description' => 'Spelen in een band: luisteren en arrangeren.'
     ],
 ];

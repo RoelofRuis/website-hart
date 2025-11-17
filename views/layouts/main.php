@@ -10,6 +10,7 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 use yii\helpers\Url;
+use Yii;
 
 AppAsset::register($this);
 
@@ -46,9 +47,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Teachers', 'url' => ['/teacher/index']],
-            ['label' => 'Courses', 'url' => ['/course/index']],
+            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
+            ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
         ]
     ]);
     NavBar::end();
@@ -68,12 +69,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <div class="container">
         <div class="row text-muted align-items-center">
             <div class="col-md-6 text-center text-md-start">
-                &copy; My Company <?= date('Y') ?>
+                &copy; <?= Html::encode(Yii::t('app', 'My Company')) ?> <?= date('Y') ?>
                 <?php if (Yii::$app->user->isGuest): ?>
-                    <span class="ms-3"><a href="<?= Url::to(['site/login']) ?>">Teacher login</a></span>
+                    <span class="ms-3"><a href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a></span>
                 <?php else: ?>
-                    <span class="ms-3"><a href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>">Edit profile</a></span>
-                    <span class="ms-3"><a href="<?= Url::to(['site/logout']) ?>" data-method="post">Logout</a></span>
+                    <span class="ms-3"><a href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Edit profile')) ?></a></span>
+                    <span class="ms-3"><a href="<?= Url::to(['site/logout']) ?>" data-method="post"><?= Html::encode(Yii::t('app', 'Logout')) ?></a></span>
                 <?php endif; ?>
             </div>
         </div>

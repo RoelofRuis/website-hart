@@ -7,6 +7,19 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use Yii;
 
+/**
+ * @property int $id
+ * @property string $full_name
+ * @property string $slug
+ * @property string $description
+ * @property string $email
+ * @property string $telephone
+ * @property string $profile_picture
+ * @property int $course_type_id
+ * @property string $password_hash
+ * @property string $auth_key
+ * @property bool $admin
+ */
 class Teacher extends ActiveRecord implements IdentityInterface
 {
     public static function tableName(): string
@@ -31,22 +44,32 @@ class Teacher extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'full_name' => Yii::t('app', 'Full Name'),
+            'slug' => Yii::t('app', 'Slug'),
+            'description' => Yii::t('app', 'Description'),
+            'email' => Yii::t('app', 'Email'),
+            'telephone' => Yii::t('app', 'Telephone'),
+            'profile_picture' => Yii::t('app', 'Profile Picture'),
+            'course_type_id' => Yii::t('app', 'Course Type'),
+            'admin' => Yii::t('app', 'Administrator'),
+        ];
+    }
+
     public function getCourseType(): ActiveQuery
     {
         return $this->hasOne(CourseType::class, ['id' => 'course_type_id']);
     }
 
-    /**
-     * @return ActiveQuery
-     */
     public function getCourses(): ActiveQuery
     {
         return $this->hasMany(Course::class, ['id' => 'course_id'])
             ->viaTable('{{%teacher_courses}}', ['teacher_id' => 'id']);
     }
 
-    // IdentityInterface
-    public static function findIdentity($id)
+    public static function findIdentity($id): Teacher|IdentityInterface|null
     {
         return static::findOne($id);
     }
@@ -61,12 +84,12 @@ class Teacher extends ActiveRecord implements IdentityInterface
         return $this->id;
     }
 
-    public function getAuthKey()
+    public function getAuthKey(): ?string
     {
         return $this->auth_key;
     }
 
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return $this->getAuthKey() === $authKey;
     }

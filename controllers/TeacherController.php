@@ -26,6 +26,7 @@ class TeacherController extends Controller
             ],
         ];
     }
+
     public function actionIndex()
     {
         $q = Yii::$app->request->get('q');
@@ -40,10 +41,10 @@ class TeacherController extends Controller
             $query->orderBy(new Expression(
                 "CASE WHEN full_name ILIKE :qprefix THEN 0 WHEN full_name ILIKE :qany THEN 1 ELSE 2 END, full_name ASC",
             ))
-            ->addParams([
-                ':qprefix' => $q . '%',
-                ':qany' => '%' . $q . '%',
-            ]);
+                ->addParams([
+                    ':qprefix' => $q . '%',
+                    ':qany' => '%' . $q . '%',
+                ]);
         } else {
             $query->orderBy(['full_name' => SORT_ASC]);
         }
@@ -75,12 +76,12 @@ class TeacherController extends Controller
 
         $current = Yii::$app->user->identity;
         if (!$current) {
-            throw new NotFoundHttpException('Not authorized.');
+            throw new NotFoundHttpException('Teacher not found.');
         }
 
         $canEdit = $current->admin || ($current->id === $model->id);
         if (!$canEdit) {
-            throw new NotFoundHttpException('You are not allowed to edit this teacher.');
+            throw new NotFoundHttpException('Teacher not found.');
         }
 
         // Restrict editable attributes for security
@@ -95,8 +96,8 @@ class TeacherController extends Controller
                 $model->admin = (bool)$model->getOldAttribute('admin');
             }
             if ($model->save()) {
-            Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
-            return $this->redirect(['view', 'slug' => $model->slug]);
+                Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
+                return $this->redirect(['view', 'slug' => $model->slug]);
             }
         }
 

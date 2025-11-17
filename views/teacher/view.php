@@ -6,7 +6,7 @@
 use yii\bootstrap5\Html;
 
 $this->title = $model->full_name;
-$this->params['breadcrumbs'][] = ['label' => 'Our Teachers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -27,16 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <p class="lead"><?= nl2br(Html::encode($model->description)) ?></p>
             <div class="mt-3">
                 <?php if ($model->email): ?>
-                    <div>Email: <?= Html::a(Html::encode($model->email), 'mailto:' . $model->email) ?></div>
+                    <div><?= Html::encode(Yii::t('app', 'Email')) ?>: <?= Html::a(Html::encode($model->email), 'mailto:' . $model->email) ?></div>
                 <?php endif; ?>
                 <?php if ($model->telephone): ?>
-                    <div>Telephone: <?= Html::encode($model->telephone) ?></div>
+                    <div><?= Html::encode(Yii::t('app', 'Telephone')) ?>: <?= Html::encode($model->telephone) ?></div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 
-    <h3 class="mt-4">Courses taught</h3>
+    <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h3>
     <div class="row">
         <?php foreach ($model->getCourses()->all() as $course): ?>
             <div class="col-md-6 mb-3">
@@ -44,13 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body">
                         <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
                         <p class="card-text mb-2"><?= Html::encode(mb_strimwidth($course->description, 0, 160, '…')) ?></p>
-                        <?= Html::a('View course', ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
+                        <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
         <?php if (!$model->getCourses()->exists()): ?>
-            <div class="col-12 text-muted">No courses assigned yet.</div>
+            <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No courses assigned yet.')) ?></div>
         <?php endif; ?>
     </div>
 </div>

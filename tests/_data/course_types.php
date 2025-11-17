@@ -11,11 +11,11 @@ return [
     ],
     [
         'id' => 3,
-        'name' => 'Vocal'
+        'name' => 'Zang'
     ],
     [
         'id' => 4,
-        'name' => 'Guitar'
+        'name' => 'Gitaar'
     ],
     [
         'id' => 5,
@@ -23,6 +23,6 @@ return [
     ],
     [
         'id' => 6,
-        'name' => 'Theory'
+        'name' => 'Theorie'
     ],
 ];

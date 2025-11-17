@@ -6,15 +6,16 @@
 
 use yii\bootstrap5\Html;
 use app\widgets\SearchBar;
+use Yii;
 
-$this->title = 'Courses';
+$this->title = Yii::t('app', 'Courses');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="course-index">
-    <h1 class="mb-3">Courses</h1>
+    <h1 class="mb-3"><?= Html::encode(Yii::t('app', 'Courses')) ?></h1>
     <?= SearchBar::widget([
-        'placeholder' => 'Search courses by name or description',
+        'placeholder' => Yii::t('app', 'Search courses by name or description'),
         'value' => $q ?? '',
         'paramName' => 'q',
         'action' => '',
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <div id="search-results">
         <?php if (empty($courses)): ?>
-            <div class="alert alert-info">No courses found<?= ($q ?? '') !== '' ? ' for "' . Html::encode($q) . '"' : '' ?>.</div>
+            <div class="alert alert-info"><?= Html::encode(Yii::t('app', 'No courses found')) ?><?= ($q ?? '') !== '' ? ' ' . Html::encode(Yii::t('app', 'for')) . ' "' . Html::encode($q) . '"' : '' ?>.</div>
         <?php else: ?>
         <div class="row">
             <?php foreach ($courses as $c): ?>
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title mb-2"><?= Html::encode($c->name) ?></h5>
                             <p class="card-text flex-grow-1"><?= Html::encode(mb_strimwidth($c->description, 0, 180, '…')) ?></p>
-                            <?= Html::a('View course', ['course/view', 'slug' => $c->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
+                            <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $c->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,12 @@ namespace app\models;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string $description
+ */
 class Course extends ActiveRecord
 {
     public static function tableName(): string
