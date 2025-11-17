@@ -19,8 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'paramName' => 'q',
         'action' => '',
         'method' => 'get',
-        'debounce' => 300,
-        'autoSubmit' => true,
     ]) ?>
     <div id="search-results">
         <?php if (empty($courses)): ?>
