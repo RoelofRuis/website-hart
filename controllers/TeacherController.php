@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use app\models\Teacher;
+use app\models\CourseSignup;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 class TeacherController extends Controller
 {
@@ -16,7 +18,7 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update'],
+                'only' => ['update', 'signups'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -104,6 +106,34 @@ class TeacherController extends Controller
         return $this->render('update', [
             'model' => $model,
             'safeAttributes' => $safeAttributes,
+        ]);
+    }
+
+    public function actionSignups()
+    {
+        $current = Yii::$app->user->identity;
+        if (!$current) {
+            throw new NotFoundHttpException('Teacher not found.');
+        }
+
+        // Build a data provider with signups for courses taught by the logged-in teacher
+        $query = CourseSignup::find()
+            ->joinWith(['course' => function ($q) {
+                /** @var yii\db\ActiveQuery $q */
+                $q->joinWith('teachers');
+            }])
+            ->andWhere(['teachers.id' => $current->id])
+            ->orderBy(['course_signups.created_at' => SORT_DESC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
+        return $this->render('signups', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 }

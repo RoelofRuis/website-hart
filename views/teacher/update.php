@@ -5,10 +5,10 @@
 
 use yii\bootstrap5\Html;
 
-$this->title = Yii::t('app', 'Update info') . ': ' . $model->full_name;
-$this->params['breadcrumbs'][] = ['label' => 'Teachers', 'url' => ['index']];
+$this->title = Yii::t('app', 'Edit profile');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->full_name, 'url' => ['view', 'slug' => $model->slug]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="teacher-update">

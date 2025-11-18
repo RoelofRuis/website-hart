@@ -73,6 +73,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <?php if (Yii::$app->user->isGuest): ?>
                     <span class="ms-3"><a href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a></span>
                 <?php else: ?>
+                    <span class="ms-3"><a href="<?= Url::to(['teacher/signups']) ?>"><?= Html::encode(Yii::t('app', 'Signups')) ?></a></span>
                     <span class="ms-3"><a href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Edit profile')) ?></a></span>
                     <span class="ms-3"><a href="<?= Url::to(['site/logout']) ?>" data-method="post"><?= Html::encode(Yii::t('app', 'Logout')) ?></a></span>
                 <?php endif; ?>

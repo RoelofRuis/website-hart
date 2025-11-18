@@ -7,6 +7,7 @@ return [
     'Courses' => 'Cursussen',
     'My Company' => 'Mijn bedrijf',
     'Teacher login' => 'Inloggen docenten',
+    'Signups' => 'Inschrijvingen',
     'Edit profile' => 'Profiel bewerken',
     'Logout' => 'Uitloggen',
     'Search' => 'Zoeken',
@@ -30,6 +31,9 @@ return [
     'Join a vibrant local community with ensembles, workshops, and concerts.' => 'Sluit je aan bij een bruisende lokale gemeenschap met ensembles, workshops en concerten.',
     'Email' => 'E-mail',
     'Telephone' => 'Telefoon',
+    'Course' => 'Cursus',
+    'No signups found.' => 'Geen inschrijvingen gevonden.',
+    'Created At' => 'Aangemaakt op',
     'Courses taught' => 'Gegeven cursussen',
     'View teacher' => 'Bekijk docent',
     'No teachers assigned yet.' => 'Nog geen docenten gekoppeld.',
@@ -50,4 +54,5 @@ return [
     'Sign up for this course' => 'Schrijf je in voor deze cursus',
     'Sign Up' => 'Inschrijven',
     'Fill in the form and we will contact you soon.' => 'Vul het formulier in en we nemen zo snel mogelijk contact met je op.',
+    'Name' => 'Naam',
 ];
