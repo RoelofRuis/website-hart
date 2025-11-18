@@ -7,6 +7,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\models\Teacher;
+use app\widgets\MultiSelectDropdown;
 
 $allTeachers = Teacher::find()->orderBy(['full_name' => SORT_ASC])->all();
 $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
@@ -21,9 +22,11 @@ $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
 
 <div class="mb-3">
     <label class="form-label"><?= Html::encode(Yii::t('app', 'Assign teachers')) ?></label>
-    <?= Html::checkboxList('teacherIds', $assignedTeacherIds, $teacherItems, [
-        'itemOptions' => ['class' => 'form-check-input'],
-        'separator' => '<br>',
+    <?= MultiSelectDropdown::widget([
+        'name' => 'teacherIds',
+        'items' => $teacherItems,
+        'selected' => $assignedTeacherIds,
+        'placeholder' => Yii::t('app', 'Select one or more teachers...'),
     ]) ?>
     <div class="form-text"><?= Html::encode(Yii::t('app', 'Select one or more teachers for this course.')) ?></div>
     <hr class="mt-3">
