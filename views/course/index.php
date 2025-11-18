@@ -6,7 +6,6 @@
 
 use yii\bootstrap5\Html;
 use app\widgets\SearchBar;
-use Yii;
 
 $this->title = Yii::t('app', 'Courses');
 $this->params['breadcrumbs'][] = $this->title;

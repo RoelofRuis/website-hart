@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -25,6 +26,15 @@ class Course extends ActiveRecord
             [['description'], 'string'],
             [['name', 'slug'], 'string', 'max' => 150],
             [['slug'], 'unique'],
+        ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'name' => Yii::t('app', 'Name'),
+            'slug' => Yii::t('app', 'Slug'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 

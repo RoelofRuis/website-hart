@@ -60,8 +60,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <div class="sub-header-bar">
         <div class="container py-2 d-flex flex-wrap align-items-center">
             <div class="me-auto sub-header-links">
+                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Profile')) ?></a></span>
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/signups']) ?>"><?= Html::encode(Yii::t('app', 'Signups')) ?></a></span>
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Edit profile')) ?></a></span>
                 <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->admin): ?>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['course/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></a></span>
@@ -100,7 +100,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <div class="container">
         <div class="row text-muted align-items-center">
             <div class="col-md-6 text-center text-md-start">
-                &copy; <?= Html::encode(Yii::t('app', 'My Company')) ?> <?= date('Y') ?>
+                &copy; Roelof Ruis <?= date('Y') ?>
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <?php if (Yii::$app->user->isGuest): ?>

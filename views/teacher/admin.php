@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             'full_name',
+            'slug',
             'email:email',
             [
                 'attribute' => 'admin',

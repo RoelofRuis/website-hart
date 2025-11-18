@@ -14,6 +14,7 @@ use Yii;
  * @property string $description
  * @property string $email
  * @property string $telephone
+ * @property string $website
  * @property string $profile_picture
  * @property int $course_type_id
  * @property string $password_hash
@@ -36,6 +37,7 @@ class Teacher extends ActiveRecord implements IdentityInterface
             [['email'], 'string', 'max' => 150],
             [['email'], 'email'],
             [['email'], 'unique'],
+            [['website'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
             [['profile_picture'], 'string', 'max' => 255],
             [['course_type_id'], 'integer'],
@@ -52,6 +54,7 @@ class Teacher extends ActiveRecord implements IdentityInterface
             'description' => Yii::t('app', 'Description'),
             'email' => Yii::t('app', 'Email'),
             'telephone' => Yii::t('app', 'Telephone'),
+            'website' => Yii::t('app', 'Website'),
             'profile_picture' => Yii::t('app', 'Profile Picture'),
             'course_type_id' => Yii::t('app', 'Course Type'),
             'admin' => Yii::t('app', 'Administrator'),

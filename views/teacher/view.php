@@ -32,6 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($model->telephone): ?>
                     <div><?= Html::encode(Yii::t('app', 'Telephone')) ?>: <?= Html::encode($model->telephone) ?></div>
                 <?php endif; ?>
+                <?php if ($model->website): ?>
+                    <div><?= Html::encode(Yii::t('app', 'Website')) ?>: <?= Html::a(Html::encode($model->website), $model->website) ?></div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

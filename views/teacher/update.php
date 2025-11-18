@@ -5,7 +5,7 @@
 
 use yii\bootstrap5\Html;
 
-$this->title = Yii::t('app', 'Edit profile');
+$this->title = Yii::t('app', 'Profile of') . ' ' . $model->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->full_name, 'url' => ['view', 'slug' => $model->slug]];
 $this->params['breadcrumbs'][] = $this->title;

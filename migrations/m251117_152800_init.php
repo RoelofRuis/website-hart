@@ -25,6 +25,7 @@ class m251117_152800_init extends Migration
             'slug' => $this->string(150)->notNull()->unique(),
             'description' => $this->text(),
             'email' => $this->string(150)->unique(),
+            'website' => $this->string(255),
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
             'course_type_id' => $this->integer()->null(),

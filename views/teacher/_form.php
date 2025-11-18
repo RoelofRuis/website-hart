@@ -20,6 +20,7 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
 <?php endif; ?>
 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'website')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'profile_picture')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
