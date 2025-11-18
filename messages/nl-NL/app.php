@@ -41,6 +41,8 @@ return [
     'Full Name' => 'Naam',
     'Slug' => 'URL-naam',
     'Description' => 'Beschrijving',
+    'Summary' => 'Samenvatting',
+    'Short summary shown on the course cards.' => 'Korte samenvatting die wordt weergegeven op de cursuskaarten.',
     'Profile Picture' => 'Profielfoto',
     'Course Type' => 'Cursustype',
     'Administrator' => 'Beheerder',

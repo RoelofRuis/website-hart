@@ -6,6 +6,8 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\helpers\Markdown;
+use yii\helpers\HtmlPurifier;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
@@ -20,7 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-7 col-xl-8 mb-4">
             <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
-            <p class="lead"><?= nl2br(Html::encode($model->description)) ?></p>
+            <div class="lead">
+                <?php
+                // Render Markdown safely (GitHub-Flavored)
+                $html = Markdown::process($model->description ?? '', 'gfm');
+                echo HtmlPurifier::process($html);
+                ?>
+            </div>
 
             <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
             <div class="row">

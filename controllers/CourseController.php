@@ -41,6 +41,7 @@ class CourseController extends Controller
             $query->andFilterWhere(['or',
                 ['ILIKE', 'name', $q],
                 ['ILIKE', 'description', $q],
+                ['ILIKE', 'short_description', $q],
             ]);
             // Prefer name matches over description matches (and prefix matches first)
             $query->orderBy(new Expression(

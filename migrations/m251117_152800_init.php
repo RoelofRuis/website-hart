@@ -15,6 +15,7 @@ class m251117_152800_init extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(150)->notNull()->unique(),
+            'summary' => $this->text(),
             'description' => $this->text(),
         ]);
         $this->createIndex('idx_courses_name', '{{%courses}}', ['name']);

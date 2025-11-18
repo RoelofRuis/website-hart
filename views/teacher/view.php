@@ -4,6 +4,8 @@
 /** @var app\models\Teacher $model */
 
 use yii\bootstrap5\Html;
+use yii\helpers\Markdown;
+use yii\helpers\HtmlPurifier;
 
 $this->title = $model->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
@@ -24,7 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if ($model->getCourseType()->exists()): ?>
                 <div class="text-muted mb-3"><?= Html::encode($model->getCourseType()->one()->name) ?></div>
             <?php endif; ?>
-            <p class="lead"><?= nl2br(Html::encode($model->description)) ?></p>
+            <div class="lead">
+                <?php
+                $html = Markdown::process($model->description ?? '', 'gfm');
+                echo HtmlPurifier::process($html);
+                ?>
+            </div>
             <div class="mt-3">
                 <?php if ($model->email): ?>
                     <div><?= Html::encode(Yii::t('app', 'Email')) ?>: <?= Html::a(Html::encode($model->email), 'mailto:' . $model->email) ?></div>
@@ -46,7 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
-                        <p class="card-text mb-2"><?= Html::encode(mb_strimwidth($course->description, 0, 160, '…')) ?></p>
+                        <p class="card-text mb-2">
+                            <?php
+                            $cHtml = Markdown::process($course->description ?? '', 'gfm');
+                            $cText = trim(strip_tags($cHtml));
+                            echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
+                            ?>
+                        </p>
                         <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
                     </div>
                 </div>

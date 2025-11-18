@@ -8,6 +8,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\models\Teacher;
 use app\widgets\MultiSelectDropdown;
+use app\widgets\MarkdownEditor;
 
 $allTeachers = Teacher::find()->orderBy(['full_name' => SORT_ASC])->all();
 $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
@@ -18,7 +19,20 @@ $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
-<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+<?= $form->field($model, 'summary')
+    ->textarea([
+        'rows' => 2,
+        'maxlength' => true,
+    ])
+    ->hint(Html::encode(Yii::t('app', 'Short summary shown on the course cards.')))
+?>
+<?= $form->field($model, 'description')
+    ->widget(MarkdownEditor::class, [
+        'options' => [
+            'rows' => 10,
+        ],
+    ])
+?>
 
 <div class="mb-3">
     <label class="form-label"><?= Html::encode(Yii::t('app', 'Assign teachers')) ?></label>

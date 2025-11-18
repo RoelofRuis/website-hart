@@ -30,13 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card h-100 shadow-sm">
                         <?php if (!empty($t->profile_picture)): ?>
                             <img src="<?= Html::encode($t->profile_picture) ?>" class="card-img-top" alt="<?= Html::encode($t->full_name) ?>">
+                        <?php else: ?>
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                                <span class="text-muted"><?= Html::encode(Yii::t('app', 'No photo')) ?></span>
+                            </div>
                         <?php endif; ?>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title mb-1"><?= Html::encode($t->full_name) ?></h5>
                             <?php if ($t->getCourseType()->exists()): ?>
                                 <div class="text-muted mb-2"><?= Html::encode($t->getCourseType()->one()->name) ?></div>
                             <?php endif; ?>
-                            <p class="card-text flex-grow-1"><?= Html::encode(mb_strimwidth($t->description, 0, 140, '…')) ?></p>
+                            <div class="flex-grow-1"></div>
                             <?= Html::a(Yii::t('app', 'View profile'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-primary mt-auto']) ?>
                         </div>
                     </div>

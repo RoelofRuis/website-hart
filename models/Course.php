@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $slug
  * @property string $description
+ * @property string $summary
  */
 class Course extends ActiveRecord
 {
@@ -24,6 +25,7 @@ class Course extends ActiveRecord
         return [
             [['name', 'slug'], 'required'],
             [['description'], 'string'],
+            [['summary'], 'string'],
             [['name', 'slug'], 'string', 'max' => 150],
             [['slug'], 'unique'],
         ];
@@ -35,6 +37,7 @@ class Course extends ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'slug' => Yii::t('app', 'Slug'),
             'description' => Yii::t('app', 'Description'),
+            'summary' => Yii::t('app', 'Summary'),
         ];
     }
 

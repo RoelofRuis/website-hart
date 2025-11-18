@@ -5,6 +5,7 @@
 /** @var string|null $q */
 
 use yii\bootstrap5\Html;
+use yii\helpers\Markdown;
 use app\widgets\SearchBar;
 
 $this->title = Yii::t('app', 'Courses');
@@ -30,7 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card h-100 shadow-sm">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title mb-2"><?= Html::encode($c->name) ?></h5>
-                            <p class="card-text flex-grow-1"><?= Html::encode(mb_strimwidth($c->description, 0, 180, '…')) ?></p>
+                            <p class="card-text flex-grow-1">
+                                <?php
+                                $short = trim((string)($c->summary ?? ''));
+                                if ($short === '') {
+                                    // Fallback: Convert Markdown to HTML, strip tags to get plain text
+                                    $html = Markdown::process($c->description ?? '', 'gfm');
+                                    $short = trim(strip_tags($html));
+                                }
+                                echo Html::encode(mb_strimwidth($short, 0, 180, '…'));
+                                ?>
+                            </p>
                             <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $c->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
                         </div>
                     </div>
