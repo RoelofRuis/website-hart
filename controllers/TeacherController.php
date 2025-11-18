@@ -18,11 +18,20 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update', 'signups'],
+                'only' => ['update', 'signups', 'admin', 'create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
+                        'actions' => ['update', 'signups'],
                         'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['admin', 'create', 'delete'],
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->admin;
+                        }
                     ],
                 ],
             ],
@@ -135,5 +144,49 @@ class TeacherController extends Controller
         return $this->render('signups', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionAdmin()
+    {
+        // Admin overview list for quick management
+        $dataProvider = new ActiveDataProvider([
+            'query' => Teacher::find()->orderBy(['full_name' => SORT_ASC]),
+            'pagination' => ['pageSize' => 20],
+        ]);
+
+        return $this->render('admin', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCreate()
+    {
+        $model = new Teacher();
+
+        // By default do not allow creating an admin unless explicitly set by admin
+        $model->admin = false;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher created successfully.'));
+            return $this->redirect(['admin']);
+        }
+
+        // Allow admin to set admin flag
+        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'course_type_id', 'admin'];
+        return $this->render('create', [
+            'model' => $model,
+            'safeAttributes' => $safeAttributes,
+        ]);
+    }
+
+    public function actionDelete(int $id)
+    {
+        $model = Teacher::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException('Teacher not found.');
+        }
+        $model->delete();
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher deleted.'));
+        return $this->redirect(['admin']);
     }
 }

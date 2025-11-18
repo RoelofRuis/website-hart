@@ -21,6 +21,9 @@
     --color-light-green: #95C9A6;
     --color-purple:      #452680;
     --color-magenta:     #9D2460;
+    /* Layout dimensions */
+    --navbar-height: 56px; /* default Bootstrap navbar height */
+    --subheader-height: 44px; /* approx height for sub-header */
 }
 
 html, body {
@@ -45,6 +48,38 @@ a:hover, a:focus { color: var(--color-magenta); }
 .app-navbar .navbar-brand:hover,
 .app-navbar .navbar-brand:focus {
     color: var(--color-yellow) !important;
+}
+
+/* Sticky sub-header below the fixed navbar */
+.sub-header-bar {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    z-index: 1029; /* just below .navbar (Bootstrap default ~1030) */
+    background-color: var(--color-purple);
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.sub-header-bar .sub-header-link {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+}
+.sub-header-bar .sub-header-link:hover {
+    color: var(--color-yellow);
+}
+.sub-header-bar .sub-header-link:focus {
+    color: #fff;
+
+}
+
+/* Offset page content for fixed headers */
+body { padding-top: var(--navbar-height); }
+body.has-subheader { padding-top: calc(var(--navbar-height) + var(--subheader-height)); }
+
+/* Ensure main content has a bit of space under the sub-header on small screens */
+@media (max-width: 575.98px) {
+    :root { --navbar-height: 56px; --subheader-height: 48px; }
 }
 
 /* Footer with Light blue background and Petrol text */
@@ -287,7 +322,7 @@ a:hover, a:focus { color: var(--color-magenta); }
 }
 
 main > .container {
-    padding: 70px 15px 20px;
+    padding: 20px 15px 20px;
 }
 
 .footer {

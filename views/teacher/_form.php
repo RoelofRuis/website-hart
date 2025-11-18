@@ -15,6 +15,9 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
 <?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
+<?php if (in_array('slug', $allAttributes, true)) : ?>
+    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+<?php endif; ?>
 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'profile_picture')->textInput(['maxlength' => true]) ?>
@@ -22,7 +25,7 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
 
 <?= $form->field($model, 'course_type_id')->dropDownList(
     ArrayHelper::map(CourseType::find()->all(), 'id', 'name'),
-    ['prompt' => 'Select Course Type']
+    ['prompt' => Yii::t('app', 'Select Course Type')]
 ) ?>
 
 <?php if (in_array('admin', $allAttributes, true)) : ?>
@@ -31,5 +34,9 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
 
 <div class="form-group">
     <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Cancel', ['teacher/view', 'slug' => $model->slug], ['class' => 'btn btn-secondary ms-2']) ?>
+    <?php if ($model->isNewRecord): ?>
+        <?= Html::a('Cancel', ['teacher/admin'], ['class' => 'btn btn-secondary ms-2']) ?>
+    <?php else: ?>
+        <?= Html::a('Cancel', ['teacher/view', 'slug' => $model->slug], ['class' => 'btn btn-secondary ms-2']) ?>
+    <?php endif; ?>
 <?php ActiveForm::end(); ?>

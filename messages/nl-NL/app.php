@@ -55,4 +55,9 @@ return [
     'Sign Up' => 'Inschrijven',
     'Fill in the form and we will contact you soon.' => 'Vul het formulier in en we nemen zo snel mogelijk contact met je op.',
     'Name' => 'Naam',
+    'Manage Teachers' => 'Docenten beheren',
+    'Manage Courses' => 'Cursussen beheren',
+    'Create teacher' => 'Docent toevoegen',
+    'Create course' => 'Cursus toevoegen',
+    'Select Course Type' => 'Selecteer cursustype',
 ];

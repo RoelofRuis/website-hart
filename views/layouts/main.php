@@ -10,7 +10,6 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 use yii\helpers\Url;
-use Yii;
 
 AppAsset::register($this);
 
@@ -33,7 +32,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <?php $this->head() ?>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100<?= !Yii::$app->user->isGuest ? ' has-subheader' : '' ?>">
 <?php $this->beginBody() ?>
 
 <header id="header">
@@ -56,11 +55,43 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     ?>
 </header>
 
+<?php if (!Yii::$app->user->isGuest): ?>
+    <!-- Sticky sub-header bar below the main navbar, full width -->
+    <div class="sub-header-bar">
+        <div class="container py-2 d-flex flex-wrap align-items-center">
+            <div class="me-auto sub-header-links">
+                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/signups']) ?>"><?= Html::encode(Yii::t('app', 'Signups')) ?></a></span>
+                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Edit profile')) ?></a></span>
+                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->admin): ?>
+                    <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
+                    <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['course/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></a></span>
+                <?php endif; ?>
+            </div>
+            <div class="ms-auto">
+                <a class="sub-header-link text-decoration-none" href="<?= Url::to(['site/logout']) ?>" data-method="post"><?= Html::encode(Yii::t('app', 'Logout')) ?></a>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <main id="main" class="flex-shrink-0" role="main">
     <div class="container">
-        <?php if (!empty($this->params['breadcrumbs'])): ?>
+        <?php
+            $route = Yii::$app->controller->route ?? '';
+            $noCrumbsRoutes = [
+                'teacher/signups',
+                'teacher/update',
+                'teacher/admin',
+                'teacher/create',
+                'course/admin',
+                'course/create',
+                'course/update',
+            ];
+            $showBreadcrumbs = !in_array($route, $noCrumbsRoutes, true) && !empty($this->params['breadcrumbs']);
+        ?>
+        <?php if ($showBreadcrumbs): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
-        <?php endif ?>
+        <?php endif; ?>
         <?= $content ?>
     </div>
 </main>
@@ -70,12 +101,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <div class="row text-muted align-items-center">
             <div class="col-md-6 text-center text-md-start">
                 &copy; <?= Html::encode(Yii::t('app', 'My Company')) ?> <?= date('Y') ?>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
                 <?php if (Yii::$app->user->isGuest): ?>
-                    <span class="ms-3"><a href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a></span>
-                <?php else: ?>
-                    <span class="ms-3"><a href="<?= Url::to(['teacher/signups']) ?>"><?= Html::encode(Yii::t('app', 'Signups')) ?></a></span>
-                    <span class="ms-3"><a href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Edit profile')) ?></a></span>
-                    <span class="ms-3"><a href="<?= Url::to(['site/logout']) ?>" data-method="post"><?= Html::encode(Yii::t('app', 'Logout')) ?></a></span>
+                    <a class="btn btn-sm btn-outline-primary" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a>
                 <?php endif; ?>
             </div>
         </div>
