@@ -1,12 +1,9 @@
 <?php
 
-use yii\caching\FileCache;
 use yii\i18n\PhpMessageSource;
-use yii\log\FileTarget;
-use yii\symfonymailer\Mailer;
 
-$db = require __DIR__ . '/db.php';
 $params = require __DIR__ . '/params.php';
+$shared_components = require __DIR__ . '/components.php';
 
 $config = [
     'id' => 'basic',
@@ -19,7 +16,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'components' => [
+    'components' => array_merge($shared_components, [
         'request' => [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
         ],
@@ -46,28 +43,10 @@ $config = [
                 'teacher/view/<slug:[A-Za-z0-9\-]+>' => 'teacher/view',
             ],
         ],
-        'cache' => [
-            'class' => FileCache::class,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => FileTarget::class,
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
-        'db' => $db,
-        'mailer' => [
-            'class' => Mailer::class,
-            'useFileTransport' => false,
-            'transport' => getenv('MAILER_DSN') ?: 'smtp://mailhog:1025',
-        ],
-    ],
+    ]),
     'params' => $params,
 ];
 

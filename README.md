@@ -19,6 +19,14 @@ docker-compose exec app bash
 For local development, you need to run composer from within the app container to install the dev dependencies.
 ```composer install```
 
+For copying the vendor directory to the host, run:
+```
+docker run --rm \
+  -v website-hart_vendor_data:/from \
+  -v $(pwd)/vendor:/to \
+  alpine sh -c "cp -r /from/* /to/"
+```
+
 ### Run the migrations
 To get the database in the correct state, run the migrations.
 ```./yii migrate```

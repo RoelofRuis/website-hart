@@ -1,0 +1,47 @@
+<?php
+
+use app\components\Storage;
+use yii\caching\FileCache;
+use yii\log\FileTarget;
+use yii\symfonymailer\Mailer;
+
+$env = function(string $key, $default = null) {
+    $v = getenv($key);
+    return $v !== false ? $v : $default;
+};
+
+$host = $env('DB_HOST', 'db');
+$port = $env('DB_PORT', '5432');
+$dbname = $env('DB_DATABASE', 'hart');
+$user = $env('DB_USER', 'developer');
+$pass = $env('DB_PASSWORD', 'secret');
+
+return [
+    'storage' => [
+        'class' => Storage::class,
+    ],
+    'cache' => [
+        'class' => FileCache::class,
+    ],
+    'db' => [
+        'class' => 'yii\db\Connection',
+        'dsn' => sprintf('pgsql:host=%s;port=%s;dbname=%s', $host, $port, $dbname),
+        'username' => $user,
+        'password' => $pass,
+        'charset' => 'utf8',
+    ],
+    'mailer' => [
+        'class' => Mailer::class,
+        'useFileTransport' => false,
+        'transport' => $env('MAILER_DSN', 'smtp://mailhog:1025'),
+    ],
+    'log' => [
+        'traceLevel' => YII_DEBUG ? 3 : 0,
+        'targets' => [
+            [
+                'class' => FileTarget::class,
+                'levels' => ['error', 'warning'],
+            ],
+        ],
+    ],
+];

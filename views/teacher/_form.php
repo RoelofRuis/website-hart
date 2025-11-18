@@ -8,6 +8,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\models\CourseType;
 use app\widgets\MarkdownEditor;
+use app\widgets\ImageUploadField;
 
 $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_picture','description','course_type_id'];
 
@@ -22,7 +23,12 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'website')->textInput(['maxlength' => true]) ?>
-<?= $form->field($model, 'profile_picture')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'profile_picture')
+    ->widget(ImageUploadField::class, [
+        'uploadUrl' => '/upload/image',
+        'previewSize' => 160,
+    ])
+?>
 <?= $form->field($model, 'description')
     ->widget(MarkdownEditor::class, [
         'options' => [
