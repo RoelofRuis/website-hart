@@ -2,7 +2,7 @@
 
 return [
     'Home' => 'Home',
-    'Update teacher info' => 'Docentinformatie aanpassen',
+    'Update info' => 'Informatie aanpassen',
     'Teachers' => 'Docenten',
     'Courses' => 'Cursussen',
     'My Company' => 'Mijn bedrijf',
@@ -43,4 +43,11 @@ return [
     'Please fill out the following fields to login:' => 'Vul de volgende velden in om in te loggen:',
     'Password' => 'Wachtwoord',
     'Login' => 'Inloggen',
+    'Thanks! Your signup has been received.' => 'Bedankt! Je registratie is ontvangen.',
+    'Student Age' => 'Leeftijd cursist',
+    'Student Name' => 'Naam cursist',
+    'Parent/Caretaker Name' => 'Naam ouder/verzorger',
+    'Sign up for this course' => 'Schrijf je in voor deze cursus',
+    'Sign Up' => 'Inschrijven',
+    'Fill in the form and we will contact you soon.' => 'Vul het formulier in en we nemen zo snel mogelijk contact met je op.',
 ];

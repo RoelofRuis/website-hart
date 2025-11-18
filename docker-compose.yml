@@ -27,6 +27,8 @@ services:
       POSTGRES_USER: developer
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: hart
+    ports:
+      - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
 

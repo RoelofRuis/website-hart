@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\Course;
+use app\models\CourseSignup;
+use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,7 +13,7 @@ class CourseController extends Controller
 {
     public function actionIndex()
     {
-        $q = \Yii::$app->request->get('q');
+        $q = Yii::$app->request->get('q');
 
         $query = Course::find();
         if ($q !== null && $q !== '') {
@@ -44,8 +46,17 @@ class CourseController extends Controller
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
+        $signup = new CourseSignup();
+        $signup->course_id = $model->id;
+
+        if ($signup->load(Yii::$app->request->post()) && $signup->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Thanks! Your signup has been received.'));
+            return $this->refresh();
+        }
+
         return $this->render('view', [
             'model' => $model,
+            'signup' => $signup,
         ]);
     }
 }
