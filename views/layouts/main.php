@@ -49,6 +49,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
+            // Mobile-only login entry inside the menu
+            [
+                'label' => Yii::t('app', 'Teacher login'),
+                'url' => ['/site/login'],
+                'visible' => Yii::$app->user->isGuest,
+                'options' => ['class' => 'd-md-none']
+            ],
         ]
     ]);
     NavBar::end();
@@ -98,14 +105,24 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
-        <div class="row text-muted align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-                &copy; Roelof Ruis <?= date('Y') ?>
-            </div>
-            <div class="col-md-6 text-center text-md-end">
+        <div class="row text-muted align-items-start gy-2">
+            <!-- Desktop-only login button, right aligned on desktop -->
+            <div class="col-12 col-md-3 order-2 order-md-3 text-md-end d-none d-md-block">
                 <?php if (Yii::$app->user->isGuest): ?>
-                    <a class="btn btn-sm btn-outline-primary" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a>
+                    <a class="btn btn-sm btn-outline-primary mb-2" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a><br/>
                 <?php endif; ?>
+                <span>&copy; Roelof Ruis <?= date('Y') ?></span>
+            </div>
+
+            <!-- Footer links: fully left on desktop, vertical and left-aligned -->
+            <div class="col-12 col-md-6 order-1 order-md-1 text-md-start">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><a href="<?= Url::to(['site/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['site/association']) ?>"><?= Html::encode(Yii::t('app', 'Association & Board')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['site/contact']) ?>"><?= Html::encode(Yii::t('app', 'Contact')) ?></a></li>
+                    <li><a href="<?= Url::to(['site/avg']) ?>"><?= Html::encode(Yii::t('app', 'AVG / Privacy')) ?></a></li>
+                    <li class="mt-2 d-md-none">&copy; Roelof Ruis <?= date('Y') ?></li>
+                </ul>
             </div>
         </div>
     </div>

@@ -39,6 +39,26 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionCopyright()
+    {
+        return $this->render('copyright');
+    }
+
+    public function actionAssociation()
+    {
+        return $this->render('association');
+    }
+
+    public function actionContact()
+    {
+        return $this->render('contact');
+    }
+
+    public function actionAvg()
+    {
+        return $this->render('avg');
+    }
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

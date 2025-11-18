@@ -65,4 +65,9 @@ return [
     'Select one or more teachers...' => 'Selecteer een of meer docenten...',
     'Select one or more teachers for this course.' => 'Selecteer een of meer docenten voor deze cursus.',
     '{n,plural,=0{None selected} =1{One selected} other{# selected}}' => '{n,plural,=0{Niets geselecteerd} other{# geselecteerd}}',
+    'Copyright' => 'Auteursrecht',
+    'Association & Board' => 'Vereniging & Bestuur',
+    'Contact' => 'Contact',
+    'AVG / Privacy' => 'AVG / Privacy',
+    'Address' => 'Adres',
 ];
