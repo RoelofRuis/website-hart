@@ -9,6 +9,8 @@ use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\imagine\Image;
+use Imagine\Image\Point;
+use Imagine\Image\Palette\RGB;
 
 class UploadController extends Controller
 {
@@ -39,8 +41,11 @@ class UploadController extends Controller
 
         // Basic validation
         $allowed = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!in_array($file->type, $allowed, true)) {
-            throw new BadRequestHttpException('Unsupported image type. Allowed: JPG, PNG, WEBP');
+        // Validate using actual file content, not just client-provided type
+        $imgInfo = @getimagesize($file->tempName);
+        $realMime = $imgInfo['mime'] ?? null;
+        if (!$realMime || !in_array($realMime, $allowed, true)) {
+            throw new BadRequestHttpException('Unsupported or invalid image type. Allowed: JPG, PNG, WEBP');
         }
         if ($file->error !== UPLOAD_ERR_OK) {
             throw new BadRequestHttpException('Upload error: ' . $file->error);
@@ -51,8 +56,17 @@ class UploadController extends Controller
         try {
             $im = Image::getImagine()->open($tmpPath);
             $thumb = Image::thumbnail($im, 400, 400);
+
+            // If the image has transparency (e.g., PNG/WebP with alpha),
+            // paste it onto a white canvas before encoding to JPEG
+            $size = $thumb->getSize();
+            $palette = new RGB();
+            $white = $palette->color('#ffffff');
+            $canvas = Image::getImagine()->create($size, $white);
+            $canvas->paste($thumb, new Point(0, 0));
+
             // Encode to JPEG to normalize
-            $contents = $thumb->get('jpg', ['jpeg_quality' => 85]);
+            $contents = $canvas->get('jpg', ['jpeg_quality' => 85]);
         } catch (\Throwable $e) {
             Yii::error($e->getMessage(), __METHOD__);
             throw new BadRequestHttpException('Invalid image content');

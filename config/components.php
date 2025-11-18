@@ -40,6 +40,8 @@ return [
         'targets' => [
             [
                 'class' => FileTarget::class,
+                'logVars' => [],
+                'logFile' => '@runtime/logs/app.log',
                 'levels' => ['error', 'warning'],
             ],
         ],
