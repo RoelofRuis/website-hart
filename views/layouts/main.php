@@ -3,7 +3,6 @@
 /** @var yii\web\View $this */
 /** @var string $content */
 
-
 use app\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
@@ -46,7 +45,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app', 'Home'), 'url' => Yii::$app->homeUrl],
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
             // Mobile-only login entry inside the menu
