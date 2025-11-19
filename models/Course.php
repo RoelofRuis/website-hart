@@ -10,8 +10,9 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $name
  * @property string $slug
- * @property string $description
- * @property string $summary
+ * @property string|null $description
+ * @property string|null $summary
+ * @property string|null $cover_image URL to the cover image
  */
 class Course extends ActiveRecord
 {
@@ -27,6 +28,7 @@ class Course extends ActiveRecord
             [['description'], 'string'],
             [['summary'], 'string'],
             [['name', 'slug'], 'string', 'max' => 150],
+            [['cover_image'], 'string', 'max' => 255],
             [['slug'], 'unique'],
         ];
     }
@@ -38,6 +40,7 @@ class Course extends ActiveRecord
             'slug' => Yii::t('app', 'Slug'),
             'description' => Yii::t('app', 'Description'),
             'summary' => Yii::t('app', 'Summary'),
+            'cover_image' => Yii::t('app', 'Cover image'),
         ];
     }
 

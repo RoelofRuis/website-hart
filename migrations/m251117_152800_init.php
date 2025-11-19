@@ -25,6 +25,7 @@ class m251117_152800_init extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(150)->notNull()->unique(),
+            'cover_image' => $this->string(255)->null()->after('slug'),
             'summary' => $this->text(),
             'description' => $this->text(),
         ]);

@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Teacher;
 use app\widgets\MultiSelectDropdown;
 use app\widgets\MarkdownEditor;
+use app\widgets\ImageUploadField;
 
 $allTeachers = Teacher::find()->orderBy(['full_name' => SORT_ASC])->all();
 $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
@@ -19,6 +20,12 @@ $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'cover_image')
+    ->widget(ImageUploadField::class, [
+        'uploadUrl' => '/upload/image',
+        'previewSize' => 220,
+    ])
+?>
 <?= $form->field($model, 'summary')
     ->textarea([
         'rows' => 2,

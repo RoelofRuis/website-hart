@@ -29,6 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php foreach ($courses as $c): ?>
                 <div class="col-md-6 mb-4">
                     <div class="card h-100 shadow-sm">
+                        <?php if (!empty($c->cover_image)): ?>
+                            <img src="<?= Html::encode($c->cover_image) ?>" class="card-img-top" alt="<?= Html::encode($c->name) ?> cover" style="object-fit: cover; height: 180px;">
+                        <?php endif; ?>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title mb-2"><?= Html::encode($c->name) ?></h5>
                             <p class="card-text flex-grow-1">

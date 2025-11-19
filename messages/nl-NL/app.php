@@ -72,4 +72,5 @@ return [
     'Contact' => 'Contact',
     'AVG / Privacy' => 'AVG / Privacy',
     'Address' => 'Adres',
+    'Cover image' => 'Omslagafbeelding',
 ];

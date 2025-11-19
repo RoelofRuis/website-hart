@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-7 col-xl-8 mb-4">
+            <?php if (!empty($model->cover_image)): ?>
+                <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover" class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
+            <?php endif; ?>
             <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
             <div class="lead">
                 <?php
