@@ -1,8 +1,9 @@
 <?php
 
-use app\components\PostgresMigration;
 
-class m251117_152800_init extends PostgresMigration
+use yii\db\Migration;
+
+class m251117_152800_init extends Migration
 {
     public function safeUp()
     {
@@ -66,14 +67,14 @@ class m251117_152800_init extends PostgresMigration
     {
         $this->dropForeignKey('fk_tc_course', '{{%teacher_courses}}');
         $this->dropForeignKey('fk_tc_teacher', '{{%teacher_courses}}');
-        $this->dropTable('{{%teacher_courses}}');
+        $this->execute('DROP TABLE IF EXISTS {{%teacher_courses}}');
 
         $this->dropForeignKey('fk_teachers_course_type', '{{%teachers}}');
-        $this->dropTable('{{%teachers}}');
+        $this->execute('DROP TABLE IF EXISTS {{%teachers}}');
 
-        $this->dropTable('{{%courses}}');
-        $this->dropTable('{{%course_types}}');
+        $this->execute('DROP TABLE IF EXISTS {{%courses}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course_types}}');
 
-        $this->dropTable('{{%files}}');
+        $this->execute('DROP TABLE IF EXISTS {{%files}}');
     }
 }

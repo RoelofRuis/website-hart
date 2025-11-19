@@ -1,8 +1,8 @@
 <?php
 
-use app\components\PostgresMigration;
+use yii\db\Migration;
 
-class m251118_005900_create_course_signups extends PostgresMigration
+class m251118_005900_create_course_signups extends Migration
 {
     public function safeUp()
     {
@@ -29,6 +29,6 @@ class m251118_005900_create_course_signups extends PostgresMigration
     public function safeDown()
     {
         $this->dropForeignKey('fk_course_signups_course', '{{%course_signups}}');
-        $this->dropTable('{{%course_signups}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course_signups}}');
     }
 }
