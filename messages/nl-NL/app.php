@@ -18,6 +18,7 @@ return [
     'Search teachers by name or description' => 'Zoek docenten op naam of omschrijving',
     'No teachers found' => 'Geen docenten gevonden',
     'View profile' => 'Bekijk profiel',
+    'Your name' => 'Je naam',
     'HART Music School' => 'HART Muziekschool',
     'Welcome to HART Music School' => 'Welkom bij HART Muziekschool',
     'Discover inspiring teachers and courses for every level. Start your musical journey today.' => 'Ontdek inspirerende docenten en cursussen voor elk niveau. Begin vandaag aan je muzikale reis.',
@@ -73,4 +74,9 @@ return [
     'AVG / Privacy' => 'AVG / Privacy',
     'Address' => 'Adres',
     'Cover image' => 'Omslagafbeelding',
+    'Message' => 'Bericht',
+    'Contact the board' => 'Neem contact op met het bestuur',
+    'General contact form' => 'Algemeen contactformulier',
+    'Send' => 'Verzenden',
+    'Write your message...' => 'Schrijf je bericht hier...'
 ];

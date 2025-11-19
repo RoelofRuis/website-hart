@@ -3,9 +3,11 @@
 namespace app\controllers;
 
 use app\models\forms\LoginForm;
+use app\models\forms\ContactForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
@@ -52,6 +54,23 @@ class SiteController extends Controller
     public function actionContact()
     {
         return $this->render('contact');
+    }
+
+    public function actionContactSubmit(): Response
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you! Your message has been sent.'));
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we could not send your message. Please try again later.'));
+            }
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Please correct the errors in the form.'));
+        }
+
+        $referrer = Yii::$app->request->referrer;
+        return $this->redirect($referrer ?: ['site/contact']);
     }
 
     public function actionAvg()

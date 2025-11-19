@@ -3,6 +3,7 @@
 /** @var yii\web\View $this */
 
 use yii\bootstrap5\Html;
+use app\widgets\ContactFormWidget;
 
 $this->title = Yii::t('app', 'Association & Board');
 ?>
@@ -23,4 +24,9 @@ $this->title = Yii::t('app', 'Association & Board');
         Het gebruik van dit formulier voor aquisitie, reclamedoeleinden, aanbiedingen, verkoop van instrument op welk niveau dan ook wordt niet op prijs gesteld.
         Deze mails zullen dan ook onbehandeld direct worden verwijderd.
     </p>
+    <div class="mt-4">
+        <?= ContactFormWidget::widget([
+            'heading' => Yii::t('app', 'Contact the board'),
+        ]) ?>
+    </div>
 </div>
