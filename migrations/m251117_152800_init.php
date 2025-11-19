@@ -1,8 +1,8 @@
 <?php
 
-use yii\db\Migration;
+use app\components\PostgresMigration;
 
-class m251117_152800_init extends Migration
+class m251117_152800_init extends PostgresMigration
 {
     public function safeUp()
     {
