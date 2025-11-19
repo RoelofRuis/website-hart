@@ -3,7 +3,6 @@
 return [
     'adminEmail' => getenv('ADMIN_EMAIL') ?: 'no-reply@example.test',
     'storage.driver' => getenv('STORAGE_DRIVER') ?: 'local', // local|s3
-    'storage.baseUrl' => getenv('STORAGE_BASE_URL') ?: '/uploads',
     'storage.s3.bucket' => getenv('S3_BUCKET') ?: '',
     'storage.s3.region' => getenv('S3_REGION') ?: '',
     'storage.s3.endpoint' => getenv('S3_ENDPOINT') ?: '',

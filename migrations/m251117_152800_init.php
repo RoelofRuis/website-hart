@@ -6,6 +6,16 @@ class m251117_152800_init extends Migration
 {
     public function safeUp()
     {
+        $this->createTable('{{%files}}', [
+            'id' => $this->primaryKey(),
+            'slug' => $this->string(255)->notNull()->unique(),
+            'storage_path' => $this->string(255)->notNull(),
+            'content_type' => $this->string(100)->null(),
+            'size' => $this->integer()->null(),
+            'created_at' => $this->integer()->notNull()->defaultValue(time()),
+        ]);
+        $this->createIndex('idx_files_created_at', '{{%files}}', ['created_at']);
+
         $this->createTable('{{%course_types}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(100)->notNull()->unique(),
@@ -62,5 +72,7 @@ class m251117_152800_init extends Migration
 
         $this->dropTable('{{%courses}}');
         $this->dropTable('{{%course_types}}');
+
+        $this->dropTable('{{%files}}');
     }
 }

@@ -46,12 +46,12 @@ class ImageStorageFixture extends Fixture
                 continue;
             }
 
-            $storagePath = sprintf('fixtures/%s.%s', $slug, $ext);
             $contentType = $this->detectContentType($ext);
-            $url = Yii::$app->storage->put($storagePath, $contents, [
-                'visibility' => 'public',
-                'ContentType' => $contentType,
+            // Persist using storage service with deterministic slug per teacher
+            $result = Yii::$app->storage->save($contents, $contentType, [
+                'slug' => 'teacher/' . $slug,
             ]);
+            $url = $result['url'];
 
             /** @var Teacher|null $teacher */
             $teacher = Teacher::findOne(['slug' => $slug]);

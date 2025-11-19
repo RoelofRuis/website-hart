@@ -72,18 +72,13 @@ class UploadController extends Controller
             throw new BadRequestHttpException('Invalid image content');
         }
 
-        $uuid = bin2hex(random_bytes(8));
-        $path = sprintf('teachers/%s/%s/%s.jpg', date('Y'), date('m'), $uuid);
-
-        $url = Yii::$app->storage->put($path, $contents, [
-            'visibility' => 'public',
-            'ContentType' => 'image/jpeg',
-        ]);
+        // Persist using storage service which handles id generation and metadata
+        $result = Yii::$app->storage->save($contents, 'image/jpeg');
 
         return [
             'success' => true,
-            'url' => $url,
-            'path' => $path,
+            'url' => $result['url'],
+            'id' => $result['id'],
         ];
     }
 }

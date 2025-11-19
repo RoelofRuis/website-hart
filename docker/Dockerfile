@@ -5,9 +5,11 @@ RUN apt-get update && apt-get install -y \
     nginx \
     supervisor \
     libpq-dev \
+    libpng-dev \
     git \
     unzip \
   && docker-php-ext-install pdo_pgsql \
+  && docker-php-ext-install gd \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
@@ -37,7 +39,7 @@ RUN sed -i 's#fastcgi_pass\s\+app:9000;#fastcgi_pass 127.0.0.1:9000;#' /etc/ngin
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Make sure runtime directories exist (for Nginx and Yii runtime if needed)
-RUN mkdir -p /run/php /var/run/nginx /var/cache/nginx /var/www/runtime \
+RUN mkdir -p /run/php /var/run/nginx /var/cache/nginx /var/www/runtime /var/www/storage \
     && chown -R www-data:www-data /var/www
 
 # Ensure php-fpm listens on TCP 127.0.0.1:9000 for Nginx upstream

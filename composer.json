@@ -3,7 +3,8 @@
   "description": "Demo website for HART music school",
   "type": "project",
   "require": {
-    "php": "^8.0",
+    "php": "^8.2",
+    "ext-gd": "*",
     "ext-mbstring": "*",
     "yiisoft/yii2": "2.0.53",
     "yiisoft/yii2-bootstrap5": "2.0.50",

@@ -2,5 +2,3 @@
 vendor/
 
 .env
-
-web/uploads/*

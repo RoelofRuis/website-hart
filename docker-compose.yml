@@ -20,6 +20,7 @@ services:
       # Ensure Yii writable paths are not blocked by host FS permissions
       - /var/www/web/assets
       - /var/www/runtime
+      - /var/www/storage
       # Store uploaded files inside the container so they are owned by www-data
       # and not by the host user (which can cause permission issues when serving)
       - /var/www/web/uploads
