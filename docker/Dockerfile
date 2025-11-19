@@ -1,15 +1,21 @@
 FROM php:8.2-fpm
 
 # Install system dependencies, Nginx, Supervisor and PHP extensions
+# NOTE: We explicitly install JPEG/WEBP/Freetype dev libs and configure GD with them.
+# Without this, opening JPEG/WEBP images with Imagine (GD driver) will fail at runtime.
 RUN apt-get update && apt-get install -y \
     nginx \
     supervisor \
     libpq-dev \
     libpng-dev \
+    libjpeg62-turbo-dev \
+    libwebp-dev \
+    libfreetype6-dev \
     git \
     unzip \
   && docker-php-ext-install pdo_pgsql \
-  && docker-php-ext-install gd \
+  && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+  && docker-php-ext-install -j$(nproc) gd \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
