@@ -15,12 +15,12 @@ services:
       - mailhog
     volumes:
       - ./:/var/www
+      - local_storage:/var/www/storage
       # Keep vendor inside the container so host bind mount doesn't mask it
       - vendor_data:/var/www/vendor
       # Ensure Yii writable paths are not blocked by host FS permissions
       - /var/www/web/assets
       - /var/www/runtime
-      - /var/www/storage
 
   db:
     image: postgres:15
@@ -42,4 +42,5 @@ services:
 
 volumes:
   db_data:
+  local_storage:
   vendor_data:
