@@ -2,8 +2,10 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\Teacher $model */
+/** @var app\models\forms\ContactForm $contactForm */
 
 use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Markdown;
 use yii\helpers\HtmlPurifier;
 
@@ -46,27 +48,46 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h3>
-    <div class="row">
-        <?php foreach ($model->getCourses()->all() as $course): ?>
-            <div class="col-md-6 mb-3">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
-                        <p class="card-text mb-2">
-                            <?php
-                            $cHtml = Markdown::process($course->description ?? '', 'gfm');
-                            $cText = trim(strip_tags($cHtml));
-                            echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
-                            ?>
-                        </p>
-                        <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
+    <div class="row mt-4">
+        <div class="col-md-7">
+            <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h3>
+            <div class="row">
+                <?php foreach ($model->getCourses()->all() as $course): ?>
+                    <div class="col-md-12 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
+                                <p class="card-text mb-2">
+                                    <?php
+                                    $cHtml = Markdown::process($course->description ?? '', 'gfm');
+                                    $cText = trim(strip_tags($cHtml));
+                                    echo Html::encode(mb_strimwidth($cText, 0, 200, '…'));
+                                    ?>
+                                </p>
+                                <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
+                            </div>
+                        </div>
                     </div>
+                <?php endforeach; ?>
+                <?php if (!$model->getCourses()->exists()): ?>
+                    <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No courses assigned yet.')) ?></div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Contact the teacher')) ?></h3>
+            <div class="card">
+                <div class="card-body">
+                    <?php $form = ActiveForm::begin(['id' => 'teacher-contact-form']); ?>
+                        <?= $form->field($contactForm, 'name')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($contactForm, 'email')->input('email', ['maxlength' => true]) ?>
+                        <?= $form->field($contactForm, 'message')->textarea(['rows' => 6]) ?>
+                        <div class="mt-3">
+                            <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>
+                        </div>
+                    <?php ActiveForm::end(); ?>
                 </div>
             </div>
-        <?php endforeach; ?>
-        <?php if (!$model->getCourses()->exists()): ?>
-            <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No courses assigned yet.')) ?></div>
-        <?php endif; ?>
+        </div>
     </div>
 </div>

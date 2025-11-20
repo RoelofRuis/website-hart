@@ -78,5 +78,6 @@ return [
     'Contact the board' => 'Neem contact op met het bestuur',
     'General contact form' => 'Algemeen contactformulier',
     'Send' => 'Verzenden',
-    'Write your message...' => 'Schrijf je bericht hier...'
+    'Write your message...' => 'Schrijf je bericht hier...',
+    'Contact the teacher' => 'Neem contact op met de docent',
 ];

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Teacher;
 use app\models\CourseSignup;
+use app\models\forms\ContactForm;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -73,8 +74,15 @@ class TeacherController extends Controller
         if (!$model) {
             throw new NotFoundHttpException('Teacher not found.');
         }
+        $contactForm = new ContactForm();
+        if ($contactForm->load(Yii::$app->request->post()) && $contactForm->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for your message. We will get back to you soon.'));
+            return $this->redirect(['view', 'slug' => $model->slug]);
+        }
+
         return $this->render('view', [
             'model' => $model,
+            'contactForm' => $contactForm,
         ]);
     }
 

@@ -33,22 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
             </div>
 
-            <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
-            <div class="row">
-                <?php foreach ($model->getTeachers()->all() as $t): ?>
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title mb-2"><?= Html::encode($t->full_name) ?></h5>
-                                <div class="text-muted mb-2"><?php if ($t->getCourseType()->exists()) echo Html::encode($t->getCourseType()->one()->name); ?></div>
-                                <?= Html::a(Yii::t('app', 'View teacher'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-                <?php if (!$model->getTeachers()->exists()): ?>
-                    <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No teachers assigned yet.')) ?></div>
-                <?php endif; ?>
+            <?php $teachers = $model->getTeachers()->all(); ?>
+            <div class="d-none d-lg-block">
+                <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
+                <?= $this->render('_teachers_grid', [
+                    'teachers' => $teachers,
+                    'colClasses' => 'col-md-6 col-lg-4',
+                ]) ?>
             </div>
         </div>
 
@@ -71,6 +62,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php ActiveForm::end(); ?>
                 </div>
             </div>
+        </div>
+        
+        <!-- Teachers block for small screens: shown below signup form -->
+        <div class="col-12 d-lg-none mt-4">
+            <h3 class="mt-2"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
+            <?= $this->render('_teachers_grid', [
+                'teachers' => $teachers,
+                'colClasses' => 'col-12 col-md-6',
+            ]) ?>
         </div>
     </div>
 </div>
