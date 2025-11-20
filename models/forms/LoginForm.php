@@ -38,13 +38,29 @@ class LoginForm extends Model
         $user = $this->getUser();
         if (!$user || !$user->validatePassword($this->password)) {
             $this->addError($attribute, 'Incorrect email or password.');
+            return;
+        }
+        if (!$user->active) {
+            $this->addError($attribute, Yii::t('app', 'Your account is inactive.'));
         }
     }
 
     public function login(): bool
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser());
+            $user = $this->getUser();
+            if (!$user) {
+                return false;
+            }
+            if (!$user->active) {
+                // Safety check; should already be caught in validation
+                return false;
+            }
+            if (Yii::$app->user->login($user)) {
+                $user->last_login = time();
+                $user->save(false, ['last_login']);
+                return true;
+            }
         }
         return false;
     }

@@ -106,13 +106,16 @@ class TeacherController extends Controller
         // Restrict editable attributes for security
         $safeAttributes = ['full_name', 'email', 'telephone', 'profile_picture', 'description', 'course_type_id'];
         if ($current->admin) {
+            // Admins may also toggle admin/active flags
             $safeAttributes[] = 'admin';
+            $safeAttributes[] = 'active';
         }
 
         if ($model->load(Yii::$app->request->post())) {
             // Prevent privilege escalation by non-admins
             if (!$current->admin) {
                 $model->admin = (bool)$model->getOldAttribute('admin');
+                $model->active = (bool)$model->getOldAttribute('active');
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
@@ -173,14 +176,15 @@ class TeacherController extends Controller
 
         // By default do not allow creating an admin unless explicitly set by admin
         $model->admin = false;
+        $model->active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher created successfully.'));
             return $this->redirect(['admin']);
         }
 
-        // Allow admin to set admin flag
-        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'course_type_id', 'admin'];
+        // Allow admin to set admin and active flags
+        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'course_type_id', 'admin', 'active'];
         return $this->render('create', [
             'model' => $model,
             'safeAttributes' => $safeAttributes,

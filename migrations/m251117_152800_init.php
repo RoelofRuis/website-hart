@@ -45,6 +45,8 @@ class m251117_152800_init extends Migration
             'password_hash' => $this->string()->notNull()->after('email'),
             'auth_key' => $this->string(32)->notNull()->after('password_hash'),
             'admin' => $this->boolean()->notNull()->defaultValue(false),
+            'active' => $this->boolean()->notNull()->defaultValue(true),
+            'last_login' => $this->integer()->null(),
         ]);
         $this->createIndex('idx_teachers_full_name', '{{%teachers}}', ['full_name']);
         $this->addForeignKey(

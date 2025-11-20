@@ -20,6 +20,8 @@ use Yii;
  * @property string $password_hash
  * @property string $auth_key
  * @property bool $admin
+ * @property bool $active
+ * @property int|null $last_login
  */
 class Teacher extends ActiveRecord implements IdentityInterface
 {
@@ -42,6 +44,8 @@ class Teacher extends ActiveRecord implements IdentityInterface
             [['profile_picture'], 'string', 'max' => 255],
             [['course_type_id'], 'integer'],
             [['admin'], 'boolean'],
+            [['active'], 'boolean'],
+            [['last_login'], 'integer'],
             [['slug'], 'unique'],
         ];
     }
@@ -58,6 +62,8 @@ class Teacher extends ActiveRecord implements IdentityInterface
             'profile_picture' => Yii::t('app', 'Profile Picture'),
             'course_type_id' => Yii::t('app', 'Course Type'),
             'admin' => Yii::t('app', 'Administrator'),
+            'active' => Yii::t('app', 'Active'),
+            'last_login' => Yii::t('app', 'Last Login'),
         ];
     }
 

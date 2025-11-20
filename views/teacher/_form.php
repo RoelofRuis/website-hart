@@ -46,6 +46,9 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
 <?php if (in_array('admin', $allAttributes, true)) : ?>
     <?= $form->field($model, 'admin')->checkbox() ?>
 <?php endif; ?>
+<?php if (in_array('active', $allAttributes, true)) : ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
+<?php endif; ?>
 
 <div class="form-group">
     <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
