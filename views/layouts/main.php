@@ -67,7 +67,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <div class="container py-2 d-flex flex-wrap align-items-center">
             <div class="me-auto sub-header-links">
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Profile')) ?></a></span>
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/signups']) ?>"><?= Html::encode(Yii::t('app', 'Signups')) ?></a></span>
+                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/messages']) ?>"><?= Html::encode(Yii::t('app', 'Messages')) ?></a></span>
                 <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->admin): ?>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['course/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></a></span>
@@ -85,7 +85,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <?php
             $route = Yii::$app->controller->route ?? '';
             $noCrumbsRoutes = [
-                'teacher/signups',
+                'teacher/messages',
                 'teacher/update',
                 'teacher/admin',
                 'teacher/create',

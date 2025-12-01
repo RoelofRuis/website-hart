@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Teacher;
 use app\models\CourseSignup;
+use app\models\ContactMessage;
 use app\models\forms\ContactForm;
 use Yii;
 use yii\db\Expression;
@@ -19,11 +20,11 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update', 'signups', 'admin', 'create', 'delete'],
+                'only' => ['update', 'signups', 'messages', 'admin', 'create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'signups'],
+                        'actions' => ['update', 'signups', 'messages'],
                         'roles' => ['@'],
                     ],
                     [
@@ -75,6 +76,8 @@ class TeacherController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
         $contactForm = new ContactForm();
+        // Pre-fill teacher relation so messages can be associated to the teacher profile
+        $contactForm->teacher_id = $model->id;
         if ($contactForm->load(Yii::$app->request->post()) && $contactForm->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for your message. We will get back to you soon.'));
             return $this->redirect(['view', 'slug' => $model->slug]);
@@ -136,8 +139,19 @@ class TeacherController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
 
-        // Build a data provider with signups for courses taught by the logged-in teacher
-        $query = CourseSignup::find()
+        // Legacy route: redirect to the new unified messages page
+        return $this->redirect(['messages']);
+    }
+
+    public function actionMessages()
+    {
+        $current = Yii::$app->user->identity;
+        if (!$current) {
+            throw new NotFoundHttpException('Teacher not found.');
+        }
+
+        // Fetch signups for courses taught by the logged-in teacher
+        $signupQuery = CourseSignup::find()
             ->joinWith(['course' => function ($q) {
                 /** @var yii\db\ActiveQuery $q */
                 $q->joinWith('teachers');
@@ -145,15 +159,50 @@ class TeacherController extends Controller
             ->andWhere(['teachers.id' => $current->id])
             ->orderBy(['course_signups.created_at' => SORT_DESC]);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        $signups = $signupQuery->all();
 
-        return $this->render('signups', [
-            'dataProvider' => $dataProvider,
+        // Fetch contact messages addressed to the logged-in teacher
+        $contacts = ContactMessage::find()
+            ->andWhere(['teacher_id' => $current->id])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
+        // Normalize to a common structure
+        $items = [];
+        foreach ($signups as $s) {
+            /** @var CourseSignup $s */
+            $items[] = [
+                'type' => 'signup',
+                'course' => $s->course?->name,
+                'from_name' => $s->contact_name,
+                'email' => $s->email,
+                'telephone' => $s->telephone,
+                'age' => $s->age,
+                'message' => null,
+                'created_at' => $s->created_at,
+            ];
+        }
+        foreach ($contacts as $c) {
+            /** @var ContactMessage $c */
+            $items[] = [
+                'type' => 'contact',
+                'course' => null,
+                'from_name' => $c->name,
+                'email' => $c->email,
+                'telephone' => null,
+                'age' => null,
+                'message' => $c->message,
+                'created_at' => $c->created_at,
+            ];
+        }
+
+        // Sort by created_at desc
+        usort($items, function ($a, $b) {
+            return ($b['created_at'] <=> $a['created_at']);
+        });
+
+        return $this->render('messages', [
+            'items' => $items,
         ]);
     }
 

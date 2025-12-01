@@ -79,6 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card">
                 <div class="card-body">
                     <?php $form = ActiveForm::begin(['id' => 'teacher-contact-form']); ?>
+                        <?= $form->field($contactForm, 'teacher_id')->hiddenInput()->label(false) ?>
                         <?= $form->field($contactForm, 'name')->textInput(['maxlength' => true]) ?>
                         <?= $form->field($contactForm, 'email')->input('email', ['maxlength' => true]) ?>
                         <?= $form->field($contactForm, 'message')->textarea(['rows' => 6]) ?>

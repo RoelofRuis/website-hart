@@ -11,6 +11,7 @@ class ContactForm extends Model
     public string $name = '';
     public string $email = '';
     public string $message = '';
+    public ?int $teacher_id = null;
 
     public function rules(): array
     {
@@ -20,6 +21,7 @@ class ContactForm extends Model
             [['email'], 'string', 'max' => 150],
             ['email', 'email'],
             ['message', 'string', 'min' => 5],
+            ['teacher_id', 'integer'],
         ];
     }
 
@@ -45,6 +47,7 @@ class ContactForm extends Model
         $msg->name = $this->name;
         $msg->email = $this->email;
         $msg->message = $this->message;
+        $msg->teacher_id = $this->teacher_id;
         return $msg->save(false);
     }
 }
