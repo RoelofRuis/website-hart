@@ -106,19 +106,21 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <div class="row text-muted align-items-start gy-2">
             <div class="col-12 col-md-4 text-md-start">
                 <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><a href="<?= Url::to(['site/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['site/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['site/association']) ?>"><?= Html::encode(Yii::t('app', 'Association & Board')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['site/contact']) ?>"><?= Html::encode(Yii::t('app', 'Contact')) ?></a></li>
-                    <li><a href="<?= Url::to(['site/avg']) ?>"><?= Html::encode(Yii::t('app', 'AVG / Privacy')) ?></a></li>
-                    <li class="mt-2 d-md-none">&copy; Roelof Ruis <?= date('Y') ?></li>
+                    <li class="mb-2"><a href="<?= Url::to(['site/avg']) ?>"><?= Html::encode(Yii::t('app', 'AVG / Privacy')) ?></a></li>
                 </ul>
             </div>
 
-            <div class="col-12 col-md-4 text-md-center">
+            <div class="col-12 col-md-4 text-md-start">
                 <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><a href="<?= Url::to(['site/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
-                    <li class="mb-2"><a href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?></a></li>
-                    <li class="mb-2"><a href="#"><?= Html::encode(Yii::t('app', 'Instagram')) ?></a></li>
+                    <li class="mb-2"><a target="_blank" href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?></a></li>
+                    <li class="mb-2"><a target="_blank" href="#"><?= Html::encode(Yii::t('app', 'Instagram')) ?></a></li>
+                    <li class="mb-2"><a target="_blank" href="https://www.muziekfonds.nl/"><?= Html::encode(Yii::t('app', 'Renting an instrument')) ?></a></li>
+                    <li class="mb-2"><a target="_blank" href="https://jeugdfondssportencultuur.nl/fondsen/haarlem/"><?= Html::encode(Yii::t('app', 'Youth Culture Fund')) ?></a></li>
+                    <li class="mt-2 d-md-none">&copy; Roelof Ruis <?= date('Y') ?></li>
                 </ul>
             </div>
 

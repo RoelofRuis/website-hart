@@ -119,6 +119,9 @@ return [
     'Your name' => 'Je naam',
     'for' => 'voor',
     '{n,plural,=0{None selected} =1{One selected} other{# selected}}' => '{n,plural,=0{Niets geselecteerd} other{# geselecteerd}}',
+    'Locations' => 'Locaties',
     'Facebook' => 'Facebook',
     'Instagram' => 'Instagram',
+    'Renting an instrument' => 'Instrumentverhuur',
+    'Youth Culture Fund' => 'Jeugdfonds Sport & Cultuur',
 ];
