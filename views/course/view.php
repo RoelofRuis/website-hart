@@ -57,6 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($signup, 'contact_name')->textInput(['maxlength' => true]) ?>
                         <?= $form->field($signup, 'email')->input('email') ?>
                         <?= $form->field($signup, 'telephone')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($signup, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
 
                         <div class="d-grid">
                             <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'btn btn-primary']) ?>

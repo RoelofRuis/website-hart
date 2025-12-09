@@ -22,7 +22,7 @@ echo $form->field($model, 'frequency')->dropDownList($frequencies, ['prompt' => 
 echo $form->field($model, 'price_per_person')->input('number', ['min' => 0, 'step' => '0.01']);
 
 echo '<div class="mb-3">';
-echo Html::label(Yii::t('app', 'Days of the week'));
+echo Html::label(Yii::t('app', 'Days'));
 echo '<div class="form-check">' . $form->field($model, 'mon')->checkbox()->label(Yii::t('app', 'Monday')) . '</div>';
 echo '<div class="form-check">' . $form->field($model, 'tue')->checkbox()->label(Yii::t('app', 'Tuesday')) . '</div>';
 echo '<div class="form-check">' . $form->field($model, 'wed')->checkbox()->label(Yii::t('app', 'Wednesday')) . '</div>';

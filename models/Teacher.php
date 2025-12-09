@@ -34,7 +34,7 @@ class Teacher extends ActiveRecord implements IdentityInterface
     {
         return [
             [['full_name', 'slug', 'email'], 'required'],
-            [['description'], 'string'],
+            [['description'], 'string', 'max' => 1000],
             [['full_name', 'slug'], 'string', 'max' => 150],
             [['email'], 'string', 'max' => 150],
             [['email'], 'email'],

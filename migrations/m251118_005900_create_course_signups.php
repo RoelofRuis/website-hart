@@ -13,6 +13,7 @@ class m251118_005900_create_course_signups extends Migration
             'contact_name' => $this->string(150)->notNull(),
             'email' => $this->string(150)->notNull(),
             'telephone' => $this->string(50)->notNull(),
+            'message' => $this->string(1000)->null(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ]);

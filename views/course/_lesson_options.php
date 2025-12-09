@@ -46,9 +46,10 @@ $dayLabels = [
                             </div>
                             <div class="text-end">
                                 <?php if ($opt->show_price && $opt->price_per_person !== null): ?>
-                                    <div class="badge bg-primary-subtle text-primary">
-                                        € <?= Html::encode(number_format((float)$opt->price_per_person, 2, ',', '.')) ?>
-                                        <span class="text-muted">/ <?= Html::encode(Yii::t('app', 'person')) ?></span>
+                                    <div class="badge badge-pill bg-light text-muted">
+                                        <?= Html::encode(Yii::t('app', '€{n} per person', [
+                                                'n' => number_format((float)$opt->price_per_person, 2, ',', '.')
+                                        ])) ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

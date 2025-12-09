@@ -80,10 +80,10 @@ if ($isAdmin) {
                     <tr>
                         <?php if ($isAdmin): ?><th><?= Html::encode(Yii::t('app', 'Teacher')) ?></th><?php endif; ?>
                         <th><?= Html::encode(Yii::t('app', 'People')) ?></th>
-                        <th><?= Html::encode(Yii::t('app', 'Duration (min)')) ?></th>
-                        <th><?= Html::encode(Yii::t('app', 'Weeks')) ?></th>
+                        <th><?= Html::encode(Yii::t('app', 'Duration (minutes)')) ?></th>
+                        <th><?= Html::encode(Yii::t('app', 'Weeks per year')) ?></th>
                         <th><?= Html::encode(Yii::t('app', 'Frequency')) ?></th>
-                        <th><?= Html::encode(Yii::t('app', 'Price p.p. (€)')) ?></th>
+                        <th><?= Html::encode(Yii::t('app', 'Price per person (€)')) ?></th>
                         <th><?= Html::encode(Yii::t('app', 'Days')) ?></th>
                         <th><?= Html::encode(Yii::t('app', 'Location')) ?></th>
                         <th><?= Html::encode(Yii::t('app', 'Show price')) ?></th>
@@ -159,7 +159,7 @@ if ($isAdmin) {
         <?php endif; ?>
 
         <hr>
-        <h6 class="mb-3"><?= Html::encode(Yii::t('app', 'Add new lesson options')) ?></h6>
+        <h6 class="mb-3"><?= Html::encode(Yii::t('app', 'Add lesson options')) ?></h6>
         <?php for ($n = 0; $n < 3; $n++): ?>
             <div class="row g-2 align-items-end mb-2">
                 <?php if ($isAdmin): ?>
@@ -178,11 +178,11 @@ if ($isAdmin) {
                     <input class="form-control" type="number" min="1" name="NewLessonFormats[<?= $n ?>][persons_per_lesson]">
                 </div>
                 <div class="col-6 col-md-2">
-                    <label class="form-label"><?= Html::encode(Yii::t('app', 'Duration (min)')) ?></label>
+                    <label class="form-label"><?= Html::encode(Yii::t('app', 'Duration (minutes)')) ?></label>
                     <input class="form-control" type="number" min="15" step="5" name="NewLessonFormats[<?= $n ?>][duration_minutes]">
                 </div>
                 <div class="col-6 col-md-2">
-                    <label class="form-label"><?= Html::encode(Yii::t('app', 'Weeks')) ?></label>
+                    <label class="form-label"><?= Html::encode(Yii::t('app', 'Weeks per year')) ?></label>
                     <input class="form-control" type="number" min="1" max="52" name="NewLessonFormats[<?= $n ?>][weeks_per_year]">
                 </div>
                 <div class="col-6 col-md-3">
@@ -194,12 +194,12 @@ if ($isAdmin) {
                     </select>
                 </div>
                 <div class="col-6 col-md-2">
-                    <label class="form-label"><?= Html::encode(Yii::t('app', 'Price p.p. (€)')) ?></label>
+                    <label class="form-label"><?= Html::encode(Yii::t('app', 'Price per person (€)')) ?></label>
                     <input class="form-control" type="number" min="0" step="0.01" name="NewLessonFormats[<?= $n ?>][price_per_person]">
                 </div>
                 <div class="col-12">
                     <?php $days = ['mon','tue','wed','thu','fri','sat','sun']; ?>
-                    <div class="form-text mb-1"><?= Html::encode(Yii::t('app', 'Days of the week')) ?></div>
+                    <div class="form-text mb-1"><?= Html::encode(Yii::t('app', 'Days')) ?></div>
                     <?php foreach ($days as $d): ?>
                         <label class="me-2"><input type="hidden" name="NewLessonFormats[<?= $n ?>][<?= $d ?>]" value="0"><input type="checkbox" class="form-check-input me-1" name="NewLessonFormats[<?= $n ?>][<?= $d ?>]" value="1"><?= Html::encode(Yii::t('app', ucfirst($d))) ?></label>
                     <?php endforeach; ?>

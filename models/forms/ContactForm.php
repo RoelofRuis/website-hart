@@ -20,7 +20,7 @@ class ContactForm extends Model
             [['name'], 'string', 'max' => 150],
             [['email'], 'string', 'max' => 150],
             ['email', 'email'],
-            ['message', 'string', 'min' => 5],
+            ['message', 'string', 'min' => 5, 'max' => 500],
             ['teacher_id', 'integer'],
         ];
     }

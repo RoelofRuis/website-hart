@@ -222,7 +222,6 @@ class CourseController extends Controller
                 return $this->redirect(['course/view', 'slug' => $model->slug]);
             } catch (\Throwable $e) {
                 $transaction->rollBack();
-                // fall through to re-render with validation errors
             }
         }
 

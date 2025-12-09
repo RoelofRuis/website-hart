@@ -52,7 +52,7 @@ class LessonFormat extends ActiveRecord
         return [
             'course_id' => Yii::t('app', 'Course'),
             'teacher_id' => Yii::t('app', 'Teacher'),
-            'persons_per_lesson' => Yii::t('app', 'People per session'),
+            'persons_per_lesson' => Yii::t('app', 'People'),
             'duration_minutes' => Yii::t('app', 'Duration (minutes)'),
             'weeks_per_year' => Yii::t('app', 'Weeks per year'),
             'frequency' => Yii::t('app', 'Frequency'),

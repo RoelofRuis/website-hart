@@ -19,8 +19,6 @@ return [
         'sun' => 0,
         'location' => 'Studio A',
         'show_price' => 1,
-        'created_at' => 1700000000,
-        'updated_at' => 1700000000,
     ],
     [
         'id' => 2,
@@ -40,8 +38,6 @@ return [
         'sun' => 0,
         'location' => 'Online',
         'show_price' => 0,
-        'created_at' => 1700000000,
-        'updated_at' => 1700000000,
     ],
     [
         'id' => 3,
@@ -61,7 +57,5 @@ return [
         'sun' => 1,
         'location' => 'Community Center',
         'show_price' => 1,
-        'created_at' => 1700000000,
-        'updated_at' => 1700000000,
     ],
 ];

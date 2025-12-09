@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $contact_name
  * @property string $email
  * @property string $telephone
+ * @property string $message
  * @property int $created_at
  * @property int $updated_at
  *
@@ -41,6 +42,7 @@ class CourseSignup extends ActiveRecord
             ['age', 'integer', 'min' => 0, 'max' => 130],
             [['contact_name'], 'string', 'max' => 150],
             [['email'], 'string', 'max' => 150],
+            [['message'], 'string', 'max' => 1000],
             ['email', 'email'],
             [['telephone'], 'string', 'max' => 50],
             ['course_id', 'exist', 'targetClass' => Course::class, 'targetAttribute' => ['course_id' => 'id']],
@@ -54,6 +56,7 @@ class CourseSignup extends ActiveRecord
             'contact_name' => Yii::t('app', 'Student Name'),
             'email' => Yii::t('app', 'Email'),
             'telephone' => Yii::t('app', 'Telephone'),
+            'message' => Yii::t('app', 'Message'),
         ];
     }
 
