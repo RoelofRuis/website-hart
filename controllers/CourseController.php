@@ -19,7 +19,10 @@ class CourseController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['admin', 'create', 'update', 'delete'],
+                // Keep admin-only restrictions on create and delete.
+                // The update action is handled with fine-grained checks inside actionUpdate,
+                // and actionAdmin will filter results for non-admin teachers.
+                'only' => ['create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -84,8 +87,18 @@ class CourseController extends Controller
 
     public function actionAdmin()
     {
+        $current = Yii::$app->user->identity;
+        if ($current === null) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        // Admins see all courses; teachers see only their linked courses
+        $query = $current->admin
+            ? Course::find()
+            : $current->getCourses();
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Course::find()->orderBy(['name' => SORT_ASC]),
+            'query' => $query->orderBy(['name' => SORT_ASC]),
             'pagination' => ['pageSize' => 20],
         ]);
 
@@ -115,16 +128,110 @@ class CourseController extends Controller
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
+        $current = Yii::$app->user->identity;
+        $isAdmin = $current && $current->admin;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Course updated successfully.'));
-            return $this->redirect(['admin']);
+        if (!$isAdmin) {
+            // Only teachers linked to this course can edit it (limited fields)
+            if (!$current instanceof \app\models\Teacher) {
+                throw new NotFoundHttpException('Not allowed.');
+            }
+            $linkedTeacherIds = $model->getTeachers()->select('id')->column();
+            if (!in_array($current->id, $linkedTeacherIds, true)) {
+                throw new NotFoundHttpException('Not allowed.');
+            }
+            // Limit editable attributes for teachers
+            $model->setScenario(\app\models\Course::SCENARIO_TEACHER_UPDATE);
+        }
+
+        // Prepare editable lesson formats for the subform
+        $editableFormatsQuery = $model->getLessonFormats();
+        if (!$isAdmin && $current instanceof \app\models\Teacher) {
+            $editableFormatsQuery->andWhere(['teacher_id' => $current->id]);
+        }
+        $editableFormats = $editableFormatsQuery->all();
+
+        // Handle POST: course + nested lesson formats
+        if ($model->load(Yii::$app->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                if (!$model->save()) {
+                    throw new \RuntimeException('Course save failed');
+                }
+
+                $posted = Yii::$app->request->post('LessonFormats', []);
+                $editableById = [];
+                foreach ($editableFormats as $fmt) {
+                    $editableById[$fmt->id] = $fmt;
+                }
+
+                // Process updates/deletes for existing formats
+                foreach ($posted as $key => $row) {
+                    $id = isset($row['id']) && $row['id'] !== '' ? (int)$row['id'] : null;
+                    $toDelete = isset($row['__delete']) && (int)$row['__delete'] === 1;
+                    if ($id && isset($editableById[$id])) {
+                        $fmt = $editableById[$id];
+                        if ($toDelete) {
+                            if (!$fmt->delete()) {
+                                throw new \RuntimeException('Delete failed');
+                            }
+                            continue;
+                        }
+                        // Lock course_id for all, and teacher_id for non-admin in beforeValidate
+                        $fmt->load(['LessonFormat' => $row]);
+                        // Ensure course stays the same
+                        $fmt->course_id = $model->id;
+                        if (!$isAdmin) {
+                            $fmt->teacher_id = $current->id;
+                        }
+                        if (!$fmt->save()) {
+                            throw new \RuntimeException('Lesson format update failed');
+                        }
+                    }
+                }
+
+                // Handle creation of new rows under the "new" key
+                $newRows = Yii::$app->request->post('NewLessonFormats', []);
+                foreach ($newRows as $row) {
+                    // Skip entirely empty rows
+                    $hasData = false;
+                    foreach ($row as $k => $v) {
+                        if ($v !== '' && $v !== null && $k !== 'id') { $hasData = true; break; }
+                    }
+                    if (!$hasData) { continue; }
+                    $fmt = new \app\models\LessonFormat();
+                    $fmt->course_id = $model->id;
+                    if ($isAdmin) {
+                        // Admin may set teacher_id; if omitted, keep null which will fail validation and show errors
+                        $fmt->teacher_id = isset($row['teacher_id']) && $row['teacher_id'] !== '' ? (int)$row['teacher_id'] : null;
+                    } else {
+                        $fmt->teacher_id = $current->id;
+                    }
+                    $fmt->load(['LessonFormat' => $row]);
+                    if (!$fmt->save()) {
+                        throw new \RuntimeException('Lesson format create failed');
+                    }
+                }
+
+                $transaction->commit();
+
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Course updated successfully.'));
+                if ($isAdmin) {
+                    return $this->redirect(['admin']);
+                }
+                return $this->redirect(['course/view', 'slug' => $model->slug]);
+            } catch (\Throwable $e) {
+                $transaction->rollBack();
+                // fall through to re-render with validation errors
+            }
         }
 
         $assigned = $model->getTeachers()->select('id')->column();
         return $this->render('update', [
             'model' => $model,
             'assignedTeacherIds' => $assigned,
+            'editableLessonFormats' => $editableFormats,
+            'canEditAllFormats' => $isAdmin,
         ]);
     }
 

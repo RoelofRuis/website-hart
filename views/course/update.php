@@ -2,6 +2,8 @@
 /** @var yii\web\View $this */
 /** @var app\models\Course $model */
 /** @var array $assignedTeacherIds */
+/** @var app\models\LessonFormat[] $editableLessonFormats */
+/** @var bool $canEditAllFormats */
 
 use yii\bootstrap5\Html;
 
@@ -20,5 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'assignedTeacherIds' => $assignedTeacherIds,
+        'editableLessonFormats' => $editableLessonFormats ?? [],
+        'canEditAllFormats' => $canEditAllFormats ?? false,
     ]) ?>
 </div>

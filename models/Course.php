@@ -16,6 +16,8 @@ use yii\db\ActiveRecord;
  */
 class Course extends ActiveRecord
 {
+    public const SCENARIO_TEACHER_UPDATE = 'teacherUpdate';
+
     public static function tableName(): string
     {
         return '{{%courses}}';
@@ -42,6 +44,15 @@ class Course extends ActiveRecord
             'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),
         ];
+    }
+
+    public function scenarios(): array
+    {
+        $scenarios = parent::scenarios();
+        // Default scenario keeps all attributes as is.
+        // Limit what a linked teacher can edit.
+        $scenarios[self::SCENARIO_TEACHER_UPDATE] = ['name', 'summary', 'description'];
+        return $scenarios;
     }
 
     public function getTeachers(): ActiveQuery

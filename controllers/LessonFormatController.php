@@ -38,20 +38,26 @@ class LessonFormatController extends Controller
         if (!$current instanceof Teacher) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        // Allow admins or any logged-in teacher to add a lesson option;
-        // adding one establishes the relation.
-        $allowed = $current->admin || $current instanceof Teacher;
+        // Allow admins, or teachers already linked to this course, to add a lesson option.
+        // Linking teachers to courses is admin-only; teachers cannot self-link by creating a format.
+        $isLinked = $course->getLessonFormats()->andWhere(['teacher_id' => $current->id])->exists();
+        $allowed = $current->admin || $isLinked;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }
 
         $model = new LessonFormat([
             'course_id' => $course->id,
-            'teacher_id' => $current->id,
+            'teacher_id' => $current->admin ? null : $current->id,
             'show_price' => true,
         ]);
 
         if ($model->load(Yii::$app->request->post())) {
+            if (!$current->admin) {
+                // Prevent spoofing by non-admins
+                $model->course_id = $course->id;
+                $model->teacher_id = $current->id;
+            }
             if ($model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option created.'));
             return $this->redirect(['course/view', 'slug' => $course->slug]);
@@ -80,6 +86,12 @@ class LessonFormatController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
+            if (!$current->admin) {
+                // Lock ownership fields for non-admins
+                $model->teacher_id = $current->id;
+                // Do not allow changing course
+                $model->course_id = $model->getOldAttribute('course_id');
+            }
             if ($model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option updated.'));
             return $this->redirect(['course/view', 'slug' => $model->course->slug]);

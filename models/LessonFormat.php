@@ -78,4 +78,24 @@ class LessonFormat extends ActiveRecord
     {
         return $this->hasOne(Teacher::class, ['id' => 'teacher_id']);
     }
+
+    public function beforeValidate(): bool
+    {
+        if (!parent::beforeValidate()) {
+            return false;
+        }
+        $user = Yii::$app->user->identity ?? null;
+        if ($user instanceof Teacher && !$user->admin) {
+            if ($this->isNewRecord) {
+                // Non-admin teachers can only create formats for themselves (teacher_id) and for the
+                // current course context (controller enforces course_id); enforce here as well.
+                $this->teacher_id = $user->id;
+            } else {
+                // Lock ownership fields for non-admins
+                $this->teacher_id = $this->getOldAttribute('teacher_id');
+                $this->course_id = $this->getOldAttribute('course_id');
+            }
+        }
+        return true;
+    }
 }

@@ -12,7 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="course-admin-index">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></h1>
-        <?= Html::a(Yii::t('app', 'Create course'), ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->admin): ?>
+            <?= Html::a(Yii::t('app', 'Create course'), ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?>
     </div>
 
     <?= GridView::widget([
@@ -31,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\\grid\\ActionColumn',
                 'controller' => 'course',
-                'template' => '{update} {delete}',
+                'template' => Yii::$app->user->isGuest || !Yii::$app->user->identity->admin ? '{update}' : '{update} {delete}',
                 'urlCreator' => function ($action, $model) {
                     /** @var app\models\Course $model */
                     if ($action === 'update') return ['course/update', 'id' => $model->id];
