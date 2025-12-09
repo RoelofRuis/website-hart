@@ -47,7 +47,14 @@ class Course extends ActiveRecord
     public function getTeachers(): ActiveQuery
     {
         return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
-            ->viaTable('{{%teacher_courses}}', ['course_id' => 'id']);
+            ->viaTable('{{%lesson_formats}}', ['course_id' => 'id'])
+            ->distinct();
+    }
+
+    public function getLessonFormats(): ActiveQuery
+    {
+        return $this->hasMany(LessonFormat::class, ['course_id' => 'id'])
+            ->orderBy(['teacher_id' => SORT_ASC, 'persons_per_lesson' => SORT_ASC]);
     }
 
     public static function findBySlug(string $slug): ?self

@@ -99,7 +99,6 @@ class CourseController extends Controller
         $model = new Course();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->syncCourseTeachers($model);
             Yii::$app->session->setFlash('success', Yii::t('app', 'Course created successfully.'));
             return $this->redirect(['admin']);
         }
@@ -118,7 +117,6 @@ class CourseController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->syncCourseTeachers($model);
             Yii::$app->session->setFlash('success', Yii::t('app', 'Course updated successfully.'));
             return $this->redirect(['admin']);
         }
@@ -136,36 +134,8 @@ class CourseController extends Controller
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
-        // Remove relations
-        Yii::$app->db->createCommand()
-            ->delete('{{%teacher_courses}}', ['course_id' => $model->id])
-            ->execute();
         $model->delete();
         Yii::$app->session->setFlash('success', Yii::t('app', 'Course deleted.'));
         return $this->redirect(['admin']);
-    }
-
-    private function syncCourseTeachers(Course $model): void
-    {
-        $ids = Yii::$app->request->post('teacherIds', []);
-        if (!is_array($ids)) {
-            $ids = [];
-        }
-        // sanitize to integers and ensure they exist
-        $ids = array_values(array_unique(array_map('intval', $ids)));
-        if ($ids) {
-            $validIds = Teacher::find()->select('id')->where(['id' => $ids])->column();
-        } else {
-            $validIds = [];
-        }
-        $db = Yii::$app->db;
-        $db->createCommand()->delete('{{%teacher_courses}}', ['course_id' => $model->id])->execute();
-        if (!empty($validIds)) {
-            $rows = [];
-            foreach ($validIds as $tid) {
-                $rows[] = [$model->id, $tid];
-            }
-            $db->createCommand()->batchInsert('{{%teacher_courses}}', ['course_id', 'teacher_id'], $rows)->execute();
-        }
     }
 }

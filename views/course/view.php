@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
             </div>
 
+            <?= $this->render('_lesson_options', ['model' => $model]) ?>
+
             <?php $teachers = $model->getTeachers()->all(); ?>
             <div class="d-none d-lg-block">
                 <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>

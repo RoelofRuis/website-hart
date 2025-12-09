@@ -75,7 +75,14 @@ class Teacher extends ActiveRecord implements IdentityInterface
     public function getCourses(): ActiveQuery
     {
         return $this->hasMany(Course::class, ['id' => 'course_id'])
-            ->viaTable('{{%teacher_courses}}', ['teacher_id' => 'id']);
+            ->viaTable('{{%lesson_formats}}', ['teacher_id' => 'id'])
+            ->distinct();
+    }
+
+    public function getLessonFormats(): ActiveQuery
+    {
+        return $this->hasMany(LessonFormat::class, ['teacher_id' => 'id'])
+            ->orderBy(['course_id' => SORT_ASC, 'persons_per_lesson' => SORT_ASC]);
     }
 
     public static function findIdentity($id): Teacher|IdentityInterface|null

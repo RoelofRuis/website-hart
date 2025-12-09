@@ -1,0 +1,114 @@
+<?php
+
+namespace app\controllers;
+
+use app\models\Course;
+use app\models\LessonFormat;
+use app\models\Teacher;
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+
+class LessonFormatController extends Controller
+{
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function actionCreate(int $course_id)
+    {
+        $course = Course::findOne($course_id);
+        if (!$course) {
+            throw new NotFoundHttpException('Course not found.');
+        }
+        $current = Yii::$app->user->identity;
+        if (!$current instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+        // Allow admins or any logged-in teacher to add a lesson option;
+        // adding one establishes the relation.
+        $allowed = $current->admin || $current instanceof Teacher;
+        if (!$allowed) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $model = new LessonFormat([
+            'course_id' => $course->id,
+            'teacher_id' => $current->id,
+            'show_price' => true,
+        ]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option created.'));
+            return $this->redirect(['course/view', 'slug' => $course->slug]);
+            }
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'course' => $course,
+        ]);
+    }
+
+    public function actionUpdate(int $id)
+    {
+        $model = LessonFormat::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException('Lesson format not found.');
+        }
+        $current = Yii::$app->user->identity;
+        if (!$current instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+        $allowed = $current->admin || $model->teacher_id === $current->id;
+        if (!$allowed) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option updated.'));
+            return $this->redirect(['course/view', 'slug' => $model->course->slug]);
+            }
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+            'course' => $model->course,
+        ]);
+    }
+
+    public function actionDelete(int $id)
+    {
+        $model = LessonFormat::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException('Lesson format not found.');
+        }
+        $current = Yii::$app->user->identity;
+        if (!$current instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+        $allowed = $current->admin || $model->teacher_id === $current->id;
+        if (!$allowed) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+        $slug = $model->course->slug;
+        $model->delete();
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option deleted.'));
+        return $this->redirect(['course/view', 'slug' => $slug]);
+    }
+}

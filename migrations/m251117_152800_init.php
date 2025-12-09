@@ -26,7 +26,7 @@ class m251117_152800_init extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(150)->notNull()->unique(),
-            'cover_image' => $this->string(255)->null()->after('slug'),
+            'cover_image' => $this->string(255)->null(),
             'summary' => $this->text(),
             'description' => $this->text(),
         ]);
@@ -42,8 +42,8 @@ class m251117_152800_init extends Migration
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
             'course_type_id' => $this->integer()->null(),
-            'password_hash' => $this->string()->notNull()->after('email'),
-            'auth_key' => $this->string(32)->notNull()->after('password_hash'),
+            'password_hash' => $this->string()->notNull(),
+            'auth_key' => $this->string(32)->notNull(),
             'admin' => $this->boolean()->notNull()->defaultValue(false),
             'active' => $this->boolean()->notNull()->defaultValue(true),
             'last_login' => $this->integer()->null(),
@@ -56,19 +56,10 @@ class m251117_152800_init extends Migration
             'SET NULL', 'CASCADE'
         );
 
-        $this->createTable('{{%teacher_courses}}', [
-            'teacher_id' => $this->integer()->notNull(),
-            'course_id' => $this->integer()->notNull(),
-        ]);
-        $this->addPrimaryKey('pk_teacher_courses', '{{%teacher_courses}}', ['teacher_id', 'course_id']);
-        $this->addForeignKey('fk_tc_teacher', '{{%teacher_courses}}', 'teacher_id', '{{%teachers}}', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_tc_course', '{{%teacher_courses}}', 'course_id', '{{%courses}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('fk_tc_course', '{{%teacher_courses}}');
-        $this->dropForeignKey('fk_tc_teacher', '{{%teacher_courses}}');
         $this->execute('DROP TABLE IF EXISTS {{%teacher_courses}}');
 
         $this->dropForeignKey('fk_teachers_course_type', '{{%teachers}}');
