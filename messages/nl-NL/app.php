@@ -54,7 +54,6 @@ return [
     'From beginners to advanced students, find the right course for you.' => 'Van beginners tot gevorderden: vind de cursus die bij je past.',
     'Full Name' => 'Naam',
     'General contact form' => 'Algemeen contactformulier',
-    'HART Music School' => 'HART Muziekschool',
     'Home' => 'Home',
     'Last Login' => 'Laatste login',
     'Join a vibrant local community with ensembles, workshops, and concerts.' => 'Sluit je aan bij een bruisende lokale gemeenschap met ensembles, workshops en concerten.',
@@ -120,4 +119,6 @@ return [
     'Your name' => 'Je naam',
     'for' => 'voor',
     '{n,plural,=0{None selected} =1{One selected} other{# selected}}' => '{n,plural,=0{Niets geselecteerd} other{# geselecteerd}}',
+    'Facebook' => 'Facebook',
+    'Instagram' => 'Instagram',
 ];

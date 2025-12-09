@@ -1,6 +1,6 @@
 {
   "name": "roelofruis/hart-website",
-  "description": "Demo website for HART music school",
+  "description": "Vereniging HART Muziekschool website.",
   "type": "project",
   "require": {
     "php": "^8.2",

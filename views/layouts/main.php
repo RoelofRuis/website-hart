@@ -37,18 +37,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <header id="header">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'VHM',
         'brandUrl' => Yii::$app->homeUrl,
-        // Use a custom class so we can style it according to the style guide colors
         'options' => ['class' => 'navbar-expand-md navbar-dark fixed-top app-navbar']
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => Yii::t('app', 'Home'), 'url' => Yii::$app->homeUrl],
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
-            // Mobile-only login entry inside the menu
             [
                 'label' => Yii::t('app', 'Teacher login'),
                 'url' => ['/site/login'],
@@ -107,8 +104,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
         <div class="row text-muted align-items-start gy-2">
-            <!-- Left column: footer links -->
-            <div class="col-12 col-md-4 order-1 order-md-1 text-md-start">
+            <div class="col-12 col-md-4 text-md-start">
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2"><a href="<?= Url::to(['site/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['site/association']) ?>"><?= Html::encode(Yii::t('app', 'Association & Board')) ?></a></li>
@@ -118,17 +114,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </ul>
             </div>
 
-            <!-- Center column: placeholder for more links -->
-            <div class="col-12 col-md-4 order-3 order-md-2 text-md-center">
+            <div class="col-12 col-md-4 text-md-center">
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2"><a href="<?= Url::to(['site/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
-                    <li class="mb-2"><a href="#"><?= Html::encode(Yii::t('app', 'Programs')) ?></a></li>
-                    <li><a href="#"><?= Html::encode(Yii::t('app', 'Resources')) ?></a></li>
+                    <li class="mb-2"><a href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?></a></li>
+                    <li class="mb-2"><a href="#"><?= Html::encode(Yii::t('app', 'Instagram')) ?></a></li>
                 </ul>
             </div>
 
-            <!-- Right column: desktop-only login button and copyright -->
-            <div class="col-12 col-md-4 order-2 order-md-3 text-md-end d-none d-md-block">
+            <div class="col-12 col-md-4 text-md-end d-none d-md-block">
                 <?php if (Yii::$app->user->isGuest): ?>
                     <a class="btn btn-sm btn-outline-primary mb-2" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a><br/>
                 <?php endif; ?>

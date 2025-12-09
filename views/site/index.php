@@ -6,7 +6,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use app\widgets\LargeSearchWidget;
 
-$this->title = Yii::t('app', 'HART Music School');
+$this->title = 'Vereniging HART Muziekschool'
 ?>
 <div class="site-index">
     <section class="hero text-center text-white d-flex align-items-center" style="min-height: 50vh; background: #55BDBE; border-radius: .5rem;">
