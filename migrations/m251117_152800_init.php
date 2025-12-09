@@ -60,8 +60,6 @@ class m251117_152800_init extends Migration
 
     public function safeDown()
     {
-        $this->execute('DROP TABLE IF EXISTS {{%teacher_courses}}');
-
         $this->dropForeignKey('fk_teachers_course_type', '{{%teachers}}');
         $this->execute('DROP TABLE IF EXISTS {{%teachers}}');
 
