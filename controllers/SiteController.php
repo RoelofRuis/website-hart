@@ -78,6 +78,11 @@ class SiteController extends Controller
         return $this->render('avg');
     }
 
+    public function actionLocations()
+    {
+        return $this->render('locations');
+    }
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
