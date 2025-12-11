@@ -16,7 +16,7 @@ class File extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return '{{%files}}';
+        return '{{%file}}';
     }
 
     public function rules(): array

@@ -27,8 +27,8 @@ class m251209_154000_create_lesson_formats extends Migration
         ]);
         $this->createIndex('idx_lf_course', '{{%lesson_formats}}', ['course_id']);
         $this->createIndex('idx_lf_teacher', '{{%lesson_formats}}', ['teacher_id']);
-        $this->addForeignKey('fk_lf_course', '{{%lesson_formats}}', 'course_id', '{{%courses}}', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_lf_teacher', '{{%lesson_formats}}', 'teacher_id', '{{%teachers}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_lf_course', '{{%lesson_formats}}', 'course_id', '{{%course}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_lf_teacher', '{{%lesson_formats}}', 'teacher_id', '{{%teacher}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()

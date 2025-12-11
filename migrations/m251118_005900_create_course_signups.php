@@ -22,7 +22,7 @@ class m251118_005900_create_course_signups extends Migration
         $this->addForeignKey(
             'fk_course_signups_course',
             '{{%course_signups}}', 'course_id',
-            '{{%courses}}', 'id',
+            '{{%course}}', 'id',
             'CASCADE', 'CASCADE'
         );
     }

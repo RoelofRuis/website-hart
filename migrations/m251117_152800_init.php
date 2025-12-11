@@ -7,7 +7,7 @@ class m251117_152800_init extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('{{%files}}', [
+        $this->createTable('{{%file}}', [
             'id' => $this->primaryKey(),
             'slug' => $this->string(255)->notNull()->unique(),
             'storage_path' => $this->string(255)->notNull(),
@@ -15,14 +15,14 @@ class m251117_152800_init extends Migration
             'size' => $this->integer()->null(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
         ]);
-        $this->createIndex('idx_files_created_at', '{{%files}}', ['created_at']);
+        $this->createIndex('idx_files_created_at', '{{%file}}', ['created_at']);
 
-        $this->createTable('{{%course_types}}', [
+        $this->createTable('{{%course_type}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(100)->notNull()->unique(),
         ]);
 
-        $this->createTable('{{%courses}}', [
+        $this->createTable('{{%course}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(150)->notNull()->unique(),
@@ -30,9 +30,9 @@ class m251117_152800_init extends Migration
             'summary' => $this->text(),
             'description' => $this->text(),
         ]);
-        $this->createIndex('idx_courses_name', '{{%courses}}', ['name']);
+        $this->createIndex('idx_courses_name', '{{%course}}', ['name']);
 
-        $this->createTable('{{%teachers}}', [
+        $this->createTable('{{%teacher}}', [
             'id' => $this->primaryKey(),
             'full_name' => $this->string(150)->notNull(),
             'slug' => $this->string(150)->notNull()->unique(),
@@ -48,11 +48,11 @@ class m251117_152800_init extends Migration
             'active' => $this->boolean()->notNull()->defaultValue(true),
             'last_login' => $this->integer()->null(),
         ]);
-        $this->createIndex('idx_teachers_full_name', '{{%teachers}}', ['full_name']);
+        $this->createIndex('idx_teachers_full_name', '{{%teacher}}', ['full_name']);
         $this->addForeignKey(
             'fk_teachers_course_type',
-            '{{%teachers}}', 'course_type_id',
-            '{{%course_types}}', 'id',
+            '{{%teacher}}', 'course_type_id',
+            '{{%course_type}}', 'id',
             'SET NULL', 'CASCADE'
         );
 
@@ -67,11 +67,11 @@ class m251117_152800_init extends Migration
     {
         $this->execute('DROP TABLE IF EXISTS {{%static_content}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%teachers}}');
+        $this->execute('DROP TABLE IF EXISTS {{%teacher}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%courses}}');
-        $this->execute('DROP TABLE IF EXISTS {{%course_types}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course_type}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%files}}');
+        $this->execute('DROP TABLE IF EXISTS {{%file}}');
     }
 }

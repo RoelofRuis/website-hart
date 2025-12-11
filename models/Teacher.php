@@ -27,7 +27,7 @@ class Teacher extends ActiveRecord implements IdentityInterface
 {
     public static function tableName(): string
     {
-        return '{{%teachers}}';
+        return '{{%teacher}}';
     }
 
     public function rules(): array

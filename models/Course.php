@@ -20,7 +20,7 @@ class Course extends ActiveRecord
 
     public static function tableName(): string
     {
-        return '{{%courses}}';
+        return '{{%course}}';
     }
 
     public function rules(): array

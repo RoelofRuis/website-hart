@@ -19,7 +19,7 @@ class m251119_184500_create_contact_messages extends Migration
         $this->addForeignKey(
             'fk_contact_messages_teacher',
             '{{%contact_messages}}', 'teacher_id',
-            '{{%teachers}}', 'id',
+            '{{%teacher}}', 'id',
             'SET NULL',
             'CASCADE',
         );
