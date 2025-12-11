@@ -56,11 +56,17 @@ class m251117_152800_init extends Migration
             'SET NULL', 'CASCADE'
         );
 
+        $this->createTable('{{%static_content}}', [
+            'key' => $this->string(16)->notNull(),
+            'content' => $this->text()->notNull(),
+        ]);
+        $this->addPrimaryKey('pk_static_content', '{{%static_content}}', ['key']);
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('fk_teachers_course_type', '{{%teachers}}');
+        $this->execute('DROP TABLE IF EXISTS {{%static_content}}');
+
         $this->execute('DROP TABLE IF EXISTS {{%teachers}}');
 
         $this->execute('DROP TABLE IF EXISTS {{%courses}}');
