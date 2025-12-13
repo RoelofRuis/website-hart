@@ -8,19 +8,20 @@ use yii\db\ActiveRecord;
 
 /**
  * @property int $id
+ * @property int $parent_id
  * @property string $name
  * @property string $slug
- * @property string|null $description
- * @property string|null $summary
  * @property string|null $cover_image URL to the cover image
+ * @property string|null $summary
+ * @property string|null $description
  */
-class Course extends ActiveRecord
+class CourseNode extends ActiveRecord
 {
     public const SCENARIO_TEACHER_UPDATE = 'teacherUpdate';
 
     public static function tableName(): string
     {
-        return '{{%course}}';
+        return '{{%course_node}}';
     }
 
     public function rules(): array
@@ -32,6 +33,7 @@ class Course extends ActiveRecord
             [['name', 'slug'], 'string', 'max' => 150],
             [['cover_image'], 'string', 'max' => 255],
             [['slug'], 'unique'],
+            [['parent_id'], 'integer'],
         ];
     }
 
@@ -58,8 +60,7 @@ class Course extends ActiveRecord
     public function getTeachers(): ActiveQuery
     {
         return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
-            ->viaTable('{{%lesson_formats}}', ['course_id' => 'id'])
-            ->distinct();
+            ->viaTable('{{%course_node_teacher}}', ['course_node_id' => 'id']);
     }
 
     public function getLessonFormats(): ActiveQuery

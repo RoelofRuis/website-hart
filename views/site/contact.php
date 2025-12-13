@@ -1,17 +1,18 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var StaticContent $content */
 
+use app\models\StaticContent;
 use yii\bootstrap5\Html;
 use app\widgets\ContactFormWidget;
+use yii\helpers\HtmlPurifier;
 
 $this->title = Yii::t('app', 'Contact');
 ?>
 <div class="site-static">
     <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
-    <p>
-        Bij vragen over lessen, instrumenten, docenten etc. kunt u ons bereiken via onderstaand contactformulier. Onze collega Josien van der Tweel krijgt uw bericht dan, zij kan u ongetwijfeld verder helpen.
-    </p>
+    <?= HtmlPurifier::process($content->content); ?>
     <div class="mt-4">
         <?= ContactFormWidget::widget([
             'heading' => Yii::t('app', 'General contact form'),

@@ -1,6 +1,6 @@
 <?php
 /** @var yii\web\View $this */
-/** @var app\models\Course $model */
+/** @var app\models\CourseNode $model */
 /** @var array $assignedTeacherIds */
 /** @var app\models\LessonFormat[] $editableLessonFormats */
 /** @var bool $canEditAllFormats */

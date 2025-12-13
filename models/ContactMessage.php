@@ -5,30 +5,37 @@ namespace app\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use app\models\Teacher;
+use yii\db\Expression;
 
 /**
  * @property int $id
+ * @property string $type
  * @property string $name
  * @property string $email
- * @property string $message
- * @property int|null $teacher_id
+ * @property string|null $message
+ * @property int|null $age
+ * @property string|null $telephone
+ * @property int|null $lesson_format_id
  * @property int $created_at
- * @property int $updated_at
- *
- * @property Teacher|null $teacher
  */
 class ContactMessage extends ActiveRecord
 {
+    const TYPE_CONTACT = 'contact';
+    const TYPE_SIGNUP = 'signup';
+
     public static function tableName(): string
     {
-        return '{{%contact_messages}}';
+        return '{{%contact_message}}';
     }
 
     public function behaviors(): array
     {
         return [
-            TimestampBehavior::class,
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+                'value' => new Expression('NOW()'),
+            ],
         ];
     }
 
@@ -36,20 +43,26 @@ class ContactMessage extends ActiveRecord
     {
         return [
             [['name', 'email', 'message'], 'required'],
+            [['type'], 'string', 'max' => 16],
+            [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP]],
             [['name', 'email'], 'string', 'max' => 150],
+            [['telephone'], 'string', 'max' => 50],
             ['email', 'email'],
-            ['message', 'string'],
-            ['teacher_id', 'integer'],
-            ['teacher_id', 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id'], 'skipOnEmpty' => true],
+            ['message', 'string', 'max' => 1000],
+            ['age', 'integer', 'min' => 0, 'max' => 100],
+            ['lesson_format_id', 'integer'],
+            ['lesson_format_id', 'exist', 'targetClass' => LessonFormat::class, 'targetAttribute' => ['lesson_format_id' => 'id'], 'skipOnEmpty' => true],
         ];
     }
 
     public function attributeLabels(): array
     {
         return [
-            'name' => Yii::t('app', 'Your name'),
+            'name' => Yii::t('app', 'Student Name'),
             'email' => Yii::t('app', 'Email'),
             'message' => Yii::t('app', 'Message'),
+            'age' => Yii::t('app', 'Student Age'),
+            'telephone' => Yii::t('app', 'Telephone'),
         ];
     }
 

@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Course;
+use app\models\CourseNode;
 use Yii;
 use yii\web\Controller;
 
@@ -18,7 +18,7 @@ class SearchController extends Controller
 
         $courses = [];
         if ($q !== null && trim($q) !== '' && mb_strlen($q) >= 2) {
-            $courses = Course::find()
+            $courses = CourseNode::find()
                 ->andWhere(['or',
                     ['ILIKE', 'name', $q],
                     ['ILIKE', 'summary', $q],

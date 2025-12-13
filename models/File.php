@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * @property int $id
@@ -19,6 +21,17 @@ class File extends ActiveRecord
         return '{{%file}}';
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     public function rules(): array
     {
         return [
@@ -33,16 +46,5 @@ class File extends ActiveRecord
     public static function findBySlug(string $slug): ?self
     {
         return static::findOne(['slug' => $slug]);
-    }
-
-    public function beforeSave($insert)
-    {
-        if (!parent::beforeSave($insert)) {
-            return false;
-        }
-        if ($insert && empty($this->created_at)) {
-            $this->created_at = time();
-        }
-        return true;
     }
 }

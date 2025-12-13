@@ -20,18 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => SerialColumn::class],
             [
-                'label' => Yii::t('app', 'Course'),
-                'value' => function ($model) {
-                    /** @var app\models\CourseSignup $model */
-                    return $model->course?->name;
-                },
-            ],
-            [
                 'attribute' => 'age',
                 'label' => Yii::t('app', 'Student Age'),
             ],
             [
-                'attribute' => 'contact_name',
+                'attribute' => 'name',
                 'label' => Yii::t('app', 'Name'),
             ],
             [

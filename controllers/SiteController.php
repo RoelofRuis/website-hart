@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\forms\LoginForm;
 use app\models\forms\ContactForm;
+use app\models\StaticContent;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -43,17 +44,43 @@ class SiteController extends Controller
 
     public function actionCopyright()
     {
-        return $this->render('copyright');
+        $content = StaticContent::findByKey('copyright');
+
+        return $this->render('copyright', [
+            'content' => $content,
+        ]);
     }
 
     public function actionAssociation()
     {
-        return $this->render('association');
+        $content = StaticContent::findByKey('association');
+
+        return $this->render('association', [
+            'content' => $content,
+        ]);
     }
 
     public function actionContact()
     {
-        return $this->render('contact');
+        $content = StaticContent::findByKey('contact');
+
+        return $this->render('contact', [
+            'content' => $content,
+        ]);
+    }
+
+    public function actionAvg()
+    {
+        $content = StaticContent::findByKey('privacy');
+
+        return $this->render('avg', [
+            'content' => $content,
+        ]);
+    }
+
+    public function actionLocations()
+    {
+        return $this->render('locations');
     }
 
     public function actionContactSubmit(): Response
@@ -71,16 +98,6 @@ class SiteController extends Controller
 
         $referrer = Yii::$app->request->referrer;
         return $this->redirect($referrer ?: ['site/contact']);
-    }
-
-    public function actionAvg()
-    {
-        return $this->render('avg');
-    }
-
-    public function actionLocations()
-    {
-        return $this->render('locations');
     }
 
     public function actionLogin()

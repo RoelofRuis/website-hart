@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\Teacher;
-use app\models\CourseSignup;
 use app\models\ContactMessage;
 use app\models\forms\ContactForm;
 use Yii;
@@ -32,7 +31,7 @@ class TeacherController extends Controller
                         'actions' => ['admin', 'create', 'delete'],
                         'roles' => ['@'],
                         'matchCallback' => function () {
-                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->admin;
+                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                         }
                     ],
                 ],
@@ -101,14 +100,14 @@ class TeacherController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
 
-        $canEdit = $current->admin || ($current->id === $model->id);
+        $canEdit = $current->is_admin || ($current->id === $model->id);
         if (!$canEdit) {
             throw new NotFoundHttpException('Teacher not found.');
         }
 
         // Restrict editable attributes for security
-        $safeAttributes = ['full_name', 'email', 'telephone', 'profile_picture', 'description', 'course_type_id'];
-        if ($current->admin) {
+        $safeAttributes = ['full_name', 'email', 'telephone', 'profile_picture', 'description'];
+        if ($current->is_admin) {
             // Admins may also toggle admin/active flags
             $safeAttributes[] = 'admin';
             $safeAttributes[] = 'active';
@@ -116,9 +115,9 @@ class TeacherController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             // Prevent privilege escalation by non-admins
-            if (!$current->admin) {
-                $model->admin = (bool)$model->getOldAttribute('admin');
-                $model->active = (bool)$model->getOldAttribute('active');
+            if (!$current->is_admin) {
+                $model->is_admin = (bool)$model->getOldAttribute('admin');
+                $model->is_active = (bool)$model->getOldAttribute('active');
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
@@ -150,38 +149,13 @@ class TeacherController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
 
-        // Fetch signups for courses taught by the logged-in teacher
-        $signupQuery = CourseSignup::find()
-            ->joinWith(['course' => function ($q) {
-                /** @var yii\db\ActiveQuery $q */
-                $q->joinWith('teachers');
-            }])
-            ->andWhere(['teachers.id' => $current->id])
-            ->orderBy(['course_signups.created_at' => SORT_DESC]);
-
-        $signups = $signupQuery->all();
-
-        // Fetch contact messages addressed to the logged-in teacher
+        // TODO: Filter!
         $contacts = ContactMessage::find()
-            ->andWhere(['teacher_id' => $current->id])
             ->orderBy(['created_at' => SORT_DESC])
             ->all();
 
         // Normalize to a common structure
         $items = [];
-        foreach ($signups as $s) {
-            /** @var CourseSignup $s */
-            $items[] = [
-                'type' => 'signup',
-                'course' => $s->course?->name,
-                'from_name' => $s->contact_name,
-                'email' => $s->email,
-                'telephone' => $s->telephone,
-                'age' => $s->age,
-                'message' => null,
-                'created_at' => $s->created_at,
-            ];
-        }
         foreach ($contacts as $c) {
             /** @var ContactMessage $c */
             $items[] = [
@@ -224,8 +198,8 @@ class TeacherController extends Controller
         $model = new Teacher();
 
         // By default do not allow creating an admin unless explicitly set by admin
-        $model->admin = false;
-        $model->active = true;
+        $model->is_admin = false;
+        $model->is_active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher created successfully.'));
@@ -233,7 +207,7 @@ class TeacherController extends Controller
         }
 
         // Allow admin to set admin and active flags
-        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'course_type_id', 'admin', 'active'];
+        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'admin', 'active'];
         return $this->render('create', [
             'model' => $model,
             'safeAttributes' => $safeAttributes,

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use DateTime;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -13,15 +14,14 @@ use Yii;
  * @property string $slug
  * @property string $description
  * @property string $email
- * @property string $telephone
  * @property string $website
+ * @property string $telephone
  * @property string $profile_picture
- * @property int $course_type_id
  * @property string $password_hash
  * @property string $auth_key
- * @property bool $admin
- * @property bool $active
- * @property int|null $last_login
+ * @property bool $is_admin
+ * @property bool $is_active
+ * @property DateTime|null $last_login
  */
 class Teacher extends ActiveRecord implements IdentityInterface
 {
@@ -42,9 +42,8 @@ class Teacher extends ActiveRecord implements IdentityInterface
             [['website'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
             [['profile_picture'], 'string', 'max' => 255],
-            [['course_type_id'], 'integer'],
-            [['admin'], 'boolean'],
-            [['active'], 'boolean'],
+            [['is_admin'], 'boolean'],
+            [['is_active'], 'boolean'],
             [['last_login'], 'integer'],
             [['slug'], 'unique'],
         ];
@@ -60,22 +59,22 @@ class Teacher extends ActiveRecord implements IdentityInterface
             'telephone' => Yii::t('app', 'Telephone'),
             'website' => Yii::t('app', 'Website'),
             'profile_picture' => Yii::t('app', 'Profile Picture'),
-            'course_type_id' => Yii::t('app', 'Course Type'),
-            'admin' => Yii::t('app', 'Administrator'),
-            'active' => Yii::t('app', 'Active'),
+            'is_admin' => Yii::t('app', 'Administrator'),
+            'is_active' => Yii::t('app', 'Active'),
             'last_login' => Yii::t('app', 'Last Login'),
         ];
     }
 
-    public function getCourseType(): ActiveQuery
+    public function getAccessibleCourses(): ActiveQuery
     {
-        return $this->hasOne(CourseType::class, ['id' => 'course_type_id']);
+        return $this->hasMany(CourseNode::class, ['id' => 'course_id'])
+            ->viaTable('{{%course_node_teacher}}', ['teacher_id' => 'id']);
     }
 
-    public function getCourses(): ActiveQuery
+    public function getTaughtCourses(): ActiveQuery
     {
-        return $this->hasMany(Course::class, ['id' => 'course_id'])
-            ->viaTable('{{%lesson_formats}}', ['teacher_id' => 'id'])
+        return $this->hasMany(CourseNode::class, ['id' => 'course_id'])
+            ->viaTable(LessonFormat::tableName(), ['teacher_id' => 'id'])
             ->distinct();
     }
 

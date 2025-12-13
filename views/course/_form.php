@@ -1,6 +1,6 @@
 <?php
 /** @var yii\web\View $this */
-/** @var app\models\Course $model */
+/** @var app\models\CourseNode $model */
 /** @var array $assignedTeacherIds */
 
 use yii\bootstrap5\ActiveForm;
@@ -12,7 +12,7 @@ use app\widgets\MarkdownEditor;
 use app\widgets\ImageUploadField;
 
 $current = Yii::$app->user->identity;
-$isAdmin = $current && !Yii::$app->user->isGuest && $current->admin;
+$isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
 
 if ($isAdmin) {
     $allTeachers = Teacher::find()->orderBy(['full_name' => SORT_ASC])->all();

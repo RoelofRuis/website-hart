@@ -15,6 +15,7 @@ use Yii;
  * @property int $weeks_per_year
  * @property string $frequency
  * @property float|null $price_per_person
+ * @property int $show_price
  * @property int $mon
  * @property int $tue
  * @property int $wed
@@ -22,14 +23,14 @@ use Yii;
  * @property int $fri
  * @property int $sat
  * @property int $sun
- * @property string|null $location
- * @property int $show_price
+ * @property int|null $location_id
+ * @property string $location_custom
  */
 class LessonFormat extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return '{{%lesson_formats}}';
+        return '{{%lesson_format}}';
     }
 
     public function rules(): array
@@ -39,10 +40,11 @@ class LessonFormat extends ActiveRecord
             [['course_id', 'teacher_id', 'persons_per_lesson', 'duration_minutes', 'weeks_per_year'], 'integer'],
             [['price_per_person'], 'number'],
             [['frequency'], 'string', 'max' => 50],
-            [['location'], 'string', 'max' => 150],
+            [['location_custom'], 'string', 'max' => 150],
             [['show_price'], 'boolean'],
             [['mon','tue','wed','thu','fri','sat','sun'], 'boolean'],
-            [['course_id'], 'exist', 'targetClass' => Course::class, 'targetAttribute' => ['course_id' => 'id']],
+            [['location_id'], 'exist', 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
+            [['course_id'], 'exist', 'targetClass' => CourseNode::class, 'targetAttribute' => ['course_id' => 'id']],
             [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id']],
         ];
     }
@@ -64,19 +66,25 @@ class LessonFormat extends ActiveRecord
             'fri' => Yii::t('app', 'Friday'),
             'sat' => Yii::t('app', 'Saturday'),
             'sun' => Yii::t('app', 'Sunday'),
-            'location' => Yii::t('app', 'Location'),
+            'location_id' => Yii::t('app', 'Location'),
+            'location_custom' => Yii::t('app', 'Location (custom)'),
             'show_price' => Yii::t('app', 'Show price'),
         ];
     }
 
     public function getCourse(): ActiveQuery
     {
-        return $this->hasOne(Course::class, ['id' => 'course_id']);
+        return $this->hasOne(CourseNode::class, ['id' => 'course_id']);
     }
 
     public function getTeacher(): ActiveQuery
     {
         return $this->hasOne(Teacher::class, ['id' => 'teacher_id']);
+    }
+
+    public function getLocation(): ActiveQuery
+    {
+        return $this->hasOne(Location::class, ['id' => 'location_id']);
     }
 
     public function beforeValidate(): bool
@@ -85,7 +93,7 @@ class LessonFormat extends ActiveRecord
             return false;
         }
         $user = Yii::$app->user->identity ?? null;
-        if ($user instanceof Teacher && !$user->admin) {
+        if ($user instanceof Teacher && !$user->is_admin) {
             if ($this->isNewRecord) {
                 // Non-admin teachers can only create formats for themselves (teacher_id) and for the
                 // current course context (controller enforces course_id); enforce here as well.

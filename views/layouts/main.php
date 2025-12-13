@@ -65,7 +65,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             <div class="me-auto sub-header-links">
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Profile')) ?></a></span>
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/messages']) ?>"><?= Html::encode(Yii::t('app', 'Messages')) ?></a></span>
-                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->admin): ?>
+                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin): ?>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['course/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></a></span>
                 <?php else: ?>

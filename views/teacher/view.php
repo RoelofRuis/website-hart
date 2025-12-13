@@ -25,9 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-9">
             <h1 class="mb-1"><?= Html::encode($model->full_name) ?></h1>
-            <?php if ($model->getCourseType()->exists()): ?>
-                <div class="text-muted mb-3"><?= Html::encode($model->getCourseType()->one()->name) ?></div>
-            <?php endif; ?>
             <div class="lead">
                 <?php
                 $html = Markdown::process($model->description ?? '', 'gfm');
@@ -52,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-7">
             <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h3>
             <div class="row">
-                <?php foreach ($model->getCourses()->all() as $course): ?>
+                <?php foreach ($model->getTaughtCourses()->all() as $course): ?>
                     <div class="col-md-12 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
@@ -69,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
                 <?php endforeach; ?>
-                <?php if (!$model->getCourses()->exists()): ?>
+                <?php if (!$model->getTaughtCourses()->exists()): ?>
                     <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No courses assigned yet.')) ?></div>
                 <?php endif; ?>
             </div>

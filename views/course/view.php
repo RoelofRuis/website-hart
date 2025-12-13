@@ -1,8 +1,8 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var app\models\Course $model */
-/** @var app\models\CourseSignup $signup */
+/** @var app\models\CourseNode $model */
+/** @var app\models\ContactMessage $contact */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -52,12 +52,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p class="text-muted mb-4"><?= Html::encode(Yii::t('app', 'Fill in the form and we will contact you soon.')) ?></p>
 
                     <?php $form = ActiveForm::begin(['id' => 'course-signup-form']); ?>
-                        <?= $form->field($signup, 'course_id')->hiddenInput()->label(false) ?>
-                        <?= $form->field($signup, 'age')->input('number', ['min' => 0, 'max' => 130]) ?>
-                        <?= $form->field($signup, 'contact_name')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($signup, 'email')->input('email') ?>
-                        <?= $form->field($signup, 'telephone')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($signup, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
+                        <?= $form->field($contact, 'age')->input('number', ['min' => 0, 'max' => 100]) ?>
+                        <?= $form->field($contact, 'name')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($contact, 'email')->input('email') ?>
+                        <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
 
                         <div class="d-grid">
                             <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'btn btn-primary']) ?>

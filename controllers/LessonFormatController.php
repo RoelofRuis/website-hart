@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Course;
+use app\models\CourseNode;
 use app\models\LessonFormat;
 use app\models\Teacher;
 use Yii;
@@ -30,7 +30,7 @@ class LessonFormatController extends Controller
 
     public function actionCreate(int $course_id)
     {
-        $course = Course::findOne($course_id);
+        $course = CourseNode::findOne($course_id);
         if (!$course) {
             throw new NotFoundHttpException('Course not found.');
         }
@@ -41,19 +41,19 @@ class LessonFormatController extends Controller
         // Allow admins, or teachers already linked to this course, to add a lesson option.
         // Linking teachers to courses is admin-only; teachers cannot self-link by creating a format.
         $isLinked = $course->getLessonFormats()->andWhere(['teacher_id' => $current->id])->exists();
-        $allowed = $current->admin || $isLinked;
+        $allowed = $current->is_admin || $isLinked;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }
 
         $model = new LessonFormat([
             'course_id' => $course->id,
-            'teacher_id' => $current->admin ? null : $current->id,
+            'teacher_id' => $current->is_admin ? null : $current->id,
             'show_price' => true,
         ]);
 
         if ($model->load(Yii::$app->request->post())) {
-            if (!$current->admin) {
+            if (!$current->is_admin) {
                 // Prevent spoofing by non-admins
                 $model->course_id = $course->id;
                 $model->teacher_id = $current->id;
@@ -80,13 +80,13 @@ class LessonFormatController extends Controller
         if (!$current instanceof Teacher) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        $allowed = $current->admin || $model->teacher_id === $current->id;
+        $allowed = $current->is_admin || $model->teacher_id === $current->id;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            if (!$current->admin) {
+            if (!$current->is_admin) {
                 // Lock ownership fields for non-admins
                 $model->teacher_id = $current->id;
                 // Do not allow changing course
@@ -114,7 +114,7 @@ class LessonFormatController extends Controller
         if (!$current instanceof Teacher) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        $allowed = $current->admin || $model->teacher_id === $current->id;
+        $allowed = $current->is_admin || $model->teacher_id === $current->id;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }

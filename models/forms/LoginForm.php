@@ -40,7 +40,7 @@ class LoginForm extends Model
             $this->addError($attribute, 'Incorrect email or password.');
             return;
         }
-        if (!$user->active) {
+        if (!$user->is_active) {
             $this->addError($attribute, Yii::t('app', 'Your account is inactive.'));
         }
     }
@@ -52,7 +52,7 @@ class LoginForm extends Model
             if (!$user) {
                 return false;
             }
-            if (!$user->active) {
+            if (!$user->is_active) {
                 // Safety check; should already be caught in validation
                 return false;
             }

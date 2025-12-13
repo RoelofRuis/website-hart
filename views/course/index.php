@@ -1,7 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var app\models\Course[] $courses */
+/** @var app\models\CourseNode[] $courses */
 /** @var string|null $q */
 
 use yii\bootstrap5\Html;

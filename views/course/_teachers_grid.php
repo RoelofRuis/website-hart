@@ -15,9 +15,6 @@ $colClasses = $colClasses ?? 'col-md-6 col-lg-4';
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-2"><?= Html::encode($t->full_name) ?></h5>
-                        <div class="text-muted mb-2">
-                            <?php if ($t->getCourseType()->exists()) echo Html::encode($t->getCourseType()->one()->name); ?>
-                        </div>
                         <?= Html::a(Yii::t('app', 'View teacher'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
                     </div>
                 </div>

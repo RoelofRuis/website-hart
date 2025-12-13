@@ -1,6 +1,6 @@
 <?php
 /** @var yii\web\View $this */
-/** @var app\models\Course $model */
+/** @var app\models\CourseNode $model */
 /** @var array $assignedTeacherIds */
 
 use yii\bootstrap5\Html;

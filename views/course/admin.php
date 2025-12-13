@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="course-admin-index">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></h1>
-        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->admin): ?>
+        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin): ?>
             <?= Html::a(Yii::t('app', 'Create course'), ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?>
     </div>
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('app', 'Teachers'),
                 'value' => function ($model) {
-                    /** @var app\models\Course $model */
+                    /** @var app\models\CourseNode $model */
                     $names = array_map(function ($t) { return $t->full_name; }, $model->teachers);
                     return implode(', ', $names);
                 },
@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\\grid\\ActionColumn',
                 'controller' => 'course',
-                'template' => Yii::$app->user->isGuest || !Yii::$app->user->identity->admin ? '{update}' : '{update} {delete}',
+                'template' => Yii::$app->user->isGuest || !Yii::$app->user->identity->is_admin ? '{update}' : '{update} {delete}',
                 'urlCreator' => function ($action, $model) {
-                    /** @var app\models\Course $model */
+                    /** @var app\models\CourseNode $model */
                     if ($action === 'update') return ['course/update', 'id' => $model->id];
                     if ($action === 'delete') return ['course/delete', 'id' => $model->id];
                     return '#';

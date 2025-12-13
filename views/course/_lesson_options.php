@@ -1,5 +1,5 @@
 <?php
-/** @var app\models\Course $model */
+/** @var app\models\CourseNode $model */
 
 use yii\bootstrap5\Html;
 
@@ -73,7 +73,7 @@ $dayLabels = [
 
                         <?php if (!Yii::$app->user->isGuest) {
                             $identity = Yii::$app->user->identity;
-                            $canEdit = $identity && ($identity->admin || $identity->id === $opt->teacher_id);
+                            $canEdit = $identity && ($identity->is_admin || $identity->id === $opt->teacher_id);
                             if ($canEdit) {
                                 echo Html::a(Yii::t('app', 'Edit'), ['lesson-format/update', 'id' => $opt->id], ['class' => 'btn btn-sm btn-outline-secondary']).' ';
                                 echo Html::a(Yii::t('app', 'Delete'), ['lesson-format/delete', 'id' => $opt->id], [

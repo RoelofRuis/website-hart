@@ -2,9 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\Course;
-use app\models\CourseSignup;
-use app\models\Teacher;
+use app\models\ContactMessage;
+use app\models\CourseNode;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -28,7 +27,7 @@ class CourseController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function () {
-                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->admin;
+                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                         },
                     ],
                 ],
@@ -39,7 +38,7 @@ class CourseController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = Course::find();
+        $query = CourseNode::find();
         if ($q !== null && $q !== '') {
             $query->andFilterWhere(['or',
                 ['ILIKE', 'name', $q],
@@ -67,21 +66,20 @@ class CourseController extends Controller
 
     public function actionView($slug = null)
     {
-        $model = Course::findBySlug($slug);
+        $model = CourseNode::findBySlug($slug);
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
-        $signup = new CourseSignup();
-        $signup->course_id = $model->id;
+        $contact = new ContactMessage();
 
-        if ($signup->load(Yii::$app->request->post()) && $signup->save()) {
+        if ($contact->load(Yii::$app->request->post()) && $contact->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Thanks! Your signup has been received.'));
             return $this->refresh();
         }
 
         return $this->render('view', [
             'model' => $model,
-            'signup' => $signup,
+            'signup' => $contact,
         ]);
     }
 
@@ -93,9 +91,9 @@ class CourseController extends Controller
         }
 
         // Admins see all courses; teachers see only their linked courses
-        $query = $current->admin
-            ? Course::find()
-            : $current->getCourses();
+        $query = $current->is_admin
+            ? CourseNode::find()
+            : $current->getTaughtCourses();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query->orderBy(['name' => SORT_ASC]),
@@ -109,7 +107,7 @@ class CourseController extends Controller
 
     public function actionCreate()
     {
-        $model = new Course();
+        $model = new CourseNode();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Course created successfully.'));
@@ -124,12 +122,12 @@ class CourseController extends Controller
 
     public function actionUpdate(int $id)
     {
-        $model = Course::findOne($id);
+        $model = CourseNode::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
         $current = Yii::$app->user->identity;
-        $isAdmin = $current && $current->admin;
+        $isAdmin = $current && $current->is_admin;
 
         if (!$isAdmin) {
             // Only teachers linked to this course can edit it (limited fields)
@@ -141,7 +139,7 @@ class CourseController extends Controller
                 throw new NotFoundHttpException('Not allowed.');
             }
             // Limit editable attributes for teachers
-            $model->setScenario(\app\models\Course::SCENARIO_TEACHER_UPDATE);
+            $model->setScenario(\app\models\CourseNode::SCENARIO_TEACHER_UPDATE);
         }
 
         // Prepare editable lesson formats for the subform
@@ -236,7 +234,7 @@ class CourseController extends Controller
 
     public function actionDelete(int $id)
     {
-        $model = Course::findOne($id);
+        $model = CourseNode::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }

@@ -5,12 +5,10 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use yii\helpers\ArrayHelper;
-use app\models\CourseType;
 use app\widgets\MarkdownEditor;
 use app\widgets\ImageUploadField;
 
-$allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_picture','description','course_type_id'];
+$allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_picture','description'];
 
 ?>
 
@@ -37,11 +35,6 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
         ],
     ])
 ?>
-
-<?= $form->field($model, 'course_type_id')->dropDownList(
-    ArrayHelper::map(CourseType::find()->all(), 'id', 'name'),
-    ['prompt' => Yii::t('app', 'Select Course Type')]
-) ?>
 
 <?php if (in_array('admin', $allAttributes, true)) : ?>
     <?= $form->field($model, 'admin')->checkbox() ?>

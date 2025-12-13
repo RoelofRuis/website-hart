@@ -4,7 +4,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 /** @var app\models\LessonFormat $model */
-/** @var app\models\Course $course */
+/** @var app\models\CourseNode $course */
 
 $frequencies = [
     'weekly' => Yii::t('app', 'Weekly'),
