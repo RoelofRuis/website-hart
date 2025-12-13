@@ -64,5 +64,9 @@ return [
     <p>
         Matthijs Tuijn, secretaris van Hart Muziekschool, is in die hoedanigheid aangesteld als functionaris voor de Gegevensbescherming: info@hartmuziekschool.nl.
     </p>'
+    ],
+    [
+        'key' => 'locations',
+        'content' => 'Vereniging HART Muziekschool is gevestigd op verschillende adressen.',
     ]
 ];

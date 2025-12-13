@@ -1,21 +1,21 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var Location[] $locations */
+/** @var StaticContent $content */
 
+use app\models\Location;
+use app\models\StaticContent;
 use yii\bootstrap5\Html;
+use yii\helpers\HtmlPurifier;
 
 $this->title = Yii::t('app', 'Locations');
 ?>
 <div class="site-static">
     <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
-    <p>
-        Placeholder content
-    </p>
-    <p class="text-muted">
-        Placeholder content
-    </p>
-
-    <ul class="list-unstyled">
-        Placeholder content
-    </ul>
+    <p><?= HtmlPurifier::process($content->content); ?></p>
+    <?php foreach ($locations as $location): ?>
+    <h5><?= Html::encode($location->name) ?></h5>
+    <p><i><?= Html::encode($location->address) ?></i></p>
+    <?php endforeach; ?>
 </div>

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\forms\LoginForm;
 use app\models\forms\ContactForm;
+use app\models\Location;
 use app\models\StaticContent;
 use Yii;
 use yii\filters\AccessControl;
@@ -44,43 +45,38 @@ class SiteController extends Controller
 
     public function actionCopyright()
     {
-        $content = StaticContent::findByKey('copyright');
-
         return $this->render('copyright', [
-            'content' => $content,
+            'content' => StaticContent::findByKey('copyright'),
         ]);
     }
 
     public function actionAssociation()
     {
-        $content = StaticContent::findByKey('association');
-
         return $this->render('association', [
-            'content' => $content,
+            'content' => StaticContent::findByKey('association'),
         ]);
     }
 
     public function actionContact()
     {
-        $content = StaticContent::findByKey('contact');
-
         return $this->render('contact', [
-            'content' => $content,
+            'content' => StaticContent::findByKey('contact'),
         ]);
     }
 
     public function actionAvg()
     {
-        $content = StaticContent::findByKey('privacy');
-
         return $this->render('avg', [
-            'content' => $content,
+            'content' => StaticContent::findByKey('privacy'),
         ]);
     }
 
     public function actionLocations()
     {
-        return $this->render('locations');
+        return $this->render('locations', [
+            'locations' => Location::find()->all(),
+            'content' => StaticContent::findByKey('locations'),
+        ]);
     }
 
     public function actionContactSubmit(): Response
