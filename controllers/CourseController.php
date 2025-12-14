@@ -38,21 +38,20 @@ class CourseController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = CourseNode::find();
+        $query = CourseNode::find()
+            ->where(['is_taught' => true]);
+
         if ($q !== null && $q !== '') {
             $query->andFilterWhere(['or',
                 ['ILIKE', 'name', $q],
                 ['ILIKE', 'description', $q],
                 ['ILIKE', 'short_description', $q],
-            ]);
-            // Prefer name matches over description matches (and prefix matches first)
-            $query->orderBy(new Expression(
-                "CASE WHEN name ILIKE :qprefix THEN 0 WHEN name LIKE :qany THEN 1 ELSE 2 END, name ASC"
-            ))
-            ->addParams([
-                ':qprefix' => $q . '%',
-                ':qany' => '%' . $q . '%',
-            ]);
+            ])
+                ->orderBy(new Expression("CASE WHEN name ILIKE :qprefix THEN 0 WHEN name LIKE :qany THEN 1 ELSE 2 END, name ASC"))
+                ->addParams([
+                    ':qprefix' => $q . '%',
+                    ':qany' => '%' . $q . '%',
+                ]);
         } else {
             $query->orderBy(['name' => SORT_ASC]);
         }
@@ -79,7 +78,7 @@ class CourseController extends Controller
 
         return $this->render('view', [
             'model' => $model,
-            'signup' => $contact,
+            'contact' => $contact,
         ]);
     }
 

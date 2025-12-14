@@ -11,7 +11,7 @@ class m251201_000002_search extends Migration
 
         $this->execute("
             ALTER TABLE {{%teacher}} ADD COLUMN search_vector tsvector GENERATED ALWAYS AS (
-                setweight(to_tsvector('simple', COALESCE(full_name, '')), 'A') ||
+                setweight(to_tsvector('dutch', COALESCE(full_name, '')), 'A') ||
                 setweight(to_tsvector('dutch', COALESCE(description, '')), 'C')
             ) STORED
         ");
@@ -20,7 +20,7 @@ class m251201_000002_search extends Migration
 
         $this->execute("
             ALTER TABLE {{%course_node}} ADD COLUMN search_vector tsvector GENERATED ALWAYS AS (
-                setweight(to_tsvector('simple', COALESCE(name, '')), 'A') ||
+                setweight(to_tsvector('dutch', COALESCE(name, '')), 'A') ||
                 setweight(to_tsvector('dutch', COALESCE(summary, '')), 'B') ||
                 setweight(to_tsvector('dutch', COALESCE(description, '')), 'C')
             ) STORED
@@ -30,7 +30,7 @@ class m251201_000002_search extends Migration
 
         $this->execute("
             ALTER TABLE {{%static_content}} ADD COLUMN search_vector tsvector GENERATED ALWAYS AS (
-                setweight(to_tsvector('dutch', COALESCE(key, '')), 'B')
+                setweight(to_tsvector('dutch', COALESCE(content, '')), 'B')
             ) STORED
         ");
 

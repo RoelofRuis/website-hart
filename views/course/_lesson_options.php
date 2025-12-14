@@ -67,7 +67,7 @@ $dayLabels = [
                         </div>
                         <?php if (!empty($opt->location)): ?>
                             <div class="small text-muted mb-2">
-                                <?= Html::encode(Yii::t('app', 'Location')) ?>: <?= Html::encode($opt->location) ?>
+                                <?= Html::encode(Yii::t('app', 'Location')) ?>: <?= Html::encode($opt->location->name) ?>
                             </div>
                         <?php endif; ?>
 
