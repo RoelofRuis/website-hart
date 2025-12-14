@@ -34,3 +34,7 @@ To get the database in the correct state, run the migrations.
 ### Loading fixtures
 Loading fixtures seeds the database with some demo data.
 ```./yii fixture --globalFixtures [] '*'```
+
+### Extracting translations
+Extract translations from the source code, then add the required translations to the translation files.
+```./yii message/extract messages/extract.php```

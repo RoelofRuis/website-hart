@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string|null $cover_image URL to the cover image
  * @property string|null $summary
  * @property string|null $description
+ * @property bool $is_taught
  */
 class CourseNode extends ActiveRecord
 {
@@ -27,8 +28,9 @@ class CourseNode extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'slug'], 'required'],
+            [['name', 'slug', 'is_taught'], 'required'],
             [['description'], 'string'],
+            [['is_taught'], 'boolean'],
             [['summary'], 'string'],
             [['name', 'slug'], 'string', 'max' => 150],
             [['cover_image'], 'string', 'max' => 255],
@@ -45,6 +47,7 @@ class CourseNode extends ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),
+            'is_taught' => Yii::t('app', 'Is taught'),
         ];
     }
 
