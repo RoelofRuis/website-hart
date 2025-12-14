@@ -22,7 +22,7 @@ class m251201_000001_domain extends Migration
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
             'password_hash' => $this->string()->notNull(),
-            'auth_key' => $this->string(32)->notNull(),
+            'auth_key' => $this->string(32),
             'is_admin' => $this->boolean()->notNull()->defaultValue(false),
             'is_active' => $this->boolean()->notNull()->defaultValue(true),
             'last_login' => $this->dateTime()->null(),

@@ -1,5 +1,54 @@
 <?php
 
 return [
-
+    [
+        'id' => 1,
+        'parent_id' => null,
+        'name' => 'Instrumenten & Zang',
+        'slug' => 'instrumenten-zang',
+        'cover_image' => null,
+        'summary' => null,
+        'description' => null,
+        'is_taught' => false,
+    ],
+    [
+        'id' => 2,
+        'parent_id' => null,
+        'name' => 'Samenspel & Koren',
+        'slug' => 'samenspel-koren',
+        'cover_image' => null,
+        'summary' => null,
+        'description' => null,
+        'is_taught' => false,
+    ],
+    [
+        'id' => 3,
+        'parent_id' => null,
+        'name' => 'Kindercursussen',
+        'slug' => 'kindercursussen',
+        'cover_image' => null,
+        'summary' => null,
+        'description' => null,
+        'is_taught' => false,
+    ],
+    [
+        'id' => 4,
+        'parent_id' => null,
+        'name' => 'Compositie',
+        'slug' => 'compositie',
+        'cover_image' => null,
+        'summary' => null,
+        'description' => null,
+        'is_taught' => true,
+    ],
+    [
+        'id' => 5,
+        'parent_id' => null,
+        'name' => 'Muziektheorie',
+        'slug' => 'muziektheorie',
+        'cover_image' => null,
+        'summary' => null,
+        'description' => null,
+        'is_taught' => true,
+    ],
 ];

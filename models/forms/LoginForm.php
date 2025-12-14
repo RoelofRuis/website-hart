@@ -3,6 +3,7 @@
 namespace app\models\forms;
 
 use app\models\Teacher;
+use DateTime;
 use Yii;
 use yii\base\Model;
 
@@ -57,8 +58,7 @@ class LoginForm extends Model
                 return false;
             }
             if (Yii::$app->user->login($user)) {
-                $user->last_login = time();
-                $user->save(false, ['last_login']);
+                $user->updateAttributes(['last_login' => new DateTime()]);
                 return true;
             }
         }

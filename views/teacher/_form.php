@@ -36,11 +36,11 @@ $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_pi
     ])
 ?>
 
-<?php if (in_array('admin', $allAttributes, true)) : ?>
-    <?= $form->field($model, 'admin')->checkbox() ?>
+<?php if (in_array('is_admin', $allAttributes, true)) : ?>
+    <?= $form->field($model, 'is_admin')->checkbox() ?>
 <?php endif; ?>
-<?php if (in_array('active', $allAttributes, true)) : ?>
-    <?= $form->field($model, 'active')->checkbox() ?>
+<?php if (in_array('is_active', $allAttributes, true)) : ?>
+    <?= $form->field($model, 'is_active')->checkbox() ?>
 <?php endif; ?>
 
 <div class="form-group">

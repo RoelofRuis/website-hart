@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'slug',
             'email:email',
             [
-                'attribute' => 'admin',
+                'attribute' => 'is_admin',
                 'format' => 'boolean',
             ],
             [

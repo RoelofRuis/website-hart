@@ -1,7 +1,9 @@
 <?php
 
 use app\components\Storage;
+use app\extended\Schema;
 use yii\caching\FileCache;
+use yii\db\Connection;
 use yii\log\FileTarget;
 use yii\symfonymailer\Mailer;
 
@@ -24,11 +26,14 @@ return [
         'class' => FileCache::class,
     ],
     'db' => [
-        'class' => 'yii\db\Connection',
+        'class' => Connection::class,
         'dsn' => sprintf('pgsql:host=%s;port=%s;dbname=%s', $host, $port, $dbname),
         'username' => $user,
         'password' => $pass,
         'charset' => 'utf8',
+        'schemaMap' => [
+            'pgsql' => Schema::class,
+        ]
     ],
     'mailer' => [
         'class' => Mailer::class,

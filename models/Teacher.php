@@ -18,7 +18,7 @@ use Yii;
  * @property string $telephone
  * @property string $profile_picture
  * @property string $password_hash
- * @property string $auth_key
+ * @property string|null $auth_key
  * @property bool $is_admin
  * @property bool $is_active
  * @property DateTime|null $last_login
@@ -44,7 +44,6 @@ class Teacher extends ActiveRecord implements IdentityInterface
             [['profile_picture'], 'string', 'max' => 255],
             [['is_admin'], 'boolean'],
             [['is_active'], 'boolean'],
-            [['last_login'], 'integer'],
             [['slug'], 'unique'],
         ];
     }
