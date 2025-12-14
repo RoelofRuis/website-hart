@@ -5,6 +5,7 @@
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use app\widgets\LargeSearchWidget;
+use app\widgets\CourseSelectionWidget;
 
 $this->title = 'Vereniging HART Muziekschool'
 ?>
@@ -31,25 +32,9 @@ $this->title = 'Vereniging HART Muziekschool'
     </section>
 
     <div class="body-content mt-5">
-        <div class="row text-center">
-            <div class="col-md-4 mb-4">
-                <div class="p-4 h-100 shadow-sm border rounded-3">
-                    <h3 class="mb-2"><?= Html::encode(Yii::t('app', 'Expert Teachers')) ?></h3>
-                    <p><?= Html::encode(Yii::t('app', 'Learn from experienced musicians passionate about sharing their craft.')) ?></p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="p-4 h-100 shadow-sm border rounded-3">
-                    <h3 class="mb-2"><?= Html::encode(Yii::t('app', 'All Levels')) ?></h3>
-                    <p><?= Html::encode(Yii::t('app', 'From beginners to advanced students, find the right course for you.')) ?></p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="p-4 h-100 shadow-sm border rounded-3">
-                    <h3 class="mb-2"><?= Html::encode(Yii::t('app', 'Community')) ?></h3>
-                    <p><?= Html::encode(Yii::t('app', 'Join a vibrant local community with ensembles, workshops, and concerts.')) ?></p>
-                </div>
-            </div>
-        </div>
+        <?= CourseSelectionWidget::widget([
+            'limit' => 6,
+            'heading' => Yii::t('app', 'Available Courses'),
+        ]) ?>
     </div>
 </div>

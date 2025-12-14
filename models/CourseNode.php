@@ -68,8 +68,7 @@ class CourseNode extends ActiveRecord
 
     public function getLessonFormats(): ActiveQuery
     {
-        return $this->hasMany(LessonFormat::class, ['course_id' => 'id'])
-            ->orderBy(['teacher_id' => SORT_ASC, 'persons_per_lesson' => SORT_ASC]);
+        return $this->hasMany(LessonFormat::class, ['course_id' => 'id']);
     }
 
     public static function findBySlug(string $slug): ?self
