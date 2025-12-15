@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'slug',
             [
-                'label' => Yii::t('app', 'Teachers'),
+                'label' => Yii::t('app', 'Linked Teachers'),
                 'value' => function ($model) {
                     /** @var app\models\CourseNode $model */
                     $names = array_map(function ($t) { return $t->full_name; }, $model->teachers);

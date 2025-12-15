@@ -17,7 +17,7 @@ class LessonFormatController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete', 'admin'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -26,6 +26,25 @@ class LessonFormatController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionAdmin()
+    {
+        /** @var Teacher $current */
+        $current = Yii::$app->user->identity;
+
+        if (!$current) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $formats = $current->getLessonFormats()->with('course')->all();
+        $linked_courses = $current->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
+
+        return $this->render('admin', [
+            'teacher' => $current,
+            'formats' => $formats,
+            'linkedCourses' => $linked_courses,
+        ]);
     }
 
     public function actionCreate(int $course_id)
@@ -59,8 +78,8 @@ class LessonFormatController extends Controller
                 $model->teacher_id = $current->id;
             }
             if ($model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option created.'));
-            return $this->redirect(['course/view', 'slug' => $course->slug]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option created.'));
+                return $this->redirect(['course/view', 'slug' => $course->slug]);
             }
         }
 
@@ -93,8 +112,8 @@ class LessonFormatController extends Controller
                 $model->course_id = $model->getOldAttribute('course_id');
             }
             if ($model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option updated.'));
-            return $this->redirect(['course/view', 'slug' => $model->course->slug]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option updated.'));
+                return $this->redirect(['course/view', 'slug' => $model->course->slug]);
             }
         }
 

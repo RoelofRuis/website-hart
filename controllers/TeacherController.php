@@ -19,16 +19,16 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update', 'signups', 'messages', 'lesson-formats', 'admin', 'create', 'delete'],
+                'only' => ['update', 'signups', 'messages', 'create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'signups', 'messages', 'lesson-formats'],
+                        'actions' => ['update', 'signups', 'messages'],
                         'roles' => ['@'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['admin', 'create', 'delete'],
+                        'actions' => ['create', 'delete'],
                         'roles' => ['@'],
                         'matchCallback' => function () {
                             return !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
@@ -177,40 +177,6 @@ class TeacherController extends Controller
 
         return $this->render('messages', [
             'items' => $items,
-        ]);
-    }
-
-    public function actionLessonFormats()
-    {
-        /** @var Teacher $current */
-        $current = Yii::$app->user->identity;
-
-        if (!$current) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-
-        // Fetch teacher's lesson formats with related course for display
-        $formats = $current->getLessonFormats()->with('course')->all();
-        // Courses this teacher is linked to (allowed to add formats to)
-        $linkedCourses = $current->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
-
-        return $this->render('lesson-formats', [
-            'teacher' => $current,
-            'formats' => $formats,
-            'linkedCourses' => $linkedCourses,
-        ]);
-    }
-
-    public function actionAdmin()
-    {
-        // Admin overview list for quick management
-        $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find()->orderBy(['full_name' => SORT_ASC]),
-            'pagination' => ['pageSize' => 20],
-        ]);
-
-        return $this->render('admin', [
-            'dataProvider' => $dataProvider,
         ]);
     }
 

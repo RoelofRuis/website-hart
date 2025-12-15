@@ -165,4 +165,5 @@ return [
     'people' => 'personen',
     'per person' => 'per persoon',
     '{n} selected' => '{n} geselecteerd',
+    'Linked Teachers' => 'Gekoppelde docenten',
 ];

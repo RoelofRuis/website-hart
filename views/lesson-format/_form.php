@@ -14,7 +14,13 @@ $frequencies = [
 
 $form = ActiveForm::begin();
 echo $form->field($model, 'course_id')->hiddenInput()->label(false);
-echo $form->field($model, 'teacher_id')->hiddenInput()->label(false);
+
+// Store the teacher in a hidden field for non-admin teachers only.
+// Admins should not get a hidden teacher field here (they need a different flow to select a teacher),
+// while non-admins are locked server-side to themselves.
+if (!Yii::$app->user->isGuest && Yii::$app->user->identity && !Yii::$app->user->identity->is_admin) {
+    echo $form->field($model, 'teacher_id')->hiddenInput()->label(false);
+}
 echo $form->field($model, 'persons_per_lesson')->input('number', ['min' => 1]);
 echo $form->field($model, 'duration_minutes')->input('number', ['min' => 15, 'step' => 5]);
 echo $form->field($model, 'weeks_per_year')->input('number', ['min' => 1, 'max' => 52]);

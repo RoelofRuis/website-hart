@@ -66,13 +66,13 @@ class Teacher extends ActiveRecord implements IdentityInterface
 
     public function getAccessibleCourses(): ActiveQuery
     {
-        return $this->hasMany(CourseNode::class, ['id' => 'course_id'])
+        return $this->hasMany(CourseNode::class, ['id' => 'course_node_id'])
             ->viaTable('{{%course_node_teacher}}', ['teacher_id' => 'id']);
     }
 
     public function getTaughtCourses(): ActiveQuery
     {
-        return $this->hasMany(CourseNode::class, ['id' => 'course_id'])
+        return $this->hasMany(CourseNode::class, ['id' => 'course_node_id'])
             ->viaTable(LessonFormat::tableName(), ['teacher_id' => 'id'])
             ->distinct();
     }
