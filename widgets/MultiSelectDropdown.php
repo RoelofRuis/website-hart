@@ -61,6 +61,7 @@ class MultiSelectDropdown extends Widget
             'buttonClass' => $this->buttonClass,
             'buttonLabel' => $buttonLabel,
             'encodeLabels' => $this->encodeLabels,
+            'placeholder' => $this->placeholder,
         ]);
     }
 }

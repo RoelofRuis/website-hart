@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ContactMessage;
 use app\models\CourseNode;
+use app\models\Teacher;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -107,15 +108,25 @@ class CourseController extends Controller
     public function actionCreate()
     {
         $model = new CourseNode();
+        $request = Yii::$app->request;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load($request->post()) && $model->save()) {
+            // Only admins can assign teachers during create
+            $current = Yii::$app->user->identity;
+            if ($current && $current->is_admin) {
+                $teacherIds = $request->post('teacherIds', []);
+                $this->syncCourseTeachers($model->id, $teacherIds);
+            }
+
             Yii::$app->session->setFlash('success', Yii::t('app', 'Course created successfully.'));
             return $this->redirect(['admin']);
         }
 
+        $assigned = (array)$request->post('teacherIds', []);
+
         return $this->render('create', [
             'model' => $model,
-            'assignedTeacherIds' => [],
+            'assignedTeacherIds' => $assigned,
         ]);
     }
 
@@ -130,7 +141,7 @@ class CourseController extends Controller
 
         if (!$isAdmin) {
             // Only teachers linked to this course can edit it (limited fields)
-            if (!$current instanceof \app\models\Teacher) {
+            if (!$current instanceof Teacher) {
                 throw new NotFoundHttpException('Not allowed.');
             }
             $linkedTeacherIds = $model->getTeachers()->select('id')->column();
@@ -138,10 +149,16 @@ class CourseController extends Controller
                 throw new NotFoundHttpException('Not allowed.');
             }
             // Limit editable attributes for teachers
-            $model->setScenario(\app\models\CourseNode::SCENARIO_TEACHER_UPDATE);
+            $model->setScenario(CourseNode::SCENARIO_TEACHER_UPDATE);
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $request = Yii::$app->request;
+        if ($model->load($request->post()) && $model->save()) {
+            if ($isAdmin) {
+                $teacherIds = $request->post('teacherIds', []);
+                $this->syncCourseTeachers($model->id, $teacherIds);
+            }
+
             Yii::$app->session->setFlash('success', Yii::t('app', 'Course updated successfully.'));
             if ($isAdmin) {
                 return $this->redirect(['admin']);
@@ -149,12 +166,56 @@ class CourseController extends Controller
             return $this->redirect(['course/view', 'slug' => $model->slug]);
         }
 
-        $assigned = $model->getTeachers()->select('id')->column();
+        // If form posted but validation failed, keep posted teacherIds for preselection
+        $assigned = $isAdmin
+            ? (array)$request->post('teacherIds', $model->getTeachers()->select('id')->column())
+            : $model->getTeachers()->select('id')->column();
 
         return $this->render('update', [
             'model' => $model,
             'assignedTeacherIds' => $assigned,
         ]);
+    }
+
+    /**
+     * Synchronize teacher relations for a course using the pivot table course_node_teacher.
+     * Only integer IDs are considered; non-existing teachers are ignored by FK constraints.
+     */
+    private function syncCourseTeachers(int $courseId, array $teacherIds): void
+    {
+        // Normalize and de-duplicate IDs
+        $teacherIds = array_values(array_unique(array_map('intval', $teacherIds)));
+
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+        try {
+            // Remove existing links
+            $db->createCommand()
+                ->delete('{{%course_node_teacher}}', ['course_node_id' => $courseId])
+                ->execute();
+
+            // Insert new links
+            if (!empty($teacherIds)) {
+                $rows = [];
+                foreach ($teacherIds as $tid) {
+                    if ($tid > 0) {
+                        $rows[] = [$courseId, $tid];
+                    }
+                }
+                if (!empty($rows)) {
+                    $db->createCommand()
+                        ->batchInsert('{{%course_node_teacher}}', ['course_node_id', 'teacher_id'], $rows)
+                        ->execute();
+                }
+            }
+
+            $transaction->commit();
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            Yii::error('Failed to sync course teachers: ' . $e->getMessage(), __METHOD__);
+            // Re-throw to let the controller show an error if needed
+            throw $e;
+        }
     }
 
     public function actionDelete(int $id)

@@ -19,11 +19,11 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update', 'signups', 'messages', 'admin', 'create', 'delete'],
+                'only' => ['update', 'signups', 'messages', 'lesson-formats', 'admin', 'create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'signups', 'messages'],
+                        'actions' => ['update', 'signups', 'messages', 'lesson-formats'],
                         'roles' => ['@'],
                     ],
                     [
@@ -177,6 +177,27 @@ class TeacherController extends Controller
 
         return $this->render('messages', [
             'items' => $items,
+        ]);
+    }
+
+    public function actionLessonFormats()
+    {
+        /** @var Teacher $current */
+        $current = Yii::$app->user->identity;
+
+        if (!$current) {
+            throw new NotFoundHttpException('Teacher not found.');
+        }
+
+        // Fetch teacher's lesson formats with related course for display
+        $formats = $current->getLessonFormats()->with('course')->all();
+        // Courses this teacher is linked to (allowed to add formats to)
+        $linkedCourses = $current->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
+
+        return $this->render('lesson-formats', [
+            'teacher' => $current,
+            'formats' => $formats,
+            'linkedCourses' => $linkedCourses,
         ]);
     }
 

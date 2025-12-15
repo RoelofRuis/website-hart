@@ -1,5 +1,6 @@
 <?php
 use yii\bootstrap5\Html;
+use yii\helpers\Json;
 
 /**
  * @var yii\web\View $this
@@ -11,16 +12,31 @@ use yii\bootstrap5\Html;
  * @var string $buttonClass
  * @var string $buttonLabel
  * @var bool $encodeLabels
+ * @var string $placeholder
  */
 ?>
 <div id="<?= Html::encode($dropdownId) ?>" class="dropdown w-100">
-    <?= Html::button(Html::encode($buttonLabel) . ' ' . Html::tag('span', '', ['class' => 'dropdown-toggle ms-1']), [
-        'class' => $buttonClass,
-        'data-bs-toggle' => 'dropdown',
-        'data-bs-auto-close' => 'outside',
-        'aria-expanded' => 'false',
-        'type' => 'button',
-    ]) ?>
+    <?php
+        $buttonId = $id . '-btn';
+        $labelId = $id . '-label';
+        $dataAttrs = [
+            'data-msd-none' => $placeholder,
+            'data-msd-one' => Yii::t('app', 'One selected'),
+            'data-msd-many' => Yii::t('app', '{n} selected'),
+        ];
+    ?>
+    <?= Html::button(
+        Html::tag('span', Html::encode($buttonLabel), ['id' => $labelId, 'class' => 'msd-label']) . ' ' .
+        Html::tag('span', '', ['class' => 'dropdown-toggle ms-1']),
+        array_merge([
+            'id' => $buttonId,
+            'class' => $buttonClass,
+            'data-bs-toggle' => 'dropdown',
+            'data-bs-auto-close' => 'outside',
+            'aria-expanded' => 'false',
+            'type' => 'button',
+        ], $dataAttrs)
+    ) ?>
 
     <div class="dropdown-menu p-3 w-100" style="max-height: 320px; overflow:auto;">
         <?php if (empty($items)): ?>
@@ -45,3 +61,46 @@ use yii\bootstrap5\Html;
         <?php endif; ?>
     </div>
 </div>
+
+<?php
+// Vanilla JS to update the button label when items are selected/deselected
+$js = <<<JS
+(function(){
+  var container = document.getElementById({$this->renderDynamic('return ' . Json::htmlEncode($dropdownId) . ';')});
+})();
+JS;
+?>
+<script>
+(function(){
+  var dropdown = document.getElementById(<?= Json::htmlEncode($dropdownId) ?>);
+  if (!dropdown) return;
+  var button = document.getElementById(<?= Json::htmlEncode($buttonId) ?>);
+  var labelSpan = document.getElementById(<?= Json::htmlEncode($labelId) ?>);
+  if (!button || !labelSpan) return;
+
+  var noneLabel = button.getAttribute('data-msd-none') || 'Select...';
+  var oneLabel = button.getAttribute('data-msd-one') || 'One selected';
+  var manyTemplate = button.getAttribute('data-msd-many') || '{n} selected';
+
+  function formatLabel(count) {
+    if (count === 0) return noneLabel;
+    if (count === 1) return oneLabel;
+    return manyTemplate.replace('{n}', String(count));
+  }
+
+  function updateLabel() {
+    var checked = dropdown.querySelectorAll('input[type="checkbox"]:checked');
+    var count = checked.length;
+    labelSpan.textContent = formatLabel(count);
+  }
+
+  dropdown.addEventListener('change', function(e){
+    if (e.target && e.target.matches('input[type="checkbox"]')) {
+      updateLabel();
+    }
+  });
+
+  // Initialize on page load to reflect any pre-selected values
+  updateLabel();
+})();
+</script>
