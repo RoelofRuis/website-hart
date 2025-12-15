@@ -57,8 +57,8 @@ return [
         'name' => 'Piano',
         'slug' => 'piano',
         'cover_image' => null,
-        'summary' => null,
-        'description' => null,
+        'summary' => 'Pianolessen voor beginners en gevorderden.',
+        'description' => 'Werk aan techniek, notenlezen, samenspel, improvisatie en repertoire. Individuele lessen met aandacht voor jouw niveau en muziekstijl. Instromen kan het hele jaar door; lesduur en frequentie in overleg.',
         'is_taught' => true,
     ],
     [
@@ -67,8 +67,8 @@ return [
         'name' => 'Gitaar',
         'slug' => 'gitaar',
         'cover_image' => null,
-        'summary' => null,
-        'description' => null,
+        'summary' => 'Gitaarles voor akoestisch en elektrisch, van akkoorden tot solo.',
+        'description' => 'Leer akkoorden, slag- en tokkeltechniek, tabs/notenschrift en improvisatie. Geschikt voor akoestische en elektrische gitaar. Voor starters en gevorderden; lesinhoud afgestemd op jouw doelen en favoriete muziek.',
         'is_taught' => true,
     ],
     [
@@ -77,8 +77,8 @@ return [
         'name' => 'Het Haarlems Kamerkoor',
         'slug' => 'haarlems-kamerkoor',
         'cover_image' => null,
-        'summary' => null,
-        'description' => null,
+        'summary' => 'Gemengd kamerkoor met uitdagend repertoire in Haarlem.',
+        'description' => 'Het Haarlems Kamerkoor zingt gevarieerd repertoire van renaissance tot hedendaags. We werken aan koorklank, intonatie, uitspraak en interpretatie. Auditie kan van toepassing zijn. Repetities zijn wekelijks en we geven meerdere concerten per jaar.',
         'is_taught' => true,
     ]
 ];

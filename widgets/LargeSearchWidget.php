@@ -2,12 +2,11 @@
 
 namespace app\widgets;
 
+use app\assets\SearchWidgetAsset;
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
-use app\assets\SearchWidgetAsset;
 
 /**
  * Large search widget that queries a server endpoint and injects server-rendered HTML results.
@@ -76,47 +75,18 @@ class LargeSearchWidget extends Widget
         ];
 
         $this->getView()->registerJs("window.HartSearchWidget && window.HartSearchWidget.init(" . Json::htmlEncode($options) . ");");
-
-        $html = [];
-        $html[] = Html::beginTag('div', ['id' => $id, 'class' => 'hart-search-widget my-4']);
-
-        // Form row
-        $html[] = Html::beginTag('form', [
-            'id' => $formId,
-            'class' => 'position-relative',
-            'action' => $this->endpoint,
+        return $this->render('large-search', [
+            'id' => $id,
+            'formId' => $formId,
+            'inputId' => $inputId,
+            'resultsId' => $resultsId,
+            'spinnerId' => $spinnerId,
+            'endpoint' => $this->endpoint,
             'method' => $this->method,
-            'role' => 'search',
+            'paramName' => $this->paramName,
+            'value' => $this->value,
+            'placeholder' => $placeholder,
+            'ariaLabel' => $ariaLabel,
         ]);
-        $html[] = Html::tag('div',
-            Html::input('text', $this->paramName, $this->value ?? '', [
-                'id' => $inputId,
-                'class' => 'form-control form-control-lg py-3 px-4',
-                'placeholder' => $placeholder,
-                'aria-label' => $ariaLabel,
-                'autocomplete' => 'off',
-            ]) .
-            Html::tag('div', '', [
-                'id' => $spinnerId,
-                'class' => 'position-absolute top-50 end-0 translate-middle-y me-3 spinner-border text-secondary d-none',
-                'role' => 'status',
-                'aria-hidden' => 'true',
-                'style' => 'width:1.5rem;height:1.5rem;',
-            ]),
-            ['class' => 'mb-3 position-relative']
-        );
-
-        $html[] = Html::endTag('form');
-
-        // Results container (will be filled with server-rendered HTML)
-        $html[] = Html::tag('div', '', [
-            'id' => $resultsId,
-            'class' => 'hart-search-results',
-            'data-empty' => Yii::t('app', 'Type at least 2 characters to search…'),
-        ]);
-
-        $html[] = Html::endTag('div');
-
-        return implode("\n", $html);
     }
 }

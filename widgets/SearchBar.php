@@ -5,7 +5,6 @@ namespace app\widgets;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Url;
-use yii\bootstrap5\Html;
 
 /**
  * Reusable search bar widget with optional auto-submit on typing (debounced).
@@ -40,26 +39,14 @@ class SearchBar extends Widget
         $inputId = $this->getId() . '-input';
         $formId = $this->getId() . '-form';
         $placeholder = $this->placeholder !== '' ? $this->placeholder : Yii::t('app', 'Search');
-
-        $html = [];
-        $html[] = Html::beginTag('form', [
-            'id' => $formId,
-            'class' => 'row gy-2 gx-2 align-items-center mb-4',
-            'method' => $this->method,
-            'action' => $this->action,
-        ]);
-        $html[] = Html::beginTag('div', ['class' => 'col-sm-10']);
-        $html[] = Html::input('text', $this->paramName, $this->value ?? '', [
-            'id' => $inputId,
-            'class' => 'form-control',
+        return $this->render('search-bar', [
+            'formId' => $formId,
+            'inputId' => $inputId,
             'placeholder' => $placeholder,
+            'value' => $this->value,
+            'paramName' => $this->paramName,
+            'action' => $this->action,
+            'method' => $this->method,
         ]);
-        $html[] = Html::endTag('div');
-        $html[] = Html::beginTag('div', ['class' => 'col-sm-2 d-grid']);
-        $html[] = Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']);
-        $html[] = Html::endTag('div');
-        $html[] = Html::endTag('form');
-
-        return implode("\n", $html);
     }
 }

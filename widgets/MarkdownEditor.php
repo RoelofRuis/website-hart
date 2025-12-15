@@ -2,8 +2,9 @@
 
 namespace app\widgets;
 
-use yii\widgets\InputWidget;
+use app\assets\MarkdownEditorAsset;
 use yii\bootstrap5\Html;
+use yii\widgets\InputWidget;
 
 /**
  * MarkdownEditor widget powered by EasyMDE.
@@ -18,12 +19,10 @@ use yii\bootstrap5\Html;
  */
 class MarkdownEditor extends InputWidget
 {
-    /**
-     * Registers assets and initializes EasyMDE for the textarea input.
-     */
     public function run(): string
     {
-        $this->registerAssets();
+        // Register assets
+        MarkdownEditorAsset::register($this->view);
 
         // Ensure an id exists for the input
         if (!isset($this->options['id'])) {
@@ -35,49 +34,17 @@ class MarkdownEditor extends InputWidget
             $this->options['rows'] = 10;
         }
 
-        $id = $this->options['id'];
-
         $placeholder = $this->options['placeholder'] ?? 'Write here...';
-        $placeholderJs = json_encode('## ' . (string)$placeholder, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        $js = <<<JS
-(function(){
-  var init = function(){
-    var ta = document.getElementById('{$id}');
-    if (!ta || ta._easymde) return;
-    ta._easymde = new EasyMDE({
-      element: ta,
-      spellChecker: false,
-      status: false,
-      placeholder: {$placeholderJs},
-      renderingConfig: { singleLineBreaks: false, codeSyntaxHighlighting: false },
-      autosave: { enabled: false },
-      toolbar: [
-        'bold', 'italic', 'heading', '|', 'unordered-list', 'ordered-list', '|',
-        'link', 'quote', '|', 'preview', 'guide'
-      ]
-    });
-  };
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-JS;
-        $this->view->registerJs($js);
+        // Add data attribute for JS initializer
+        $this->options['data-markdown-editor'] = '1';
+        $this->options['data-placeholder'] = (string)$placeholder;
 
-        return Html::activeTextarea($this->model, $this->attribute, $this->options);
-    }
-
-    private function registerAssets(): void
-    {
-        // Use CDN for simplicity; Yii will prevent duplicate inclusion automatically per page.
-        $this->view->registerCssFile('https://unpkg.com/easymde/dist/easymde.min.css', [
-            'depends' => [\yii\bootstrap5\BootstrapAsset::class],
-        ]);
-        $this->view->registerJsFile('https://unpkg.com/easymde/dist/easymde.min.js', [
-            'depends' => [\yii\web\JqueryAsset::class],
+        // Render via view for cleanliness
+        return $this->render('markdown-editor', [
+            'model' => $this->model,
+            'attribute' => $this->attribute,
+            'options' => $this->options,
         ]);
     }
 }

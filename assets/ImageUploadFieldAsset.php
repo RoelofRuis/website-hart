@@ -4,16 +4,16 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetBundle
+class ImageUploadFieldAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $css = [
-        'css/site.css',
+    public $css = [];
+    public $js = [
+        'js/image-upload-field.js',
     ];
-    public $js = [];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset'
+        'yii\bootstrap5\BootstrapAsset',
     ];
 }
