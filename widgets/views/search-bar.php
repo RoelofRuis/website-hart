@@ -1,4 +1,5 @@
 <?php
+
 use yii\bootstrap5\Html;
 
 /**
@@ -14,13 +15,13 @@ use yii\bootstrap5\Html;
 ?>
 <form id="<?= Html::encode($formId) ?>"
       class="row gy-2 gx-2 align-items-center mb-4"
-      method="<?= Html::encode($method) ?>"
+      method="GET"
       action="<?= Html::encode($action) ?>">
     <div class="col-sm-10">
         <?= Html::input('text', $paramName, $value ?? '', [
-            'id' => $inputId,
-            'class' => 'form-control',
-            'placeholder' => $placeholder,
+                'id' => $inputId,
+                'class' => 'form-control',
+                'placeholder' => $placeholder,
         ]) ?>
     </div>
     <div class="col-sm-2 d-grid">

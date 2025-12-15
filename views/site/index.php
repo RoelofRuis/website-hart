@@ -4,7 +4,7 @@
 
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
-use app\widgets\LargeSearchWidget;
+use app\widgets\SearchWidget;
 use app\widgets\CourseSelectionWidget;
 
 $this->title = 'Vereniging HART Muziekschool'
@@ -15,13 +15,9 @@ $this->title = 'Vereniging HART Muziekschool'
             <h1 class="display-4 fw-bold mb-3"><?= Html::encode(Yii::t('app', 'Welcome to HART Music School')) ?></h1>
             <p class="lead mb-4"><?= Html::encode(Yii::t('app', 'Discover inspiring teachers and courses for every level. Start your musical journey today.')) ?></p>
             <div class="mx-auto" style="max-width: 720px;">
-                <?= LargeSearchWidget::widget([
+                <?= SearchWidget::widget([
                     'endpoint' => Url::to(['search/index']),
                     'placeholder' => Yii::t('app', 'Search courses, teachers, lessons…'),
-                    'value' => Yii::$app->request->get('q'),
-                    'paramName' => 'q',
-                    'debounceMs' => 250,
-                    'method' => 'get',
                 ]) ?>
             </div>
             <div class="d-flex justify-content-center gap-2 mt-3">
@@ -32,9 +28,6 @@ $this->title = 'Vereniging HART Muziekschool'
     </section>
 
     <div class="body-content mt-5">
-        <?= CourseSelectionWidget::widget([
-            'limit' => 6,
-            'heading' => Yii::t('app', 'Available Courses'),
-        ]) ?>
+        <?= CourseSelectionWidget::widget(); ?>
     </div>
 </div>

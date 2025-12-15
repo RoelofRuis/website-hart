@@ -9,10 +9,7 @@ use yii\helpers\Url;
 
 class ContactFormWidget extends Widget
 {
-    /** @var string|null Custom form action URL. Defaults to SiteController contact-submit. */
-    public ?string $action = null;
-
-    /** @var string Heading shown above the form */
+    /** @var string The heading to display above the form */
     public string $heading = '';
 
     public function run(): string

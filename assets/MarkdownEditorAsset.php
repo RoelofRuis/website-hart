@@ -15,8 +15,5 @@ class MarkdownEditorAsset extends AssetBundle
         'https://unpkg.com/easymde/dist/easymde.min.js',
         'js/markdown-editor.js',
     ];
-    public $depends = [
-        'yii\\web\\YiiAsset',
-        'yii\\bootstrap5\\BootstrapAsset',
-    ];
+    public $depends = [];
 }

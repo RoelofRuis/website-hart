@@ -16,10 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="mb-3"><?= Html::encode(Yii::t('app', 'Courses')) ?></h1>
     <?= SearchBar::widget([
         'placeholder' => Yii::t('app', 'Search courses by name or description'),
-        'value' => $q ?? '',
-        'paramName' => 'q',
-        'action' => '',
-        'method' => 'get',
     ]) ?>
     <div id="search-results">
         <?php if (empty($courses)): ?>

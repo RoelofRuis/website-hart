@@ -1,15 +1,15 @@
 <?php
+
+use app\models\CourseNode;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
-use app\models\CourseNode;
 
 /**
  * @var yii\web\View $this
  * @var CourseNode[] $courses
- * @var string $heading
  */
 ?>
-<h2 class="mb-4 text-center"><?= Html::encode($heading) ?></h2>
+<h2 class="mb-4 text-center"><?= Html::encode(Yii::t('app', 'Available Courses')) ?></h2>
 
 <div class="row">
     <?php foreach ($courses as $course): ?>
@@ -17,8 +17,8 @@ use app\models\CourseNode;
             <div class="card h-100 shadow-sm">
                 <?php if (!empty($course->cover_image)): ?>
                     <?= Html::img($course->cover_image, [
-                        'class' => 'card-img-top',
-                        'alt' => Html::encode($course->name),
+                            'class' => 'card-img-top',
+                            'alt' => Html::encode($course->name),
                     ]) ?>
                 <?php endif; ?>
 
@@ -30,7 +30,7 @@ use app\models\CourseNode;
 
                     <div class="mt-auto">
                         <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], [
-                            'class' => 'btn btn-primary mt-auto',
+                                'class' => 'btn btn-primary mt-auto',
                         ]) ?>
                     </div>
                 </div>
@@ -41,6 +41,6 @@ use app\models\CourseNode;
 
 <div class="text-center mt-3">
     <?= Html::a(Yii::t('app', 'Explore all courses'), Url::to(['course/index']), [
-        'class' => 'btn btn-outline-secondary'
+            'class' => 'btn btn-outline-secondary'
     ]) ?>
-  </div>
+</div>

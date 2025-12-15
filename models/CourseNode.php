@@ -75,4 +75,14 @@ class CourseNode extends ActiveRecord
     {
         return static::findOne(['slug' => $slug]);
     }
+
+    public static function findTaughtCourses(): ActiveQuery
+    {
+        return static::find()
+            ->alias('c')
+            ->where(['c.is_taught' => true])
+            ->innerJoinWith('lessonFormats lf', false)
+            ->groupBy('c.id')
+            ->orderBy(['c.name' => SORT_ASC]);
+    }
 }

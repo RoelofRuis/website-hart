@@ -1,4 +1,5 @@
 <?php
+
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
@@ -20,12 +21,12 @@ use yii\bootstrap5\Html;
 
 <h3 class="mt-4 mb-3">
     <?= Html::encode($heading) ?>
-    </h3>
+</h3>
 
 <?php $form = ActiveForm::begin([
-    'id' => $formId,
-    'action' => $action,
-    'method' => 'post',
+        'id' => $formId,
+        'action' => $action,
+        'method' => 'post',
 ]); ?>
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Your name')]) ?>

@@ -9,14 +9,21 @@ use yii\widgets\InputWidget;
 
 class ImageUploadField extends InputWidget
 {
+    /** @var string */
     public string $uploadUrl = '/upload/image';
-    public string $previewClass = 'img-thumbnail rounded';
+
+    /** @var int */
     public int $previewSize = 160;
+
+    public function init()
+    {
+        parent::init();
+
+        ImageUploadFieldAsset::register($this->view);
+    }
 
     public function run(): string
     {
-        ImageUploadFieldAsset::register($this->view);
-
         $id = $this->options['id'] ?? $this->getId();
         $name = Html::getInputName($this->model, $this->attribute);
         $value = Html::getAttributeValue($this->model, $this->attribute);
@@ -36,7 +43,6 @@ class ImageUploadField extends InputWidget
             'hiddenId' => $hiddenId,
             'helpId' => $id . '-help',
             'uploadUrl' => $this->uploadUrl,
-            'previewClass' => $this->previewClass,
             'previewSize' => $this->previewSize,
             'csrfParam' => $csrfParam,
             'csrfToken' => $csrfToken,
