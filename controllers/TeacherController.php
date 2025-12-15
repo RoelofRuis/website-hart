@@ -109,15 +109,15 @@ class TeacherController extends Controller
         $safeAttributes = ['full_name', 'email', 'telephone', 'profile_picture', 'description'];
         if ($current->is_admin) {
             // Admins may also toggle admin/active flags
-            $safeAttributes[] = 'admin';
-            $safeAttributes[] = 'active';
+            $safeAttributes[] = 'is_admin';
+            $safeAttributes[] = 'is_active';
         }
 
         if ($model->load(Yii::$app->request->post())) {
             // Prevent privilege escalation by non-admins
             if (!$current->is_admin) {
-                $model->is_admin = (bool)$model->getOldAttribute('admin');
-                $model->is_active = (bool)$model->getOldAttribute('active');
+                $model->is_admin = (bool)$model->getOldAttribute('is_admin');
+                $model->is_active = (bool)$model->getOldAttribute('is_active');
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
