@@ -7,9 +7,11 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\models\Teacher;
+use app\models\CourseNode;
 use app\widgets\MultiSelectDropdown;
 use app\widgets\MarkdownEditor;
 use app\widgets\ImageUploadField;
+use app\widgets\LockedField;
 
 $current = Yii::$app->user->identity;
 $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
@@ -25,7 +27,18 @@ if ($isAdmin) {
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 <?php if ($isAdmin): ?>
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+    <?= LockedField::widget([
+        'model' => $model,
+        'attribute' => 'slug',
+        'locked' => !$model->isNewRecord, // lock only on update
+        'tooltip' => Yii::t('app', 'Unlock to edit'),
+        'unlockLabel' => Yii::t('app', 'Unlock'),
+        'inputOptions' => [
+            'id' => Html::getInputId($model, 'slug'),
+            'maxlength' => true,
+        ],
+    ]) ?>
+
     <?= $form->field($model, 'cover_image')
         ->widget(ImageUploadField::class, [
             'uploadUrl' => '/upload/image',
@@ -49,6 +62,22 @@ if ($isAdmin) {
 ?>
 
 <?php if ($isAdmin): ?>
+    <?php
+    // Parent course selector (exclude self)
+    $query = CourseNode::find()->orderBy(['name' => SORT_ASC]);
+    if (!$model->isNewRecord) {
+        $query->andWhere(['<>', 'id', $model->id]);
+    }
+    $parentItems = ArrayHelper::map($query->all(), 'id', 'name');
+    ?>
+    <?= $form->field($model, 'parent_id')->dropDownList($parentItems, [
+        'prompt' => Yii::t('app', 'No parent'),
+    ]) ?>
+
+    <div class="mb-3">
+        <?= $form->field($model, 'is_taught')->checkbox() ?>
+    </div>
+
     <div class="mb-3">
         <label class="form-label"><?= Html::encode(Yii::t('app', 'Assign teachers')) ?></label>
         <?= MultiSelectDropdown::widget([

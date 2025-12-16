@@ -44,6 +44,7 @@ class CourseNode extends ActiveRecord
         return [
             'name' => Yii::t('app', 'Name'),
             'slug' => Yii::t('app', 'Slug'),
+            'parent_id' => Yii::t('app', 'Parent course'),
             'description' => Yii::t('app', 'Description'),
             'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),

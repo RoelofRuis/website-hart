@@ -1,22 +1,45 @@
 <?php
-/** @var yii\web\View $this */
-/** @var app\models\Teacher $model */
-/** @var array $safeAttributes */
+/**
+ * @var yii\web\View $this
+ * @var app\models\Teacher $model
+ * @var array $safeAttributes
+ */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use app\widgets\MarkdownEditor;
 use app\widgets\ImageUploadField;
+use app\widgets\LockedField;
+use yii\web\JqueryAsset;
+use yii\web\View;
 
 $allAttributes = $safeAttributes ?? ['full_name','email','telephone','profile_picture','description'];
 
 ?>
 
-<?php $form = ActiveForm::begin(); ?>
+<?php
+// Register unsaved changes helper JS for this form
+$this->registerJsFile('/js/unsaved-changes.js', [
+    'depends' => [JqueryAsset::class],
+    'position' => View::POS_END,
+]);
+?>
+
+<?php $form = ActiveForm::begin(['options' => ['data-unsaved-warning' => '1']]); ?>
 
 <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
 <?php if (in_array('slug', $allAttributes, true)) : ?>
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+    <?= LockedField::widget([
+        'model' => $model,
+        'attribute' => 'slug',
+        'locked' => !$model->isNewRecord, // lock on update for admins
+        'tooltip' => Yii::t('app', 'Unlock to edit'),
+        'unlockLabel' => Yii::t('app', 'Unlock'),
+        'inputOptions' => [
+            'id' => Html::getInputId($model, 'slug'),
+            'maxlength' => true,
+        ],
+    ]) ?>
 <?php endif; ?>
 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true]) ?>

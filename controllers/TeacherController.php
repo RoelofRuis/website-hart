@@ -109,6 +109,7 @@ class TeacherController extends Controller
         $safeAttributes = ['full_name', 'email', 'telephone', 'profile_picture', 'description'];
         if ($current->is_admin) {
             // Admins may also toggle admin/active flags
+            $safeAttributes[] = 'slug';
             $safeAttributes[] = 'is_admin';
             $safeAttributes[] = 'is_active';
         }
@@ -118,6 +119,8 @@ class TeacherController extends Controller
             if (!$current->is_admin) {
                 $model->is_admin = (bool)$model->getOldAttribute('is_admin');
                 $model->is_active = (bool)$model->getOldAttribute('is_active');
+                // Non-admins are not allowed to change their slug
+                $model->slug = (string)$model->getOldAttribute('slug');
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
