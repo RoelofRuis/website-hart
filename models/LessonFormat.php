@@ -2,9 +2,9 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use Yii;
 
 /**
  * @property int $id
@@ -53,7 +53,7 @@ class LessonFormat extends ActiveRecord
             [['price_display_type'], 'string', 'max' => 16],
             [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_PER_PERSON]],
             [['use_custom_location'], 'boolean'],
-            [['mon','tue','wed','thu','fri','sat','sun'], 'boolean'],
+            [['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], 'boolean'],
             [['location_id'], 'exist', 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['course_id'], 'exist', 'targetClass' => CourseNode::class, 'targetAttribute' => ['course_id' => 'id']],
             [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id']],

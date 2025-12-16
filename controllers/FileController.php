@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\Storage;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -10,7 +11,16 @@ use app\models\File;
 
 class FileController extends Controller
 {
+    private Storage $storage;
+
     public $enableCsrfValidation = false;
+
+    public function __construct($id, $module, Storage $storage, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+
+        $this->storage = $storage;
+    }
 
     public function actionView(string $slug)
     {
@@ -20,12 +30,11 @@ class FileController extends Controller
             throw new NotFoundHttpException('File not found');
         }
 
-        $storage = Yii::$app->storage;
-        if (!$storage->fileExists($file->storage_path)) {
+        if (!$this->storage->fileExists($file->storage_path)) {
             throw new NotFoundHttpException('File not found');
         }
 
-        $contents = $storage->read($file->storage_path);
+        $contents = $this->storage->read($file->storage_path);
 
         $response = Yii::$app->response;
         $response->format = Response::FORMAT_RAW;

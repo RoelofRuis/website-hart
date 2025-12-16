@@ -2,17 +2,14 @@
 
 namespace app\widgets;
 
-use Yii;
 use app\assets\ImageUploadFieldAsset;
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
 class ImageUploadField extends InputWidget
 {
-    /** @var string */
     public string $uploadUrl = '/upload/image';
-
-    /** @var int */
     public int $previewSize = 160;
 
     public function init()

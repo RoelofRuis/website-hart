@@ -1,4 +1,5 @@
 <?php
+
 use yii\bootstrap5\Html;
 use yii\helpers\Json;
 
@@ -17,25 +18,25 @@ use yii\helpers\Json;
 ?>
 <div id="<?= Html::encode($dropdownId) ?>" class="dropdown w-100">
     <?php
-        $buttonId = $id . '-btn';
-        $labelId = $id . '-label';
-        $dataAttrs = [
+    $buttonId = $id . '-btn';
+    $labelId = $id . '-label';
+    $dataAttrs = [
             'data-msd-none' => $placeholder,
             'data-msd-one' => Yii::t('app', 'One selected'),
             'data-msd-many' => Yii::t('app', '{n} selected'),
-        ];
+    ];
     ?>
     <?= Html::button(
-        Html::tag('span', Html::encode($buttonLabel), ['id' => $labelId, 'class' => 'msd-label']) . ' ' .
-        Html::tag('span', '', ['class' => 'dropdown-toggle ms-1']),
-        array_merge([
-            'id' => $buttonId,
-            'class' => $buttonClass,
-            'data-bs-toggle' => 'dropdown',
-            'data-bs-auto-close' => 'outside',
-            'aria-expanded' => 'false',
-            'type' => 'button',
-        ], $dataAttrs)
+            Html::tag('span', Html::encode($buttonLabel), ['id' => $labelId, 'class' => 'msd-label']) . ' ' .
+            Html::tag('span', '', ['class' => 'dropdown-toggle ms-1']),
+            array_merge([
+                    'id' => $buttonId,
+                    'class' => $buttonClass,
+                    'data-bs-toggle' => 'dropdown',
+                    'data-bs-auto-close' => 'outside',
+                    'aria-expanded' => 'false',
+                    'type' => 'button',
+            ], $dataAttrs)
     ) ?>
 
     <div class="dropdown-menu p-3 w-100" style="max-height: 320px; overflow:auto;">
@@ -44,17 +45,17 @@ use yii\helpers\Json;
         <?php else: ?>
             <?php foreach ($items as $value => $label): ?>
                 <?php
-                    $checkboxId = $id . '-' . md5((string)$value);
-                    $isChecked = in_array($value, $selected);
+                $checkboxId = $id . '-' . md5((string)$value);
+                $isChecked = in_array($value, $selected);
                 ?>
                 <div class="form-check">
                     <?= Html::checkbox($name . '[]', $isChecked, [
-                        'class' => 'form-check-input',
-                        'id' => $checkboxId,
-                        'value' => (string)$value,
+                            'class' => 'form-check-input',
+                            'id' => $checkboxId,
+                            'value' => (string)$value,
                     ]) ?>
                     <?= Html::label($encodeLabels ? Html::encode($label) : $label, $checkboxId, [
-                        'class' => 'form-check-label',
+                            'class' => 'form-check-label',
                     ]) ?>
                 </div>
             <?php endforeach; ?>
@@ -71,36 +72,36 @@ $js = <<<JS
 JS;
 ?>
 <script>
-(function(){
-  var dropdown = document.getElementById(<?= Json::htmlEncode($dropdownId) ?>);
-  if (!dropdown) return;
-  var button = document.getElementById(<?= Json::htmlEncode($buttonId) ?>);
-  var labelSpan = document.getElementById(<?= Json::htmlEncode($labelId) ?>);
-  if (!button || !labelSpan) return;
+    (function () {
+        var dropdown = document.getElementById(<?= Json::htmlEncode($dropdownId) ?>);
+        if (!dropdown) return;
+        var button = document.getElementById(<?= Json::htmlEncode($buttonId) ?>);
+        var labelSpan = document.getElementById(<?= Json::htmlEncode($labelId) ?>);
+        if (!button || !labelSpan) return;
 
-  var noneLabel = button.getAttribute('data-msd-none') || 'Select...';
-  var oneLabel = button.getAttribute('data-msd-one') || 'One selected';
-  var manyTemplate = button.getAttribute('data-msd-many') || '{n} selected';
+        var noneLabel = button.getAttribute('data-msd-none') || 'Select...';
+        var oneLabel = button.getAttribute('data-msd-one') || 'One selected';
+        var manyTemplate = button.getAttribute('data-msd-many') || '{n} selected';
 
-  function formatLabel(count) {
-    if (count === 0) return noneLabel;
-    if (count === 1) return oneLabel;
-    return manyTemplate.replace('{n}', String(count));
-  }
+        function formatLabel(count) {
+            if (count === 0) return noneLabel;
+            if (count === 1) return oneLabel;
+            return manyTemplate.replace('{n}', String(count));
+        }
 
-  function updateLabel() {
-    var checked = dropdown.querySelectorAll('input[type="checkbox"]:checked');
-    var count = checked.length;
-    labelSpan.textContent = formatLabel(count);
-  }
+        function updateLabel() {
+            var checked = dropdown.querySelectorAll('input[type="checkbox"]:checked');
+            var count = checked.length;
+            labelSpan.textContent = formatLabel(count);
+        }
 
-  dropdown.addEventListener('change', function(e){
-    if (e.target && e.target.matches('input[type="checkbox"]')) {
-      updateLabel();
-    }
-  });
+        dropdown.addEventListener('change', function (e) {
+            if (e.target && e.target.matches('input[type="checkbox"]')) {
+                updateLabel();
+            }
+        });
 
-  // Initialize on page load to reflect any pre-selected values
-  updateLabel();
-})();
+        // Initialize on page load to reflect any pre-selected values
+        updateLabel();
+    })();
 </script>

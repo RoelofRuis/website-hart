@@ -34,9 +34,6 @@ class ContactForm extends Model
         ];
     }
 
-    /**
-     * Persists the contact message to the database.
-     */
     public function save(): bool
     {
         if (!$this->validate()) {

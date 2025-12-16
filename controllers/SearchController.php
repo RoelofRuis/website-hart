@@ -8,10 +8,6 @@ use yii\helpers\Url;
 
 class SearchController extends Controller
 {
-    /**
-     * Endpoint stub that returns server-rendered HTML blocks for the search query.
-     * Accepts GET param `q` and renders a partial view without layout.
-     */
     public function actionIndex(string $q = null)
     {
         $q = $q ?? Yii::$app->request->get('q');
@@ -90,7 +86,7 @@ class SearchController extends Controller
             }
         }
 
-        return $this->renderPartial('results', [
+        return $this->renderPartial('_results', [
             'q' => $q,
             'results' => $results,
         ]);

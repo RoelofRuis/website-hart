@@ -13,34 +13,11 @@ use yii\base\Widget;
  */
 class MultiSelectDropdown extends Widget
 {
-    /**
-     * @var string The input name. For array submission, do NOT add [] — the widget will handle it.
-     */
     public string $name;
-
-    /**
-     * @var array Key-value pairs of value => label
-     */
     public array $items = [];
-
-    /**
-     * @var array Currently selected values
-     */
     public array $selected = [];
-
-    /**
-     * @var string Text to show on the dropdown button when no selection is made
-     */
     public string $placeholder = 'Select...';
-
-    /**
-     * @var string Additional CSS classes for the button
-     */
     public string $buttonClass = 'btn btn-outline-secondary w-100 text-start';
-
-    /**
-     * @var bool Whether to HTML-encode item labels
-     */
     public bool $encodeLabels = true;
 
     public function run(): string

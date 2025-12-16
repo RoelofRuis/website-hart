@@ -8,13 +8,8 @@ use yii\helpers\Url;
 
 class SearchBar extends Widget
 {
-    /** @var string Placeholder text for the input */
     public string $placeholder = '';
-
-    /** @var string Name of the GET parameter */
     public string $paramName = 'q';
-
-    /** @var string Form action URL */
     public string $action = '';
 
     public function init(): void

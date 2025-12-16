@@ -51,7 +51,6 @@ class Storage
     public function put(string $path, string $contents, array $config = []): string
     {
         $path = ltrim($path, '/');
-        // Do not enforce public visibility; files are served via controller endpoint
         $this->fs->write($path, $contents, $config);
         return $path;
     }
@@ -76,11 +75,6 @@ class Storage
         return $this->fs->fileExists($path);
     }
 
-    /**
-     * Persist a blob to storage and its metadata to the DB, returning slug/id and serving url.
-     * Options:
-     * - slug: provide a deterministic slug; if omitted, a random opaque slug is generated
-     */
     public function save(string $contents, string $contentType, array $options = []): array
     {
         $slug = isset($options['slug']) && is_string($options['slug']) && $options['slug'] !== ''

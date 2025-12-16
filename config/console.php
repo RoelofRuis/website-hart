@@ -1,5 +1,7 @@
 <?php
 
+use yii\console\controllers\FixtureController;
+use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
 
 $params = require __DIR__ . '/params.php';
@@ -21,12 +23,12 @@ return [
     ],
     'controllerMap' => [
         'migrate' => [
-            'class' => yii\console\controllers\MigrateController::class,
+            'class' => MigrateController::class,
             'migrationPath' => '@app/migrations',
         ],
         'fixture' => [
-            'class' => yii\console\controllers\FixtureController::class,
-            'namespace' => 'app\\tests\\fixtures',
+            'class' => FixtureController::class,
+            'namespace' => 'app\tests\fixtures',
         ],
     ],
     'params' => $params,

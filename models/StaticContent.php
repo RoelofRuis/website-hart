@@ -11,12 +11,12 @@ use yii\db\ActiveRecord;
  */
 class StaticContent extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%static_content}}';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['content', 'slug'], 'required'],

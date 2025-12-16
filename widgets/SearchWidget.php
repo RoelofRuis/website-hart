@@ -10,16 +10,9 @@ use yii\helpers\Json;
 
 class SearchWidget extends Widget
 {
-    /** @var string The GET parameter name for the query */
     public string $paramName = 'q';
-
-    /** @var string Placeholder displayed in the input */
     public string $placeholder = '';
-
-    /** @var string Endpoint URL that returns server-rendered HTML for results */
     public string $endpoint = '';
-
-    /** @var string|null Optional aria label for accessibility */
     public ?string $ariaLabel = null;
 
     public function init(): void

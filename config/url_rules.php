@@ -25,7 +25,7 @@ return [
     // Geauthenticeerde paginas
     // Portaal (Manage)
     'portaal' => 'site/manage',
-    'portaal/berichten' => 'teacher/messages',
+    'portaal/berichten' => 'contact/messages',
     'portaal/docent/<id:\d+>' => 'teacher/update',
     'portaal/cursussen' => 'course/admin',
     'portaal/cursus/<id:\d+>' => 'course/update',

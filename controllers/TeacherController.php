@@ -19,11 +19,11 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update', 'signups', 'messages', 'admin', 'create', 'delete'],
+                'only' => ['update', 'admin', 'create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'signups', 'messages'],
+                        'actions' => ['update'],
                         'roles' => ['@'],
                     ],
                     [
@@ -131,55 +131,6 @@ class TeacherController extends Controller
         return $this->render('update', [
             'model' => $model,
             'safeAttributes' => $safeAttributes,
-        ]);
-    }
-
-    public function actionSignups()
-    {
-        $current = Yii::$app->user->identity;
-        if (!$current) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-
-        // Legacy route: redirect to the new unified messages page
-        return $this->redirect(['messages']);
-    }
-
-    public function actionMessages()
-    {
-        $current = Yii::$app->user->identity;
-        if (!$current) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-
-        // TODO: Filter!
-        $contacts = ContactMessage::find()
-            ->orderBy(['created_at' => SORT_DESC])
-            ->all();
-
-        // Normalize to a common structure
-        $items = [];
-        foreach ($contacts as $c) {
-            /** @var ContactMessage $c */
-            $items[] = [
-                'type' => 'contact',
-                'course' => null,
-                'from_name' => $c->name,
-                'email' => $c->email,
-                'telephone' => null,
-                'age' => null,
-                'message' => $c->message,
-                'created_at' => $c->created_at,
-            ];
-        }
-
-        // Sort by created_at desc
-        usort($items, function ($a, $b) {
-            return ($b['created_at'] <=> $a['created_at']);
-        });
-
-        return $this->render('messages', [
-            'items' => $items,
         ]);
     }
 

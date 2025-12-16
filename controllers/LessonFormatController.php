@@ -17,7 +17,7 @@ class LessonFormatController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update', 'delete', 'admin'],
+                'only' => ['admin', 'create', 'update', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,

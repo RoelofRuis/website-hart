@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Teacher Dashboard');
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
-                <a class="text-decoration-none" href="<?= Url::to(['teacher/messages']) ?>">
+                <a class="text-decoration-none" href="<?= Url::to(['contact/messages']) ?>">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Messages')) ?></h5>

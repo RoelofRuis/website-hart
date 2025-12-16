@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\Storage;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -14,6 +15,15 @@ use Imagine\Image\Palette\RGB;
 
 class UploadController extends Controller
 {
+    private Storage $storage;
+
+    public function __construct($id, $module, Storage $storage, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+
+        $this->storage = $storage;
+    }
+
     public function behaviors()
     {
         return [
@@ -72,8 +82,7 @@ class UploadController extends Controller
             throw new BadRequestHttpException('Invalid image content');
         }
 
-        // Persist using storage service which handles id generation and metadata
-        $result = Yii::$app->storage->save($contents, 'image/jpeg');
+        $result = $this->storage->save($contents, 'image/jpeg');
 
         return [
             'success' => true,

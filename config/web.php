@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Teacher;
 use yii\i18n\PhpMessageSource;
 
 $params = require __DIR__ . '/params.php';
@@ -30,7 +31,7 @@ $config = [
             ],
         ],
         'user' => [
-            'identityClass' => app\models\Teacher::class,
+            'identityClass' => Teacher::class,
             'enableAutoLogin' => false,
             'loginUrl' => ['site/login'],
         ],

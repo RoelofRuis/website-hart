@@ -6,22 +6,11 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
-/**
- * Renders a text input that starts disabled (locked) with an unlock button.
- * When unlocked, the input becomes enabled and focused. Includes a tooltip.
- */
 class LockedField extends InputWidget
 {
-    /** @var bool Whether the field should be locked (disabled) initially */
     public bool $locked = true;
-
-    /** @var string Label for the unlock button */
     public string $unlockLabel = '';
-
-    /** @var string Tooltip text for the unlock button */
     public string $tooltip = '';
-
-    /** @var array Additional options for the input element */
     public array $inputOptions = [];
 
     public function init()
