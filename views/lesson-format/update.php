@@ -7,9 +7,6 @@
 use yii\bootstrap5\Html;
 
 $this->title = Yii::t('app', 'Edit lesson option');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['course/index']];
-$this->params['breadcrumbs'][] = ['label' => Html::encode($course->name), 'url' => ['course/view', 'slug' => $course->slug]];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container">

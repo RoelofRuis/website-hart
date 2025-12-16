@@ -19,7 +19,7 @@ class TeacherController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['update', 'signups', 'messages', 'create', 'delete'],
+                'only' => ['update', 'signups', 'messages', 'admin', 'create', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -28,7 +28,7 @@ class TeacherController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['create', 'delete'],
+                        'actions' => ['admin', 'create', 'delete'],
                         'roles' => ['@'],
                         'matchCallback' => function () {
                             return !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
@@ -177,6 +177,19 @@ class TeacherController extends Controller
 
         return $this->render('messages', [
             'items' => $items,
+        ]);
+    }
+
+    public function actionAdmin()
+    {
+        // Admin overview list for quick management
+        $dataProvider = new ActiveDataProvider([
+            'query' => Teacher::find()->orderBy(['full_name' => SORT_ASC]),
+            'pagination' => ['pageSize' => 20],
+        ]);
+
+        return $this->render('admin', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 

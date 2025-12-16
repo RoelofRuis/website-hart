@@ -41,7 +41,6 @@ class LessonFormatController extends Controller
         $linked_courses = $current->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
 
         return $this->render('admin', [
-            'teacher' => $current,
             'formats' => $formats,
             'linkedCourses' => $linked_courses,
         ]);
@@ -67,7 +66,7 @@ class LessonFormatController extends Controller
 
         $model = new LessonFormat([
             'course_id' => $course->id,
-            'teacher_id' => $current->is_admin ? null : $current->id,
+            'teacher_id' => $current->id,
             'show_price' => true,
         ]);
 
@@ -79,7 +78,7 @@ class LessonFormatController extends Controller
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option created.'));
-                return $this->redirect(['course/view', 'slug' => $course->slug]);
+                return $this->redirect(['lesson-format/admin']);
             }
         }
 
@@ -113,7 +112,7 @@ class LessonFormatController extends Controller
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option updated.'));
-                return $this->redirect(['course/view', 'slug' => $model->course->slug]);
+                return $this->redirect(['lesson-format/admin']);
             }
         }
 

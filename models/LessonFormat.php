@@ -92,6 +92,11 @@ class LessonFormat extends ActiveRecord
         if (!parent::beforeValidate()) {
             return false;
         }
+        // Normalize special UI values
+        if ($this->location_id === 'custom') {
+            // When user selects custom, location_id should not be set
+            $this->location_id = null;
+        }
         $user = Yii::$app->user->identity ?? null;
         if ($user instanceof Teacher && !$user->is_admin) {
             if ($this->isNewRecord) {

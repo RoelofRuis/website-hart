@@ -23,6 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'slug',
             [
+                'label' => Yii::t('app', 'Lesson formats'),
+                'value' => function ($model) {
+                    /** @var app\models\CourseNode $model */
+                    return count($model->lessonFormats);
+                },
+                'contentOptions' => ['style' => 'width: 140px; white-space: nowrap;'],
+            ],
+            [
                 'label' => Yii::t('app', 'Linked Teachers'),
                 'value' => function ($model) {
                     /** @var app\models\CourseNode $model */

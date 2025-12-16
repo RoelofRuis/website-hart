@@ -95,8 +95,9 @@ class CourseController extends Controller
             ? CourseNode::find()
             : $current->getTaughtCourses();
 
+        // Eager-load related data used in the grid to avoid N+1 queries
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->orderBy(['name' => SORT_ASC]),
+            'query' => $query->with(['teachers', 'lessonFormats'])->orderBy(['name' => SORT_ASC]),
             'pagination' => ['pageSize' => 20],
         ]);
 

@@ -47,6 +47,27 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
             [
+                'label' => Yii::t('app', 'Dashboard'),
+                'options' => ['class' => 'd-md-none'], // show only on mobile
+                'visible' => !Yii::$app->user->isGuest,
+                'items' => [
+                    ['label' => Yii::t('app', 'Profile'), 'url' => ['teacher/update', 'id' => Yii::$app->user->id]],
+                    ['label' => Yii::t('app', 'Messages'), 'url' => ['teacher/messages']],
+                    ['label' => Yii::t('app', 'Manage Courses'), 'url' => ['course/admin']],
+                    ['label' => Yii::t('app', 'Lesson Formats'), 'url' => ['lesson-format/admin']],
+                    [
+                        'label' => Yii::t('app', 'Manage Teachers'),
+                        'url' => ['teacher/admin'],
+                        'visible' => Yii::$app->user->identity->is_admin,
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Logout'),
+                        'url' => ['site/logout'],
+                        'linkOptions' => ['data-method' => 'post'],
+                    ],
+                ],
+            ],
+            [
                 'label' => Yii::t('app', 'Teacher login'),
                 'url' => ['/site/login'],
                 'visible' => Yii::$app->user->isGuest,
@@ -59,8 +80,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </header>
 
 <?php if (!Yii::$app->user->isGuest): ?>
-    <!-- Sticky sub-header bar below the main navbar, full width -->
-    <div class="sub-header-bar">
+    <!-- Sticky sub-header bar below the main navbar, hidden on mobile, shown on md+ -->
+    <div class="sub-header-bar d-none d-md-block">
         <div class="container py-2 d-flex flex-wrap align-items-center">
             <div class="me-auto sub-header-links">
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Profile')) ?></a></span>

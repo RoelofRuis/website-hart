@@ -2,9 +2,13 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\helpers\ArrayHelper;
+use app\models\Location;
 
-/** @var app\models\LessonFormat $model */
-/** @var app\models\CourseNode $course */
+/**
+ * @var app\models\LessonFormat $model
+ * @var app\models\CourseNode $course
+ */
 
 $frequencies = [
     'weekly' => Yii::t('app', 'Weekly'),
@@ -38,7 +42,44 @@ echo '<div class="form-check">' . $form->field($model, 'sat')->checkbox()->label
 echo '<div class="form-check">' . $form->field($model, 'sun')->checkbox()->label(Yii::t('app', 'Sunday')) . '</div>';
 echo '</div>';
 
-echo $form->field($model, 'location')->textInput(['maxlength' => true]);
+// Location selector: choose from existing locations or use a custom value
+$locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
+// Add a special option for custom entry
+$locations = ['' => Yii::t('app', 'Select...')] + $locations + ['custom' => Yii::t('app', 'Custom')];
+
+echo $form->field($model, 'location_id')->dropDownList($locations, [
+    'id' => 'lessonformat-location_id',
+]);
+
+echo $form->field($model, 'location_custom')->textInput([
+    'maxlength' => true,
+    'id' => 'lessonformat-location_custom',
+]);
+
+// Small inline script to toggle custom location field visibility
+$this->registerJs(<<<JS
+(function(){
+  function toggleCustom(){
+    var sel = document.getElementById('lessonformat-location_id');
+    var inp = document.getElementById('lessonformat-location_custom');
+    var group = inp.closest('.mb-3');
+    if (!sel || !inp || !group) return;
+    if (sel.value === 'custom') {
+      group.style.display = '';
+      // Clear numeric value since we're using custom
+    } else {
+      group.style.display = 'none';
+      if (sel.value !== 'custom') {
+        // When using a predefined location, clear custom text
+        inp.value = '';
+      }
+    }
+  }
+  document.getElementById('lessonformat-location_id')?.addEventListener('change', toggleCustom);
+  // Initialize on load
+  toggleCustom();
+})();
+JS);
 echo $form->field($model, 'show_price')->checkbox();
 
 echo Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']);
