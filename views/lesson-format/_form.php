@@ -1,19 +1,26 @@
 <?php
 
+use app\models\CourseNode;
+use app\models\LessonFormat;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\models\Location;
 
 /**
- * @var app\models\LessonFormat $model
- * @var app\models\CourseNode $course
+ * @var LessonFormat $model
+ * @var CourseNode $course
  */
 
 $frequencies = [
-    'weekly' => Yii::t('app', 'Weekly'),
-    'biweekly' => Yii::t('app', 'Bi-weekly'),
-    'monthly' => Yii::t('app', 'Monthly'),
+    LessonFormat::FREQUENCY_WEEKLY => Yii::t('app', 'Weekly'),
+    LessonFormat::FREQUENCY_BIWEEKLY => Yii::t('app', 'Bi-weekly'),
+    LessonFormat::FREQUENCY_MONTHLY => Yii::t('app', 'Monthly'),
+];
+
+$price_display_types = [
+    LessonFormat::PRICE_DISPLAY_HIDDEN => Yii::t('app', 'Hidden'),
+    LessonFormat::PRICE_DISPLAY_PER_PERSON => Yii::t('app', 'Per person'),
 ];
 
 $form = ActiveForm::begin();
@@ -42,45 +49,55 @@ echo '<div class="form-check">' . $form->field($model, 'sat')->checkbox()->label
 echo '<div class="form-check">' . $form->field($model, 'sun')->checkbox()->label(Yii::t('app', 'Sunday')) . '</div>';
 echo '</div>';
 
-// Location selector: choose from existing locations or use a custom value
+// Location selector: use toggle boolean to switch between known and custom
 $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
-// Add a special option for custom entry
-$locations = ['' => Yii::t('app', 'Select...')] + $locations + ['custom' => Yii::t('app', 'Custom')];
 
-echo $form->field($model, 'location_id')->dropDownList($locations, [
-    'id' => 'lessonformat-location_id',
+// Switch: use custom location?
+echo $form->field($model, 'use_custom_location')->checkbox([
+    'id' => 'lf-use-custom-location',
 ]);
 
+echo '<div id="lf-location-known">';
+echo $form->field($model, 'location_id')->dropDownList($locations, [
+    'id' => 'lessonformat-location_id',
+    'prompt' => Yii::t('app', 'Select...'),
+]);
+echo '</div>';
+
+echo '<div id="lf-location-custom">';
 echo $form->field($model, 'location_custom')->textInput([
     'maxlength' => true,
     'id' => 'lessonformat-location_custom',
 ]);
+echo '</div>';
 
-// Small inline script to toggle custom location field visibility
+// Inline script to toggle between known and custom based on checkbox
 $this->registerJs(<<<JS
 (function(){
-  function toggleCustom(){
-    var sel = document.getElementById('lessonformat-location_id');
-    var inp = document.getElementById('lessonformat-location_custom');
-    var group = inp.closest('.mb-3');
-    if (!sel || !inp || !group) return;
-    if (sel.value === 'custom') {
-      group.style.display = '';
-      // Clear numeric value since we're using custom
+  function toggleLocationMode(){
+    var chk = document.getElementById('lf-use-custom-location');
+    var known = document.getElementById('lf-location-known');
+    var custom = document.getElementById('lf-location-custom');
+    if (!chk || !known || !custom) return;
+    if (chk.checked) {
+      known.style.display = 'none';
+      custom.style.display = '';
     } else {
-      group.style.display = 'none';
-      if (sel.value !== 'custom') {
-        // When using a predefined location, clear custom text
-        inp.value = '';
-      }
+      known.style.display = '';
+      custom.style.display = 'none';
+      // Clear custom value when switching back to known location to avoid ambiguity
+      var inp = document.getElementById('lessonformat-location_custom');
+      if (inp) inp.value = '';
     }
   }
-  document.getElementById('lessonformat-location_id')?.addEventListener('change', toggleCustom);
+  document.getElementById('lf-use-custom-location')?.addEventListener('change', toggleLocationMode);
   // Initialize on load
-  toggleCustom();
+  toggleLocationMode();
 })();
 JS);
-echo $form->field($model, 'show_price')->checkbox();
+echo $form->field($model, 'price_display_type')->dropDownList($price_display_types, [
+    'id' => 'lessonformat-price_display_types',
+]);
 
 echo Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']);
 echo ' ' . Html::a(Yii::t('app', 'Cancel'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-secondary']);

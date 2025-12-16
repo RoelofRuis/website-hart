@@ -15,7 +15,7 @@ use Yii;
  * @property int $weeks_per_year
  * @property string $frequency
  * @property float|null $price_per_person
- * @property int $show_price
+ * @property string $price_display_type
  * @property int $mon
  * @property int $tue
  * @property int $wed
@@ -23,11 +23,19 @@ use Yii;
  * @property int $fri
  * @property int $sat
  * @property int $sun
+ * @property bool $use_custom_location
  * @property int|null $location_id
  * @property string $location_custom
  */
 class LessonFormat extends ActiveRecord
 {
+    const PRICE_DISPLAY_HIDDEN = 'hidden';
+    const PRICE_DISPLAY_PER_PERSON = 'per_person';
+
+    const FREQUENCY_WEEKLY = 'weekly';
+    const FREQUENCY_BIWEEKLY = 'biweekly';
+    const FREQUENCY_MONTHLY = 'monthly';
+
     public static function tableName(): string
     {
         return '{{%lesson_format}}';
@@ -40,8 +48,11 @@ class LessonFormat extends ActiveRecord
             [['course_id', 'teacher_id', 'persons_per_lesson', 'duration_minutes', 'weeks_per_year'], 'integer'],
             [['price_per_person'], 'number'],
             [['frequency'], 'string', 'max' => 50],
+            [['frequency'], 'in', 'range' => [self::FREQUENCY_WEEKLY, self::FREQUENCY_BIWEEKLY, self::FREQUENCY_MONTHLY]],
             [['location_custom'], 'string', 'max' => 150],
-            [['show_price'], 'boolean'],
+            [['price_display_type'], 'string', 'max' => 16],
+            [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_PER_PERSON]],
+            [['use_custom_location'], 'boolean'],
             [['mon','tue','wed','thu','fri','sat','sun'], 'boolean'],
             [['location_id'], 'exist', 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['course_id'], 'exist', 'targetClass' => CourseNode::class, 'targetAttribute' => ['course_id' => 'id']],
@@ -59,6 +70,7 @@ class LessonFormat extends ActiveRecord
             'weeks_per_year' => Yii::t('app', 'Weeks per year'),
             'frequency' => Yii::t('app', 'Frequency'),
             'price_per_person' => Yii::t('app', 'Price per person (€)'),
+            'price_display_type' => Yii::t('app', 'Price display type'),
             'mon' => Yii::t('app', 'Monday'),
             'tue' => Yii::t('app', 'Tuesday'),
             'wed' => Yii::t('app', 'Wednesday'),
@@ -66,9 +78,9 @@ class LessonFormat extends ActiveRecord
             'fri' => Yii::t('app', 'Friday'),
             'sat' => Yii::t('app', 'Saturday'),
             'sun' => Yii::t('app', 'Sunday'),
+            'use_custom_location' => Yii::t('app', 'Use custom location'),
             'location_id' => Yii::t('app', 'Location'),
             'location_custom' => Yii::t('app', 'Location (custom)'),
-            'show_price' => Yii::t('app', 'Show price'),
         ];
     }
 
@@ -91,11 +103,6 @@ class LessonFormat extends ActiveRecord
     {
         if (!parent::beforeValidate()) {
             return false;
-        }
-        // Normalize special UI values
-        if ($this->location_id === 'custom') {
-            // When user selects custom, location_id should not be set
-            $this->location_id = null;
         }
         $user = Yii::$app->user->identity ?? null;
         if ($user instanceof Teacher && !$user->is_admin) {

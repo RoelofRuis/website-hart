@@ -1,6 +1,7 @@
 <?php
 /** @var app\models\CourseNode $model */
 
+use app\models\LessonFormat;
 use yii\bootstrap5\Html;
 
 $options = $model->lessonFormats;
@@ -36,16 +37,16 @@ $dayLabels = [
                                         'm' => $opt->duration_minutes,
                                         'w' => $opt->weeks_per_year,
                                         'f' => match($opt->frequency) {
-                                            'weekly' => Yii::t('app', 'Weekly'),
-                                            'biweekly' => Yii::t('app', 'Bi-weekly'),
-                                            'monthly' => Yii::t('app', 'Monthly'),
+                                            LessonFormat::FREQUENCY_WEEKLY => Yii::t('app', 'Weekly'),
+                                            LessonFormat::FREQUENCY_BIWEEKLY => Yii::t('app', 'Bi-weekly'),
+                                            LessonFormat::FREQUENCY_MONTHLY => Yii::t('app', 'Monthly'),
                                             default => Html::encode($opt->frequency),
                                         },
                                     ])) ?>
                                 </div>
                             </div>
                             <div class="text-end">
-                                <?php if ($opt->show_price && $opt->price_per_person !== null): ?>
+                                <?php if ($opt->price_display_type === 'per_person' && $opt->price_per_person !== null): ?>
                                     <div class="badge badge-pill bg-light text-muted">
                                         <?= Html::encode(Yii::t('app', '€{n} per person', [
                                                 'n' => number_format((float)$opt->price_per_person, 2, ',', '.')

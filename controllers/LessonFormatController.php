@@ -67,7 +67,7 @@ class LessonFormatController extends Controller
         $model = new LessonFormat([
             'course_id' => $course->id,
             'teacher_id' => $current->id,
-            'show_price' => true,
+            'price_display_type' => LessonFormat::PRICE_DISPLAY_PER_PERSON,
         ]);
 
         if ($model->load(Yii::$app->request->post())) {

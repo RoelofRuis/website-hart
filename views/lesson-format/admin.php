@@ -63,7 +63,7 @@ $this->title = Yii::t('app', 'My lesson formats');
                         </div>
                     </div>
                     <p class="mb-1">
-                        <?php if ($f->show_price && $f->price_per_person !== null): ?>
+                        <?php if ($f->price_display_type === 'per_person' && $f->price_per_person !== null): ?>
                             <strong>&euro; <?= Html::encode(number_format((float)$f->price_per_person, 2, ',', '.')) ?></strong>
                             <span class="text-muted small"><?= Html::encode(Yii::t('app', 'per person')) ?></span>
                             <?php

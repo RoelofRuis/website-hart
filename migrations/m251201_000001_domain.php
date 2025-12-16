@@ -81,7 +81,7 @@ class m251201_000001_domain extends Migration
             'weeks_per_year' => $this->integer()->notNull(),
             'frequency' => $this->string(150)->notNull(),
             'price_per_person' => $this->decimal(10, 2)->null(),
-            'show_price' => $this->boolean()->notNull()->defaultValue(true),
+            'price_display_type' => $this->string(16)->notNull()->defaultValue('hidden'),
             'mon' => $this->boolean()->notNull()->defaultValue(false),
             'tue' => $this->boolean()->notNull()->defaultValue(false),
             'wed' => $this->boolean()->notNull()->defaultValue(false),
@@ -89,6 +89,7 @@ class m251201_000001_domain extends Migration
             'fri' => $this->boolean()->notNull()->defaultValue(false),
             'sat' => $this->boolean()->notNull()->defaultValue(false),
             'sun' => $this->boolean()->notNull()->defaultValue(false),
+            'use_custom_location' => $this->boolean()->notNull()->defaultValue(false),
             'location_id' => $this->bigInteger()->null(),
             'location_custom' => $this->string(255)->null(),
         ]);
