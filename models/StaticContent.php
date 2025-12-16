@@ -19,8 +19,7 @@ class StaticContent extends ActiveRecord
     public function rules()
     {
         return [
-            [['key', 'content', 'slug'], 'required'],
-            ['key', 'string', 'max' => 16],
+            [['content', 'slug'], 'required'],
             ['slug', 'string', 'max' => 64],
             ['content', 'string'],
         ];

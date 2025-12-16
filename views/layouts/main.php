@@ -61,6 +61,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         'visible' => !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin,
                     ],
                     [
+                        'label' => Yii::t('app', 'Static Content'),
+                        'url' => ['static-content/admin'],
+                        'visible' => !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin,
+                    ],
+                    [
                         'label' => Yii::t('app', 'Logout'),
                         'url' => ['site/logout'],
                         'linkOptions' => ['data-method' => 'post'],
@@ -90,6 +95,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['lesson-format/admin']) ?>"><?= Html::encode(Yii::t('app', 'Lesson Formats')) ?></a></span>
                 <?php if (Yii::$app->user->identity->is_admin): ?>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
+                    <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['static-content/admin']) ?>"><?= Html::encode(Yii::t('app', 'Static Content')) ?></a></span>
                 <?php endif; ?>
             </div>
             <div class="ms-auto">

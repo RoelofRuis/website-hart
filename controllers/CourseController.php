@@ -19,17 +19,11 @@ class CourseController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                // Keep admin-only restrictions on create and delete.
-                // The update action is handled with fine-grained checks inside actionUpdate,
-                // and actionAdmin will filter results for non-admin teachers.
-                'only' => ['create', 'delete'],
+                'only' => ['admin', 'create', 'update', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'matchCallback' => function () {
-                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
-                        },
                     ],
                 ],
             ],
@@ -94,7 +88,7 @@ class CourseController extends Controller
         // Admins see all courses; teachers see only their linked courses
         $query = $current->is_admin
             ? CourseNode::find()
-            : $current->getTaughtCourses();
+            : $current->getAccessibleCourses();
 
         // Eager-load related data used in the grid to avoid N+1 queries
         $dataProvider = new ActiveDataProvider([
