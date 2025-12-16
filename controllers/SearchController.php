@@ -27,11 +27,11 @@ class SearchController extends Controller
                 WITH query AS (
                     SELECT websearch_to_tsquery('dutch', unaccent(:q)) AS q
                 )
-                SELECT type, title, slug_or_key, rank, snippet
+                SELECT type, title, slug, rank, snippet
                 FROM (
                     SELECT 'course'::text AS type,
                            c.name AS title,
-                           c.slug AS slug_or_key,
+                           c.slug AS slug,
                            ts_rank_cd(c.search_vector, query.q, 32) AS rank,
                            ts_headline('dutch', COALESCE(c.summary, ''), query.q,
                                        'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet
@@ -40,7 +40,7 @@ class SearchController extends Controller
                     UNION ALL
                     SELECT 'teacher'::text AS type,
                            t.full_name AS title,
-                           t.slug AS slug_or_key,
+                           t.slug AS slug,
                            ts_rank_cd(t.search_vector, query.q, 32) AS rank,
                            ts_headline('dutch', COALESCE(t.description, ''), query.q,
                                        'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet
@@ -49,7 +49,7 @@ class SearchController extends Controller
                     UNION ALL
                     SELECT 'static'::text AS type,
                            s.key AS title,
-                           s.key AS slug_or_key,
+                           s.slug AS slug,
                            ts_rank_cd(s.search_vector, query.q, 32) AS rank,
                            ts_headline('dutch', COALESCE(s.content, ''), query.q,
                                        'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet
@@ -66,37 +66,18 @@ class SearchController extends Controller
             foreach ($rows as $row) {
                 $type = (string)$row['type'];
                 $title = (string)$row['title'];
-                $slugOrKey = (string)$row['slug_or_key'];
+                $slug = (string)$row['slug'];
                 $rank = (float)$row['rank'];
                 $snippet = (string)($row['snippet'] ?? '');
 
-                $url = '#';
                 if ($type === 'course') {
-                    $url = Url::to(['course/view', 'slug' => $slugOrKey]);
+                    $url = Url::to(['course/view', 'slug' => $slug]);
                 } elseif ($type === 'teacher') {
-                    $url = Url::to(['teacher/view', 'slug' => $slugOrKey]);
-                } else { // static
-                    switch ($slugOrKey) {
-                        case 'copyright':
-                            $url = Url::to(['site/copyright']);
-                            break;
-                        case 'association':
-                            $url = Url::to(['site/association']);
-                            break;
-                        case 'contact':
-                            $url = Url::to(['site/contact']);
-                            break;
-                        case 'privacy':
-                            // In controller this is rendered by actionAvg()
-                            $url = Url::to(['site/avg']);
-                            break;
-                        case 'locations':
-                            $url = Url::to(['site/locations']);
-                            break;
-                        default:
-                            $url = Url::to(['site/index']) . '#sc-' . rawurlencode($slugOrKey);
-                            break;
-                    }
+                    $url = Url::to(['teacher/view', 'slug' => $slug]);
+                } elseif ($type === 'static') {
+                    $url = Url::to(['site/' . $slug]);
+                } else {
+                    $url = '#';
                 }
 
                 $results[] = [

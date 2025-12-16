@@ -15,7 +15,7 @@ class m251201_000001_domain extends Migration
         $this->createTable('{{%teacher}}', [
             'id' => $this->bigPrimaryKey(),
             'full_name' => $this->string(150)->notNull(),
-            'slug' => $this->string(150)->notNull()->unique(),
+            'slug' => $this->string(64)->notNull()->unique(),
             'description' => $this->text(),
             'email' => $this->string(150)->unique(),
             'website' => $this->string(255),
@@ -32,7 +32,7 @@ class m251201_000001_domain extends Migration
             'id' => $this->bigPrimaryKey(),
             'parent_id' => $this->bigInteger()->null(),
             'name' => $this->string(150)->notNull(),
-            'slug' => $this->string(150)->notNull()->unique(),
+            'slug' => $this->string(64)->notNull()->unique(),
             'cover_image' => $this->string(255)->null(),
             'is_taught' => $this->boolean()->notNull()->defaultValue(true),
             'summary' => $this->text(),

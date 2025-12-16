@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 /**
  * @property string $key
  * @property string $content
+ * @property string $slug
  */
 class StaticContent extends ActiveRecord
 {
@@ -18,8 +19,9 @@ class StaticContent extends ActiveRecord
     public function rules()
     {
         return [
-            [['key', 'content'], 'required'],
+            [['key', 'content', 'slug'], 'required'],
             ['key', 'string', 'max' => 16],
+            ['slug', 'string', 'max' => 64],
             ['content', 'string'],
         ];
     }

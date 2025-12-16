@@ -4,6 +4,7 @@ return [
     [
         'key' => 'copyright',
         'content' => '<p>Alle inhoud op deze website is auteursrechtelijk beschermd door Vereniging HART Muziekschool, tenzij anders vermeld.</p>',
+        'slug' => 'copyright',
     ],
     [
         'key' => 'association',
@@ -21,11 +22,13 @@ return [
         Mocht er op bestuurlijk, organisatorisch of publicitair nivea een vraag of opmerking liggen, dan kunt u terecht via onderstaand formulier.
         Het gebruik van dit formulier voor aquisitie, reclamedoeleinden, aanbiedingen, verkoop van instrument op welk niveau dan ook wordt niet op prijs gesteld.
         Deze mails zullen dan ook onbehandeld direct worden verwijderd.
-    </p>'
+    </p>',
+        'slug' => 'association',
     ],
     [
         'key' => 'contact',
-        'content' => '<p>Bij vragen over lessen, instrumenten, docenten etc. kunt u ons bereiken via onderstaand contactformulier. Onze collega Josien van der Tweel krijgt uw bericht dan, zij kan u ongetwijfeld verder helpen.</p>'
+        'content' => '<p>Bij vragen over lessen, instrumenten, docenten etc. kunt u ons bereiken via onderstaand contactformulier. Onze collega Josien van der Tweel krijgt uw bericht dan, zij kan u ongetwijfeld verder helpen.</p>',
+        'slug' => 'contact',
     ],
     [
         'key' => 'privacy',
@@ -63,10 +66,17 @@ return [
     </b>
     <p>
         Matthijs Tuijn, secretaris van Hart Muziekschool, is in die hoedanigheid aangesteld als functionaris voor de Gegevensbescherming: info@hartmuziekschool.nl.
-    </p>'
+    </p>',
+        'slug'=> 'avg',
     ],
     [
         'key' => 'locations',
         'content' => 'Vereniging HART Muziekschool is gevestigd op verschillende adressen.',
+        'slug' => 'locations',
+    ],
+    [
+        'key' => 'home',
+        'content' => 'Test',
+        'slug' => 'index'
     ]
 ];

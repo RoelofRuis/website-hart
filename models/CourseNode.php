@@ -32,7 +32,7 @@ class CourseNode extends ActiveRecord
             [['description'], 'string'],
             [['is_taught'], 'boolean'],
             [['summary'], 'string'],
-            [['name', 'slug'], 'string', 'max' => 150],
+            [['name', 'slug'], 'string', 'max' => 64],
             [['cover_image'], 'string', 'max' => 255],
             [['slug'], 'unique'],
             [['parent_id'], 'integer'],
