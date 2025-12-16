@@ -1,8 +1,11 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var app\models\CourseNode $model */
-/** @var app\models\ContactMessage $contact */
+/**
+ * @var yii\web\View $this
+ * @var app\models\CourseNode $model
+ * @var app\models\ContactMessage $contact
+ * @var app\models\Teacher[] $teachers
+ */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -35,45 +38,47 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $this->render('_lesson_options', ['model' => $model]) ?>
 
-            <?php $teachers = $model->getTeachers()->all(); ?>
-            <div class="d-none d-lg-block">
-                <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
-                <?= $this->render('_teachers_grid', [
-                    'teachers' => $teachers,
-                    'colClasses' => 'col-md-6 col-lg-4',
-                ]) ?>
-            </div>
+            <?php if ($model->is_taught): ?>
+                <div class="d-none d-lg-block">
+                    <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
+                    <?= $this->render('_teachers_grid', [
+                        'teachers' => $teachers,
+                        'colClasses' => 'col-md-6 col-lg-4',
+                    ]) ?>
+                </div>
+            <?php endif; ?>
         </div>
 
-        <div class="col-lg-5 col-xl-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h3 class="card-title mb-3"><?= Html::encode(Yii::t('app', 'Sign up for this course')) ?></h3>
-                    <p class="text-muted mb-4"><?= Html::encode(Yii::t('app', 'Fill in the form and we will contact you soon.')) ?></p>
+        <?php if ($model->is_taught): ?>
+            <div class="col-lg-5 col-xl-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3"><?= Html::encode(Yii::t('app', 'Sign up for this course')) ?></h3>
+                        <p class="text-muted mb-4"><?= Html::encode(Yii::t('app', 'Fill in the form and we will contact you soon.')) ?></p>
 
-                    <?php $form = ActiveForm::begin(['id' => 'course-signup-form']); ?>
-                        <?= $form->field($contact, 'age')->input('number', ['min' => 0, 'max' => 100]) ?>
-                        <?= $form->field($contact, 'name')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($contact, 'email')->input('email') ?>
-                        <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
+                        <?php $form = ActiveForm::begin(['id' => 'course-signup-form']); ?>
+                            <?= $form->field($contact, 'age')->input('number', ['min' => 0, 'max' => 100]) ?>
+                            <?= $form->field($contact, 'name')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($contact, 'email')->input('email') ?>
+                            <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
 
-                        <div class="d-grid">
-                            <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'btn btn-primary']) ?>
-                        </div>
-                    <?php ActiveForm::end(); ?>
+                            <div class="d-grid">
+                                <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'btn btn-primary']) ?>
+                            </div>
+                        <?php ActiveForm::end(); ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Teachers block for small screens: shown below signup form -->
-        <div class="col-12 d-lg-none mt-4">
-            <h3 class="mt-2"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
-            <?= $this->render('_teachers_grid', [
-                'teachers' => $teachers,
-                'colClasses' => 'col-12 col-md-6',
-            ]) ?>
-        </div>
+
+            <div class="col-12 d-lg-none mt-4">
+                <h3 class="mt-2"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
+                <?= $this->render('_teachers_grid', [
+                    'teachers' => $teachers,
+                    'colClasses' => 'col-12 col-md-6',
+                ]) ?>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 

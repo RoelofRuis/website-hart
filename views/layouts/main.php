@@ -58,7 +58,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     [
                         'label' => Yii::t('app', 'Manage Teachers'),
                         'url' => ['teacher/admin'],
-                        'visible' => Yii::$app->user->identity->is_admin,
+                        'visible' => !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin,
                     ],
                     [
                         'label' => Yii::t('app', 'Logout'),
@@ -87,7 +87,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Profile')) ?></a></span>
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/messages']) ?>"><?= Html::encode(Yii::t('app', 'Messages')) ?></a></span>
                 <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['course/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></a></span>
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['lesson-format/admin']) ?>"><?= Html::encode(Yii::t('app', 'Lesvormen')) ?></a></span>
+                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['lesson-format/admin']) ?>"><?= Html::encode(Yii::t('app', 'Lesson Formats')) ?></a></span>
                 <?php if (Yii::$app->user->identity->is_admin): ?>
                     <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
                 <?php endif; ?>
