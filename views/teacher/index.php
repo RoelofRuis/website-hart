@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <?php foreach ($teachers as $t): ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm position-relative clickable-card">
                         <?php if (!empty($t->profile_picture)): ?>
                             <img src="<?= Html::encode($t->profile_picture) ?>" class="card-img-top" alt="<?= Html::encode($t->full_name) ?>">
                         <?php else: ?>
@@ -32,9 +32,28 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         <?php endif; ?>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title mb-1"><?= Html::encode($t->full_name) ?></h5>
-                            <div class="flex-grow-1"></div>
-                            <?= Html::a(Yii::t('app', 'View profile'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-primary mt-auto']) ?>
+                            <h5 class="card-title mb-2"><?= Html::encode($t->full_name) ?></h5>
+                            <p class="card-text flex-grow-1">
+                                <?php
+                                $courseNames = [];
+                                foreach ($t->taughtCourses as $course) {
+                                    if (!empty($course->name)) {
+                                        $courseNames[] = $course->name;
+                                    }
+                                }
+                                if (!empty($courseNames)) {
+                                    echo Html::encode(implode(', ', $courseNames));
+                                }
+                                ?>
+                            </p>
+                            <?= Html::a(
+                                Yii::t('app', 'View profile'),
+                                ['teacher/view', 'slug' => $t->slug],
+                                [
+                                    'class' => 'btn btn-outline-primary mt-auto stretched-link',
+                                    'aria-label' => Yii::t('app', 'View profile of {name}', ['name' => $t->full_name])
+                                ]
+                            ) ?>
                         </div>
                     </div>
                 </div>

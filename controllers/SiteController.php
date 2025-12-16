@@ -18,7 +18,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
+                'only' => ['logout', 'manage'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -40,7 +40,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index', [
+            'homeContent' => StaticContent::findByKey('home'),
+        ]);
     }
 
     public function actionCopyright()
@@ -115,5 +117,11 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    public function actionManage()
+    {
+        // Only reachable for authenticated users due to AccessControl
+        return $this->render('manage');
     }
 }

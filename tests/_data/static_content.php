@@ -76,7 +76,21 @@ return [
     ],
     [
         'key' => 'home',
-        'content' => 'Test',
+        'content' => '<h2>Nieuws & updates</h2>
+<p>Welkom bij Vereniging HART Muziekschool. Hier lees je kort wat er speelt binnen onze vereniging.</p>
+
+<h3>Nieuwe lesmogelijkheden</h3>
+<p>We starten dit seizoen met extra groepslessen voor beginners en samenspel voor gevorderden.</p>
+<ul>
+    <li>Introductiecursus voor kinderen (7–10 jaar)</li>
+    <li>Samenspel-ensemble op dinsdagavond</li>
+    <li>Proeflessen op afspraak bij verschillende docenten</li>
+    
+</ul>
+
+<h3>Agenda</h3>
+<p>Komende maanden organiseren we open repetities en kleine uitvoeringen. Houd deze pagina in de gaten voor data en locaties.</p>
+<p>Vragen? Neem gerust contact op via het formulier. We helpen je graag verder.</p>',
         'slug' => 'index'
     ]
 ];

@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var app\models\StaticContent $homeContent */
 
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -10,7 +11,8 @@ use app\widgets\CourseSelectionWidget;
 $this->title = 'Vereniging HART Muziekschool'
 ?>
 <div class="site-index">
-    <section class="hero text-center text-white d-flex align-items-center" style="min-height: 50vh; background: #55BDBE; border-radius: .5rem;">
+    <?php $headerUrl = Yii::getAlias('@web') . '/uploads/header.jpg'; ?>
+    <section class="hero text-center text-white d-flex align-items-center" style="min-height: 50vh; background: #55BDBE url('<?= $headerUrl ?>') center/cover no-repeat; border-radius: .5rem;">
         <div class="container py-5">
             <h1 class="display-4 fw-bold mb-3"><?= Html::encode(Yii::t('app', 'Welcome to HART Music School')) ?></h1>
             <p class="lead mb-4"><?= Html::encode(Yii::t('app', 'Discover inspiring teachers and courses for every level. Start your musical journey today.')) ?></p>
@@ -27,7 +29,19 @@ $this->title = 'Vereniging HART Muziekschool'
         </div>
     </section>
 
-    <div class="body-content mt-5">
+    <div class="container my-5">
+        <?php if (!empty($homeContent) && !empty($homeContent->content)): ?>
+            <section class="static-home-content mb-5">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <?= $homeContent->content ?>
+                    </div>
+                </div>
+            </section>
+        <?php endif; ?>
+    </div>
+
+    <div class="body-content mt-4">
         <?= CourseSelectionWidget::widget(); ?>
     </div>
 </div>

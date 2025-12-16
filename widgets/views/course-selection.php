@@ -14,7 +14,7 @@ use yii\helpers\Url;
 <div class="row">
     <?php foreach ($courses as $course): ?>
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm position-relative clickable-card">
                 <?php if (!empty($course->cover_image)): ?>
                     <?= Html::img($course->cover_image, [
                             'class' => 'card-img-top',
@@ -30,7 +30,8 @@ use yii\helpers\Url;
 
                     <div class="mt-auto">
                         <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], [
-                                'class' => 'btn btn-primary mt-auto',
+                                'class' => 'btn btn-outline-primary mt-auto stretched-link',
+                                'aria-label' => Yii::t('app', 'View course: {name}', ['name' => $course->name])
                         ]) ?>
                     </div>
                 </div>

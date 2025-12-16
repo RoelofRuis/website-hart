@@ -31,7 +31,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <?php $this->head() ?>
 </head>
-<body class="d-flex flex-column h-100<?= !Yii::$app->user->isGuest ? ' has-subheader' : '' ?>">
+<body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
 <header id="header">
@@ -47,63 +47,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
             [
-                'label' => Yii::t('app', 'Dashboard'),
-                'options' => ['class' => 'd-md-none'], // show only on mobile
-                'visible' => !Yii::$app->user->isGuest,
-                'items' => [
-                    ['label' => Yii::t('app', 'Profile'), 'url' => ['teacher/update', 'id' => Yii::$app->user->id]],
-                    ['label' => Yii::t('app', 'Messages'), 'url' => ['teacher/messages']],
-                    ['label' => Yii::t('app', 'Manage Courses'), 'url' => ['course/admin']],
-                    ['label' => Yii::t('app', 'Lesson Formats'), 'url' => ['lesson-format/admin']],
-                    [
-                        'label' => Yii::t('app', 'Manage Teachers'),
-                        'url' => ['teacher/admin'],
-                        'visible' => !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin,
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Static Content'),
-                        'url' => ['static-content/admin'],
-                        'visible' => !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin,
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Logout'),
-                        'url' => ['site/logout'],
-                        'linkOptions' => ['data-method' => 'post'],
-                    ],
-                ],
-            ],
-            [
-                'label' => Yii::t('app', 'Teacher login'),
-                'url' => ['/site/login'],
-                'visible' => Yii::$app->user->isGuest,
-                'options' => ['class' => 'd-md-none']
+                'label' => Yii::t('app', 'Teacher Dashboard'),
+                'url' => ['/site/manage'],
+                'visible' => !Yii::$app->user->isGuest
             ],
         ]
     ]);
     NavBar::end();
     ?>
 </header>
-
-<?php if (!Yii::$app->user->isGuest): ?>
-    <!-- Sticky sub-header bar below the main navbar, hidden on mobile, shown on md+ -->
-    <div class="sub-header-bar d-none d-md-block">
-        <div class="container py-2 d-flex flex-wrap align-items-center">
-            <div class="me-auto sub-header-links">
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>"><?= Html::encode(Yii::t('app', 'Profile')) ?></a></span>
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/messages']) ?>"><?= Html::encode(Yii::t('app', 'Messages')) ?></a></span>
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['course/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></a></span>
-                <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['lesson-format/admin']) ?>"><?= Html::encode(Yii::t('app', 'Lesson Formats')) ?></a></span>
-                <?php if (Yii::$app->user->identity->is_admin): ?>
-                    <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['teacher/admin']) ?>"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></a></span>
-                    <span class="me-3"><a class="sub-header-link" href="<?= Url::to(['static-content/admin']) ?>"><?= Html::encode(Yii::t('app', 'Static Content')) ?></a></span>
-                <?php endif; ?>
-            </div>
-            <div class="ms-auto">
-                <a class="sub-header-link text-decoration-none" href="<?= Url::to(['site/logout']) ?>" data-method="post"><?= Html::encode(Yii::t('app', 'Logout')) ?></a>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
 
 <main id="main" class="flex-shrink-0" role="main">
     <div class="container">

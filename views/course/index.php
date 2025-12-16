@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <?php foreach ($courses as $c): ?>
                 <div class="col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm position-relative clickable-card">
                         <?php if (!empty($c->cover_image)): ?>
                             <img src="<?= Html::encode($c->cover_image) ?>" class="card-img-top" alt="<?= Html::encode($c->name) ?> cover" style="object-fit: cover; height: 180px;">
                         <?php endif; ?>
@@ -41,7 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 echo Html::encode(mb_strimwidth($short, 0, 180, '…'));
                                 ?>
                             </p>
-                            <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $c->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
+                            <?= Html::a(
+                                Yii::t('app', 'View course'),
+                                ['course/view', 'slug' => $c->slug],
+                                [
+                                    'class' => 'btn btn-outline-primary mt-auto stretched-link',
+                                    'aria-label' => Yii::t('app', 'View course: {name}', ['name' => $c->name])
+                                ]
+                            ) ?>
                         </div>
                     </div>
                 </div>
