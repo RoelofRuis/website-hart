@@ -34,16 +34,6 @@ $config = [
             'enableAutoLogin' => false,
             'loginUrl' => ['site/login'],
         ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                'files/<slug:.+>' => 'file/view',
-                'course/view/<slug:[A-Za-z0-9\-]+>' => 'course/view',
-                'course/view/<id:\d+>' => 'course/view',
-                'teacher/view/<slug:[A-Za-z0-9\-]+>' => 'teacher/view',
-            ],
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

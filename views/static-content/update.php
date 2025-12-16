@@ -5,6 +5,9 @@
 use yii\bootstrap5\Html;
 
 $this->title = Yii::t('app', 'Edit') . ': ' . $model->key;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Static Content'), 'url' => ['static-content/admin']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="static-content-update py-3">

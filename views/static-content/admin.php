@@ -8,6 +8,8 @@ use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Static Content');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="site-static-content-admin py-3">

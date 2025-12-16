@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\CourseNode;
 use app\models\forms\LoginForm;
 use app\models\forms\ContactForm;
 use app\models\Location;
 use app\models\StaticContent;
+use app\models\Teacher;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -106,7 +109,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+            return $this->redirect(['site/manage']);
         }
         return $this->render('login', [
             'model' => $model,
@@ -121,7 +124,39 @@ class SiteController extends Controller
 
     public function actionManage()
     {
-        // Only reachable for authenticated users due to AccessControl
         return $this->render('manage');
+    }
+
+    public function actionSitemap()
+    {
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'application/xml; charset=UTF-8');
+
+        $urls = [];
+
+        $urls[] = Url::to(['site/index'], true);
+        $urls[] = Url::to(['site/contact'], true);
+        $urls[] = Url::to(['site/avg'], true);
+        $urls[] = Url::to(['site/association'], true);
+        $urls[] = Url::to(['site/locations'], true);
+        $urls[] = Url::to(['site/copyright'], true);
+
+        foreach (CourseNode::find()->all() as $course) {
+            $urls[] = Url::to(['course/view', 'slug' => $course->slug], true);
+        }
+
+        foreach (Teacher::find()->all() as $teacher) {
+            $urls[] = Url::to(['teacher/view', 'slug' => $teacher->slug], true);
+        }
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        foreach ($urls as $loc) {
+            $xml .= '<url><loc>' . htmlspecialchars($loc, ENT_XML1 | ENT_COMPAT, 'UTF-8') . '</loc></url>';
+        }
+        $xml .= "</urlset>";
+
+        Yii::$app->response->content = $xml;
+        return Yii::$app->response;
     }
 }

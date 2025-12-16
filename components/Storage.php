@@ -8,6 +8,7 @@ use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use Aws\S3\S3Client;
 use Yii;
 use app\models\File;
+use yii\helpers\Url;
 
 class Storage
 {
@@ -103,7 +104,7 @@ class Storage
 
         return [
             'id' => $file->slug,
-            'url' => '/files/' . $file->slug,
+            'url' => Url::to(['file/view', 'slug' => $file->slug]),
             'storage_path' => $writtenPath,
             'size' => $file->size,
             'content_type' => $file->content_type,

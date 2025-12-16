@@ -7,6 +7,9 @@
 use yii\bootstrap5\Html;
 
 $this->title = Yii::t('app', 'Edit lesson option');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'My lesson formats'), 'url' => ['lesson-format/admin']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container">

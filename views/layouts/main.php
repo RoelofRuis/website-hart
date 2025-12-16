@@ -61,16 +61,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <div class="container">
         <?php
             $route = Yii::$app->controller->route ?? '';
-            $noCrumbsRoutes = [
-                'teacher/messages',
-                'teacher/update',
-                'teacher/admin',
-                'teacher/create',
-                'course/admin',
-                'course/create',
-                'course/update',
-            ];
-            $showBreadcrumbs = !in_array($route, $noCrumbsRoutes, true) && !empty($this->params['breadcrumbs']);
+            $showBreadcrumbs = !empty($this->params['breadcrumbs']);
         ?>
         <?php if ($showBreadcrumbs): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
@@ -82,7 +73,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
         <div class="row text-muted align-items-start gy-2">
-            <div class="col-12 col-md-4 text-md-start">
+            <div class="col-12 col-md-5 text-md-start text-center">
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2"><a href="<?= Url::to(['site/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['site/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
@@ -92,22 +83,20 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </ul>
             </div>
 
-            <div class="col-12 col-md-4 text-md-start">
+            <div class="col-12 col-md-5 text-md-start text-center">
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2"><a target="_blank" href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?></a></li>
                     <li class="mb-2"><a target="_blank" href="#"><?= Html::encode(Yii::t('app', 'Instagram')) ?></a></li>
                     <li class="mb-2"><a target="_blank" href="https://www.muziekfonds.nl/"><?= Html::encode(Yii::t('app', 'Renting an instrument')) ?></a></li>
                     <li class="mb-2"><a target="_blank" href="https://jeugdfondssportencultuur.nl/fondsen/haarlem/"><?= Html::encode(Yii::t('app', 'Youth Culture Fund')) ?></a></li>
-                    <li class="mt-2 d-md-none">&copy; Roelof Ruis <?= date('Y') ?></li>
                 </ul>
             </div>
 
-            <div class="col-12 col-md-4 text-md-end d-none d-md-block">
-                <?php if (Yii::$app->user->isGuest): ?>
-                    <a class="btn btn-sm btn-outline-primary mb-2" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a><br/>
-                <?php endif; ?>
-                <span>&copy; Roelof Ruis <?= date('Y') ?></span>
-            </div>
+            <?php if (Yii::$app->user->isGuest): ?>
+                <div class="col-12 col-md-2 text-md-end text-center">
+                    <a class="mb-2" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a><br/>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     </footer>

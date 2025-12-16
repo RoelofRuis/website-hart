@@ -5,7 +5,8 @@ use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 
-$this->title = Yii::t('app', 'Manage');
+$this->title = Yii::t('app', 'Teacher Dashboard');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Teacher Dashboard');
 ?>
 <div class="site-manage py-4">
     <div class="container">

@@ -6,6 +6,7 @@ use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Manage Courses');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

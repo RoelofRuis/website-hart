@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\ArrayHelper;
+
 $params = require __DIR__ . '/params.php';
 $shared_components = require __DIR__ . '/components.php';
 
@@ -8,7 +10,12 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
-    'components' => $shared_components,
+    'components' => ArrayHelper::merge($shared_components, [
+        'urlManager' => [
+            'baseUrl' => '',
+            'scriptUrl' => '',
+        ]
+    ]),
     'aliases' => [
         '@webroot' => '@app/web',
     ],

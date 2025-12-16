@@ -51,4 +51,9 @@ return [
             ],
         ],
     ],
+    'urlManager' => [
+        'enablePrettyUrl' => true,
+        'showScriptName' => false,
+        'rules' => include(__DIR__ . '/url_rules.php'),
+    ],
 ];

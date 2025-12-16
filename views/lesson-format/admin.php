@@ -10,6 +10,8 @@ use yii\bootstrap5\Html;
 use yii\web\View;
 
 $this->title = Yii::t('app', 'My lesson formats');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="teacher-lesson-formats">
