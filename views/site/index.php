@@ -2,7 +2,6 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\StaticContent $homeTitle */
-/** @var app\models\StaticContent $homeWelcome */
 /** @var app\models\StaticContent $homeNews */
 
 use yii\helpers\Url;

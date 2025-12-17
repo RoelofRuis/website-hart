@@ -27,6 +27,7 @@ class StaticContent extends ActiveRecord
 
     public static function findByKey(string $key): self
     {
+        // TODO: add caching
         return static::findOne(['key' => $key]) ?? new static();
     }
 }

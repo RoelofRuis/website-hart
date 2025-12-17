@@ -14,7 +14,7 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
   const stateByInput = new Map();
 
   async function runSearch(opts, q) {
-    const { resultsEl, spinnerEl, endpoint, paramName, method } = opts;
+    const { resultsEl, spinnerEl, endpoint, paramName } = opts;
     const key = opts.inputEl;
     let st = stateByInput.get(key) || { controller: null, lastQ: '' };
 
@@ -31,23 +31,10 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
 
     try {
       const url = new URL(endpoint, window.location.origin);
-      if (method === 'GET') {
-        url.searchParams.set(paramName, q);
-      }
+      url.searchParams.set(paramName, q);
 
-      const headers = {};
-      const fetchOpts = { method, headers, signal: st.controller.signal, credentials: 'same-origin' };
-      let body = null;
-      if (method !== 'GET') {
-        headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-        const csrfParam = document.querySelector('meta[name="csrf-param"]');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]');
-        const params = new URLSearchParams();
-        params.set(paramName, q);
-        if (csrfParam && csrfToken) params.set(csrfParam.getAttribute('content') || '_csrf', csrfToken.getAttribute('content') || '');
-        body = params.toString();
-        fetchOpts.body = body;
-      }
+      const headers = {'Accept': 'text/html'};
+      const fetchOpts = { method: 'GET', headers, signal: st.controller.signal, credentials: 'same-origin' };
 
       const res = await fetch(url.toString(), fetchOpts);
       if (!res.ok) throw new Error('Search request failed: ' + res.status);
@@ -75,7 +62,6 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
       spinnerEl,
       endpoint: options.endpoint,
       paramName: options.paramName || 'q',
-      method: (options.method || 'GET').toUpperCase(),
       minLen: 2,
     };
 

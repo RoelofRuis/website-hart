@@ -85,7 +85,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionContactSubmit(): Response
+    public function actionContactSubmit()
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -142,12 +142,12 @@ class SiteController extends Controller
         $urls[] = Url::to(['site/locations'], true);
         $urls[] = Url::to(['site/copyright'], true);
 
-        foreach (CourseNode::find()->all() as $course) {
-            $urls[] = Url::to(['course/view', 'slug' => $course->slug], true);
+        foreach (CourseNode::find()->select(['slug'])->column() as $course_slug) {
+            $urls[] = Url::to(['course/view', 'slug' => $course_slug], true);
         }
 
-        foreach (Teacher::find()->all() as $teacher) {
-            $urls[] = Url::to(['teacher/view', 'slug' => $teacher->slug], true);
+        foreach (Teacher::find()->select(['slug'])->column() as $teacher_slug) {
+            $urls[] = Url::to(['teacher/view', 'slug' => $teacher_slug], true);
         }
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';

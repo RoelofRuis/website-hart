@@ -38,7 +38,6 @@ class LockedField extends InputWidget
         $inputOptions = array_merge([
             'class' => 'form-control',
             'id' => $inputId,
-            'maxlength' => true,
         ], $this->inputOptions);
 
         if ($this->locked) {
