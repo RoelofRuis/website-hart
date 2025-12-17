@@ -84,8 +84,10 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
       resultsEl.innerHTML = emptyMsg ? '<div class="text-muted">' + emptyMsg + '</div>' : '';
     }
 
-    // Initial empty state
-    if (!inputEl.value || inputEl.value.length < opts.minLen) {
+    // Initial state: if no query, fetch default courses; if short query, show hint; if >= minLen, search
+    if (!inputEl.value || inputEl.value.length === 0) {
+      runSearch(opts, '');
+    } else if (inputEl.value.length < opts.minLen) {
       showEmpty();
     } else {
       // If page loads with query, fetch immediately to hydrate results
@@ -97,6 +99,9 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
       const q = inputEl.value.trim();
       if (q.length >= opts.minLen) {
         runSearch(opts, q);
+      } else if (q.length === 0) {
+        // Request default results (courses) when input is empty
+        runSearch(opts, '');
       } else {
         showEmpty();
       }
@@ -111,6 +116,9 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
       const q = inputEl.value.trim();
       if (q.length >= opts.minLen) {
         runSearch(opts, q);
+      } else if (q.length === 0) {
+        // Submit with empty query to get default results
+        runSearch(opts, '');
       } else {
         showEmpty();
       }

@@ -6,6 +6,9 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Url;
 
+/**
+ * @deprecated TODO: combine with SearchWidget (Add filter on type)
+ */
 class SearchBar extends Widget
 {
     public string $placeholder = '';

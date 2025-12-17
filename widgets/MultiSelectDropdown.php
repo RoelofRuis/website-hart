@@ -5,12 +5,6 @@ namespace app\widgets;
 use Yii;
 use yii\base\Widget;
 
-/**
- * Generic reusable multi-select dropdown widget (Bootstrap 5).
- *
- * Renders a Bootstrap dropdown containing a list of checkboxes. The selected
- * values are submitted as an array using the provided input name.
- */
 class MultiSelectDropdown extends Widget
 {
     public string $name;

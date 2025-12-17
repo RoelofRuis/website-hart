@@ -10,47 +10,56 @@ $minLen = 2;
 $qNorm = trim((string)$q);
 ?>
 
-<?php if ($qNorm === '' || mb_strlen($qNorm) < $minLen): ?>
-    <div class="text-muted small">
-        <?= Html::encode(Yii::t('app', 'Type at least {n} characters to search…', ['n' => $minLen])) ?>
-    </div>
-<?php else: ?>
-    <?php if (empty($results)): ?>
-        <div class="alert alert-info mb-0">
-            <?= Html::encode(Yii::t('app', 'No results found for')) ?>
-            <strong><?= Html::encode($qNorm) ?></strong>
-        </div>
-    <?php else: ?>
-        <div class="list-group">
+<?php if (!empty($results)): ?>
+        <div class="row">
             <?php foreach ($results as $item): ?>
                 <?php
                 $type = $item['type'] ?? '';
                 $title = $item['title'] ?? '';
                 $url = $item['url'] ?? '#';
                 $snippet = $item['snippet'] ?? '';
-                $badgeClass = match ($type) {
-                    'course' => 'bg-primary',
-                    'teacher' => 'bg-success',
-                    'static' => 'bg-secondary',
-                    default => 'bg-light text-dark',
-                };
-                $typeLabel = match ($type) {
-                    'course' => 'Course',
-                    'teacher' => 'Teacher',
-                    'static' => 'Page',
-                    default => 'Result',
+                $image = $item['image'] ?? null;
+
+                $cta = match ($type) {
+                    'course' => Yii::t('app', 'View course'),
+                    'teacher' => Yii::t('app', 'View teacher'),
+                    'static' => Yii::t('app', 'Read more'),
+                    default => Yii::t('app', 'Open'),
                 };
                 ?>
-                <a class="list-group-item list-group-item-action" href="<?= Html::encode($url) ?>">
-                    <div class="d-flex w-100 justify-content-between align-items-start">
-                        <h5 class="mb-1 me-2"><?= Html::encode($title) ?></h5>
-                        <span class="badge <?= Html::encode($badgeClass) ?>"><?= Html::encode($typeLabel) ?></span>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm position-relative clickable-card">
+                        <?php if (!empty($image)): ?>
+                            <?= Html::img($image, [
+                                'class' => 'card-img-top',
+                                'alt' => Html::encode($title),
+                            ]) ?>
+                        <?php endif; ?>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title"><?= Html::encode($title) ?></h5>
+                            <?php if (!empty($snippet)): ?>
+                                <p class="card-text text-muted"><?= Html::encode(strip_tags((string)$snippet)) ?></p>
+                            <?php endif; ?>
+                            <div class="mt-auto">
+                                <?= Html::a($cta, $url, [
+                                    'class' => 'btn btn-outline-primary mt-auto stretched-link',
+                                    'aria-label' => $cta . ': ' . $title,
+                                ]) ?>
+                            </div>
+                        </div>
                     </div>
-                    <?php if (!empty($snippet)): ?>
-                        <p class="mb-1 text-muted"><?= $snippet ?></p>
-                    <?php endif; ?>
-                </a>
+                </div>
             <?php endforeach; ?>
+        </div>
+<?php else: ?>
+    <?php if ($qNorm === '' || mb_strlen($qNorm) < $minLen): ?>
+        <div class="text-muted small">
+            <?= Html::encode(Yii::t('app', 'Type at least {n} characters to search…', ['n' => $minLen])) ?>
+        </div>
+    <?php else: ?>
+        <div class="alert alert-info mb-0">
+            <?= Html::encode(Yii::t('app', 'No results found for')) ?>
+            <strong><?= Html::encode($qNorm) ?></strong>
         </div>
     <?php endif; ?>
 <?php endif; ?>

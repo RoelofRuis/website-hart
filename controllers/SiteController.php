@@ -44,7 +44,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-            'homeContent' => StaticContent::findByKey('home'),
+            'homeTitle' => StaticContent::findByKey('home-title'),
+            'homeNews' => StaticContent::findByKey('home-news'),
         ]);
     }
 

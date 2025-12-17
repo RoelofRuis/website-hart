@@ -75,7 +75,12 @@ return [
         'slug' => 'locations',
     ],
     [
-        'key' => 'home',
+        'key' => 'home-title',
+        'content' => '<h1 class="mb-2">Welkom bij HART Muziekschool</h1><p class="lead mb-0">Samen muziek maken, leren en beleven.</p>',
+        'slug' => 'home-title'
+    ],
+    [
+        'key' => 'home-news',
         'content' => '<h2>Nieuws & updates</h2>
 <p>Welkom bij Vereniging HART Muziekschool. Hier lees je kort wat er speelt binnen onze vereniging.</p>
 

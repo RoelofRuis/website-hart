@@ -7,7 +7,6 @@
  * @var app\models\Teacher[] $teachers
  */
 
-use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\Markdown;
 use yii\helpers\HtmlPurifier;
@@ -23,22 +22,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endforeach; ?>
 
     <div class="row">
-        <div class="col-lg-7 col-xl-8 mb-4">
-            <?php if (!empty($model->cover_image)): ?>
-                <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover" class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
-            <?php endif; ?>
-            <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
-            <div class="lead">
-                <?php
-                // Render Markdown safely (GitHub-Flavored)
-                $html = Markdown::process($model->description ?? '', 'gfm');
-                echo HtmlPurifier::process($html);
-                ?>
-            </div>
+        <?php if ($model->is_taught): ?>
+            <div class="col-lg-7 col-xl-8 mb-4">
+                <?php if (!empty($model->cover_image)): ?>
+                    <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover" class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
+                <?php endif; ?>
+                <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
+                <div class="lead">
+                    <?php
+                    // Render Markdown safely (GitHub-Flavored)
+                    $html = Markdown::process($model->description ?? '', 'gfm');
+                    echo HtmlPurifier::process($html);
+                    ?>
+                </div>
 
-            <?= $this->render('_lesson_options', ['model' => $model]) ?>
+                <?= $this->render('_lesson_options', ['model' => $model]) ?>
 
-            <?php if ($model->is_taught): ?>
                 <div class="d-none d-lg-block">
                     <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
                     <?= $this->render('_teachers_grid', [
@@ -46,29 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'colClasses' => 'col-md-6 col-lg-4',
                     ]) ?>
                 </div>
-            <?php endif; ?>
-        </div>
+            </div>
 
-        <?php if ($model->is_taught): ?>
             <div class="col-lg-5 col-xl-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h3 class="card-title mb-3"><?= Html::encode(Yii::t('app', 'Sign up for this course')) ?></h3>
-                        <p class="text-muted mb-4"><?= Html::encode(Yii::t('app', 'Fill in the form and we will contact you soon.')) ?></p>
-
-                        <?php $form = ActiveForm::begin(['id' => 'course-signup-form']); ?>
-                            <?= $form->field($contact, 'age')->input('number', ['min' => 0, 'max' => 100]) ?>
-                            <?= $form->field($contact, 'name')->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($contact, 'email')->input('email') ?>
-                            <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
-
-                            <div class="d-grid">
-                                <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'btn btn-primary']) ?>
-                            </div>
-                        <?php ActiveForm::end(); ?>
-                    </div>
-                </div>
+                <?= $this->render('_contact_form', ['contact' => $contact]) ?>
             </div>
 
             <div class="col-12 d-lg-none mt-4">
@@ -78,29 +58,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'colClasses' => 'col-12 col-md-6',
                 ]) ?>
             </div>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php else: ?>
+        <div class="col-6 mb-4">
+            <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover" class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
+        </div>
+        <div class="col-6">
+            <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
+            <div class="lead">
+                <?php
+                // Render Markdown safely (GitHub-Flavored)
+                $html = Markdown::process($model->description ?? '', 'gfm');
+                echo HtmlPurifier::process($html);
+                ?>
+            </div>
+        </div>
+        <pre>TODO: courses</pre>
+    <?php endif; ?>
 </div>
-
-<?php
-$js = <<<JS
-(function(){
-  var ageInput = document.getElementById('coursesignup-age');
-  var nameLabel = document.querySelector('label[for="coursesignup-contact_name"]');
-  function updateLabel(){
-    if (!ageInput || !nameLabel) return;
-    var age = parseInt(ageInput.value, 10);
-    if (!isNaN(age) && age < 19) {
-      nameLabel.textContent = 'Naam ouder/verzorger';
-    } else {
-      nameLabel.textContent = 'Naam cursist';
-    }
-  }
-  if (ageInput) {
-    ageInput.addEventListener('input', updateLabel);
-    updateLabel();
-  }
-})();
-JS;
-$this->registerJs($js);
-?>

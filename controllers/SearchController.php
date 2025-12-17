@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Url;
+use app\models\CourseNode;
 
 class SearchController extends Controller
 {
@@ -14,7 +15,20 @@ class SearchController extends Controller
 
         $results = [];
         $qNorm = trim((string)$q);
-        if ($qNorm !== '' && mb_strlen($qNorm) >= 2) {
+        if ($qNorm === '' || mb_strlen($qNorm) === 0) {
+            // Default: show courses when there is no query. Limit 15.
+            $courses = CourseNode::findTaughtCourses()->limit(15)->all();
+            foreach ($courses as $course) {
+                $results[] = [
+                    'type' => 'course',
+                    'title' => (string)$course->name,
+                    'url' => Url::to(['course/view', 'slug' => $course->slug]),
+                    'snippet' => (string)($course->summary ?? ''),
+                    'image' => $course->cover_image ? (string)$course->cover_image : null,
+                    'rank' => 0,
+                ];
+            }
+        } elseif ($qNorm !== '' && mb_strlen($qNorm) >= 2) {
             $db = Yii::$app->db;
 
             // Full-text search across course_node, teacher, and static_content using their search_vector columns.
@@ -23,14 +37,15 @@ class SearchController extends Controller
                 WITH query AS (
                     SELECT websearch_to_tsquery('dutch', unaccent(:q)) AS q
                 )
-                SELECT type, title, slug, rank, snippet
+                SELECT type, title, slug, rank, snippet, image
                 FROM (
                     SELECT 'course'::text AS type,
                            c.name AS title,
                            c.slug AS slug,
                            ts_rank_cd(c.search_vector, query.q, 32) AS rank,
                            ts_headline('dutch', COALESCE(c.summary, ''), query.q,
-                                       'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet
+                                       'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet,
+                           c.cover_image AS image
                     FROM {{%course_node}} c, query
                     WHERE c.search_vector @@ query.q
                     UNION ALL
@@ -39,7 +54,8 @@ class SearchController extends Controller
                            t.slug AS slug,
                            ts_rank_cd(t.search_vector, query.q, 32) AS rank,
                            ts_headline('dutch', COALESCE(t.description, ''), query.q,
-                                       'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet
+                                       'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet,
+                           t.profile_picture AS image
                     FROM {{%teacher}} t, query
                     WHERE t.search_vector @@ query.q
                     UNION ALL
@@ -48,7 +64,8 @@ class SearchController extends Controller
                            s.slug AS slug,
                            ts_rank_cd(s.search_vector, query.q, 32) AS rank,
                            ts_headline('dutch', COALESCE(s.content, ''), query.q,
-                                       'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet
+                                       'ShortWord=3, MaxFragments=2, MinWords=5, MaxWords=12, HighlightAll=FALSE') AS snippet,
+                           NULL::text AS image
                     FROM {{%static_content}} s, query
                     WHERE s.search_vector @@ query.q
                 ) AS unioned
@@ -65,6 +82,7 @@ class SearchController extends Controller
                 $slug = (string)$row['slug'];
                 $rank = (float)$row['rank'];
                 $snippet = (string)($row['snippet'] ?? '');
+                $image = isset($row['image']) ? (string)$row['image'] : null;
 
                 if ($type === 'course') {
                     $url = Url::to(['course/view', 'slug' => $slug]);
@@ -81,6 +99,7 @@ class SearchController extends Controller
                     'title' => $title,
                     'url' => $url,
                     'snippet' => $snippet,
+                    'image' => $image,
                     'rank' => $rank,
                 ];
             }
