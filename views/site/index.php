@@ -24,7 +24,7 @@ $this->title = 'Vereniging HART Muziekschool'
 
     <div class="container" style="background: white; border-radius: .5rem;">
         <?php if (!empty($homeNews) && !empty($homeNews->content)): ?>
-            <section class="home-news">
+            <section class="home-news py-3 mb-3">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">
                         <?= $homeNews->content ?>
@@ -36,8 +36,7 @@ $this->title = 'Vereniging HART Muziekschool'
 
     <div class="container my-4">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10">
-                <h2 class="text-center"><?= Yii::t('app', 'Our available courses'); ?></h2>
+            <div class="col-12 col-lg-10" style="background: #B2DCDA; border-radius: .5rem;">
                 <?= SearchWidget::widget([
                     'endpoint' => Url::to(['search/index']),
                     'placeholder' => Yii::t('app', 'Search courses, teachers, lessons…'),
