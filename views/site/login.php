@@ -6,6 +6,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = Yii::t('app', 'Teacher login');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login row justify-content-center">
     <div class="col-md-6">

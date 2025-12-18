@@ -2,6 +2,9 @@
 /** @var yii\web\View $this */
 /** @var string|null $q */
 /** @var array[] $results */
+/** @var bool $hasMore */
+/** @var int|null $nextPage */
+/** @var bool $suppressEmpty */
 
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -51,15 +54,20 @@ $qNorm = trim((string)$q);
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php if (!empty($hasMore) && !empty($nextPage)): ?>
+            <div class="hart-search-meta" data-next-page="<?= (int)$nextPage ?>"></div>
+        <?php endif; ?>
 <?php else: ?>
-    <?php if ($qNorm === '' || mb_strlen($qNorm) < $minLen): ?>
-        <div class="text-muted small">
-            <?= Html::encode(Yii::t('app', 'Type at least {n} characters to search…', ['n' => $minLen])) ?>
-        </div>
-    <?php else: ?>
-        <div class="alert alert-info mb-0">
-            <?= Html::encode(Yii::t('app', 'No results found for')) ?>
-            <strong><?= Html::encode($qNorm) ?></strong>
-        </div>
+    <?php if (empty($suppressEmpty)): ?>
+        <?php if ($qNorm === '' || mb_strlen($qNorm) < $minLen): ?>
+            <div class="text-muted small">
+                <?= Html::encode(Yii::t('app', 'Type at least {n} characters to search…', ['n' => $minLen])) ?>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-info mb-0">
+                <?= Html::encode(Yii::t('app', 'No results found for')) ?>
+                <strong><?= Html::encode($qNorm) ?></strong>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endif; ?>

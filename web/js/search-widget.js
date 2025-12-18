@@ -1,114 +1,169 @@
 /* global window, document, fetch */
 
-// Small helper: debounce a function
 function debounce(fn, ms) {
   let t;
-  return function debounced(...args) {
+  return function (...args) {
     clearTimeout(t);
     t = setTimeout(() => fn.apply(this, args), ms);
   };
 }
 
-// Global namespace to init multiple widgets on a page
 window.HartSearchWidget = window.HartSearchWidget || (function () {
-  const stateByInput = new Map();
+  const state = new WeakMap();
 
-  async function runSearch(opts, q) {
-    const { resultsEl, spinnerEl, endpoint, paramName } = opts;
-    const key = opts.inputEl;
-    let st = stateByInput.get(key) || { controller: null, lastQ: '' };
+  function buildUrl(cfg, q, page, suppressEmpty) {
+    const url = new URL(cfg.endpoint, window.location.origin);
+    url.searchParams.set(cfg.paramName, q);
+    if (cfg.type) url.searchParams.set('type', cfg.type);
+    if (cfg.parentId) url.searchParams.set('parentId', cfg.parentId);
+    if (cfg.perPage) url.searchParams.set('perPage', String(cfg.perPage));
+    if (page && page > 1) url.searchParams.set('page', String(page));
+    if (suppressEmpty) url.searchParams.set('suppressEmpty', '1');
+    return url;
+  }
 
-    // Abort previous in-flight request
-    if (st.controller) {
-      st.controller.abort();
+  function setError(cfg, message) {
+    if (!cfg.errorEl) return;
+    cfg.errorEl.classList.remove('d-none');
+    cfg.errorEl.innerHTML = '<div class="alert alert-danger mb-0">' + (message || 'Request failed') + '</div>';
+  }
+
+  function clearError(cfg) {
+    if (cfg.errorEl) {
+      cfg.errorEl.classList.add('d-none');
+      cfg.errorEl.innerHTML = '';
     }
-    st.controller = new AbortController();
-    st.lastQ = q;
-    stateByInput.set(key, st);
+  }
 
-    // Loading UI
-    if (spinnerEl) spinnerEl.classList.remove('d-none');
+  function parseNextPage(fragment) {
+    const meta = fragment.querySelector('.hart-search-meta');
+    if (!meta) return null;
+    const np = meta.getAttribute('data-next-page');
+    return np ? parseInt(np, 10) : null;
+  }
 
+  async function fetchAndRender(cfg, q, page, append) {
+    clearError(cfg);
+    const st = state.get(cfg.root) || {};
+    if (st.controller) st.controller.abort();
+    const controller = new AbortController();
+    state.set(cfg.root, { controller, lastQ: q, page: page || 1 });
+
+    if (cfg.spinnerEl) cfg.spinnerEl.classList.remove('d-none');
     try {
-      const url = new URL(endpoint, window.location.origin);
-      url.searchParams.set(paramName, q);
-
-      const headers = {'Accept': 'text/html'};
-      const fetchOpts = { method: 'GET', headers, signal: st.controller.signal, credentials: 'same-origin' };
-
-      const res = await fetch(url.toString(), fetchOpts);
-      if (!res.ok) throw new Error('Search request failed: ' + res.status);
+      const url = buildUrl(cfg, q, page || 1, append);
+      const res = await fetch(url.toString(), {
+        method: 'GET',
+        headers: { 'Accept': 'text/html' },
+        signal: controller.signal,
+        credentials: 'same-origin'
+      });
+      if (!res.ok) throw new Error('' + res.status + ' ' + res.statusText);
       const html = await res.text();
-      resultsEl.innerHTML = html.trim();
+      const temp = document.createElement('div');
+      temp.innerHTML = html.trim();
+      const rows = temp.querySelector('.row');
+      const nextPage = parseNextPage(temp);
+
+      if (!append) cfg.resultsEl.innerHTML = '';
+      if (rows) {
+        if (append) {
+          cfg.resultsEl.appendChild(rows);
+        } else {
+          cfg.resultsEl.appendChild(rows);
+        }
+      } else if (!append) {
+        // In case of no .row returned (e.g., messages), place whole content
+        cfg.resultsEl.innerHTML = html.trim();
+      }
+
+      if (nextPage) {
+        cfg.loadMoreBtn.classList.remove('d-none');
+        cfg.loadMoreBtn.disabled = false;
+        cfg.loadMoreBtn.dataset.nextPage = String(nextPage);
+      } else {
+        cfg.loadMoreBtn.classList.add('d-none');
+        delete cfg.loadMoreBtn.dataset.nextPage;
+      }
     } catch (e) {
-      if (e.name === 'AbortError') return; // benign
-      // Render a minimal error state, but do not throw
-      resultsEl.innerHTML = '<div class="alert alert-warning mb-0">' + (e.message || 'Search failed') + '</div>';
+      if (e.name === 'AbortError') return;
+      setError(cfg, e.message || 'Request failed');
     } finally {
-      if (spinnerEl) spinnerEl.classList.add('d-none');
+      if (cfg.spinnerEl) cfg.spinnerEl.classList.add('d-none');
+    }
+  }
+
+  function initOne(root) {
+    const cfg = {
+      root,
+      endpoint: root.getAttribute('data-endpoint'),
+      paramName: root.getAttribute('data-param') || 'q',
+      type: root.getAttribute('data-type') || 'all',
+      parentId: root.getAttribute('data-parent-id') || '',
+      perPage: parseInt(root.getAttribute('data-per-page') || '12', 10),
+      debounceMs: parseInt(root.getAttribute('data-debounce') || '250', 10),
+      formEl: document.getElementById(root.getAttribute('data-form-id')),
+      inputEl: document.getElementById(root.getAttribute('data-input-id')),
+      resultsEl: document.getElementById(root.getAttribute('data-results-id')),
+      spinnerEl: document.getElementById(root.getAttribute('data-spinner-id')),
+      errorEl: document.getElementById(root.getAttribute('data-error-id')),
+      loadMoreBtn: document.getElementById(root.getAttribute('data-load-more-id')),
+      minLen: 2,
+    };
+    if (!cfg.endpoint || !cfg.formEl || !cfg.inputEl || !cfg.resultsEl) return;
+
+    const onType = debounce(() => {
+      const q = cfg.inputEl.value.trim();
+      if (q.length >= cfg.minLen || q.length === 0) {
+        // Reset to first page
+        fetchAndRender(cfg, q, 1, false);
+      } else {
+        // show placeholder when too short
+        const emptyMsg = cfg.resultsEl.getAttribute('data-empty') || '';
+        cfg.resultsEl.innerHTML = emptyMsg ? '<div class="text-muted">' + emptyMsg + '</div>' : '';
+        cfg.loadMoreBtn.classList.add('d-none');
+      }
+    }, cfg.debounceMs);
+
+    cfg.inputEl.addEventListener('input', onType);
+    cfg.formEl.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      onType();
+    });
+
+    if (cfg.loadMoreBtn) {
+      cfg.loadMoreBtn.addEventListener('click', () => {
+        const q = cfg.inputEl.value.trim();
+        const next = parseInt(cfg.loadMoreBtn.dataset.nextPage || '0', 10);
+        if (!next) return;
+        cfg.loadMoreBtn.disabled = true;
+        fetchAndRender(cfg, q, next, true);
+      });
+    }
+
+    // Initial load
+    const q0 = (cfg.inputEl.value || '').trim();
+    if (q0.length >= cfg.minLen || q0.length === 0) {
+      fetchAndRender(cfg, q0, 1, false);
     }
   }
 
   function init(options) {
-    const inputEl = document.getElementById(options.inputId);
-    const resultsEl = document.getElementById(options.resultsId);
-    const spinnerEl = document.getElementById(options.spinnerId);
-    const formEl = document.getElementById(options.formId);
-    if (!inputEl || !resultsEl || !formEl) return;
+    // Backward compatibility: allow manual init with options (not used when data-init present)
+    const root = document.getElementById(options.rootId) || document;
+    const el = root.querySelector('[data-hart-search]');
+    if (el) initOne(el);
+  }
 
-    const opts = {
-      inputEl,
-      resultsEl,
-      spinnerEl,
-      endpoint: options.endpoint,
-      paramName: options.paramName || 'q',
-      minLen: 2,
-    };
+  function autoInit() {
+    document.querySelectorAll('[data-hart-search]')
+      .forEach((root) => initOne(root));
+  }
 
-    const emptyMsg = resultsEl.getAttribute('data-empty');
-    function showEmpty() {
-      resultsEl.innerHTML = emptyMsg ? '<div class="text-muted">' + emptyMsg + '</div>' : '';
-    }
-
-    // Initial state: if no query, fetch default courses; if short query, show hint; if >= minLen, search
-    if (!inputEl.value || inputEl.value.length === 0) {
-      runSearch(opts, '');
-    } else if (inputEl.value.length < opts.minLen) {
-      showEmpty();
-    } else {
-      // If page loads with query, fetch immediately to hydrate results
-      runSearch(opts, inputEl.value);
-    }
-
-    // Debounced live search on input
-    const onType = debounce(() => {
-      const q = inputEl.value.trim();
-      if (q.length >= opts.minLen) {
-        runSearch(opts, q);
-      } else if (q.length === 0) {
-        // Request default results (courses) when input is empty
-        runSearch(opts, '');
-      } else {
-        showEmpty();
-      }
-    }, options.debounceMs || 250);
-
-    inputEl.addEventListener('input', onType);
-
-    // Progressive enhancement: allow normal form submit (Enter)
-    formEl.addEventListener('submit', function (ev) {
-      // For full-page fallback, remove the next line.
-      ev.preventDefault();
-      const q = inputEl.value.trim();
-      if (q.length >= opts.minLen) {
-        runSearch(opts, q);
-      } else if (q.length === 0) {
-        // Submit with empty query to get default results
-        runSearch(opts, '');
-      } else {
-        showEmpty();
-      }
-    });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInit);
+  } else {
+    autoInit();
   }
 
   return { init };

@@ -10,6 +10,7 @@ class m251201_000000_static extends Migration
             'key' => $this->string(16)->notNull()->unique(),
             'content' => $this->text()->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
+            'updated_at' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
         ]);
         $this->addPrimaryKey('pk_static_content', '{{%static_content}}', 'key');
 

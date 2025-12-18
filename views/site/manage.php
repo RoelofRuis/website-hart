@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /** @var yii\web\View $this */
 
 $this->title = Yii::t('app', 'Teacher Dashboard');
-$this->params['breadcrumbs'][] = Yii::t('app', 'Teacher Dashboard');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-manage py-4">
     <div class="container">
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Teacher Dashboard');
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Messages')) ?></h5>
-                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'View contact messages from students.')) ?></p>
+                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'View contact messages and signups from students.')) ?></p>
                         </div>
                     </div>
                 </a>

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\StaticContent;
 use Yii;
+use yii\caching\TagDependency;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -56,6 +57,11 @@ class StaticContentController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
+                TagDependency::invalidate(Yii::$app->cache, [
+                    'static-content',
+                    'static-content:key:' . $model->key,
+                    'static-content:slug:' . $model->slug,
+                ]);
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Saved'));
                 return $this->redirect(['admin']);
             } else {

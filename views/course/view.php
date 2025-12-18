@@ -10,6 +10,8 @@
 use yii\bootstrap5\Html;
 use yii\helpers\Markdown;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Url;
+use app\widgets\SearchWidget;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
@@ -60,10 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     <?php else: ?>
-        <div class="col-6 mb-4">
-            <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover" class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
-        </div>
-        <div class="col-6">
+        <div class="col-12 col-lg-6 mb-4">
+            <?php if (!empty($model->cover_image)): ?>
+                <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover" class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
+            <?php endif; ?>
             <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
             <div class="lead">
                 <?php
@@ -73,6 +75,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
             </div>
         </div>
-        <pre>TODO: courses</pre>
+        <div class="col-12 col-lg-6">
+            <h3 class="mt-2"><?= Html::encode(Yii::t('app', 'Courses')) ?></h3>
+            <?= SearchWidget::widget([
+                'endpoint' => Url::to(['search/index']),
+                'placeholder' => Yii::t('app', 'Search in this collection'),
+                'type' => 'children',
+                'parentId' => $model->id,
+                'perPage' => 12,
+            ]) ?>
+        </div>
     <?php endif; ?>
 </div>

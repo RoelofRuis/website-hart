@@ -3,9 +3,8 @@
 namespace app\controllers;
 
 use app\models\CourseNode;
-use app\models\forms\LoginForm;
 use app\models\forms\ContactForm;
-use app\models\Location;
+use app\models\forms\LoginForm;
 use app\models\StaticContent;
 use app\models\Teacher;
 use Yii;
@@ -49,42 +48,6 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionCopyright()
-    {
-        return $this->render('copyright', [
-            'content' => StaticContent::findByKey('copyright'),
-        ]);
-    }
-
-    public function actionAssociation()
-    {
-        return $this->render('association', [
-            'content' => StaticContent::findByKey('association'),
-        ]);
-    }
-
-    public function actionContact()
-    {
-        return $this->render('contact', [
-            'content' => StaticContent::findByKey('contact'),
-        ]);
-    }
-
-    public function actionAvg()
-    {
-        return $this->render('avg', [
-            'content' => StaticContent::findByKey('privacy'),
-        ]);
-    }
-
-    public function actionLocations()
-    {
-        return $this->render('locations', [
-            'locations' => Location::find()->all(),
-            'content' => StaticContent::findByKey('locations'),
-        ]);
-    }
-
     public function actionContactSubmit()
     {
         $model = new ContactForm();
@@ -99,7 +62,7 @@ class SiteController extends Controller
         }
 
         $referrer = Yii::$app->request->referrer;
-        return $this->redirect($referrer ?: ['site/contact']);
+        return $this->redirect($referrer ?: ['static/contact']);
     }
 
     public function actionLogin()
@@ -136,11 +99,11 @@ class SiteController extends Controller
         $urls = [];
 
         $urls[] = Url::to(['site/index'], true);
-        $urls[] = Url::to(['site/contact'], true);
-        $urls[] = Url::to(['site/avg'], true);
-        $urls[] = Url::to(['site/association'], true);
-        $urls[] = Url::to(['site/locations'], true);
-        $urls[] = Url::to(['site/copyright'], true);
+        $urls[] = Url::to(['static/contact'], true);
+        $urls[] = Url::to(['static/avg'], true);
+        $urls[] = Url::to(['static/association'], true);
+        $urls[] = Url::to(['static/locations'], true);
+        $urls[] = Url::to(['static/copyright'], true);
 
         foreach (CourseNode::find()->select(['slug'])->column() as $course_slug) {
             $urls[] = Url::to(['course/view', 'slug' => $course_slug], true);

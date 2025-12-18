@@ -75,11 +75,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <div class="row text-muted align-items-start gy-2">
             <div class="col-12 col-md-5 text-md-start text-center">
                 <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><a href="<?= Url::to(['site/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
-                    <li class="mb-2"><a href="<?= Url::to(['site/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
-                    <li class="mb-2"><a href="<?= Url::to(['site/association']) ?>"><?= Html::encode(Yii::t('app', 'Association & Board')) ?></a></li>
-                    <li class="mb-2"><a href="<?= Url::to(['site/contact']) ?>"><?= Html::encode(Yii::t('app', 'Contact')) ?></a></li>
-                    <li class="mb-2"><a href="<?= Url::to(['site/avg']) ?>"><?= Html::encode(Yii::t('app', 'AVG / Privacy')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/association']) ?>"><?= Html::encode(Yii::t('app', 'Association & Board')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/contact']) ?>"><?= Html::encode(Yii::t('app', 'Contact')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/avg']) ?>"><?= Html::encode(Yii::t('app', 'AVG / Privacy')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
                 </ul>
             </div>
 
@@ -92,11 +92,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </ul>
             </div>
 
-            <?php if (Yii::$app->user->isGuest): ?>
-                <div class="col-12 col-md-2 text-md-end text-center">
+            <div class="col-12 col-md-2 text-md-end text-center">
+                <?php if (Yii::$app->user->isGuest): ?>
                     <a class="mb-2" href="<?= Url::to(['site/login']) ?>"><?= Html::encode(Yii::t('app', 'Teacher login')) ?></a><br/>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <a class="mb-2" href="<?= Url::to(['site/logout']) ?>"><?= Html::encode(Yii::t('app', 'Logout')) ?></a><br/>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     </footer>

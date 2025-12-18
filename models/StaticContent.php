@@ -2,12 +2,16 @@
 
 namespace app\models;
 
+use DateTime;
+use Yii;
+use yii\caching\TagDependency;
 use yii\db\ActiveRecord;
 
 /**
  * @property string $key
  * @property string $content
  * @property string $slug
+ * @property DateTime $updated_at
  */
 class StaticContent extends ActiveRecord
 {
@@ -27,7 +31,21 @@ class StaticContent extends ActiveRecord
 
     public static function findByKey(string $key): self
     {
-        // TODO: add caching
-        return static::findOne(['key' => $key]) ?? new static();
+        $cacheKey = [__METHOD__, $key];
+        $data = Yii::$app->cache->getOrSet($cacheKey, function () use ($key) {
+            $row = static::find()->where(['key' => $key])->asArray()->one();
+            return $row ?: [];
+        }, 600, new TagDependency(['tags' => [
+            'static-content',
+            'static-content:key:' . $key,
+        ]]));
+
+        if (empty($data)) {
+            return new static();
+        }
+
+        $model = new static();
+        $model->setAttributes($data, false);
+        return $model;
     }
 }

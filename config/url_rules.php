@@ -4,11 +4,12 @@ return [
     // Publieke paginas
     // Static pages
     '' => 'site/index',
-    'contact' => 'site/contact',
-    'avg-privacy' => 'site/avg',
-    'vereniging' => 'site/association',
-    'locaties' => 'site/locations',
-    'auteursrecht' => 'site/copyright',
+    'portaal/login' => 'site/login',
+    'contact' => 'static/contact',
+    'avg-privacy' => 'static/avg',
+    'vereniging' => 'static/association',
+    'locaties' => 'static/locations',
+    'auteursrecht' => 'static/copyright',
     'sitemap.xml' => 'site/sitemap',
 
     // Courses
@@ -25,6 +26,7 @@ return [
     // Geauthenticeerde paginas
     // Portaal (Manage)
     'portaal' => 'site/manage',
+    'portaal/logout' => 'site/logout',
     'portaal/berichten' => 'contact/messages',
     'portaal/docent/<id:\d+>' => 'teacher/update',
     'portaal/cursussen' => 'course/admin',

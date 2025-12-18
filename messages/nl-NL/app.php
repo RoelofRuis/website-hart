@@ -158,7 +158,7 @@ return [
     'Unlock' => 'Ontgrendel',
     'Unlock to edit' => 'Ontgrendel om aan te passen',
     'Use custom location' => 'Gebruik aangepaste locatie',
-    'View contact messages from students.' => 'Bekijk berichten van cursisten.',
+    'View contact messages and signups from students.' => 'Bekijk berichten en inschrijvingen van cursisten.',
     'View course' => 'Bekijk cursus',
     'View course: {name}' => 'Bekijk cursus: {name}',
     'View profile' => 'Bekijk profiel',
