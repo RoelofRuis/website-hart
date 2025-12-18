@@ -10,7 +10,7 @@ use app\widgets\SearchWidget;
 $this->title = 'Vereniging HART Muziekschool'
 ?>
 <div class="site-index">
-    <div class="container my-4" style="background: #55BDBE; border-radius: .5rem;">
+    <div class="container my-4 section-box section-turquoise">
         <?php if (!empty($homeTitle) && !empty($homeTitle->content)): ?>
             <section class="home-title py-3 mb-3">
                 <div class="row justify-content-center">
@@ -22,7 +22,7 @@ $this->title = 'Vereniging HART Muziekschool'
         <?php endif; ?>
     </div>
 
-    <div class="container" style="background: white; border-radius: .5rem;">
+    <div class="container section-box section-white">
         <?php if (!empty($homeNews) && !empty($homeNews->content)): ?>
             <section class="home-news py-3 mb-3">
                 <div class="row justify-content-center">
@@ -36,7 +36,7 @@ $this->title = 'Vereniging HART Muziekschool'
 
     <div class="container my-4">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10" style="background: #B2DCDA; border-radius: .5rem;">
+            <div class="col-12 col-lg-10 section-box section-light-blue">
                 <?= SearchWidget::widget([
                     'endpoint' => Url::to(['search/index']),
                     'placeholder' => Yii::t('app', 'Search courses, teachers, lessons…'),

@@ -51,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <?php foreach ($model->getTaughtCourses()->all() as $course): ?>
                     <div class="col-md-12 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
+                        <div class="card h-100 d-flex flex-column">
+                            <div class="card-body d-flex flex-column">
                                 <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
                                 <p class="card-text mb-2">
                                     <?php
@@ -61,7 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     echo Html::encode(mb_strimwidth($cText, 0, 200, '…'));
                                     ?>
                                 </p>
-                                <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary btn-sm']) ?>
+                            </div>
+                            <div class="card-footer p-0">
+                                <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary w-100']) ?>
                             </div>
                         </div>
                     </div>

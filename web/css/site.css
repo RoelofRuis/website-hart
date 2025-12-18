@@ -96,6 +96,44 @@ body { padding-top: var(--navbar-height); }
 }
 
 /* ---------------------------------------------
+   Global search widget sizing and alignment
+   - Centered, compact width across all pages
+---------------------------------------------- */
+.hart-search-widget {
+    max-width: 720px; /* readable width on desktop */
+    margin-left: auto;
+    margin-right: auto;
+}
+.hart-search-widget .form-control {
+    border-radius: 999px;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    padding-left: 1.25rem;
+    padding-right: 2.75rem; /* leave room for spinner */
+}
+@media (min-width: 992px) {
+    .hart-search-widget { max-width: 640px; }
+}
+@media (max-width: 575.98px) {
+    .hart-search-widget { max-width: 100%; }
+}
+
+/* ---------------------------------------------
+   Section boxes for homepage (cleaner blocks)
+---------------------------------------------- */
+.section-box {
+    border-radius: .5rem;
+    padding: 1rem 0; /* vertical padding, inner grid manages horizontal */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.section-turquoise { background: var(--color-turquoise); }
+.section-white { background: #fff; }
+.section-light-blue { background: var(--color-light-blue); }
+
+/* Improve inner content spacing consistency */
+.section-box .row > [class^="col-"] { padding-top: .25rem; padding-bottom: .25rem; }
+
+/* ---------------------------------------------
    Static home content (no card wrapper)
 ---------------------------------------------- */
 .static-home-content h2, .static-home-content h3 {
@@ -464,3 +502,15 @@ a.desc:after {
         transform: none;
     }
 }
+
+/* ---------------------------------------------
+   Full-width card footer buttons
+   Ensures the CTA spans the entire bottom neatly
+---------------------------------------------- */
+.card-footer.p-0 > .btn.w-100 {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: .375rem;
+    border-bottom-right-radius: .375rem;
+}
+.card.d-flex.flex-column .card-footer { margin-top: auto; }

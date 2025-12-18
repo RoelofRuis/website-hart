@@ -15,7 +15,9 @@ $colClasses = $colClasses ?? 'col-md-6 col-lg-4';
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-2"><?= Html::encode($t->full_name) ?></h5>
-                        <?= Html::a(Yii::t('app', 'View teacher'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-outline-primary mt-auto']) ?>
+                    </div>
+                    <div class="card-footer p-0">
+                        <?= Html::a(Yii::t('app', 'View teacher'), ['teacher/view', 'slug' => $t->slug], ['class' => 'btn btn-outline-primary w-100']) ?>
                     </div>
                 </div>
             </div>

@@ -43,12 +43,12 @@ $qNorm = trim((string)$q);
                             <?php if (!empty($snippet)): ?>
                                 <p class="card-text text-muted"><?= Html::encode(strip_tags((string)$snippet)) ?></p>
                             <?php endif; ?>
-                            <div class="mt-auto">
-                                <?= Html::a($cta, $url, [
-                                    'class' => 'btn btn-outline-primary mt-auto stretched-link',
-                                    'aria-label' => $cta . ': ' . $title,
-                                ]) ?>
-                            </div>
+                        </div>
+                        <div class="card-footer p-0">
+                            <?= Html::a($cta, $url, [
+                                'class' => 'btn btn-outline-primary w-100',
+                                'aria-label' => $cta . ': ' . $title,
+                            ]) ?>
                         </div>
                     </div>
                 </div>
