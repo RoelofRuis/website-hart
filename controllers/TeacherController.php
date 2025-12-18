@@ -123,7 +123,7 @@ class TeacherController extends Controller
                 $model->slug = (string)$model->getOldAttribute('slug');
             }
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher information updated successfully.'));
                 return $this->redirect(['admin']);
             }
         }

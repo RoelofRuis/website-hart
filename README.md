@@ -38,7 +38,3 @@ Loading fixtures seeds the database with some demo data.
 ### Extracting translations
 Extract translations from the source code, then add the required translations to the translation files.
 ```./yii message/extract messages/extract.php```
-
-
-TODO:
-- Accessibility
