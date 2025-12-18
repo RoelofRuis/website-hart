@@ -124,7 +124,7 @@ class TeacherController extends Controller
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Teacher information updated successfully.');
-                return $this->redirect(['view', 'slug' => $model->slug]);
+                return $this->redirect(['admin']);
             }
         }
 

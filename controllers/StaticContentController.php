@@ -63,7 +63,7 @@ class StaticContentController extends Controller
                     'static-content:slug:' . $model->slug,
                 ]);
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Saved'));
-                return $this->redirect(['admin']);
+                return $this->redirect(['static-content/admin']);
             } else {
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Please correct the errors in the form.'));
             }

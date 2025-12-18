@@ -27,10 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="course-view container-fluid">
-    <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
-        <div class="alert alert-<?= Html::encode($type) ?>" role="alert"><?= Html::encode($message) ?></div>
-    <?php endforeach; ?>
-
     <div class="row">
         <?php if ($model->is_taught): ?>
         <div class="col-lg-7 col-xl-8 mb-4">

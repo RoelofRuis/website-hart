@@ -160,10 +160,7 @@ class CourseController extends Controller
             }
 
             Yii::$app->session->setFlash('success', Yii::t('app', 'Course updated successfully.'));
-            if ($isAdmin) {
-                return $this->redirect(['admin']);
-            }
-            return $this->redirect(['course/view', 'slug' => $model->slug]);
+            return $this->redirect(['admin']);
         }
 
         // If form posted but validation failed, keep posted teacherIds for preselection

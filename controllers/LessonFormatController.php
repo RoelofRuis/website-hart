@@ -136,9 +136,8 @@ class LessonFormatController extends Controller
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        $slug = $model->course->slug;
         $model->delete();
         Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option deleted.'));
-        return $this->redirect(['course/view', 'slug' => $slug]);
+        return $this->redirect(['lesson-format/admin']);
     }
 }
