@@ -7,56 +7,42 @@
 /** @var bool $suppressEmpty */
 
 use yii\bootstrap5\Html;
-use yii\helpers\Url;
 
 $minLen = 2;
 $qNorm = trim((string)$q);
 ?>
 
 <?php if (!empty($results)): ?>
-        <div class="row">
-            <?php foreach ($results as $item): ?>
-                <?php
-                $type = $item['type'] ?? '';
-                $title = $item['title'] ?? '';
-                $url = $item['url'] ?? '#';
-                $snippet = $item['snippet'] ?? '';
-                $image = $item['image'] ?? null;
+    <div class="row">
+        <?php foreach ($results as $item): ?>
+            <?php
+            $type = $item['type'] ?? '';
+            $title = $item['title'] ?? '';
+            $url = $item['url'] ?? '#';
+            $snippet = $item['snippet'] ?? '';
+            $image = $item['image'] ?? null;
 
-                $cta = match ($type) {
-                    'course' => Yii::t('app', 'View course'),
-                    'teacher' => Yii::t('app', 'View teacher'),
-                    'static' => Yii::t('app', 'Read more'),
-                    default => Yii::t('app', 'Open'),
-                };
-                ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm position-relative clickable-card">
-                        <?php if (!empty($image)): ?>
-                            <?= Html::img($image, [
-                                'class' => 'card-img-top',
-                                'alt' => Html::encode($title),
-                            ]) ?>
-                        <?php endif; ?>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?= Html::encode($title) ?></h5>
-                            <?php if (!empty($snippet)): ?>
-                                <p class="card-text text-muted"><?= Html::encode(strip_tags((string)$snippet)) ?></p>
-                            <?php endif; ?>
-                        </div>
-                        <div class="card-footer p-0">
-                            <?= Html::a($cta, $url, [
-                                'class' => 'btn btn-outline-primary w-100',
-                                'aria-label' => $cta . ': ' . $title,
-                            ]) ?>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <?php if (!empty($hasMore) && !empty($nextPage)): ?>
-            <div class="hart-search-meta" data-next-page="<?= (int)$nextPage ?>"></div>
-        <?php endif; ?>
+            $cta = match ($type) {
+                'course' => Yii::t('app', 'View course'),
+                'teacher' => Yii::t('app', 'View teacher'),
+                'static' => Yii::t('app', 'Read more'),
+                default => Yii::t('app', 'Open'),
+            };
+            ?>
+            <div class="col-md-4 mb-4">
+                <?= $this->render('_card', [
+                    'href' => $url,
+                    'image' => $image,
+                    'title' => $title,
+                    'content' => $snippet,
+                    'cta' => $cta,
+                ]); ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php if (!empty($hasMore) && !empty($nextPage)): ?>
+        <div class="hart-search-meta" data-next-page="<?= (int)$nextPage ?>"></div>
+    <?php endif; ?>
 <?php else: ?>
     <?php if (empty($suppressEmpty)): ?>
         <?php if ($qNorm === '' || mb_strlen($qNorm) < $minLen): ?>

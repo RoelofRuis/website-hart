@@ -95,27 +95,13 @@ body { padding-top: var(--navbar-height); }
     border-radius: 999px;
 }
 
-/* ---------------------------------------------
-   Global search widget sizing and alignment
-   - Centered, compact width across all pages
----------------------------------------------- */
-.hart-search-widget {
-    max-width: 720px; /* readable width on desktop */
-    margin-left: auto;
-    margin-right: auto;
+.lift-card {
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
-.hart-search-widget .form-control {
-    border-radius: 999px;
-    padding-top: 0.9rem;
-    padding-bottom: 0.9rem;
-    padding-left: 1.25rem;
-    padding-right: 2.75rem; /* leave room for spinner */
-}
-@media (min-width: 992px) {
-    .hart-search-widget { max-width: 640px; }
-}
-@media (max-width: 575.98px) {
-    .hart-search-widget { max-width: 100%; }
+
+.lift-card:hover, .lift-card:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* ---------------------------------------------
@@ -469,38 +455,6 @@ a.desc:after {
 .card-img-top {
     object-fit: cover;
     height: 200px;
-}
-
-/* ---------------------------------------------
-   Clickable cards (courses, teachers)
-   Make entire card clickable with a clearer (yet subtle) hover
----------------------------------------------- */
-.clickable-card {
-    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease, border-width .2s ease, background-color .2s ease;
-    /* Keep a clearly visible default border (Bootstrap-like) */
-    border: 1px solid rgba(0, 0, 0, 0.125);
-}
-.clickable-card:hover,
-.clickable-card:focus-within {
-    box-shadow: 0 .75rem 1.25rem rgba(0,0,0,.18);
-    transform: translateY(-3px);
-    /* Slightly thicker and more prominent border on hover/focus */
-    border-color: rgba(85, 189, 190, 0.6); /* stronger turquoise */
-    background-color: rgba(85, 189, 190, 0.03);
-    cursor: pointer;
-}
-.clickable-card:focus-within {
-    outline: 3px solid rgba(85, 189, 190, 0.35); /* keep strong keyboard focus */
-    outline-offset: 2px;
-}
-@media (prefers-reduced-motion: reduce) {
-    .clickable-card {
-        transition: none;
-    }
-    .clickable-card:hover,
-    .clickable-card:focus-within {
-        transform: none;
-    }
 }
 
 /* ---------------------------------------------

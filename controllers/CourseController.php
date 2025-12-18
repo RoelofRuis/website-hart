@@ -61,6 +61,7 @@ class CourseController extends Controller
     public function actionView($slug = null)
     {
         $model = CourseNode::findBySlug($slug);
+
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
@@ -71,8 +72,11 @@ class CourseController extends Controller
             return $this->refresh();
         }
 
+        $parent_model = $model->getParentCourseNode()->one();
+
         return $this->render('view', [
             'model' => $model,
+            'parent_model' => $parent_model,
             'contact' => $contact,
             'teachers' => $model->getTeachers()->all(),
         ]);

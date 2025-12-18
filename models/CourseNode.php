@@ -61,6 +61,11 @@ class CourseNode extends ActiveRecord
         return $scenarios;
     }
 
+    public function getParentCourseNode(): ActiveQuery
+    {
+        return $this->hasOne(CourseNode::class, ['id' => 'parent_id']);
+    }
+
     public function getTeachers(): ActiveQuery
     {
         return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])

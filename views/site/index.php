@@ -34,14 +34,10 @@ $this->title = 'Vereniging HART Muziekschool'
         <?php endif; ?>
     </div>
 
-    <div class="container my-4">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-10 section-box section-light-blue">
-                <?= SearchWidget::widget([
-                    'endpoint' => Url::to(['search/index']),
-                    'placeholder' => Yii::t('app', 'Search courses, teachers, lessons…'),
-                ]) ?>
-            </div>
-        </div>
+    <div class="container">
+        <?= SearchWidget::widget([
+            'endpoint' => Url::to(['search/index']),
+            'placeholder' => Yii::t('app', 'Search courses, teachers, information…'),
+        ]) ?>
     </div>
 </div>

@@ -120,7 +120,7 @@ return [
     'Saved' => 'Opgeslagen',
     'Search' => 'Zoeken',
     'Search courses by name or description' => 'Zoek cursussen op naam of omschrijving',
-    'Search courses, teachers, lessons…' => 'Zoek cursussen, docenten, lessen...',
+    'Search courses, teachers, information…' => 'Zoek cursussen, docenten, informatie...',
     'Search teachers by name or description' => 'Zoek docenten op naam of omschrijving',
     'Select one or more teachers for this course.' => 'Selecteer een of meer docenten voor deze cursus.',
     'Select one or more teachers...' => 'Selecteer een of meer docenten...',
