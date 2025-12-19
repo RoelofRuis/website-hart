@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\SearchableTextBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -23,6 +24,16 @@ class CourseNode extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%course_node}}';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'searchable' => [
+                'class' => SearchableTextBehavior::class,
+                'source_attributes' => ['name', 'summary', 'description'],
+            ]
+        ];
     }
 
     public function rules(): array

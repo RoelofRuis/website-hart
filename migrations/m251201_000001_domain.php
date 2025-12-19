@@ -26,7 +26,9 @@ class m251201_000001_domain extends Migration
             'is_admin' => $this->boolean()->notNull()->defaultValue(false),
             'is_active' => $this->boolean()->notNull()->defaultValue(true),
             'last_login' => $this->dateTime()->null(),
+            'searchable_text' => $this->text(),
         ]);
+        $this->execute('CREATE INDEX idx_teacher_searchable ON {{%teacher}} USING GIST (searchable_text gist_trgm_ops)');
 
         $this->createTable('{{%course_node}}', [
             'id' => $this->bigPrimaryKey(),
@@ -37,7 +39,9 @@ class m251201_000001_domain extends Migration
             'is_taught' => $this->boolean()->notNull()->defaultValue(true),
             'summary' => $this->text(),
             'description' => $this->text(),
+            'searchable_text' => $this->text(),
         ]);
+        $this->execute('CREATE INDEX idx_course_node_searchable ON {{%course_node}} USING GIST (searchable_text gist_trgm_ops)');
         $this->addForeignKey(
             'fk_course_node_parent',
             '{{%course_node}}',

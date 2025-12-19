@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\SearchableTextBehavior;
 use DateTime;
 use Yii;
 use yii\db\ActiveQuery;
@@ -28,6 +29,16 @@ class Teacher extends ActiveRecord implements IdentityInterface
     public static function tableName(): string
     {
         return '{{%teacher}}';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'searchable' => [
+                'class' => SearchableTextBehavior::class,
+                'source_attributes' => ['full_name', 'description'],
+            ]
+        ];
     }
 
     public function rules(): array

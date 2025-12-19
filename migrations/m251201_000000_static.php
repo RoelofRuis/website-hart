@@ -6,13 +6,18 @@ class m251201_000000_static extends Migration
 {
     public function safeUp()
     {
+        $this->execute('CREATE EXTENSION IF NOT EXISTS pg_trgm');
+        $this->execute('CREATE EXTENSION IF NOT EXISTS unaccent');
+
         $this->createTable('{{%static_content}}', [
             'key' => $this->string(16)->notNull()->unique(),
             'content' => $this->text()->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'updated_at' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
+            'searchable_text' => $this->text()
         ]);
         $this->addPrimaryKey('pk_static_content', '{{%static_content}}', 'key');
+        $this->execute('CREATE INDEX idx_static_content_searchable ON {{%static_content}} USING GIST (searchable_text gist_trgm_ops)');
 
         $this->createTable('{{%file}}', [
             'id' => $this->primaryKey(),
@@ -29,5 +34,8 @@ class m251201_000000_static extends Migration
         $this->execute('DROP TABLE IF EXISTS {{%file}}');
 
         $this->execute('DROP TABLE IF EXISTS {{%static_content}}');
+
+        $this->execute('DROP EXTENSION IF EXISTS pg_trgm');
+        $this->execute('DROP EXTENSION IF EXISTS unaccent');
     }
 }

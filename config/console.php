@@ -1,5 +1,6 @@
 <?php
 
+use app\console\SearchController;
 use yii\console\controllers\FixtureController;
 use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
@@ -30,6 +31,9 @@ return [
             'class' => FixtureController::class,
             'namespace' => 'app\tests\fixtures',
         ],
+        'search' => [
+            'class' => SearchController::class,
+        ]
     ],
     'params' => $params,
 ];
