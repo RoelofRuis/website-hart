@@ -13,6 +13,9 @@ use yii\db\ActiveRecord;
  * @property string $key
  * @property string $content
  * @property string $slug
+ * @property bool $is_searchable
+ * @property string $explainer
+ * @property string $cover_image
  * @property DateTime $updated_at
  */
 class StaticContent extends ActiveRecord
@@ -39,9 +42,21 @@ class StaticContent extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['content', 'slug'], 'required'],
-            ['slug', 'string', 'max' => 64],
+            [['content'], 'required'],
+            [['cover_image'], 'string', 'max' => 255],
             ['content', 'string'],
+        ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'key' => Yii::t('app', 'Key'),
+            'content' => Yii::t('app', 'Content'),
+            'slug' => Yii::t('app', 'Slug'),
+            'explainer' => Yii::t('app', 'Explainer'),
+            'cover_image' => Yii::t('app', 'Cover image'),
+            'is_searchable' => Yii::t('app', 'Is searchable'),
         ];
     }
 

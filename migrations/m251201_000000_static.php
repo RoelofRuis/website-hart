@@ -14,6 +14,9 @@ class m251201_000000_static extends Migration
             'content' => $this->text()->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'updated_at' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
+            'cover_image' => $this->string(255)->null(),
+            'is_searchable' => $this->boolean()->notNull()->defaultValue(false),
+            'explainer' => $this->text()->null(),
             'searchable_text' => $this->text()
         ]);
         $this->addPrimaryKey('pk_static_content', '{{%static_content}}', 'key');

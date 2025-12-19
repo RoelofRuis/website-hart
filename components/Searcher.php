@@ -30,24 +30,24 @@ class Searcher
             ->select("*")
             ->from(['data' => $data_query])
             ->addParams([':q' => $form->q])
-            ->orderBy(['sml' =>  SORT_DESC, 'title' => SORT_ASC])
+            ->orderBy(['rank' =>  SORT_DESC, 'title' => SORT_ASC])
             ->limit($form->per_page + 1)
             ->offset($form->getOffset());
 
         $rows = $query->all();
 
         $results = [];
-        $has_more = false;
+        $has_next_page = false;
 
         if (count($rows) > $form->per_page) {
-            $has_more = true;
+            $has_next_page = true;
             array_pop($rows);
         }
         foreach ($rows as $row) {
             $type = (string)$row['type'];
             $title = (string)$row['title'];
             $slug = (string)$row['slug'];
-            $rank = (float)$row['sml'];
+            $rank = (float)$row['rank'];
             $snippet = (string)($row['snippet'] ?? '');
             $image = isset($row['image']) ? (string)$row['image'] : null;
 
@@ -71,7 +71,9 @@ class Searcher
             ];
         }
 
-        return [$results, $has_more];
+        $next_page = $has_next_page ? ($form->page + 1) : null;
+
+        return new SearchResult($results, $has_next_page, $next_page, $form->q, $form->suppress_empty);
     }
 
     private function buildCourseSubquery(): Query
@@ -81,7 +83,7 @@ class Searcher
                 new Expression("'course'::text AS type"),
                 'cn.name AS title',
                 'cn.slug AS slug',
-                'word_similarity(:q, cn.searchable_text) as sml',
+                'word_similarity(:q, cn.searchable_text) as rank',
                 new Expression("ts_headline('simple', cn.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
             ->from(['cn' => '{{%course_node}}'])
@@ -95,7 +97,7 @@ class Searcher
                 new Expression("'teacher'::text AS type"),
                 't.full_name AS title',
                 't.slug AS slug',
-                'word_similarity(:q, t.searchable_text) as sml',
+                'word_similarity(:q, t.searchable_text) as rank',
                 new Expression("ts_headline('simple', t.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
             ->from(['t' => '{{%teacher}}'])
@@ -106,13 +108,14 @@ class Searcher
     {
         return (new Query())
             ->select([
-                new Expression("'teacher'::text AS type"),
+                new Expression("'static'::text AS type"),
                 'sc.key AS title',
                 'sc.slug AS slug',
-                'word_similarity(:q, sc.searchable_text) as sml',
+                'word_similarity(:q, sc.searchable_text) as rank',
                 new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
             ->from(['sc' => '{{%static_content}}'])
-            ->where(':q <% sc.searchable_text');
+            ->where(':q <% sc.searchable_text')
+            ->andWhere(['is_searchable' => true]);
     }
 }

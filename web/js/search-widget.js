@@ -15,10 +15,10 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
     const url = new URL(cfg.endpoint, window.location.origin);
     url.searchParams.set(cfg.paramName, q);
     if (cfg.type) url.searchParams.set('type', cfg.type);
-    if (cfg.parentId) url.searchParams.set('parentId', cfg.parentId);
-    if (cfg.perPage) url.searchParams.set('perPage', String(cfg.perPage));
+    if (cfg.parentId) url.searchParams.set('parent_id', cfg.parentId);
+    if (cfg.perPage) url.searchParams.set('per_page', String(cfg.perPage));
     if (page && page > 1) url.searchParams.set('page', String(page));
-    if (suppressEmpty) url.searchParams.set('suppressEmpty', '1');
+    if (suppressEmpty) url.searchParams.set('suppress_empty', '1');
     return url;
   }
 

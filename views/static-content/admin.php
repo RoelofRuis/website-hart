@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enableSorting' => false,
             ],
             [
-                'attribute' => 'slug',
+                'attribute' => 'explainer',
                 'enableSorting' => false,
             ],
             [

@@ -2,28 +2,23 @@
 /** @var yii\web\View $this */
 /** @var app\models\StaticContent $model */
 
+use app\widgets\ImageUploadField;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use app\widgets\LockedField;
 use app\widgets\MarkdownEditor;
 
 ?>
 
+<p><?= Html::encode($model->explainer); ?></p>
+
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model, 'key')->textInput(['maxlength' => true, 'disabled' => true]) ?>
-
-<?= LockedField::widget([
-    'model' => $model,
-    'attribute' => 'slug',
-    'locked' => true,
-    'tooltip' => Yii::t('app', 'Unlock to edit'),
-    'unlockLabel' => Yii::t('app', 'Unlock'),
-    'inputOptions' => [
-        'id' => Html::getInputId($model, 'slug'),
-        'maxlength' => true,
-    ],
-]) ?>
+<?= $form->field($model,'cover_image')
+    ->widget(ImageUploadField::class, [
+        'uploadUrl' => '/upload/image',
+        'previewSize' => 220,
+    ]);
+?>
 
 <?= $form->field($model, 'content')
     ->widget(MarkdownEditor::class, [
@@ -33,6 +28,12 @@ use app\widgets\MarkdownEditor;
         ],
     ])
 ?>
+
+<?= $form->field($model, 'is_searchable')->checkbox(['disabled' => true]); ?>
+
+<?php if ($model->is_searchable): ?>
+    <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'disabled' => true]); ?>
+<?php endif; ?>
 
 <div class="form-group">
     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>

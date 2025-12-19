@@ -5,6 +5,9 @@ return [
         'key' => 'copyright',
         'content' => '<p>Alle inhoud op deze website is auteursrechtelijk beschermd door Vereniging HART Muziekschool, tenzij anders vermeld.</p>',
         'slug' => 'copyright',
+        'explainer' => 'Inhoud voor pagina Copyright.',
+        'cover_image' => null,
+        'is_searchable' => true,
     ],
     [
         'key' => 'association',
@@ -24,11 +27,17 @@ return [
         Deze mails zullen dan ook onbehandeld direct worden verwijderd.
     </p>',
         'slug' => 'association',
+        'explainer' => 'Inhoud voor pagina Vereniging & Bestuur.',
+        'cover_image' => null,
+        'is_searchable' => true,
     ],
     [
         'key' => 'contact',
         'content' => '<p>Bij vragen over lessen, instrumenten, docenten etc. kunt u ons bereiken via onderstaand contactformulier. Onze collega Josien van der Tweel krijgt uw bericht dan, zij kan u ongetwijfeld verder helpen.</p>',
         'slug' => 'contact',
+        'explainer' => 'Inhoud voor de pagina Contact',
+        'cover_image' => null,
+        'is_searchable' => true,
     ],
     [
         'key' => 'privacy',
@@ -68,16 +77,25 @@ return [
         Matthijs Tuijn, secretaris van Hart Muziekschool, is in die hoedanigheid aangesteld als functionaris voor de Gegevensbescherming: info@hartmuziekschool.nl.
     </p>',
         'slug'=> 'avg',
+        'explainer' => 'Inhoud voor de pagina AVG/Privacy.',
+        'cover_image' => null,
+        'is_searchable' => true,
     ],
     [
         'key' => 'locations',
         'content' => 'Vereniging HART Muziekschool is gevestigd op verschillende adressen.',
         'slug' => 'locations',
+        'explainer' => 'Inhoud voor de pagina Locaties.',
+        'cover_image' => null,
+        'is_searchable' => true,
     ],
     [
         'key' => 'home-title',
         'content' => '<h1 class="mb-2">Welkom bij HART Muziekschool</h1><p class="lead mb-0">Samen muziek maken, leren en beleven.</p>',
-        'slug' => 'home-title'
+        'slug' => 'home-title',
+        'explainer' => 'De titel zoals weergegeven op de homepage.',
+        'cover_image' => null,
+        'is_searchable' => false,
     ],
     [
         'key' => 'home-news',
@@ -96,6 +114,9 @@ return [
 <h3>Agenda</h3>
 <p>Komende maanden organiseren we open repetities en kleine uitvoeringen. Houd deze pagina in de gaten voor data en locaties.</p>
 <p>Vragen? Neem gerust contact op via het formulier. We helpen je graag verder.</p>',
-        'slug' => 'index'
+        'slug' => 'home-news',
+        'explainer' => 'Het nieuwsblok op de homepage.',
+        'cover_image' => null,
+        'is_searchable' => false,
     ]
 ];
