@@ -31,9 +31,9 @@ class SearchableTextBehavior extends Behavior
             $clean = strip_tags($val);
             $clean = html_entity_decode($clean, ENT_QUOTES | ENT_HTML5, 'UTF-8');
             $clean = preg_replace('/\s+/u', ' ', $clean);
-            $clean = trim((string)$clean);
+            $clean = trim($clean);
             if ($clean !== '') {
-                $pieces[] = mb_strtolower($clean);
+                $pieces[] = $clean;
             }
         }
         $model->{$this->targetAttribute} = implode("\n\n", $pieces);

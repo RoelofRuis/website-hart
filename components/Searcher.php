@@ -3,50 +3,38 @@
 namespace app\components;
 
 use app\models\forms\SearchForm;
-use Yii;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\Url;
 
 class Searcher
 {
     public function search(SearchForm $form)
     {
-        $sql = "SELECT *
-FROM (
-     SELECT
-        'static'::text AS type,
-        sc.key AS title,
-        sc.slug AS slug,
-        sc.content AS snippet,
-        word_similarity(:q, sc.searchable_text) as sml
-     FROM static_content sc
-     WHERE :q <% sc.searchable_text
-     UNION ALL
-     SELECT
-        'course'::text AS type,
-        cn.name AS title,
-        cn.slug AS slug,
-        cn.summary AS snippet,
-        word_similarity(:q, cn.searchable_text) AS sml
-     FROM course_node cn
-     WHERE :q <% cn.searchable_text
-     UNION ALL
-     SELECT
-        'teacher'::text AS type,
-        t.full_name AS title,
-        t.slug AS slug,
-        t.description AS snippet,
-        word_similarity(:q, t.searchable_text) AS sml
-     FROM teacher t
-     WHERE :q <% t.searchable_text
-) q
-ORDER BY sml DESC, title
-LIMIT :limit OFFSET :offset";
+        $data_query = new Query();
 
-        $params[':q'] = $form->q;
-        $params[':limit'] = $form->per_page + 1;
-        $params[':offset'] = $form->getOffset();
+        if ($form->type === 'courses') {
+            $data_query = $this->buildCourseSubquery();
+        } elseif ($form->type === 'subcourses') {
+            $data_query = $this->buildCourseSubquery()
+                ->andWhere(['parent_id' => $form->parent_id]);
+        } elseif ($form->type === 'teachers') {
+            $data_query = $this->buildTeacherSubquery();
+        } elseif ($form->type === 'all') {
+            $data_query = $this->buildStaticSubquery()
+                ->union($this->buildCourseSubquery(), true)
+                ->union($this->buildTeacherSubquery(), true);
+        }
 
-        $rows = Yii::$app->db->createCommand($sql, $params)->queryAll();
+        $query = (new Query())
+            ->select("*")
+            ->from(['data' => $data_query])
+            ->addParams([':q' => $form->q])
+            ->orderBy(['sml' =>  SORT_DESC, 'title' => SORT_ASC])
+            ->limit($form->per_page + 1)
+            ->offset($form->getOffset());
+
+        $rows = $query->all();
 
         $results = [];
         $has_more = false;
@@ -84,5 +72,47 @@ LIMIT :limit OFFSET :offset";
         }
 
         return [$results, $has_more];
+    }
+
+    private function buildCourseSubquery(): Query
+    {
+        return (new Query())
+            ->select([
+                new Expression("'course'::text AS type"),
+                'cn.name AS title',
+                'cn.slug AS slug',
+                'word_similarity(:q, cn.searchable_text) as sml',
+                new Expression("ts_headline('simple', cn.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+            ])
+            ->from(['cn' => '{{%course_node}}'])
+            ->where(':q <% cn.searchable_text');
+    }
+
+    private function buildTeacherSubquery(): Query
+    {
+        return (new Query())
+            ->select([
+                new Expression("'teacher'::text AS type"),
+                't.full_name AS title',
+                't.slug AS slug',
+                'word_similarity(:q, t.searchable_text) as sml',
+                new Expression("ts_headline('simple', t.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+            ])
+            ->from(['t' => '{{%teacher}}'])
+            ->where(':q <% t.searchable_text');
+    }
+
+    private function buildStaticSubquery(): Query
+    {
+        return (new Query())
+            ->select([
+                new Expression("'teacher'::text AS type"),
+                'sc.key AS title',
+                'sc.slug AS slug',
+                'word_similarity(:q, sc.searchable_text) as sml',
+                new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+            ])
+            ->from(['sc' => '{{%static_content}}'])
+            ->where(':q <% sc.searchable_text');
     }
 }
