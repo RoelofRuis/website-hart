@@ -8,20 +8,17 @@ class SearchResult
     private bool $hasNextPage;
     private ?int $nextPage;
     private ?string $q;
-    private bool $suppressEmpty;
 
     public function __construct(
         array   $items,
         bool    $hasNextPage,
         ?int    $nextPage = null,
         ?string $q = null,
-        bool    $suppressEmpty = false
     ) {
         $this->items = $items;
         $this->hasNextPage = $hasNextPage;
         $this->nextPage = $nextPage;
         $this->q = $q;
-        $this->suppressEmpty = $suppressEmpty;
     }
 
     public function getItems(): array
@@ -47,10 +44,5 @@ class SearchResult
     public function getQ(): ?string
     {
         return $this->q;
-    }
-
-    public function getSuppressEmpty(): bool
-    {
-        return $this->suppressEmpty;
     }
 }

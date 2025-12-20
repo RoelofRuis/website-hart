@@ -1,5 +1,3 @@
-/* global window, document, fetch */
-
 function debounce(fn, ms) {
   let t;
   return function (...args) {
@@ -8,7 +6,7 @@ function debounce(fn, ms) {
   };
 }
 
-window.HartSearchWidget = window.HartSearchWidget || (function () {
+window.SearchWidget = window.SearchWidget || (function () {
   const state = new WeakMap();
 
   function buildUrl(cfg, q, page, suppressEmpty) {
@@ -18,7 +16,6 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
     if (cfg.parentId) url.searchParams.set('parent_id', cfg.parentId);
     if (cfg.perPage) url.searchParams.set('per_page', String(cfg.perPage));
     if (page && page > 1) url.searchParams.set('page', String(page));
-    if (suppressEmpty) url.searchParams.set('suppress_empty', '1');
     return url;
   }
 
@@ -36,10 +33,20 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
   }
 
   function parseNextPage(fragment) {
-    const meta = fragment.querySelector('.hart-search-meta');
+    const meta = fragment.querySelector('.search-meta');
     if (!meta) return null;
     const np = meta.getAttribute('data-next-page');
     return np ? parseInt(np, 10) : null;
+  }
+
+  function ensureSentinel(cfg) {
+    if (cfg.sentinelEl) return cfg.sentinelEl;
+    const sentinel = document.createElement('div');
+    sentinel.className = 'search-sentinel';
+    sentinel.setAttribute('aria-hidden', 'true');
+    cfg.resultsEl.after(sentinel);
+    cfg.sentinelEl = sentinel;
+    return sentinel;
   }
 
   async function fetchAndRender(cfg, q, page, append) {
@@ -47,11 +54,11 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
     const st = state.get(cfg.root) || {};
     if (st.controller) st.controller.abort();
     const controller = new AbortController();
-    state.set(cfg.root, { controller, lastQ: q, page: page || 1 });
+    state.set(cfg.root, { controller, lastQ: q, page: page || 1, nextPage: st.nextPage || null });
 
     if (cfg.spinnerEl) cfg.spinnerEl.classList.remove('d-none');
     try {
-      const url = buildUrl(cfg, q, page || 1, append);
+      const url = buildUrl(cfg, q, page || 1);
       const res = await fetch(url.toString(), {
         method: 'GET',
         headers: { 'Accept': 'text/html' },
@@ -67,24 +74,14 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
 
       if (!append) cfg.resultsEl.innerHTML = '';
       if (rows) {
-        if (append) {
-          cfg.resultsEl.appendChild(rows);
-        } else {
-          cfg.resultsEl.appendChild(rows);
-        }
+        cfg.resultsEl.appendChild(rows);
       } else if (!append) {
-        // In case of no .row returned (e.g., messages), place whole content
         cfg.resultsEl.innerHTML = html.trim();
       }
 
-      if (nextPage) {
-        cfg.loadMoreBtn.classList.remove('d-none');
-        cfg.loadMoreBtn.disabled = false;
-        cfg.loadMoreBtn.dataset.nextPage = String(nextPage);
-      } else {
-        cfg.loadMoreBtn.classList.add('d-none');
-        delete cfg.loadMoreBtn.dataset.nextPage;
-      }
+      const st2 = state.get(cfg.root) || {};
+      st2.nextPage = nextPage || null;
+      state.set(cfg.root, st2);
     } catch (e) {
       if (e.name === 'AbortError') return;
       setError(cfg, e.message || 'Request failed');
@@ -107,7 +104,6 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
       resultsEl: document.getElementById(root.getAttribute('data-results-id')),
       spinnerEl: document.getElementById(root.getAttribute('data-spinner-id')),
       errorEl: document.getElementById(root.getAttribute('data-error-id')),
-      loadMoreBtn: document.getElementById(root.getAttribute('data-load-more-id')),
       minLen: 2,
     };
     if (!cfg.endpoint || !cfg.formEl || !cfg.inputEl || !cfg.resultsEl) return;
@@ -115,13 +111,12 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
     const onType = debounce(() => {
       const q = cfg.inputEl.value.trim();
       if (q.length >= cfg.minLen || q.length === 0) {
-        // Reset to first page
+        // Reset to the first page
         fetchAndRender(cfg, q, 1, false);
       } else {
         // show placeholder when too short
         const emptyMsg = cfg.resultsEl.getAttribute('data-empty') || '';
         cfg.resultsEl.innerHTML = emptyMsg ? '<div class="text-muted">' + emptyMsg + '</div>' : '';
-        cfg.loadMoreBtn.classList.add('d-none');
       }
     }, cfg.debounceMs);
 
@@ -131,32 +126,26 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
       onType();
     });
 
-    if (cfg.loadMoreBtn) {
-      cfg.loadMoreBtn.addEventListener('click', () => {
-        const q = cfg.inputEl.value.trim();
-        const next = parseInt(cfg.loadMoreBtn.dataset.nextPage || '0', 10);
-        if (!next) return;
-        cfg.loadMoreBtn.disabled = true;
-        fetchAndRender(cfg, q, next, true);
-      });
-    }
+    // Infinite scroll: observe sentinel and auto-load next pages
+    const sentinel = ensureSentinel(cfg);
+    const io = new IntersectionObserver((entries) => {
+      const e = entries[0];
+      if (!e.isIntersecting) return;
+      const st = state.get(cfg.root) || {};
+      const next = st.nextPage || null;
+      if (!next) return;
+      const q = cfg.inputEl.value.trim();
+      fetchAndRender(cfg, q, next, true);
+    }, { rootMargin: '200px 0px' });
+    io.observe(sentinel);
 
     // Initial load
     const q0 = (cfg.inputEl.value || '').trim();
-    if (q0.length >= cfg.minLen || q0.length === 0) {
-      fetchAndRender(cfg, q0, 1, false);
-    }
-  }
-
-  function init(options) {
-    // Backward compatibility: allow manual init with options (not used when data-init present)
-    const root = document.getElementById(options.rootId) || document;
-    const el = root.querySelector('[data-hart-search]');
-    if (el) initOne(el);
+    fetchAndRender(cfg, q0, 1, false);
   }
 
   function autoInit() {
-    document.querySelectorAll('[data-hart-search]')
+    document.querySelectorAll('[data-search]')
       .forEach((root) => initOne(root));
   }
 
@@ -166,5 +155,5 @@ window.HartSearchWidget = window.HartSearchWidget || (function () {
     autoInit();
   }
 
-  return { init };
+  return { };
 })();

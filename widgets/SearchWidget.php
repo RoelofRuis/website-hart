@@ -9,14 +9,14 @@ use yii\base\Widget;
 
 class SearchWidget extends Widget
 {
-    public string $paramName = 'q';
+    public string $param_name = 'q';
     public string $placeholder = '';
     public string $endpoint = '';
-    public ?string $ariaLabel = null;
-    public string $type = 'all'; // all|courses|teachers|children
-    public ?int $parentId = null; // used when type=children
-    public int $perPage = 12;
-    public int $debounceMs = 250;
+    public ?string $aria_label = null;
+    public string $type = 'all'; // all|courses|subcourses|teachers
+    public ?int $parent_id = null; // used when type=subcourses
+    public int $per_page = 12;
+    public int $debounce_ms = 250;
 
     public function init(): void
     {
@@ -31,35 +31,33 @@ class SearchWidget extends Widget
     public function run(): string
     {
         $id = $this->getId();
-        $formId = $id . '-form';
-        $inputId = $id . '-input';
-        $resultsId = $id . '-results';
-        $spinnerId = $id . '-spinner';
-        $errorId = $id . '-error';
-        $loadMoreId = $id . '-load-more';
+        $form_id = $id . '-form';
+        $input_id = $id . '-input';
+        $results_id = $id . '-results';
+        $spinner_id = $id . '-spinner';
+        $error_id = $id . '-error';
 
         $placeholder = $this->placeholder !== '' ? $this->placeholder : Yii::t('app', 'Search');
-        $ariaLabel = $this->ariaLabel ?? $placeholder;
+        $ariaLabel = $this->aria_label ?? $placeholder;
 
-        $value = Yii::$app->request->get($this->paramName, '');
+        $value = Yii::$app->request->get($this->param_name, '');
 
         return $this->render('search-widget', [
             'id' => $id,
-            'formId' => $formId,
-            'inputId' => $inputId,
-            'resultsId' => $resultsId,
-            'spinnerId' => $spinnerId,
-            'errorId' => $errorId,
-            'loadMoreId' => $loadMoreId,
+            'form_id' => $form_id,
+            'input_id' => $input_id,
+            'results_id' => $results_id,
+            'spinner_id' => $spinner_id,
+            'error_id' => $error_id,
             'endpoint' => $this->endpoint,
-            'paramName' => $this->paramName,
+            'param_name' => $this->param_name,
             'value' => $value,
             'placeholder' => $placeholder,
-            'ariaLabel' => $ariaLabel,
+            'aria_label' => $ariaLabel,
             'type' => $this->type,
-            'parentId' => $this->parentId,
-            'perPage' => $this->perPage,
-            'debounceMs' => $this->debounceMs,
+            'parent_id' => $this->parent_id,
+            'per_page' => $this->per_page,
+            'debounce_ms' => $this->debounce_ms,
         ]);
     }
 }

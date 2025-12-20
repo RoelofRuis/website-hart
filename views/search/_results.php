@@ -2,13 +2,11 @@
 /** @var yii\web\View $this */
 /** @var app\components\SearchResult $result */
 
-use yii\bootstrap5\Html;
-
 $minLen = 2;
 $qNorm = trim((string)$result->getQ());
+$items = $result->getItems();
 ?>
 
-<?php $items = $result->getItems(); ?>
 <?php if ($result->hasItems()): ?>
     <div class="row">
         <?php foreach ($items as $item): ?>
@@ -38,19 +36,6 @@ $qNorm = trim((string)$result->getQ());
         <?php endforeach; ?>
     </div>
     <?php if ($result->hasNextPage() && !empty($result->getNextPage())): ?>
-        <div class="hart-search-meta" data-next-page="<?= (int)$result->getNextPage() ?>"></div>
-    <?php endif; ?>
-<?php else: ?>
-    <?php if (!$result->getSuppressEmpty()): ?>
-        <?php if ($qNorm === '' || mb_strlen($qNorm) < $minLen): ?>
-            <div class="text-muted small">
-                <?= Html::encode(Yii::t('app', 'Type at least {n} characters to search…', ['n' => $minLen])) ?>
-            </div>
-        <?php else: ?>
-            <div class="alert alert-info mb-0">
-                <?= Html::encode(Yii::t('app', 'No results found for')) ?>
-                <strong><?= Html::encode($qNorm) ?></strong>
-            </div>
-        <?php endif; ?>
+        <div class="search-meta" data-next-page="<?= (int)$result->getNextPage() ?>"></div>
     <?php endif; ?>
 <?php endif; ?>

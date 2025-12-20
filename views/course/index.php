@@ -18,6 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'endpoint' => Url::to(['search/index']),
         'placeholder' => Yii::t('app', 'Search courses by name or description'),
         'type' => 'courses',
-        'perPage' => 12,
+        'per_page' => 12,
     ]) ?>
 </div>

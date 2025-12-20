@@ -14,27 +14,26 @@ class Searcher
         $data_query = new Query();
 
         if ($form->type === 'courses') {
-            $data_query = $this->buildCourseSubquery();
+            $data_query = $this->buildCourseSubquery($form);
         } elseif ($form->type === 'subcourses') {
-            $data_query = $this->buildCourseSubquery()
+            $data_query = $this->buildCourseSubquery($form)
                 ->andWhere(['parent_id' => $form->parent_id]);
         } elseif ($form->type === 'teachers') {
-            $data_query = $this->buildTeacherSubquery();
+            $data_query = $this->buildTeacherSubquery($form);
         } elseif ($form->type === 'all') {
-            $data_query = $this->buildStaticSubquery()
-                ->union($this->buildCourseSubquery(), true)
-                ->union($this->buildTeacherSubquery(), true);
+            $data_query = $this->buildStaticSubquery($form)
+                ->union($this->buildCourseSubquery($form), true)
+                ->union($this->buildTeacherSubquery($form), true);
         }
 
-        $query = (new Query())
+        $rows = (new Query())
             ->select("*")
             ->from(['data' => $data_query])
-            ->addParams([':q' => $form->q])
+            ->addParams([':q' => $form->getTrimmedQuery()])
             ->orderBy(['rank' =>  SORT_DESC, 'title' => SORT_ASC])
             ->limit($form->per_page + 1)
-            ->offset($form->getOffset());
-
-        $rows = $query->all();
+            ->offset($form->getOffset())
+            ->all();
 
         $results = [];
         $has_next_page = false;
@@ -73,49 +72,66 @@ class Searcher
 
         $next_page = $has_next_page ? ($form->page + 1) : null;
 
-        return new SearchResult($results, $has_next_page, $next_page, $form->q, $form->suppress_empty);
+        return new SearchResult($results, $has_next_page, $next_page, $form->q);
     }
 
-    private function buildCourseSubquery(): Query
+    private function buildCourseSubquery(SearchForm $form): Query
     {
-        return (new Query())
+        $subquery = (new Query())
             ->select([
                 new Expression("'course'::text AS type"),
                 'cn.name AS title',
                 'cn.slug AS slug',
+                'cn.cover_image AS image',
                 'word_similarity(:q, cn.searchable_text) as rank',
                 new Expression("ts_headline('simple', cn.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
-            ->from(['cn' => '{{%course_node}}'])
-            ->where(':q <% cn.searchable_text');
+            ->from(['cn' => '{{%course_node}}']);
+
+        if (!$form->hasEmptyQuery()) {
+            $subquery->andWhere(':q <% cn.searchable_text');
+        }
+
+        return $subquery;
     }
 
-    private function buildTeacherSubquery(): Query
+    private function buildTeacherSubquery(SearchForm $form): Query
     {
-        return (new Query())
+        $subquery = (new Query())
             ->select([
                 new Expression("'teacher'::text AS type"),
                 't.full_name AS title',
                 't.slug AS slug',
+                't.profile_picture AS image',
                 'word_similarity(:q, t.searchable_text) as rank',
                 new Expression("ts_headline('simple', t.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
-            ->from(['t' => '{{%teacher}}'])
-            ->where(':q <% t.searchable_text');
+            ->from(['t' => '{{%teacher}}']);
+
+        if (!$form->hasEmptyQuery()) {
+            $subquery->andWhere(':q <% t.searchable_text');
+        }
+
+        return $subquery;
     }
 
-    private function buildStaticSubquery(): Query
+    private function buildStaticSubquery(SearchForm $form): Query
     {
-        return (new Query())
+        $subquery = (new Query())
             ->select([
                 new Expression("'static'::text AS type"),
                 'sc.key AS title',
                 'sc.slug AS slug',
+                'sc.cover_image AS image',
                 'word_similarity(:q, sc.searchable_text) as rank',
                 new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
-            ->from(['sc' => '{{%static_content}}'])
-            ->where(':q <% sc.searchable_text')
-            ->andWhere(['is_searchable' => true]);
+            ->from(['sc' => '{{%static_content}}']);
+
+        if (!$form->hasEmptyQuery()) {
+            $subquery->andWhere(':q <% sc.searchable_text');
+        }
+
+        return $subquery;
     }
 }
