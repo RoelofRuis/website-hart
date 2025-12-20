@@ -3,14 +3,17 @@
 return [
     [
         'key' => 'copyright',
+        'title' => 'Copyright',
         'content' => '<p>Alle inhoud op deze website is auteursrechtelijk beschermd door Vereniging HART Muziekschool, tenzij anders vermeld.</p>',
+        'summary' => 'Informatie over het auteursrecht op onze website.',
         'slug' => 'copyright',
         'explainer' => 'Inhoud voor pagina Copyright.',
-        'cover_image' => null,
+        'cover_image' => '/bestand/static/copyright',
         'is_searchable' => true,
     ],
     [
         'key' => 'association',
+        'title' => 'Vereniging & Bestuur',
         'content' => '<h3>Het bestuur:</h3>
     <ul>
         <li>Voorzitter: Thijs Peters</li>
@@ -26,21 +29,25 @@ return [
         Het gebruik van dit formulier voor aquisitie, reclamedoeleinden, aanbiedingen, verkoop van instrument op welk niveau dan ook wordt niet op prijs gesteld.
         Deze mails zullen dan ook onbehandeld direct worden verwijderd.
     </p>',
+        'summary' => 'Informatie over de vereniging, het bestuur en hoe u contact kunt opnemen.',
         'slug' => 'association',
         'explainer' => 'Inhoud voor pagina Vereniging & Bestuur.',
-        'cover_image' => null,
+        'cover_image' => '/bestand/static/association',
         'is_searchable' => true,
     ],
     [
         'key' => 'contact',
+        'title' => 'Contact',
         'content' => '<p>Bij vragen over lessen, instrumenten, docenten etc. kunt u ons bereiken via onderstaand contactformulier. Onze collega Josien van der Tweel krijgt uw bericht dan, zij kan u ongetwijfeld verder helpen.</p>',
+        'summary' => 'Contactformulier voor vragen over lessen, instrumenten en docenten.',
         'slug' => 'contact',
         'explainer' => 'Inhoud voor de pagina Contact',
-        'cover_image' => null,
+        'cover_image' => '/bestand/static/contact',
         'is_searchable' => true,
     ],
     [
         'key' => 'privacy',
+        'title' => 'AVG / Privacy',
         'content' => '<b>Algemene Verordening Gegevensbescherming van Vereniging Hart Muziekschool Register verwerking Persoonsgegevens en Privacyverklaring</b>
     <p>
         N.B. Onderstaande gegevens kunnen per docent wisselen, maar vallen geheel onder de nieuwe wetgeving inzake persoonsgegevens. Docenten van de Vereniging Hart Muziekschool (hierna VHM) hanteren de volgende registratie van persoonsgegevens in twee zogenaamde registers:
@@ -76,17 +83,20 @@ return [
     <p>
         Matthijs Tuijn, secretaris van Hart Muziekschool, is in die hoedanigheid aangesteld als functionaris voor de Gegevensbescherming: info@hartmuziekschool.nl.
     </p>',
+        'summary' => 'Privacyverklaring en uitleg over verwerking en opslag van persoonsgegevens binnen VHM.',
         'slug'=> 'avg',
         'explainer' => 'Inhoud voor de pagina AVG/Privacy.',
-        'cover_image' => null,
+        'cover_image' => '/bestand/static/avg',
         'is_searchable' => true,
     ],
     [
         'key' => 'locations',
+        'title' => 'Locaties',
         'content' => 'Vereniging HART Muziekschool is gevestigd op verschillende adressen.',
+        'summary' => 'Overzicht van onze leslocaties en adressen.',
         'slug' => 'locations',
         'explainer' => 'Inhoud voor de pagina Locaties.',
-        'cover_image' => null,
+        'cover_image' => '/bestand/static/locations',
         'is_searchable' => true,
     ],
     [

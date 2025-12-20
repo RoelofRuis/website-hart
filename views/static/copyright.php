@@ -7,7 +7,7 @@ use app\models\StaticContent;
 use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
 
-$this->title = Yii::t('app', 'Copyright');
+$this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-static">

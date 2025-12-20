@@ -26,14 +26,18 @@ class Searcher
                 ->union($this->buildTeacherSubquery($form), true);
         }
 
-        $rows = (new Query())
+        $query = (new Query())
             ->select("*")
             ->from(['data' => $data_query])
-            ->addParams([':q' => $form->getTrimmedQuery()])
-            ->orderBy(['rank' =>  SORT_DESC, 'title' => SORT_ASC])
+            ->orderBy(['rank' => SORT_DESC, 'title' => SORT_ASC])
             ->limit($form->per_page + 1)
-            ->offset($form->getOffset())
-            ->all();
+            ->offset($form->getOffset());
+
+        if (!$form->hasEmptyQuery()) {
+            $query->addParams([':q' => $form->getTrimmedQuery()]);
+        }
+
+        $rows = $query->all();
 
         $results = [];
         $has_next_page = false;
@@ -83,13 +87,22 @@ class Searcher
                 'cn.name AS title',
                 'cn.slug AS slug',
                 'cn.cover_image AS image',
-                'word_similarity(:q, cn.searchable_text) as rank',
-                new Expression("ts_headline('simple', cn.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
             ->from(['cn' => '{{%course_node}}']);
 
-        if (!$form->hasEmptyQuery()) {
-            $subquery->andWhere(':q <% cn.searchable_text');
+        if ($form->hasEmptyQuery()) {
+            $subquery
+                ->addSelect([
+                    new Expression("1 AS rank"),
+                    'cn.summary AS snippet'
+                ]);
+        } else {
+            $subquery
+                ->addSelect([
+                    'word_similarity(:q, cn.searchable_text) as rank',
+                    new Expression("ts_headline('simple', cn.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+                ])
+                ->andWhere(':q <% cn.searchable_text');
         }
 
         return $subquery;
@@ -103,13 +116,22 @@ class Searcher
                 't.full_name AS title',
                 't.slug AS slug',
                 't.profile_picture AS image',
-                'word_similarity(:q, t.searchable_text) as rank',
-                new Expression("ts_headline('simple', t.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
             ->from(['t' => '{{%teacher}}']);
 
-        if (!$form->hasEmptyQuery()) {
-            $subquery->andWhere(':q <% t.searchable_text');
+        if ($form->hasEmptyQuery()) {
+            $subquery
+                ->addSelect([
+                    new Expression("1 AS rank"),
+                    't.description AS snippet'
+                ]);
+        } else {
+            $subquery
+                ->addSelect([
+                    'word_similarity(:q, t.searchable_text) as rank',
+                    new Expression("ts_headline('simple', t.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+                ])
+                ->andWhere(':q <% t.searchable_text');
         }
 
         return $subquery;
@@ -120,17 +142,25 @@ class Searcher
         $subquery = (new Query())
             ->select([
                 new Expression("'static'::text AS type"),
-                'sc.key AS title',
+                'sc.title AS title',
                 'sc.slug AS slug',
                 'sc.cover_image AS image',
-                'word_similarity(:q, sc.searchable_text) as rank',
-                new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
             ->from(['sc' => '{{%static_content}}'])
             ->andWhere(['sc.is_searchable' => true]);
 
-        if (!$form->hasEmptyQuery()) {
-            $subquery->andWhere(':q <% sc.searchable_text');
+        if ($form->hasEmptyQuery()) {
+            $subquery->addSelect([
+                new Expression('0 AS rank'),
+                'sc.summary AS snippet',
+            ]);
+        } else {
+            $subquery
+                ->addSelect([
+                    'word_similarity(:q, sc.searchable_text) as rank',
+                    new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+                ])
+                ->andWhere(':q <% sc.searchable_text');
         }
 
         return $subquery;

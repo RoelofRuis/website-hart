@@ -8,7 +8,7 @@ use yii\bootstrap5\Html;
 use app\widgets\ContactFormWidget;
 use yii\helpers\HtmlPurifier;
 
-$this->title = Yii::t('app', 'Contact');
+$this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row site-static">

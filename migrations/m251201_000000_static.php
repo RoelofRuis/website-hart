@@ -11,12 +11,14 @@ class m251201_000000_static extends Migration
 
         $this->createTable('{{%static_content}}', [
             'key' => $this->string(16)->notNull()->unique(),
+            'title' => $this->string(150),
             'content' => $this->text()->notNull(),
+            'summary' => $this->text(),
             'slug' => $this->string(64)->notNull()->unique(),
             'updated_at' => $this->dateTime()->notNull()->defaultExpression('NOW()'),
             'cover_image' => $this->string(255)->null(),
             'is_searchable' => $this->boolean()->notNull()->defaultValue(false),
-            'explainer' => $this->text()->null(),
+            'explainer' => $this->text()->null()->comment("Text that explains to a system admin what this static content is for."),
             'searchable_text' => $this->text()
         ]);
         $this->addPrimaryKey('pk_static_content', '{{%static_content}}', 'key');

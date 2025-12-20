@@ -29,9 +29,18 @@ use app\widgets\MarkdownEditor;
     ])
 ?>
 
+
 <?= $form->field($model, 'is_searchable')->checkbox(['disabled' => true]); ?>
 
 <?php if ($model->is_searchable): ?>
+    <?= $form->field($model, 'summary')
+        ->textarea([
+            'rows' => 2,
+            'maxlength' => true,
+        ])
+        ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
+    ?>
+
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'disabled' => true]); ?>
 <?php endif; ?>
 

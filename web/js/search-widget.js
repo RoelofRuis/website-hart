@@ -9,7 +9,7 @@ function debounce(fn, ms) {
 window.SearchWidget = window.SearchWidget || (function () {
   const state = new WeakMap();
 
-  function buildUrl(cfg, q, page, suppressEmpty) {
+  function buildUrl(cfg, q, page) {
     const url = new URL(cfg.endpoint, window.location.origin);
     url.searchParams.set(cfg.paramName, q);
     if (cfg.type) url.searchParams.set('type', cfg.type);
@@ -37,16 +37,6 @@ window.SearchWidget = window.SearchWidget || (function () {
     if (!meta) return null;
     const np = meta.getAttribute('data-next-page');
     return np ? parseInt(np, 10) : null;
-  }
-
-  function ensureSentinel(cfg) {
-    if (cfg.sentinelEl) return cfg.sentinelEl;
-    const sentinel = document.createElement('div');
-    sentinel.className = 'search-sentinel';
-    sentinel.setAttribute('aria-hidden', 'true');
-    cfg.resultsEl.after(sentinel);
-    cfg.sentinelEl = sentinel;
-    return sentinel;
   }
 
   async function fetchAndRender(cfg, q, page, append) {
@@ -82,6 +72,14 @@ window.SearchWidget = window.SearchWidget || (function () {
       const st2 = state.get(cfg.root) || {};
       st2.nextPage = nextPage || null;
       state.set(cfg.root, st2);
+
+      if (cfg.loadMoreEl) {
+        if (nextPage && Number(nextPage) > 0) {
+          cfg.loadMoreEl.classList.remove('d-none');
+        } else {
+          cfg.loadMoreEl.classList.add('d-none');
+        }
+      }
     } catch (e) {
       if (e.name === 'AbortError') return;
       setError(cfg, e.message || 'Request failed');
@@ -104,6 +102,7 @@ window.SearchWidget = window.SearchWidget || (function () {
       resultsEl: document.getElementById(root.getAttribute('data-results-id')),
       spinnerEl: document.getElementById(root.getAttribute('data-spinner-id')),
       errorEl: document.getElementById(root.getAttribute('data-error-id')),
+      loadMoreEl: document.getElementById(root.getAttribute('data-load-more-id')),
       minLen: 2,
     };
     if (!cfg.endpoint || !cfg.formEl || !cfg.inputEl || !cfg.resultsEl) return;
@@ -117,6 +116,7 @@ window.SearchWidget = window.SearchWidget || (function () {
         // show placeholder when too short
         const emptyMsg = cfg.resultsEl.getAttribute('data-empty') || '';
         cfg.resultsEl.innerHTML = emptyMsg ? '<div class="text-muted">' + emptyMsg + '</div>' : '';
+        if (cfg.loadMoreEl) cfg.loadMoreEl.classList.add('d-none');
       }
     }, cfg.debounceMs);
 
@@ -126,18 +126,15 @@ window.SearchWidget = window.SearchWidget || (function () {
       onType();
     });
 
-    // Infinite scroll: observe sentinel and auto-load next pages
-    const sentinel = ensureSentinel(cfg);
-    const io = new IntersectionObserver((entries) => {
-      const e = entries[0];
-      if (!e.isIntersecting) return;
-      const st = state.get(cfg.root) || {};
-      const next = st.nextPage || null;
-      if (!next) return;
-      const q = cfg.inputEl.value.trim();
-      fetchAndRender(cfg, q, next, true);
-    }, { rootMargin: '200px 0px' });
-    io.observe(sentinel);
+    if (cfg.loadMoreEl) {
+      cfg.loadMoreEl.addEventListener('click', function () {
+        const st = state.get(cfg.root) || {};
+        const next = st.nextPage || null;
+        if (!next) return;
+        const q = cfg.inputEl.value.trim();
+        fetchAndRender(cfg, q, next, true);
+      });
+    }
 
     // Initial load
     const q0 = (cfg.inputEl.value || '').trim();

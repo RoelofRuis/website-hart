@@ -10,7 +10,7 @@ use app\models\CourseNode;
  * Generates simple SVG cover images for all courses and stores them via the
  * configured storage component. Updates Course.cover_image URLs accordingly.
  */
-class CourseImageStorageFixture extends Fixture
+class CourseNodeImageFixture extends Fixture
 {
     public $depends = [
         CourseNodeFixture::class,

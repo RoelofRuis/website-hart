@@ -19,6 +19,7 @@ use yii\helpers\Html;
  * @var int|null $parent_id
  * @var int $per_page
  * @var int $debounce_ms
+ * @var string $load_more_id
  */
 ?>
 <div class="row justify-content-center">
@@ -35,7 +36,8 @@ use yii\helpers\Html;
          data-input-id="<?= Html::encode($input_id) ?>"
          data-results-id="<?= Html::encode($results_id) ?>"
          data-spinner-id="<?= Html::encode($spinner_id) ?>"
-         data-error-id="<?= Html::encode($error_id) ?>">
+         data-error-id="<?= Html::encode($error_id) ?>"
+         data-load-more-id="<?= Html::encode($load_more_id) ?>">
 
         <form id="<?= Html::encode($form_id) ?>" class="position-relative" action="<?= Html::encode($endpoint) ?>"
               method="GET" role="search" novalidate>
@@ -57,5 +59,15 @@ use yii\helpers\Html;
              data-empty="<?= Html::encode(Yii::t('app', 'Type at least 2 characters to search…')) ?>"></div>
 
         <div id="<?= Html::encode($error_id) ?>" class="mt-2 d-none"></div>
+
+        <div class="d-grid mt-3">
+            <button type="button"
+                    id="<?= Html::encode($load_more_id) ?>"
+                    class="btn btn-outline-primary d-none"
+                    data-role="search-load-more"
+                    aria-label="<?= Html::encode(Yii::t('app', 'Load more results')) ?>">
+                <?= Html::encode(Yii::t('app', 'Load more results')) ?>
+            </button>
+        </div>
     </div>
 </div>

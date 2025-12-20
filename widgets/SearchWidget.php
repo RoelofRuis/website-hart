@@ -36,6 +36,7 @@ class SearchWidget extends Widget
         $results_id = $id . '-results';
         $spinner_id = $id . '-spinner';
         $error_id = $id . '-error';
+        $load_more_id = $id . '-load-more';
 
         $placeholder = $this->placeholder !== '' ? $this->placeholder : Yii::t('app', 'Search');
         $ariaLabel = $this->aria_label ?? $placeholder;
@@ -49,6 +50,7 @@ class SearchWidget extends Widget
             'results_id' => $results_id,
             'spinner_id' => $spinner_id,
             'error_id' => $error_id,
+            'load_more_id' => $load_more_id,
             'endpoint' => $this->endpoint,
             'param_name' => $this->param_name,
             'value' => $value,

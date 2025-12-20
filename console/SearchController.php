@@ -17,16 +17,22 @@ class SearchController extends Controller
      */
     public function actionReindex()
     {
+        $total = 0;
         foreach (StaticContent::find()->all() as $content) {
             $content->save();
+            $total++;
         }
 
         foreach (Teacher::find()->all() as $teacher) {
             $teacher->save();
+            $total++;
         }
 
         foreach (CourseNode::find()->all() as $node) {
             $node->save();
+            $total++;
         }
+
+        echo "Reindexed $total items.\n";
     }
 }

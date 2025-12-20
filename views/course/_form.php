@@ -51,7 +51,7 @@ if ($isAdmin) {
         'rows' => 2,
         'maxlength' => true,
     ])
-    ->hint(Html::encode(Yii::t('app', 'Short summary shown on the course cards.')))
+    ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
 ?>
 <?= $form->field($model, 'description')
     ->widget(MarkdownEditor::class, [
