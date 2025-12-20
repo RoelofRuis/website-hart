@@ -44,27 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
                 <?= $this->render('_lesson_options', ['model' => $model]) ?>
-
-                <div class="d-none d-lg-block">
-                    <h3 class="mt-4"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
-                    <?= $this->render('_teachers_grid', [
-                            'teachers' => $teachers,
-                            'colClasses' => 'col-md-6 col-lg-4',
-                    ]) ?>
-                </div>
             </div>
 
             <div class="col-lg-5 col-xl-4">
                 <?= $this->render('_contact_form', ['contact' => $contact]) ?>
             </div>
 
-            <div class="col-12 d-lg-none mt-4">
-                <h3 class="mt-2"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h3>
-                <?= $this->render('_teachers_grid', [
-                        'teachers' => $teachers,
-                        'colClasses' => 'col-12 col-md-6',
-                ]) ?>
-            </div>
         </div>
     <?php else: ?>
         <div class="row mb-4">

@@ -45,7 +45,5 @@ TODOS:
 - Lesvorm kopieren
 - Lesvorm alleen bewerken vanuit docentenportaal
 - Lesvorm kaarten beschrijving formatteren
-- Kaarten mooi maken en aan inschrijfformulier koppelen
+- Lesvorm kaarten mooi maken en aan inschrijfformulier koppelen
 - Docentenkaarten op cursuspagina mooi maken
-- Kaarten zonder query de default tekst geven
-- Static Content een optionele titel geven (translatable)

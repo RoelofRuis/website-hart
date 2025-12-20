@@ -26,6 +26,11 @@ class Location extends ActiveRecord
         ];
     }
 
+    public function getNameString(): string
+    {
+        return $this->name . ' (' . $this->address . ')';
+    }
+
     public function attributeLabels(): array
     {
         return [

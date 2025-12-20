@@ -13,7 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container">
-    <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
+    <h1 class="mb-1"><?= Html::encode($this->title) ?></h1>
+    <div class="text-muted mb-3">
+        <?= Html::encode(Yii::t('app', 'Course')) ?>: <?= Html::encode($course->name) ?>
+    </div>
     <?= $this->render('_form', [
         'model' => $model,
         'course' => $course,

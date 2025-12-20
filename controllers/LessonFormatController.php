@@ -17,7 +17,7 @@ class LessonFormatController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['admin', 'create', 'update', 'delete'],
+                'only' => ['admin', 'create', 'update', 'delete', 'copy'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -139,5 +139,37 @@ class LessonFormatController extends Controller
         $model->delete();
         Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option deleted.'));
         return $this->redirect(['lesson-format/admin']);
+    }
+
+    public function actionCopy(int $id)
+    {
+        $source = LessonFormat::findOne($id);
+        if (!$source) {
+            throw new NotFoundHttpException('Lesson format not found.');
+        }
+
+        $current = Yii::$app->user->identity;
+        if (!$current instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $allowed = $source->teacher_id === $current->id;
+        if (!$allowed) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $attrs = $source->getAttributes(null, ['id']); // all safe attributes except id
+        $model = new LessonFormat();
+        $model->setAttributes($attrs, false);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option copied.'));
+            return $this->redirect(['lesson-format/admin']);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'course' => $model->course ?? $source->course,
+        ]);
     }
 }

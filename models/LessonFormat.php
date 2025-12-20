@@ -27,6 +27,8 @@ use yii\db\ActiveRecord;
  * @property bool $use_custom_location
  * @property int|null $location_id
  * @property string $location_custom
+ *
+ * @property Location $location
  */
 class LessonFormat extends ActiveRecord
 {
@@ -120,5 +122,79 @@ class LessonFormat extends ActiveRecord
             }
         }
         return true;
+    }
+
+    /**
+     * Human readable frequency label (translated)
+     */
+    public function getFrequencyLabel(): string
+    {
+        return match ($this->frequency) {
+            self::FREQUENCY_WEEKLY => Yii::t('app', 'Weekly'),
+            self::FREQUENCY_BIWEEKLY => Yii::t('app', 'Bi-weekly'),
+            self::FREQUENCY_MONTHLY => Yii::t('app', 'Monthly'),
+            default => (string)$this->frequency,
+        };
+    }
+
+    /**
+     * Returns selected day names as array (translated)
+     * @return string[]
+     */
+    public function getDayNames(): array
+    {
+        $labels = [
+            'mon' => Yii::t('app', 'Monday'),
+            'tue' => Yii::t('app', 'Tuesday'),
+            'wed' => Yii::t('app', 'Wednesday'),
+            'thu' => Yii::t('app', 'Thursday'),
+            'fri' => Yii::t('app', 'Friday'),
+            'sat' => Yii::t('app', 'Saturday'),
+            'sun' => Yii::t('app', 'Sunday'),
+        ];
+        $days = [];
+        foreach (array_keys($labels) as $key) {
+            if (!empty($this->$key)) {
+                $days[] = $labels[$key];
+            }
+        }
+        return $days;
+    }
+
+    /**
+     * Comma separated days string.
+     */
+    public function getFormattedDays(): string
+    {
+        return implode(', ', $this->getDayNames());
+    }
+
+    /**
+     * Short price label for card display (or empty string when hidden)
+     */
+    public function getFormattedPriceShort(): string
+    {
+        if ($this->price_display_type === self::PRICE_DISPLAY_PER_PERSON && $this->price_per_person !== null) {
+            $n = number_format((float)$this->price_per_person, 2, ',', '.');
+            return Yii::t('app', '€{n} per person', ['n' => $n]);
+        }
+        if ($this->price_display_type === self::PRICE_DISPLAY_HIDDEN) {
+            return '';
+        }
+        return Yii::t('app', 'Price on request');
+    }
+
+    /**
+     * Main one-line description for the card.
+     * Example: "2 people, 45 minutes, 36 weeks, Weekly"
+     */
+    public function getFormattedDescription(): string
+    {
+        return Yii::t('app', '{n} people, {m} minutes, {w} weeks, {f}', [
+            'n' => $this->persons_per_lesson,
+            'm' => $this->duration_minutes,
+            'w' => $this->weeks_per_year,
+            'f' => $this->getFrequencyLabel(),
+        ]);
     }
 }

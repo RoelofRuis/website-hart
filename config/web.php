@@ -28,6 +28,23 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+//        'response' => [
+//            'on beforeSend' => function ($event) {
+//                $response = $event->sender;
+//                $content_type = $response->headers->get('Content-Type');
+//                if (stripos($content_type ?? '', 'text/html') === false) {
+//                    return;
+//                }
+//
+//                $has_flashes = !empty(Yii::$app->session->getAllFlashes(false));
+//                if ($has_flashes) {
+//                    $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+//                    $response->headers->add('Cache-Control', 'post-check=0, pre-check=0'); // harmless for modern browsers
+//                    $response->headers->set('Pragma', 'no-cache');
+//                    $response->headers->set('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
+//                }
+//            }
+//        ]
     ]),
     'params' => $params,
 ];
