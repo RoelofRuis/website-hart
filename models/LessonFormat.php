@@ -33,7 +33,7 @@ use yii\db\ActiveRecord;
 class LessonFormat extends ActiveRecord
 {
     const PRICE_DISPLAY_HIDDEN = 'hidden';
-    const PRICE_DISPLAY_PER_PERSON = 'per_person';
+    const PRICE_DISPLAY_PER_PERSON_PER_LESSON = 'pppl';
 
     const FREQUENCY_WEEKLY = 'weekly';
     const FREQUENCY_BIWEEKLY = 'biweekly';
@@ -54,7 +54,7 @@ class LessonFormat extends ActiveRecord
             [['frequency'], 'in', 'range' => [self::FREQUENCY_WEEKLY, self::FREQUENCY_BIWEEKLY, self::FREQUENCY_MONTHLY]],
             [['location_custom'], 'string', 'max' => 150],
             [['price_display_type'], 'string', 'max' => 16],
-            [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_PER_PERSON]],
+            [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_PER_PERSON_PER_LESSON]],
             [['use_custom_location'], 'boolean'],
             [['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], 'boolean'],
             [['remarks'], 'string', 'max' => 1000],
@@ -133,7 +133,7 @@ class LessonFormat extends ActiveRecord
             self::FREQUENCY_WEEKLY => Yii::t('app', 'Weekly'),
             self::FREQUENCY_BIWEEKLY => Yii::t('app', 'Bi-weekly'),
             self::FREQUENCY_MONTHLY => Yii::t('app', 'Monthly'),
-            default => (string)$this->frequency,
+            default => $this->frequency ?? '',
         };
     }
 
@@ -172,11 +172,11 @@ class LessonFormat extends ActiveRecord
     /**
      * Short price label for card display (or empty string when hidden)
      */
-    public function getFormattedPriceShort(): string
+    public function getFormattedPrice(): string
     {
-        if ($this->price_display_type === self::PRICE_DISPLAY_PER_PERSON && $this->price_per_person !== null) {
+        if ($this->price_display_type === self::PRICE_DISPLAY_PER_PERSON_PER_LESSON && $this->price_per_person !== null) {
             $n = number_format((float)$this->price_per_person, 2, ',', '.');
-            return Yii::t('app', '€{n} per person', ['n' => $n]);
+            return Yii::t('app', '€{n} per person per lesson', ['n' => $n]);
         }
         if ($this->price_display_type === self::PRICE_DISPLAY_HIDDEN) {
             return '';

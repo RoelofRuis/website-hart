@@ -20,7 +20,7 @@ $frequencies = [
 
 $price_display_types = [
     LessonFormat::PRICE_DISPLAY_HIDDEN => Yii::t('app', 'Hidden'),
-    LessonFormat::PRICE_DISPLAY_PER_PERSON => Yii::t('app', 'Per person'),
+    LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_LESSON => Yii::t('app', 'Per person per lesson'),
 ];
 
 $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');

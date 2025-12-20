@@ -15,7 +15,7 @@ $showActions = $showActions ?? false;
             </div>
         </div>
         <div class="text-end">
-            <?php $price = $model->getFormattedPriceShort(); if (!empty($price)): ?>
+            <?php $price = $model->getFormattedPrice(); if (!empty($price)): ?>
                 <div class="badge bg-light text-muted">
                     <?= Html::encode($price) ?>
                 </div>
@@ -24,7 +24,7 @@ $showActions = $showActions ?? false;
     </div>
 
     <?php if (!empty($model->remarks)): ?>
-        <div class="mb-1">
+        <div class="mb-2 mt-2">
             <span class="text-muted small"><?= nl2br(Html::encode($model->remarks)) ?></span>
         </div>
     <?php endif; ?>

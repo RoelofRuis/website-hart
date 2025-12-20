@@ -175,9 +175,9 @@ return [
     'Youth Culture Fund' => 'Jeugdfonds Sport & Cultuur',
     'min' => 'min',
     'people' => 'personen',
-    'per person' => 'per persoon',
+    'Per person per lesson' => 'Per persoon per les',
     '{n,plural,=0{None selected} =1{One selected} other{# selected}}' => '{n,plural,=0{Niets geselecteerd} other{# geselecteerd}}',
-    '{n} people, {m} minutes, {w} weeks, {f}' => '{n,plural,=1{Individueel} =2{Duo} =3{Groepsles # personen}}, {m} minuten, {f}, {w} weken ',
+    '{n} people, {m} minutes, {w} weeks, {f}' => '{n,plural,=1{Individueel} =2{Duo} other{Groepsles # personen}}, {m} minuten, {f}, {w} weken ',
     '{n} selected' => '{n} geselecteerd',
-    '€{n} per person' => '€ {n} per persoon',
+    '€{n} per person per lesson' => '€ {n} per persoon per les',
 ];
