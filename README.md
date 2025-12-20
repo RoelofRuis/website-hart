@@ -40,10 +40,6 @@ Extract translations from the source code, then add the required translations to
 ```./yii message/extract messages/extract.php```
 
 TODOS:
-- Lesvorm weergave voor welke cursus
-- Lesvorm validation rules checken
-- Lesvorm kopieren
-- Lesvorm alleen bewerken vanuit docentenportaal
-- Lesvorm kaarten beschrijving formatteren
 - Lesvorm kaarten mooi maken en aan inschrijfformulier koppelen
-- Docentenkaarten op cursuspagina mooi maken
+- Berichten overzichtelijk vanuit docentenportaal
+- Docent emailen met ongelezen berichten
