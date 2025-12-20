@@ -93,6 +93,7 @@ class m251201_000001_domain extends Migration
             'fri' => $this->boolean()->notNull()->defaultValue(false),
             'sat' => $this->boolean()->notNull()->defaultValue(false),
             'sun' => $this->boolean()->notNull()->defaultValue(false),
+            'remarks' => $this->text()->null(),
             'use_custom_location' => $this->boolean()->notNull()->defaultValue(false),
             'location_id' => $this->bigInteger()->null(),
             'location_custom' => $this->string(255)->null(),

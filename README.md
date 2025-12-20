@@ -38,3 +38,11 @@ Loading fixtures seeds the database with some demo data.
 ### Extracting translations
 Extract translations from the source code, then add the required translations to the translation files.
 ```./yii message/extract messages/extract.php```
+
+TODOS:
+- Lesvorm weergave voor welke cursus
+- Lesvorm validation rules checken
+- Lesvorm kopieren
+- Lesvorm alleen bewerken vanuit docentenportaal
+- Kaarten mooi maken en aan inschrijfformulier koppelen
+- Docentenkaarten op cursuspagina mooi maken

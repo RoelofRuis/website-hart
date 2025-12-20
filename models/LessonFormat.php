@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property int $fri
  * @property int $sat
  * @property int $sun
+ * @property string $remarks
  * @property bool $use_custom_location
  * @property int|null $location_id
  * @property string $location_custom
@@ -54,6 +55,7 @@ class LessonFormat extends ActiveRecord
             [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_PER_PERSON]],
             [['use_custom_location'], 'boolean'],
             [['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], 'boolean'],
+            [['remarks'], 'string', 'max' => 1000],
             [['location_id'], 'exist', 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['course_id'], 'exist', 'targetClass' => CourseNode::class, 'targetAttribute' => ['course_id' => 'id']],
             [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id']],
@@ -78,6 +80,7 @@ class LessonFormat extends ActiveRecord
             'fri' => Yii::t('app', 'Friday'),
             'sat' => Yii::t('app', 'Saturday'),
             'sun' => Yii::t('app', 'Sunday'),
+            'remarks' => Yii::t('app', 'Remarks'),
             'use_custom_location' => Yii::t('app', 'Use custom location'),
             'location_id' => Yii::t('app', 'Location'),
             'location_custom' => Yii::t('app', 'Location (custom)'),

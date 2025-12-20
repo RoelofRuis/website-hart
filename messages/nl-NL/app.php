@@ -113,6 +113,7 @@ return [
     'Profile Picture' => 'Profielfoto',
     'Profile of' => 'Profiel van',
     'Read more' => 'Lees meer',
+    'Remarks' => 'Opmerkingen',
     'Renting an instrument' => 'Instrumentverhuur',
     'Saturday' => 'Zaterdag',
     'Save' => 'Opslaan',
