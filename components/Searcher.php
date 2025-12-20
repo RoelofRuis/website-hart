@@ -126,7 +126,8 @@ class Searcher
                 'word_similarity(:q, sc.searchable_text) as rank',
                 new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
             ])
-            ->from(['sc' => '{{%static_content}}']);
+            ->from(['sc' => '{{%static_content}}'])
+            ->andWhere(['sc.is_searchable' => true]);
 
         if (!$form->hasEmptyQuery()) {
             $subquery->andWhere(':q <% sc.searchable_text');
