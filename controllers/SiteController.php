@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\CourseNode;
-use app\models\forms\ContactForm;
 use app\models\forms\LoginForm;
 use app\models\StaticContent;
 use app\models\Teacher;
@@ -46,23 +45,6 @@ class SiteController extends Controller
             'homeTitle' => StaticContent::findByKey('home-title'),
             'homeNews' => StaticContent::findByKey('home-news'),
         ]);
-    }
-
-    public function actionContactSubmit()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you! Your message has been sent.'));
-            } else {
-                Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we could not send your message. Please try again later.'));
-            }
-        } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Please correct the errors in the form.'));
-        }
-
-        $referrer = Yii::$app->request->referrer;
-        return $this->redirect($referrer ?: ['static/contact']);
     }
 
     public function actionLogin()

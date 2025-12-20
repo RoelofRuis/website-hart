@@ -4,6 +4,7 @@ use app\components\Storage;
 use app\extended\Schema;
 use yii\caching\FileCache;
 use yii\db\Connection;
+use yii\i18n\PhpMessageSource;
 use yii\log\FileTarget;
 use yii\symfonymailer\Mailer;
 
@@ -55,5 +56,14 @@ return [
         'enablePrettyUrl' => true,
         'showScriptName' => false,
         'rules' => include(__DIR__ . '/url_rules.php'),
+    ],
+    'i18n' => [
+        'translations' => [
+            'app*' => [
+                'class' => PhpMessageSource::class,
+                'basePath' => '@app/messages',
+                'sourceLanguage' => 'en-US',
+            ],
+        ],
     ],
 ];

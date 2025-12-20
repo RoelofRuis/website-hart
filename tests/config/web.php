@@ -1,16 +1,18 @@
 <?php
 
 use app\models\Teacher;
+use yii\caching\DummyCache;
 
-$params = require __DIR__ . '/params.php';
-$shared_components = require __DIR__ . '/components.php';
+$params = require __DIR__ . '/../../config/params.php';
+$shared_components = require __DIR__ . '/../../config/components.php';
 
-$config = [
-    'id' => 'vhm-website',
-    'name' => 'Vereniging HART Muziekschook Website',
+return [
+    'id' => 'vhm-website-test',
+    'name' => 'Vereniging HART Muziekschook Website Test',
     'language' => 'nl-NL',
     'sourceLanguage' => 'en-US',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(__DIR__, 2),
+    'runtimePath' => __DIR__ . '/../../runtime',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -18,7 +20,10 @@ $config = [
     ],
     'components' => array_merge($shared_components, [
         'request' => [
-            'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
+            'cookieValidationKey' => 'ADNfidsf(@3FDSPfPzD_FHF$#2afq)P',
+        ],
+        'cache' => [
+            'class' => DummyCache::class,
         ],
         'user' => [
             'identityClass' => Teacher::class,
@@ -31,12 +36,3 @@ $config = [
     ]),
     'params' => $params,
 ];
-
-if (YII_ENV_DEV) {
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-    ];
-}
-
-return $config;

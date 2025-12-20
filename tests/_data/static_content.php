@@ -22,7 +22,7 @@ return [
         <li>Algemeen lid: Marina Besselink</li>
     </ul>
     <p>
-        Mocht er op bestuurlijk, organisatorisch of publicitair nivea een vraag of opmerking liggen, dan kunt u terecht via onderstaand formulier.
+        Mocht er op bestuurlijk, organisatorisch of publicitair niveau een vraag of opmerking liggen, dan kunt u terecht via onderstaand formulier.
         Het gebruik van dit formulier voor aquisitie, reclamedoeleinden, aanbiedingen, verkoop van instrument op welk niveau dan ook wordt niet op prijs gesteld.
         Deze mails zullen dan ook onbehandeld direct worden verwijderd.
     </p>',

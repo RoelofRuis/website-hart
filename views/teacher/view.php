@@ -2,12 +2,12 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\Teacher $model */
-/** @var app\models\forms\ContactForm $contactForm */
 
 use yii\bootstrap5\Html;
-use yii\bootstrap5\ActiveForm;
 use yii\helpers\Markdown;
 use yii\helpers\HtmlPurifier;
+use app\widgets\ContactFormWidget;
+use app\models\ContactMessage;
 
 $this->title = $model->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
@@ -74,20 +74,11 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <div class="col-md-5">
-            <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Contact the teacher')) ?></h3>
-            <div class="card">
-                <div class="card-body">
-                    <?php $form = ActiveForm::begin(['id' => 'teacher-contact-form']); ?>
-                        <?= $form->field($contactForm, 'teacher_id')->hiddenInput()->label(false) ?>
-                        <?= $form->field($contactForm, 'name')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($contactForm, 'email')->input('email', ['maxlength' => true]) ?>
-                        <?= $form->field($contactForm, 'message')->textarea(['rows' => 6]) ?>
-                        <div class="mt-3">
-                            <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>
-                        </div>
-                    <?php ActiveForm::end(); ?>
-                </div>
-            </div>
+            <?= ContactFormWidget::widget([
+                'heading' => Yii::t('app', 'Contact the teacher'),
+                'type' => ContactMessage::TYPE_CONTACT,
+                'teacher_id' => $model->id,
+            ]) ?>
         </div>
     </div>
 </div>

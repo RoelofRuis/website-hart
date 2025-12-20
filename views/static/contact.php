@@ -11,10 +11,12 @@ use yii\helpers\HtmlPurifier;
 $this->title = Yii::t('app', 'Contact');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-static">
-    <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
-    <?= HtmlPurifier::process($model->content); ?>
-    <div class="mt-4">
+<div class="row site-static">
+    <div class="col-6">
+        <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
+        <?= HtmlPurifier::process($model->content); ?>
+    </div>
+    <div class="col-6">
         <?= ContactFormWidget::widget([
             'heading' => Yii::t('app', 'General contact form'),
         ]) ?>
