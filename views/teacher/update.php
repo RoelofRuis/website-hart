@@ -11,7 +11,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="teacher-update">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
+        <?= Html::a(Yii::t('app', 'View Profile'), ['teacher/view', 'slug' => $model->slug], ['class' => 'btn btn-outline-primary']) ?>
+    </div>
     <?= $this->render('_form', [
         'model' => $model,
         'safeAttributes' => $safeAttributes,

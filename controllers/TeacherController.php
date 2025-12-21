@@ -114,6 +114,9 @@ class TeacherController extends Controller
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher information updated successfully.'));
+                if ($current->id === $model->id) {
+                    return $this->redirect(['site/manage']);
+                }
                 return $this->redirect(['admin']);
             }
         }

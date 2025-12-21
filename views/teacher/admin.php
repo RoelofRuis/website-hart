@@ -23,12 +23,32 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'full_name',
-            'slug',
-            'email:email',
+            [
+                'attribute' => 'full_name',
+                'format' => 'raw',
+                'enableSorting' => false,
+                'value' => function ($model) {
+                    /** @var app\models\Teacher $model */
+                    return Html::a(Html::encode($model->full_name), ['teacher/view', 'slug' => $model->slug]);
+                },
+            ],
+            [
+                'attribute' => 'email',
+                'format' => 'email',
+                'enableSorting' => false,
+            ],
+            [
+                'label' => Yii::t('app', 'Linked Courses'),
+                'value' => function ($model) {
+                    /** @var app\models\Teacher $model */
+                    $names = array_map(function ($c) { return $c->name; }, $model->accessibleCourses);
+                    return implode(', ', $names);
+                },
+            ],
             [
                 'attribute' => 'is_admin',
                 'format' => 'boolean',
+                'enableSorting' => false,
             ],
             [
                 'class' => 'yii\\grid\\ActionColumn',

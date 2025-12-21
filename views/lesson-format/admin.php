@@ -64,7 +64,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card shadow-sm mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="fw-bold">
-                        <?= Html::encode($course->name ?? ('#' . $cid)) ?>
+                        <?php if ($course): ?>
+                            <?= Html::a(Html::encode($course->name), ['course/view', 'slug' => $course->slug], ['class' => 'text-decoration-none']) ?>
+                        <?php else: ?>
+                            <?= '#' . $cid ?>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">

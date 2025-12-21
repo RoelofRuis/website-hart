@@ -36,6 +36,7 @@ return [
     'portaal/lesvormen' => 'lesson-format/admin',
     'portaal/lesvorm/<id:\d+>' => 'lesson-format/update',
     'portaal/lesvorm-maken' => 'lesson-format/create',
+    'portaal/lesvorm-kopieren' => 'lesson-format/copy',
     'portaal/inhoud' => 'static-content/admin',
     'portaal/inhoud/<key:[A-Za-z0-9\-]+>' => 'static-content/update'
 ];

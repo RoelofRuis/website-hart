@@ -20,5 +20,9 @@ return [
     [
         'course_node_id' => 8,
         'teacher_id' => 5,
+    ],
+    [
+        'course_node_id' => 6,
+        'teacher_id' => 1,
     ]
 ];

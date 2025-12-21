@@ -25,8 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'name',
-            'slug',
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'enableSorting' => false,
+                'value' => function ($model) {
+                    /** @var app\models\CourseNode $model */
+                    return Html::a(Html::encode($model->name), ['course/view', 'slug' => $model->slug]);
+                },
+            ],
             [
                 'label' => Yii::t('app', 'Lesson formats'),
                 'value' => function ($model) {
