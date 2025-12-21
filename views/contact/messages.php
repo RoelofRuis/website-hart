@@ -1,7 +1,8 @@
 <?php
 /** @var yii\web\View $this */
-/** @var array<int,array<string,mixed>> $items */
+/** @var ContactMessage[] $messages */
 
+use app\models\ContactMessage;
 use yii\bootstrap5\Html;
 
 $this->title = Yii::t('app', 'Messages');
@@ -12,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="teacher-messages">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (empty($items)): ?>
+    <?php if (empty($messages)): ?>
         <div class="text-muted"><?= Html::encode(Yii::t('app', 'No messages found.')) ?></div>
     <?php else: ?>
         <div class="table-responsive">
@@ -29,29 +30,41 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($items as $row): ?>
+                <?php foreach ($messages as $message): ?>
                     <tr>
-                        <td><?= Yii::$app->formatter->asDatetime($row['created_at']) ?></td>
+                        <td><?= Yii::$app->formatter->asDatetime($message->created_at) ?></td>
                         <td>
-                            <?php if ($row['type'] === 'signup'): ?>
+                            <?php if ($message->type === 'signup'): ?>
                                 <span class="badge bg-primary"><?= Html::encode(Yii::t('app', 'Signup')) ?></span>
+                            <?php elseif ($message->type === 'trial'): ?>
+                                <span class="badge bg-success"><?= Html::encode(Yii::t('app', 'Trial')) ?></span>
                             <?php else: ?>
                                 <span class="badge bg-secondary"><?= Html::encode(Yii::t('app', 'Contact')) ?></span>
                             <?php endif; ?>
                         </td>
-                        <td><?= Html::encode($row['course'] ?? '') ?></td>
-                        <td><?= Html::encode($row['from_name'] ?? '') ?></td>
                         <td>
-                            <?php if (!empty($row['email'])): ?>
-                                <a href="mailto:<?= Html::encode($row['email']) ?>"><?= Html::encode($row['email']) ?></a>
+                            <?php if ($message->lessonFormat): ?>
+                                <?= Html::encode($message->lessonFormat->course->name) ?>
+                                <br/>
+                                <small class="text-muted">
+                                    <?= Html::encode($message->lessonFormat->getFormattedDescription()) ?>
+                                </small>
+                            <?php else: ?>
+                                <span class="text-muted"><?= Html::encode(Yii::t('app', 'Direct Contact')) ?></span>
                             <?php endif; ?>
                         </td>
-                        <td><?= Html::encode($row['telephone'] ?? '') ?></td>
+                        <td><?= Html::encode($message->name) ?></td>
                         <td>
-                            <?php if ($row['type'] === 'signup' && $row['age'] !== null): ?>
-                                <?= Html::encode(Yii::t('app', 'Student Age')) ?>: <?= Html::encode((string)$row['age']) ?>
-                            <?php elseif (!empty($row['message'])): ?>
-                                <?= nl2br(Html::encode($row['message'])) ?>
+                            <?php if (!empty($message->email)): ?>
+                                <a href="mailto:<?= Html::encode($message->email) ?>"><?= Html::encode($message->email) ?></a>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= Html::encode($message->telephone) ?></td>
+                        <td>
+                            <?php if (($message->type === 'signup' || $message->type === 'trial') && $message->age !== null): ?>
+                                <?= Html::encode(Yii::t('app', 'Student Age')) ?>: <?= Html::encode((string)$message->age) ?>
+                            <?php elseif (!empty($message->message)): ?>
+                                <?= nl2br(Html::encode($message->message)) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property string|null $summary
  * @property string|null $description
  * @property bool $is_taught
+ * @property bool $has_trial
  */
 class CourseNode extends ActiveRecord
 {
@@ -41,7 +42,7 @@ class CourseNode extends ActiveRecord
         return [
             [['name', 'slug', 'is_taught'], 'required'],
             [['description'], 'string'],
-            [['is_taught'], 'boolean'],
+            [['is_taught', 'has_trial'], 'boolean'],
             [['summary'], 'string'],
             [['name', 'slug'], 'string', 'max' => 64],
             [['cover_image'], 'string', 'max' => 255],
@@ -60,6 +61,7 @@ class CourseNode extends ActiveRecord
             'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),
             'is_taught' => Yii::t('app', 'Is taught'),
+            'has_trial' => Yii::t('app', 'Has trial'),
         ];
     }
 

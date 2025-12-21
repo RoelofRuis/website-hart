@@ -99,9 +99,37 @@ body { padding-top: var(--navbar-height); }
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.lift-card:hover, .lift-card:focus-within {
-    transform: translateY(-6px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+.lesson-format-selectable {
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+}
+
+.lesson-format-selectable:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.lesson-format-selectable.active {
+    border-left-color: var(--color-turquoise);
+    background-color: rgba(85, 189, 190, 0.05);
+}
+
+.lesson-format-selectable.active .badge {
+    background-color: var(--color-turquoise) !important;
+    color: white !important;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.2s ease-in-out 0s 2;
+    border-color: #dc3545 !important;
 }
 
 /* ---------------------------------------------

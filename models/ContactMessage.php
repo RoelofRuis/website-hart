@@ -26,6 +26,7 @@ class ContactMessage extends ActiveRecord
 
     const TYPE_CONTACT = 'contact';
     const TYPE_SIGNUP = 'signup';
+    const TYPE_TRIAL = 'trial';
 
     public static function tableName(): string
     {
@@ -57,16 +58,18 @@ class ContactMessage extends ActiveRecord
         return [
             [['name', 'email', 'message'], 'required'],
             [['type'], 'string', 'max' => 16],
-            [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP]],
+            [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP, self::TYPE_TRIAL]],
             [['name', 'email'], 'string', 'max' => 150],
             [['telephone'], 'string', 'max' => 50],
             ['email', 'email'],
             ['message', 'string', 'max' => 1000],
             ['age', 'integer', 'min' => 0, 'max' => 100],
             [['teacher_id', 'lesson_format_id'], 'integer'],
-            [['teacher_id'], 'integer'],
             [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id'], 'skipOnEmpty' => true],
             ['lesson_format_id', 'exist', 'targetClass' => LessonFormat::class, 'targetAttribute' => ['lesson_format_id' => 'id'], 'skipOnEmpty' => true],
+            ['lesson_format_id', 'required', 'when' => function($model) {
+                return $model->type === self::TYPE_SIGNUP;
+            }],
         ];
     }
 
@@ -79,6 +82,11 @@ class ContactMessage extends ActiveRecord
             'age' => Yii::t('app', 'Student Age'),
             'telephone' => Yii::t('app', 'Telephone'),
         ];
+    }
+
+    public function getLessonFormat(): ActiveQuery
+    {
+        return $this->hasOne(LessonFormat::class, ['id' => 'lesson_format_id']);
     }
 
     public function getTeachers(): ActiveQuery

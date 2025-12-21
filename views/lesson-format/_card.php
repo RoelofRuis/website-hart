@@ -1,13 +1,28 @@
 <?php
 /** @var app\models\LessonFormat $model */
 /** @var bool $showActions */
+/** @var bool $selectable */
+/** @var bool $selected */
 
 use yii\bootstrap5\Html;
 
 $showActions = $showActions ?? false;
+$selectable = $selectable ?? false;
+$selected = $selected ?? false;
+
+$class = 'list-group-item';
+if ($selectable) {
+    $class .= ' lesson-format-selectable';
+}
+if ($selected) {
+    $class .= ' active';
+}
 ?>
 
-<li class="list-group-item">
+<li class="<?= $class ?>" 
+    data-id="<?= $model->id ?>" 
+    data-description="<?= Html::encode($model->getFormattedDescription()) ?>"
+    <?php if ($selectable): ?>role="option"<?php endif; ?>>
     <div class="d-flex justify-content-between align-items-start mb-1">
         <div>
             <div class="fw-bold">

@@ -18,6 +18,28 @@ foreach ($options as $opt) {
 <div class="mt-4">
     <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Lesson options')) ?></h3>
 
+    <?php if ($model->has_trial): ?>
+        <div class="card shadow-sm mb-4 border-turquoise">
+            <div class="card-header bg-light py-2 fw-bold">
+                <?= Html::encode(Yii::t('app', 'Try it out!')) ?>
+            </div>
+            <ul class="list-group list-group-flush lesson-format-list">
+                <li class="list-group-item lesson-format-selectable" 
+                    data-id="" 
+                    data-type="trial"
+                    data-description="<?= Html::encode(Yii::t('app', 'Trial lesson')) ?>"
+                    role="button">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold"><?= Html::encode(Yii::t('app', 'Trial lesson')) ?></div>
+                            <div class="small text-muted"><?= Html::encode(Yii::t('app', 'Discover if this course is right for you.')) ?></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <?php foreach ($byTeacher as $list): $teacher = $list[0]->teacher; ?>
         <div class="card shadow-sm mb-4">
             <div class="card-header py-2 d-flex align-items-center">
@@ -35,11 +57,12 @@ foreach ($options as $opt) {
                     <?php endif; ?>
                 </div>
             </div>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush lesson-format-list">
                 <?php foreach ($list as $opt): ?>
                     <?= $this->render('//lesson-format/_card', [
                         'model' => $opt,
                         'showActions' => false,
+                        'selectable' => true,
                     ]) ?>
                 <?php endforeach; ?>
             </ul>

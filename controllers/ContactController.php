@@ -46,39 +46,22 @@ class ContactController extends Controller
 
     public function actionMessages()
     {
+        /** @var \app\models\Teacher $current */
         $current = Yii::$app->user->identity;
         if (!$current) {
             throw new NotFoundHttpException('Teacher not found.');
         }
 
-        // TODO: Filter!
-        $contacts = ContactMessage::find()
-            ->orderBy(['created_at' => SORT_DESC])
-            ->all();
-
-        // Normalize to a common structure
-        $items = [];
-        foreach ($contacts as $c) {
-            /** @var ContactMessage $c */
-            $items[] = [
-                'type' => 'contact',
-                'course' => null,
-                'from_name' => $c->name,
-                'email' => $c->email,
-                'telephone' => null,
-                'age' => null,
-                'message' => $c->message,
-                'created_at' => $c->created_at,
-            ];
-        }
-
-        // Sort by created_at desc
-        usort($items, function ($a, $b) {
-            return ($b['created_at'] <=> $a['created_at']);
-        });
+        $messages = ContactMessage::find()
+            ->alias('cm')
+            ->joinWith(['teachers t', 'lessonFormat lf'])
+            ->where(['t.id' => $current->id])
+            ->orWhere(['lf.teacher_id' => $current->id])
+            ->orderBy(['cm.created_at' => SORT_DESC])
+            ->groupBy('cm.id');
 
         return $this->render('messages', [
-            'items' => $items,
+            'messages' => $messages->all(),
         ]);
     }
 

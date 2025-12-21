@@ -72,10 +72,20 @@ if ($isAdmin) {
     ?>
     <?= $form->field($model, 'parent_id')->dropDownList($parentItems, [
         'prompt' => Yii::t('app', 'No parent'),
-    ]) ?>
+    ])->hint(Html::encode(Yii::t('app', 'Select a parent course to make this course part of that collection.'))) ?>
 
     <div class="mb-3">
-        <?= $form->field($model, 'is_taught')->checkbox() ?>
+        <?= $form->field($model, 'is_taught')
+            ->checkbox()
+            ->hint(Html::encode(Yii::t('app', 'Allow linked teachers to add lesson plans for this course.')))
+        ?>
+    </div>
+
+    <div class="mb-3">
+        <?= $form->field($model, 'has_trial')
+            ->checkbox()
+            ->hint(Html::encode(Yii::t('app', 'Allow students to sign up for a trial.')))
+        ?>
     </div>
 
     <div class="mb-3">
@@ -86,7 +96,6 @@ if ($isAdmin) {
             'selected' => $assignedTeacherIds,
             'placeholder' => Yii::t('app', 'Select one or more teachers...'),
         ]) ?>
-        <div class="form-text"><?= Html::encode(Yii::t('app', 'Select one or more teachers for this course.')) ?></div>
     </div>
 <?php endif; ?>
 

@@ -37,6 +37,7 @@ class m251201_000001_domain extends Migration
             'slug' => $this->string(64)->notNull()->unique(),
             'cover_image' => $this->string(255)->null(),
             'is_taught' => $this->boolean()->notNull()->defaultValue(true),
+            'has_trial' => $this->boolean()->notNull()->defaultValue(false),
             'summary' => $this->text(),
             'description' => $this->text(),
             'searchable_text' => $this->text(),

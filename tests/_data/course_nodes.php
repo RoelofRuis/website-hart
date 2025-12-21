@@ -10,6 +10,7 @@ return [
         'summary' => 'Ontdek alle instrument- en zangcursussen, van beginner tot gevorderd.',
         'description' => 'Deze overzichtspagina bundelt al onze lessen voor instrumenten en zang. Kies je instrument of stemsoort en vind lessen op elk niveau, voor jong en oud. Op deze pagina zie je een introductie per instrument en verwijzingen naar alle beschikbare cursussen.',
         'is_taught' => false,
+        'has_trial' => false,
     ],
     [
         'id' => 2,
@@ -20,6 +21,7 @@ return [
         'summary' => 'Samen muziek maken in ensembles, bands en koren.',
         'description' => 'Muziek maak je samen! Op deze pagina vind je al onze samenspelgroepen, ensembles, bands en koren. Er zijn groepen voor verschillende leeftijden en niveaus. Klik door naar een ensemble of koor dat bij jou past en ontdek repetitietijden, repertoire en optredens.',
         'is_taught' => false,
+        'has_trial' => false,
     ],
     [
         'id' => 3,
@@ -30,6 +32,7 @@ return [
         'summary' => 'Speelse muziekcursussen voor kinderen om talent te ontdekken.',
         'description' => 'Speciaal voor kinderen bieden we laagdrempelige en speelse cursussen aan. Kinderen maken spelenderwijs kennis met muziek, ritme en samenspel. Op deze pagina vind je alle kindercursussen overzichtelijk bij elkaar, met heldere uitleg per cursus.',
         'is_taught' => false,
+        'has_trial' => false,
     ],
     [
         'id' => 4,
@@ -40,6 +43,7 @@ return [
         'summary' => 'Leer je eigen muziek schrijven en arrangeren.',
         'description' => 'In de cursus Compositie werk je aan melodie, harmonie, vorm en instrumentatie. Je ontwikkelt je eigen muzikale ideeën tot complete stukken. Geschikt voor gemotiveerde beginners en gevorderde makers. Lesinhoud kan worden afgestemd op jouw niveau en stijl.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 5,
@@ -50,6 +54,7 @@ return [
         'summary' => 'Begrijp de bouwstenen van muziek: ritme, harmonie en vormleer.',
         'description' => 'De cursus Muziektheorie helpt je muziek beter te begrijpen en bewuster te spelen of componeren. Onderwerpen zijn o.a. notenleer, ritme, toonsoorten, akkoordenleer, gehoortraining en analyse. Voor iedereen die een stevige basis of verdieping zoekt.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 6,
@@ -60,6 +65,7 @@ return [
         'summary' => 'Pianolessen voor beginners en gevorderden.',
         'description' => 'Werk aan techniek, notenlezen, samenspel, improvisatie en repertoire. Individuele lessen met aandacht voor jouw niveau en muziekstijl. Instromen kan het hele jaar door; lesduur en frequentie in overleg.',
         'is_taught' => true,
+        'has_trial' => true,
     ],
     [
         'id' => 7,
@@ -70,6 +76,7 @@ return [
         'summary' => 'Gitaarles voor akoestisch en elektrisch, van akkoorden tot solo.',
         'description' => 'Leer akkoorden, slag- en tokkeltechniek, tabs/notenschrift en improvisatie. Geschikt voor akoestische en elektrische gitaar. Voor starters en gevorderden; lesinhoud afgestemd op jouw doelen en favoriete muziek.',
         'is_taught' => true,
+        'has_trial' => true,
     ],
     [
         'id' => 8,
@@ -80,6 +87,7 @@ return [
         'summary' => 'Gemengd kamerkoor met uitdagend repertoire in Haarlem.',
         'description' => 'Het Haarlems Kamerkoor zingt gevarieerd repertoire van renaissance tot hedendaags. We werken aan koorklank, intonatie, uitspraak en interpretatie. Auditie kan van toepassing zijn. Repetities zijn wekelijks en we geven meerdere concerten per jaar.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 9,
@@ -90,6 +98,7 @@ return [
         'summary' => 'Celloles voor alle niveaus: van eerste streken tot solospel.',
         'description' => 'Ontwikkel techniek, houding en strijken; werk aan toonvorming, positie- en streektechniek en muzikaliteit. Repertoire van klassiek tot modern, met ruimte voor samenspel. Lesduur en tempo in overleg; instromen kan gedurende het jaar.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 10,
@@ -100,6 +109,7 @@ return [
         'summary' => 'Accordeonles voor klavier- en knopaccordeon, solo en begeleiding.',
         'description' => 'Leer bas- en akkoordbegeleiding, melodie spelen, bellows control en ritmiek. We behandelen noten/tablatuur, stijlgevoel (volks, tango, pop, klassiek) en improvisatie. Individuele lessen op maat, geschikt voor starters en gevorderden.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 11,
@@ -110,6 +120,7 @@ return [
         'summary' => 'Fagotles met aandacht voor embouchure, toon en intonatie.',
         'description' => 'Werk aan ademsteun, vingerzettingen, rieten en orkestpartijen/kamermuziek. Repertoire op maat en technische studies; voorbereiding op samenspel en audities mogelijk. Lesinhoud afgestemd op niveau en doelen.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 12,
@@ -120,6 +131,7 @@ return [
         'summary' => 'Harples op pedaal- of Keltische harp, van basis tot podium.',
         'description' => 'We behandelen houding, handtechniek, arpeggio’s en pedaal/haakgebruik. Repertoire van klassiek tot folk/pop. Aandacht voor muzikale frasering en samenspel. Lessen individueel; instromen in overleg.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 13,
@@ -130,6 +142,7 @@ return [
         'summary' => 'Blokfluitles voor sopraan, alt, tenor en bas.',
         'description' => 'Leer ademtechniek, articulatie en vingerzettingen. We spelen solo en in ensemble; muziek van renaissance/barok tot modern. Beginners en herintreders welkom; notenlezen en gehoortraining worden geïntegreerd.',
         'is_taught' => true,
+        'has_trial' => false,
     ],
     [
         'id' => 14,
@@ -140,5 +153,6 @@ return [
         'summary' => 'Speelse kennismakingscursus muziek voor kinderen.',
         'description' => 'In Ontdek de muziek ervaren kinderen ritme, zang, beweging en instrumentjes in korte, afwisselende lessen. We stimuleren luistervaardigheid en samenspel op een speelse manier. Ideaal als opstap naar instrument- of zanglessen.',
         'is_taught' => true,
+        'has_trial' => false,
     ]
 ];
