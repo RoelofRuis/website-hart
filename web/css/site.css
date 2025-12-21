@@ -80,16 +80,17 @@ a:hover, a:focus { color: var(--color-magenta); }
 .lesson-format-selectable {
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     cursor: pointer;
-    border-left: 4px solid;
+    border-left: 4px solid var(--color-turquoise) !important;
 }
 
 .lesson-format-selectable:hover {
-    border-left-color: var(--color-turquoise);
+    border-color: var(--color-turquoise);
+    background-color: #e6f7f7; /* Slightly darker on hover but still solid */
 }
 
 .lesson-format-selectable.active {
-    border-color: var(--color-turquoise);
     background-color: #f0fafa; /* Solid light turquoise background */
+    border-color: var(--color-turquoise);
     border-width: 1px 1px 1px 6px !important;
     color: inherit; !important;
     box-shadow: 0 4px 12px rgba(85, 189, 190, 0.2);
@@ -102,6 +103,7 @@ a:hover, a:focus { color: var(--color-magenta); }
 }
 
 .selected-lesson-format {
+    border-style: solid;
     border-width: 1px 1px 1px 6px !important;
     border-color: var(--color-turquoise) !important;
     background-color: #f0fafa; /* Solid light turquoise background */
