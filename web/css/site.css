@@ -99,6 +99,11 @@ body { padding-top: var(--navbar-height); }
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
+.lift-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .lesson-format-selectable {
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     cursor: pointer;
@@ -426,6 +431,34 @@ a.desc:after {
 
 .grid-view th {
     white-space: nowrap;
+}
+
+.grid-view table,
+.table-responsive table {
+    margin-bottom: 0;
+}
+
+/* Ensure table elements have solid background to prevent transparency */
+table,
+.grid-view table td,
+.grid-view table th,
+.table-responsive table td,
+.table-responsive table th {
+    background-color: #ffffff !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    --bs-table-accent-bg: rgba(0, 0, 0, 0.05) !important;
+    background-color: #f9f9f9 !important; /* fallback for striped */
+}
+
+.grid-view,
+.table-responsive {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: .5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-bottom: 1rem;
 }
 
 .hint-block {
