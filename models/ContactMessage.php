@@ -94,4 +94,22 @@ class ContactMessage extends ActiveRecord
         return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
             ->viaTable('{{%teacher_contact_message}}', ['contact_message_id' => 'id']);
     }
+
+    public function getNotifications(): ActiveQuery
+    {
+        return $this->hasMany(ContactNotification::class, ['contact_message_id' => 'id']);
+    }
+
+    public static function getUnreadCount(int $teacherId): int
+    {
+        return (int) self::find()
+            ->alias('cm')
+            ->joinWith(['teachers t', 'lessonFormat lf'])
+            ->leftJoin('{{%contact_notification}} cn', 'cn.contact_message_id = cm.id AND cn.type = :type', [
+                ':type' => ContactNotification::TYPE_OPENED
+            ])
+            ->where(['OR', ['t.id' => $teacherId], ['lf.teacher_id' => $teacherId]])
+            ->andWhere(['cn.id' => null])
+            ->count('DISTINCT cm.id');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use app\console\SearchController;
+use app\console\StaticController;
 use yii\console\controllers\FixtureController;
 use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
@@ -33,6 +34,9 @@ return [
         ],
         'search' => [
             'class' => SearchController::class,
+        ],
+        'static' => [
+            'class' => StaticController::class,
         ]
     ],
     'params' => $params,

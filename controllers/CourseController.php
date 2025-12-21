@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ContactMessage;
 use app\models\CourseNode;
 use app\models\Teacher;
+use app\models\StaticContent;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -52,9 +53,11 @@ class CourseController extends Controller
         }
 
         $courses = $query->all();
+        $staticContent = StaticContent::findByKey('courses-index');
         return $this->render('index', [
             'courses' => $courses,
             'q' => $q,
+            'staticContent' => $staticContent,
         ]);
     }
 

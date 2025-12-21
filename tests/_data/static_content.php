@@ -128,5 +128,25 @@ return [
         'explainer' => 'Het nieuwsblok op de homepage.',
         'cover_image' => null,
         'is_searchable' => false,
+    ],
+    [
+        'key' => 'teachers-index',
+        'title' => 'Onze docenten',
+        'content' => '<p>Maak kennis met onze ervaren en gepassioneerde docenten. Elke docent bij HART Muziekschool is een zelfstandig ondernemer met een eigen lespraktijk.</p>',
+        'summary' => 'Informatie over onze docenten.',
+        'slug' => 'docenten',
+        'explainer' => 'Inhoud bovenaan de docenten index pagina.',
+        'cover_image' => null,
+        'is_searchable' => false,
+    ],
+    [
+        'key' => 'courses-index',
+        'title' => 'Ons lesaanbod',
+        'content' => '<p>HART Muziekschool biedt een breed scala aan muzieklessen voor alle leeftijden en niveaus. Van klassiek tot pop, en van individuele lessen tot samenspel.</p>',
+        'summary' => 'Informatie over ons cursusaanbod.',
+        'slug' => 'cursussen',
+        'explainer' => 'Inhoud bovenaan de cursussen index pagina.',
+        'cover_image' => null,
+        'is_searchable' => false,
     ]
 ];

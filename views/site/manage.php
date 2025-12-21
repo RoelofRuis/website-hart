@@ -4,6 +4,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
+/** @var int $unreadCount */
 
 $this->title = Yii::t('app', 'Teacher Dashboard');
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,7 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <a class="text-decoration-none" href="<?= Url::to(['contact/messages']) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Messages')) ?></h5>
+                        <h5 class="card-title mb-2 d-flex justify-content-between align-items-center">
+                            <?= Html::encode(Yii::t('app', 'Messages')) ?>
+                            <?php if ($unreadCount > 0): ?>
+                                <span class="badge rounded-pill bg-danger">
+                                    <?= $unreadCount ?>
+                                </span>
+                            <?php endif; ?>
+                        </h5>
                         <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'View contact messages and signups from students.')) ?></p>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ContactMessage;
 use app\models\CourseNode;
 use app\models\forms\LoginForm;
 use app\models\StaticContent;
@@ -70,7 +71,11 @@ class SiteController extends Controller
 
     public function actionManage()
     {
-        return $this->render('manage');
+        $unreadCount = ContactMessage::getUnreadCount(Yii::$app->user->id);
+
+        return $this->render('manage', [
+            'unreadCount' => $unreadCount,
+        ]);
     }
 
     public function actionSitemap()

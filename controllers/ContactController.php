@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ContactMessage;
+use app\models\ContactNotification;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -52,7 +53,7 @@ class ContactController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
 
-        $messages = ContactMessage::find()
+        $messagesQuery = ContactMessage::find()
             ->alias('cm')
             ->joinWith(['teachers t', 'lessonFormat lf'])
             ->where(['t.id' => $current->id])
@@ -60,8 +61,23 @@ class ContactController extends Controller
             ->orderBy(['cm.created_at' => SORT_DESC])
             ->groupBy('cm.id');
 
+        $messages = $messagesQuery->all();
+        foreach ($messages as $message) {
+            $alreadyOpened = ContactNotification::find()->where([
+                'contact_message_id' => $message->id,
+                'type' => ContactNotification::TYPE_OPENED
+            ])->exists();
+
+            if (!$alreadyOpened) {
+                $notification = new ContactNotification();
+                $notification->contact_message_id = $message->id;
+                $notification->type = ContactNotification::TYPE_OPENED;
+                $notification->save();
+            }
+        }
+
         return $this->render('messages', [
-            'messages' => $messages->all(),
+            'messages' => $messages,
         ]);
     }
 

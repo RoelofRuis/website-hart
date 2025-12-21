@@ -2,6 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\Teacher[] $teachers */
+/** @var app\models\StaticContent $staticContent */
 /** @var string|null $q */
 
 use yii\bootstrap5\Html;
@@ -14,6 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="teacher-index">
     <h1 class="mb-3"><?= Html::encode(Yii::t('app', 'Teachers')) ?></h1>
+
+    <?php if ($staticContent->content): ?>
+        <div class="static-content-index mb-4">
+            <?= $staticContent->content ?>
+        </div>
+    <?php endif; ?>
+
     <?= SearchWidget::widget([
         'endpoint' => Url::to(['search/index']),
         'placeholder' => Yii::t('app', 'Search teachers by name or description'),

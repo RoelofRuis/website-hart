@@ -33,7 +33,6 @@ use yii\bootstrap5\Html;
             <div id="selected-lesson-format-display" class="d-none p-3 rounded selected-lesson-format shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="small text-muted mb-1"><?= Html::encode(Yii::t('app', 'Selected option')) ?>:</div>
                         <div id="selected-lesson-format-description" class="fw-bold"></div>
                         <div id="selected-lesson-format-teacher" class="small text-muted"></div>
                     </div>

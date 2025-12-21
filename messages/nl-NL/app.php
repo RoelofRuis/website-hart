@@ -88,7 +88,7 @@ return [
     'Lesson options' => 'Lesvormen',
     'Linked Courses' => 'Gekoppelde cursussen',
     'Linked Teachers' => 'Gekoppelde docenten',
-    'Load more results' => 'Laadt meer resultaten',
+    'Load more results' => 'Laad meer resultaten',
     'Location' => 'Locatie',
     'Location (custom)' => 'Locatie (aangepast)',
     'Locations' => 'Locaties',

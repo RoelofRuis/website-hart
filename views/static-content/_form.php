@@ -13,13 +13,6 @@ use app\widgets\MarkdownEditor;
 
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model,'cover_image')
-    ->widget(ImageUploadField::class, [
-        'uploadUrl' => '/upload/image',
-        'previewSize' => 220,
-    ]);
-?>
-
 <?= $form->field($model, 'content')
     ->widget(MarkdownEditor::class, [
         'options' => [
@@ -33,6 +26,13 @@ use app\widgets\MarkdownEditor;
 <?= $form->field($model, 'is_searchable')->checkbox(['disabled' => true]); ?>
 
 <?php if ($model->is_searchable): ?>
+    <?= $form->field($model,'cover_image')
+            ->widget(ImageUploadField::class, [
+                    'uploadUrl' => '/upload/image',
+                    'previewSize' => 220,
+            ]);
+    ?>
+
     <?= $form->field($model, 'summary')
         ->textarea([
             'rows' => 2,

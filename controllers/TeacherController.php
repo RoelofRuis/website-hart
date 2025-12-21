@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Teacher;
+use app\models\StaticContent;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -60,9 +61,11 @@ class TeacherController extends Controller
         }
 
         $teachers = $query->all();
+        $staticContent = StaticContent::findByKey('teachers-index');
         return $this->render('index', [
             'teachers' => $teachers,
             'q' => $q,
+            'staticContent' => $staticContent,
         ]);
     }
 

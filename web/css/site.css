@@ -134,17 +134,6 @@ body { padding-top: var(--navbar-height); }
     background-color: #f0fafa; /* Solid light turquoise background */
 }
 
-.lesson-format-selectable.active::after {
-    content: '✓';
-    position: absolute;
-    right: 1.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-turquoise);
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
 .lesson-format-selectable.active .badge {
     background-color: var(--color-turquoise) !important;
     color: white !important;
