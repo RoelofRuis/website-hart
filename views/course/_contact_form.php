@@ -27,15 +27,15 @@ use yii\bootstrap5\Html;
 
         <div id="selection-status-container" class="mb-4">
             <label class="form-label d-block mb-2"><?= Html::encode(Yii::t('app', 'Chosen lesson format')) ?></label>
-            <div id="no-selection-placeholder" class="border-danger small border rounded p-3 bg-light text-danger">
-                <i class="bi bi-exclamation-circle me-1"></i>
+            <div id="no-selection-placeholder" class="border-secondary small border rounded p-3 bg-light text-muted">
                 <?= Html::encode(Yii::t('app', 'Please select a lesson format from the list.')) ?>
             </div>
-            <div id="selected-lesson-format-display" class="d-none p-3 border rounded bg-light border-turquoise shadow-sm">
+            <div id="selected-lesson-format-display" class="d-none p-3 rounded selected-lesson-format shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="small text-muted mb-1"><?= Html::encode(Yii::t('app', 'Selected option')) ?>:</div>
                         <div id="selected-lesson-format-description" class="fw-bold"></div>
+                        <div id="selected-lesson-format-teacher" class="small text-muted"></div>
                     </div>
                     <button type="button" id="clear-selection" class="btn btn-sm btn-outline-secondary">
                         <?= Html::encode(Yii::t('app', 'Change')) ?>
@@ -48,7 +48,7 @@ use yii\bootstrap5\Html;
         <?= $form->field($contact, 'name')->textInput(['id' => 'contactmessage-name', 'maxlength' => true]) ?>
         <?= $form->field($contact, 'email')->input('email') ?>
         <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true]) ?>
+        <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message (Optional)')) ?>
 
         <div class="d-grid">
             <?= Html::submitButton(Yii::t('app', 'Sign Up!'), ['class' => 'btn btn-primary']) ?>
@@ -82,19 +82,23 @@ $js = <<<JS
   var noSelectionPlaceholder = document.getElementById('no-selection-placeholder');
   var selectionDisplay = document.getElementById('selected-lesson-format-display');
   var descriptionText = document.getElementById('selected-lesson-format-description');
+  var teacherText = document.getElementById('selected-lesson-format-teacher');
   var clearBtn = document.getElementById('clear-selection');
   var form = document.getElementById('course-signup-form');
 
-  function updateSelectionUI(id, description, type) {
+  function updateSelectionUI(id, description, teacher, type) {
     if (id || type === 'trial') {
       hiddenInput.value = id || '';
       typeInput.value = type || 'signup';
       descriptionText.textContent = description;
+      teacherText.textContent = teacher || '';
       noSelectionPlaceholder.classList.add('d-none');
       selectionDisplay.classList.remove('d-none');
     } else {
       hiddenInput.value = '';
       typeInput.value = 'signup';
+      descriptionText.textContent = '';
+      teacherText.textContent = '';
       noSelectionPlaceholder.classList.remove('d-none');
       selectionDisplay.classList.add('d-none');
       lessonFormatItems.forEach(function(el) { el.classList.remove('active'); });
@@ -105,13 +109,14 @@ $js = <<<JS
     item.addEventListener('click', function() {
       var id = this.getAttribute('data-id');
       var description = this.getAttribute('data-description');
+      var teacher = this.getAttribute('data-teacher');
       var type = this.getAttribute('data-type') || 'signup';
 
       // Deselect others
       lessonFormatItems.forEach(function(el) { el.classList.remove('active'); });
       
       this.classList.add('active');
-      updateSelectionUI(id, description, type);
+      updateSelectionUI(id, description, teacher, type);
 
       // Scroll to form if it's not well in view
       var rect = form.getBoundingClientRect();
@@ -123,7 +128,7 @@ $js = <<<JS
 
   if (clearBtn) {
     clearBtn.addEventListener('click', function() {
-      updateSelectionUI(null, null, null);
+      updateSelectionUI(null, null, null, null);
       // Scroll to options
       var optionsList = document.querySelector('.lesson-format-list');
       if (optionsList) {

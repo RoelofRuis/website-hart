@@ -28,6 +28,7 @@ foreach ($options as $opt) {
                     data-id="" 
                     data-type="trial"
                     data-description="<?= Html::encode(Yii::t('app', 'Trial lesson')) ?>"
+                    data-teacher=""
                     role="button">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>

@@ -107,18 +107,42 @@ body { padding-top: var(--navbar-height); }
 .lesson-format-selectable {
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     cursor: pointer;
-    border-left: 4px solid transparent;
+    border-left: 4px solid;
 }
 
 .lesson-format-selectable:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1;
+    border-left-color: var(--color-turquoise);
 }
 
 .lesson-format-selectable.active {
-    border-left-color: var(--color-turquoise);
-    background-color: rgba(85, 189, 190, 0.05);
+    border-color: var(--color-turquoise);
+    background-color: #f0fafa; /* Solid light turquoise background */
+    border-width: 1px 1px 1px 6px !important;
+    color: inherit; !important;
+    box-shadow: 0 4px 12px rgba(85, 189, 190, 0.2);
+    z-index: 2;
+    padding-right: 3rem;
+}
+
+.lesson-format-selectable.active:hover {
+    background-color: #e6f7f7; /* Slightly darker on hover but still solid */
+}
+
+.selected-lesson-format {
+    border-width: 1px 1px 1px 6px !important;
+    border-color: var(--color-turquoise) !important;
+    background-color: #f0fafa; /* Solid light turquoise background */
+}
+
+.lesson-format-selectable.active::after {
+    content: '✓';
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-turquoise);
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .lesson-format-selectable.active .badge {

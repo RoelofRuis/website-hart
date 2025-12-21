@@ -98,6 +98,7 @@ return [
     'Manage Teachers' => 'Docenten beheren',
     'Manage site-wide static content blocks.' => 'Beheer de statische tekstblokken op de hele website.',
     'Message' => 'Bericht',
+    'Message (Optional)' => 'Bericht (optioneel)',
     'Messages' => 'Berichten',
     'Monday' => 'Maandag',
     'Monthly' => 'Maandelijks',

@@ -56,7 +56,7 @@ class ContactMessage extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'email', 'message'], 'required'],
+            [['name', 'email'], 'required'],
             [['type'], 'string', 'max' => 16],
             [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP, self::TYPE_TRIAL]],
             [['name', 'email'], 'string', 'max' => 150],
