@@ -51,18 +51,34 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <?php foreach ($model->getTaughtCourses()->all() as $course): ?>
                     <div class="col-md-12 mb-3">
-                        <div class="card h-100 d-flex flex-column">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
-                                <p class="card-text mb-2">
-                                    <?php
-                                    $cHtml = Markdown::process($course->description ?? '', 'gfm');
-                                    $cText = trim(strip_tags($cHtml));
-                                    echo Html::encode(mb_strimwidth($cText, 0, 200, '…'));
-                                    ?>
-                                </p>
+                        <div class="card h-100">
+                            <div class="row g-0 h-100">
+                                <div class="col-md-4">
+                                    <?php if ($course->cover_image): ?>
+                                        <img src="<?= Html::encode($course->cover_image) ?>" 
+                                             class="img-fluid rounded-start h-100" 
+                                             alt="<?= Html::encode($course->name) ?>"
+                                             style="object-fit: cover; aspect-ratio: 1/1;">
+                                    <?php else: ?>
+                                        <div class="bg-light h-100 d-flex align-items-center justify-content-center rounded-start" style="aspect-ratio: 1/1; min-height: 120px;">
+                                            <span class="text-muted" style="font-size: 2rem;">📚</span>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-md-8 d-flex flex-column">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
+                                        <p class="card-text mb-0">
+                                            <?php
+                                            $cHtml = Markdown::process($course->description ?? '', 'gfm');
+                                            $cText = trim(strip_tags($cHtml));
+                                            echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
+                                            ?>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-footer p-0">
+                            <div class="card-footer bg-transparent border-0 p-0">
                                 <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary w-100']) ?>
                             </div>
                         </div>
