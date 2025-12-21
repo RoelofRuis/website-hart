@@ -9,4 +9,10 @@ class LessonFormatFixture extends ActiveFixture
 {
     public $modelClass = LessonFormat::class;
     public $dataFile = '@app/tests/_data/lesson_formats.php';
+
+    public $depends = [
+        CourseNodeFixture::class,
+        TeacherFixture::class,
+        LocationFixture::class,
+    ];
 }

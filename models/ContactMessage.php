@@ -16,6 +16,7 @@ use yii\db\Expression;
  * @property string|null $message
  * @property int|null $age
  * @property string|null $telephone
+ * @property int|null $teacher_id
  * @property int|null $lesson_format_id
  * @property int $created_at
  */

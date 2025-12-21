@@ -9,4 +9,9 @@ class ContactMessageFixture extends ActiveFixture
 {
     public $modelClass = ContactMessage::class;
     public $dataFile = '@app/tests/_data/contact_messages.php';
+
+    public $depends = [
+        TeacherFixture::class,
+        LessonFormatFixture::class,
+    ];
 }
