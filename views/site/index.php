@@ -10,7 +10,7 @@ use app\widgets\SearchWidget;
 $this->title = 'Vereniging HART Muziekschool'
 ?>
 <div class="site-index">
-    <div class="container my-4 section-box section-turquoise">
+    <div class="container my-4 bg-turquoise rounded">
         <?php if (!empty($homeTitle) && !empty($homeTitle->content)): ?>
             <section class="home-title py-3 mb-3">
                 <div class="row justify-content-center">
@@ -22,7 +22,7 @@ $this->title = 'Vereniging HART Muziekschool'
         <?php endif; ?>
     </div>
 
-    <div class="container section-box section-white">
+    <div class="container bg-white rounded">
         <?php if (!empty($homeNews) && !empty($homeNews->content)): ?>
             <section class="home-news py-3 mb-3">
                 <div class="row justify-content-center">

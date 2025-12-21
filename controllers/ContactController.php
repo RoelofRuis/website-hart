@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ContactMessage;
 use app\models\ContactNotification;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -69,15 +70,20 @@ class ContactController extends Controller
             ])->exists();
 
             if (!$alreadyOpened) {
-                $notification = new ContactNotification();
-                $notification->contact_message_id = $message->id;
-                $notification->type = ContactNotification::TYPE_OPENED;
+                $notification = new ContactNotification([
+                    'contact_message_id' => $message->id,
+                    'type' => ContactNotification::TYPE_OPENED,
+                ]);
                 $notification->save();
             }
         }
 
+        $dataProvider = new ActiveDataProvider([
+            'query' => $messagesQuery,
+        ]);
+
         return $this->render('messages', [
-            'messages' => $messages,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

@@ -82,6 +82,7 @@ class ContactMessage extends ActiveRecord
             'message' => Yii::t('app', 'Message'),
             'age' => Yii::t('app', 'Student Age'),
             'telephone' => Yii::t('app', 'Telephone'),
+            'created_at' => Yii::t('app', 'Created At'),
         ];
     }
 

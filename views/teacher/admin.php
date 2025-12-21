@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'tableOptions' => ['class' => 'table table-light table-striped table-bordered'],
+        'layout' => "{pager}\n{items}\n{summary}",
         'columns' => [
             [
                 'attribute' => 'full_name',
