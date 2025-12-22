@@ -22,6 +22,7 @@ use yii\web\IdentityInterface;
  * @property string|null $auth_key
  * @property bool $is_admin
  * @property bool $is_active
+ * @property bool $is_teaching
  * @property DateTime|null $last_login
  */
 class Teacher extends ActiveRecord implements IdentityInterface
@@ -53,8 +54,7 @@ class Teacher extends ActiveRecord implements IdentityInterface
             [['website'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
             [['profile_picture'], 'string', 'max' => 255],
-            [['is_admin'], 'boolean'],
-            [['is_active'], 'boolean'],
+            [['is_admin', 'is_active', 'is_teaching'], 'boolean'],
             [['slug'], 'unique'],
         ];
     }
@@ -71,6 +71,7 @@ class Teacher extends ActiveRecord implements IdentityInterface
             'profile_picture' => Yii::t('app', 'Profile Picture'),
             'is_admin' => Yii::t('app', 'Administrator'),
             'is_active' => Yii::t('app', 'Active'),
+            'is_teaching' => Yii::t('app', 'Is Teaching'),
             'last_login' => Yii::t('app', 'Last Login'),
         ];
     }

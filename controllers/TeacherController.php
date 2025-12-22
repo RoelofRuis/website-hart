@@ -105,6 +105,7 @@ class TeacherController extends Controller
             $safeAttributes[] = 'slug';
             $safeAttributes[] = 'is_admin';
             $safeAttributes[] = 'is_active';
+            $safeAttributes[] = 'is_teaching';
         }
 
         if ($model->load(Yii::$app->request->post())) {
@@ -149,7 +150,6 @@ class TeacherController extends Controller
 
         // By default do not allow creating an admin unless explicitly set by admin
         $model->is_admin = false;
-        $model->is_active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher created successfully.'));
@@ -157,7 +157,7 @@ class TeacherController extends Controller
         }
 
         // Allow admin to set admin and active flags
-        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'admin', 'active'];
+        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'is_admin', 'is_active', 'is_teaching'];
         return $this->render('create', [
             'model' => $model,
             'safeAttributes' => $safeAttributes,

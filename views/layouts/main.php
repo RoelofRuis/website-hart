@@ -46,6 +46,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
+            ['label' => Yii::t('app', 'About VHM'), 'url' => ['/static/about']],
             [
                 'label' => Yii::t('app', 'Teacher Dashboard'),
                 'url' => ['/site/manage'],

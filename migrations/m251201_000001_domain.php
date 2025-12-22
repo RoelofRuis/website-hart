@@ -25,6 +25,7 @@ class m251201_000001_domain extends Migration
             'auth_key' => $this->string(32),
             'is_admin' => $this->boolean()->notNull()->defaultValue(false),
             'is_active' => $this->boolean()->notNull()->defaultValue(true),
+            'is_teaching' => $this->boolean()->notNull()->defaultValue(true),
             'last_login' => $this->dateTime()->null(),
             'searchable_text' => $this->text(),
         ]);

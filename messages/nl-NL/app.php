@@ -19,6 +19,7 @@
 return [
     '(Optional)' => '(optioneel)',
     'AVG / Privacy' => 'AVG / Privacy',
+    'About VHM' => 'Over VHM',
     'Active' => 'Actief',
     'Add format' => 'Lesvorm toevoegen',
     'Add lesson option' => 'Lesvorm toevoegen',
@@ -77,6 +78,7 @@ return [
     'Here you manage everything: profile, messages, courses and lesson formats.' => 'Hier beheer je alles: profiel, berichten, cursussen en lesvormen.',
     'Hidden' => 'Verborgen',
     'Instagram' => 'Instagram',
+    'Is Teaching' => 'Geeft les',
     'Is searchable' => 'Kan worden gezocht',
     'Is taught' => 'Kan in worden onderwezen',
     'Key' => 'Sleutel',

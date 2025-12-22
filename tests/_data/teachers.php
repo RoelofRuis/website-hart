@@ -14,6 +14,7 @@ return [
         'auth_key' => null,
         'is_admin' => true,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -29,6 +30,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -44,6 +46,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -59,6 +62,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -74,6 +78,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -89,6 +94,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -104,6 +110,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -119,6 +126,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -134,6 +142,7 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
     [
@@ -149,6 +158,23 @@ return [
         'auth_key' => null,
         'is_admin' => false,
         'is_active' => true,
+        'is_teaching' => true,
         'last_login' => null,
     ],
+    [
+        'id' => 11,
+        'full_name' => 'Kristof van der Waal',
+        'slug' => 'kristof-van-der-waal',
+        'description' => 'Content manager van de vereniging',
+        'email' => 'kristof@example.com',
+        'website' => '',
+        'telephone' => null,
+        'profile_picture' => null,
+        'password_hash' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'auth_key' => null,
+        'is_admin' => true,
+        'is_active' => true,
+        'is_teaching' => false,
+        'last_login' => null,
+    ]
 ];

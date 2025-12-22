@@ -10,6 +10,7 @@ return [
     'vereniging' => 'static/association',
     'locaties' => 'static/locations',
     'auteursrecht' => 'static/copyright',
+    'over-vhm' => 'static/about',
     'sitemap.xml' => 'site/sitemap',
 
     // Courses

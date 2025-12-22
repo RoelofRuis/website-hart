@@ -65,6 +65,9 @@ $this->registerJsFile('/js/unsaved-changes.js', [
 <?php if (in_array('is_active', $allAttributes, true)) : ?>
     <?= $form->field($model, 'is_active')->checkbox() ?>
 <?php endif; ?>
+<?php if (in_array('is_teaching', $allAttributes, true)) : ?>
+    <?= $form->field($model, 'is_teaching')->checkbox() ?>
+<?php endif; ?>
 
 <div class="form-group">
     <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>

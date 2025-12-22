@@ -12,6 +12,16 @@ return [
         'is_searchable' => true,
     ],
     [
+        'key' => 'about',
+        'title' => 'Over de vereniging',
+        'content' => '',
+        'summary' => 'Informatie over onze vereniging.',
+        'slug' => 'about',
+        'explainer' => 'Inhoud voor pagina Over Vereniging HART Muziekschool.',
+        'cover_image' => '/bestand/static/about',
+        'is_searchable' => true,
+    ],
+    [
         'key' => 'association',
         'title' => 'Vereniging & Bestuur',
         'content' => '<h3>Het bestuur:</h3>
