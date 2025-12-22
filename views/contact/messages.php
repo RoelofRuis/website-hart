@@ -4,6 +4,7 @@
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
+use app\models\ContactMessage;
 use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
@@ -22,29 +23,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'attribute' => 'created_at',
+                'label' => Yii::t('app', 'Sent on'),
                 'enableSorting' => false,
-                'format' => 'datetime',
+                'format' => ['datetime', 'd-M-Y H:m'],
             ],
             [
                 'label' => Yii::t('app', 'Type'),
                 'enableSorting' => false,
-                'value' => function ($model) {
-                    if ($model->type === 'signup') return Yii::t('app', 'Signup');
-                    if ($model->type === 'trial') return Yii::t('app', 'Trial');
-                    return Yii::t('app', 'Contact');
-                }
-            ],
-            [
-                'label' => Yii::t('app', 'Course'),
-                'value' => function ($model) {
-                    if ($model->lessonFormat) {
-                        return Html::encode($model->lessonFormat->course->name);
+                'value' => function (ContactMessage $model) {
+                    $info = [];
+                    if ($model->type === 'signup') {
+                        $info[] = Yii::t('app', 'Signup');
+                        $info[] = Html::encode($model->lessonFormat->getFormattedDescription());
+                    } elseif ($model->type === 'trial') {
+                        $info[] = Yii::t('app', 'Trial');
+                    } else {
+                        $info[] = Yii::t('app', 'Contact');
                     }
-                    return Html::encode(Yii::t('app', 'Direct Contact'));
-                }
+                    return implode('<br>', $info);
+                },
+                'format' => 'raw',
             ],
             [
-                'label' => Yii::t('app', 'Student Info'),
+                'label' => Yii::t('app', 'Contact Info'),
                 'value' => function ($model) {
                     $info = [];
                     if ($model->age !== null) {
@@ -52,20 +53,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     if ($model->age !== null && $model->age < 18) {
                         $info[] = Yii::t('app', 'Parent') . ': ' . Html::encode($model->name);
+                        $info[] = Yii::t('app', 'Parent email') . ': ' . Html::encode($model->email);
+                        if (!empty($model->telephone)) {
+                            $info[] = Yii::t('app', 'Parent phone') . ': ' . Html::encode($model->telephone);
+                        }
                     } else {
-                        $info[] = Yii::t('app', 'Name') . ': ' . Html::encode($model->name);
+                        $info[] = Yii::t('app', 'Student name') . ': ' . Html::encode($model->name);
+                        $info[] = Yii::t('app', 'Student email') . ': ' . Html::encode($model->email);
+                        if (!empty($model->telephone)) {
+                            $info[] = Yii::t('app', 'Student phone') . ': ' . Html::encode($model->telephone);
+                        }
                     }
                     return implode('<br>', $info);
                 },
                 'format' => 'raw',
-            ],
-            [
-                'attribute' => 'email',
-                'enableSorting' => false,
-            ],
-            [
-                'attribute' => 'telephone',
-                    'enableSorting' => false,
             ],
             [
                 'attribute' => 'message',

@@ -9,5 +9,8 @@ use yii\console\Controller;
  */
 class StaticController extends Controller
 {
-
+    public function actionAdd()
+    {
+        // TODO: implement
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use app\console\NotificationController;
 use app\console\SearchController;
 use app\console\StaticController;
 use yii\console\controllers\FixtureController;
@@ -37,6 +38,9 @@ return [
         ],
         'static' => [
             'class' => StaticController::class,
+        ],
+        'notification' => [
+            'class' => NotificationController::class,
         ]
     ],
     'params' => $params,

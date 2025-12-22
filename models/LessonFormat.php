@@ -29,6 +29,7 @@ use yii\db\ActiveRecord;
  * @property string $location_custom
  *
  * @property Location $location
+ * @property CourseNode $course
  */
 class LessonFormat extends ActiveRecord
 {

@@ -47,7 +47,7 @@ use yii\bootstrap5\Html;
         <?= $form->field($contact, 'name')->textInput(['id' => 'contactmessage-name', 'maxlength' => true]) ?>
         <?= $form->field($contact, 'email')->input('email') ?>
         <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message (Optional)')) ?>
+        <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message') . ' ' . Yii::t('app', '(Optional)')) ?>
 
         <div class="d-grid">
             <?= Html::submitButton(Yii::t('app', 'Sign Up!'), ['class' => 'btn btn-primary']) ?>

@@ -2,6 +2,7 @@
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
+use app\models\CourseNode;
 use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
@@ -38,8 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => Yii::t('app', 'Lesson formats'),
-                'value' => function ($model) {
-                    /** @var app\models\CourseNode $model */
+                'value' => function (CourseNode $model) {
+                    if (!$model->is_taught) {
+                        return '-';
+                    }
                     return count($model->lessonFormats);
                 },
                 'contentOptions' => ['style' => 'width: 140px; white-space: nowrap;'],

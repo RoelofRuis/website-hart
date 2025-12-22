@@ -19,6 +19,8 @@ use yii\db\Expression;
  * @property int|null $teacher_id
  * @property int|null $lesson_format_id
  * @property int $created_at
+ *
+ * @property LessonFormat|null $lessonFormat
  */
 class ContactMessage extends ActiveRecord
 {
