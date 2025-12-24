@@ -48,6 +48,11 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionSearch()
+    {
+        return $this->render('search');
+    }
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

@@ -5,7 +5,6 @@
 /** @var app\models\StaticContent $homeNews */
 
 use yii\helpers\Url;
-use app\widgets\SearchWidget;
 
 $this->title = 'Vereniging HART Muziekschool'
 ?>
@@ -16,6 +15,17 @@ $this->title = 'Vereniging HART Muziekschool'
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">
                         <?= $homeTitle->content ?>
+                        <div class="mt-3 d-flex flex-wrap gap-2 justify-content-center">
+                            <a href="<?= Url::to(['course/index']) ?>" class="btn btn-secondary rounded-pill">
+                                <?= Yii::t('app', 'Courses') ?>
+                            </a>
+                            <a href="<?= Url::to(['teacher/index']) ?>" class="btn btn-secondary rounded-pill">
+                                <?= Yii::t('app', 'Teachers') ?>
+                            </a>
+                            <a href="<?= Url::to(['site/search']) ?>" class="btn btn-secondary rounded-pill">
+                                <?= Yii::t('app', 'Search') ?>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -34,10 +44,5 @@ $this->title = 'Vereniging HART Muziekschool'
         <?php endif; ?>
     </div>
 
-    <div class="container">
-        <?= SearchWidget::widget([
-            'endpoint' => Url::to(['search/index']),
-            'placeholder' => Yii::t('app', 'Search courses, teachers, information…'),
-        ]) ?>
-    </div>
+    
 </div>

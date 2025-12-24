@@ -11,6 +11,7 @@ return [
     'locaties' => 'static/locations',
     'auteursrecht' => 'static/copyright',
     'over-vhm' => 'static/about',
+    'zoeken' => 'static/search',
     'sitemap.xml' => 'site/sitemap',
 
     // Courses

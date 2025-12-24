@@ -44,8 +44,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Courses'), 'url' => ['/course/index']],
+            ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
+            ['label' => Yii::t('app', 'Search'), 'url' => ['/site/search']],
             ['label' => Yii::t('app', 'About VHM'), 'url' => ['/static/about']],
             [
                 'label' => Yii::t('app', 'Teacher Dashboard'),
