@@ -1,7 +1,9 @@
 <?php
 
+use app\extended\Schema;
 use app\models\Teacher;
 use yii\caching\DummyCache;
+use yii\db\Connection;
 
 $params = require __DIR__ . '/../../config/params.php';
 $shared_components = require __DIR__ . '/../../config/components.php';
@@ -20,13 +22,13 @@ return [
     ],
     'components' => array_merge($shared_components, [
         'db' => [
-            'class' => \yii\db\Connection::class,
-            'dsn' => 'pgsql:host=db;port=5432;dbname=hart_test',
+            'class' => Connection::class,
+            'dsn' => 'pgsql:host=db;port=5432;dbname=vhm_test',
             'username' => 'developer',
             'password' => 'secret',
             'charset' => 'utf8',
             'schemaMap' => [
-                'pgsql' => \app\extended\Schema::class,
+                'pgsql' => Schema::class,
             ]
         ],
         'assetManager' => [
