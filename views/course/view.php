@@ -4,7 +4,6 @@ use app\models\ContactMessage;
 use app\models\CourseNode;
 use app\models\Teacher;
 use yii\bootstrap5\Html;
-use yii\helpers\Markdown;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 use app\widgets\SearchWidget;
@@ -37,9 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
                 <div class="lead">
                     <?php
-                    // Render Markdown safely (GitHub-Flavored)
-                    $html = Markdown::process($model->description ?? '', 'gfm');
-                    echo HtmlPurifier::process($html);
+                    echo HtmlPurifier::process($model->description ?? '');
                     ?>
                 </div>
 
@@ -57,9 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
                 <div class="lead">
                     <?php
-                    // Render Markdown safely (GitHub-Flavored)
-                    $html = Markdown::process($model->description ?? '', 'gfm');
-                    echo HtmlPurifier::process($html);
+                    echo HtmlPurifier::process($model->description ?? '');
                     ?>
                 </div>
             </div>

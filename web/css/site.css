@@ -10,7 +10,16 @@
    - Light green #95C9A6
    - Purple      #452680
    - Magenta     #9D2460
+
+   Summernote white background
 -------------------------------------------------- */
+.note-editor.note-frame {
+    background-color: #fff !important;
+}
+.note-editor.note-frame .note-editing-area .note-editable {
+    background-color: #fff !important;
+}
+
 :root {
     --color-yellow:   #FFDC00;
     --color-petrol:   #2B3D4E;

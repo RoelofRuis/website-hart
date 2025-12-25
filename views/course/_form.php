@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Teacher;
 use app\models\CourseNode;
 use app\widgets\MultiSelectDropdown;
-use app\widgets\MarkdownEditor;
+use app\widgets\HtmlEditor;
 use app\widgets\ImageUploadField;
 use app\widgets\LockedField;
 
@@ -54,7 +54,7 @@ if ($isAdmin) {
     ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
 ?>
 <?= $form->field($model, 'description')
-    ->widget(MarkdownEditor::class, [
+    ->widget(HtmlEditor::class, [
         'options' => [
             'rows' => 10,
         ],

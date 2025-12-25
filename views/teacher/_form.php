@@ -7,7 +7,7 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use app\widgets\MarkdownEditor;
+use app\widgets\HtmlEditor;
 use app\widgets\ImageUploadField;
 use app\widgets\LockedField;
 use yii\web\JqueryAsset;
@@ -51,10 +51,13 @@ $this->registerJsFile('/js/unsaved-changes.js', [
     ])
 ?>
 <?= $form->field($model, 'description')
-    ->widget(MarkdownEditor::class, [
+    ->widget(HtmlEditor::class, [
         'options' => [
             'rows' => 12,
             'placeholder' => Yii::t('app', 'Write teacher bio here...'),
+        ],
+        'clientOptions' => [
+            'showImage' => false,
         ],
     ])
 ?>

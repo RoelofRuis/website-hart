@@ -4,7 +4,6 @@
 /** @var app\models\Teacher $model */
 
 use yii\bootstrap5\Html;
-use yii\helpers\Markdown;
 use yii\helpers\HtmlPurifier;
 use app\widgets\ContactFormWidget;
 use app\models\ContactMessage;
@@ -27,8 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h1 class="mb-1"><?= Html::encode($model->full_name) ?></h1>
             <div class="lead">
                 <?php
-                $html = Markdown::process($model->description ?? '', 'gfm');
-                echo HtmlPurifier::process($html);
+                echo HtmlPurifier::process($model->description ?? '');
                 ?>
             </div>
             <div class="mt-3">
@@ -70,8 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
                                         <p class="card-text mb-0">
                                             <?php
-                                            $cHtml = Markdown::process($course->description ?? '', 'gfm');
-                                            $cText = trim(strip_tags($cHtml));
+                                            $cText = trim(strip_tags($course->description ?? ''));
                                             echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
                                             ?>
                                         </p>

@@ -5,7 +5,7 @@
 use app\widgets\ImageUploadField;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use app\widgets\MarkdownEditor;
+use app\widgets\HtmlEditor;
 
 ?>
 
@@ -14,10 +14,14 @@ use app\widgets\MarkdownEditor;
 <?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($model, 'content')
-    ->widget(MarkdownEditor::class, [
+    ->widget(HtmlEditor::class, [
         'options' => [
             'rows' => 14,
             'placeholder' => Yii::t('app', 'Write here...'),
+        ],
+        'clientOptions' => [
+            'showFullscreen' => false,
+            'showImage' => false,
         ],
     ])
 ?>
