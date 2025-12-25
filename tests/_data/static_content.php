@@ -158,5 +158,25 @@ return [
         'explainer' => 'Inhoud bovenaan de cursussen index pagina.',
         'cover_image' => null,
         'is_searchable' => false,
-    ]
+    ],
+    [
+        'key' => 'rental',
+        'title' => 'Instrumentenverhuur',
+        'content' => '<p>Heeft u zelf nog geen instrument? Geen probleem! Bij verschillende organisaties kunt u een instrument huren. Kijk bijvoorbeeld eens op <a href="https://www.muziekfonds.nl/" target="_blank">Muziekfonds.nl</a>.</p>',
+        'summary' => 'Informatie over het huren van een instrument.',
+        'slug' => 'instrumentenverhuur',
+        'explainer' => 'Inhoud voor de pagina Instrumentenverhuur.',
+        'cover_image' => null,
+        'is_searchable' => true,
+    ],
+    [
+        'key' => 'youth-fund',
+        'title' => 'Jeugdfonds Sport & Cultuur',
+        'content' => '<p>Het Jeugdfonds Sport & Cultuur maakt het mogelijk dat kinderen en jongeren uit gezinnen met weinig geld toch muzieklessen kunnen volgen. Voor meer informatie kunt u terecht op de website van het <a href="https://jeugdfondssportencultuur.nl/fondsen/haarlem/" target="_blank">Jeugdfonds Sport & Cultuur Haarlem</a>.</p>',
+        'summary' => 'Informatie over financiële ondersteuning voor muzieklessen.',
+        'slug' => 'jeugdfonds',
+        'explainer' => 'Inhoud voor de pagina Jeugdfonds Sport & Cultuur.',
+        'cover_image' => null,
+        'is_searchable' => true,
+    ],
 ];

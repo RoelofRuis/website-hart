@@ -11,6 +11,8 @@ return [
     'locaties' => 'static/locations',
     'auteursrecht' => 'static/copyright',
     'over-vhm' => 'static/about',
+    'instrumentenverhuur' => 'static/instrument-rental',
+    'jeugdfonds' => 'static/youth-fund',
     'zoeken' => 'static/search',
     'sitemap.xml' => 'site/sitemap',
 

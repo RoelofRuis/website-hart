@@ -91,8 +91,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2"><a target="_blank" href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?></a></li>
                     <li class="mb-2"><a target="_blank" href="https://www.instagram.com/hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Instagram')) ?></a></li>
-                    <li class="mb-2"><a target="_blank" href="https://www.muziekfonds.nl/"><?= Html::encode(Yii::t('app', 'Renting an instrument')) ?></a></li>
-                    <li class="mb-2"><a target="_blank" href="https://jeugdfondssportencultuur.nl/fondsen/haarlem/"><?= Html::encode(Yii::t('app', 'Youth Culture Fund')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/instrument-rental']) ?>"><?= Html::encode(Yii::t('app', 'Renting an instrument')) ?></a></li>
+                    <li class="mb-2"><a href="<?= Url::to(['static/youth-fund']) ?>"><?= Html::encode(Yii::t('app', 'Youth Culture Fund')) ?></a></li>
                 </ul>
             </div>
 

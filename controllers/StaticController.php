@@ -44,6 +44,16 @@ class StaticController extends Controller
         return $this->renderStatic('about', 'about');
     }
 
+    public function actionInstrumentRental()
+    {
+        return $this->renderStatic('instrumentenverhuur', 'instrument-rental');
+    }
+
+    public function actionYouthFund()
+    {
+        return $this->renderStatic('jeugdfonds', 'youth-fund');
+    }
+
     private function renderStatic(string $slug, string $view, array $params = []): Response|string
     {
         $row = Yii::$app->cache->getOrSet([__METHOD__, 'slug' => $slug], function () use ($slug) {

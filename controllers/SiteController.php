@@ -97,19 +97,19 @@ class SiteController extends Controller
         $urls[] = Url::to(['static/locations'], true);
         $urls[] = Url::to(['static/copyright'], true);
         $urls[] = Url::to(['static/about'], true);
+        $urls[] = Url::to(['static/instrument-rental'], true);
+        $urls[] = Url::to(['static/youth-fund'], true);
 
-        $indexed_courses = CourseNode::find()
+        $indexed_courses = CourseNode::findIndexable()
             ->select(['slug'])
-            ->where(['is_taught' => true])
             ->indexBy('slug');
 
         foreach ($indexed_courses->column() as $course_slug) {
             $urls[] = Url::to(['course/view', 'slug' => $course_slug], true);
         }
 
-        $indexed_teachers = Teacher::find()
+        $indexed_teachers = Teacher::findIndexable()
             ->select(['slug'])
-            ->where(['active' => true])
             ->indexBy('slug');
 
         foreach ($indexed_teachers->column() as $teacher_slug) {

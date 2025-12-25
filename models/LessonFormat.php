@@ -16,17 +16,17 @@ use yii\db\ActiveRecord;
  * @property string $frequency
  * @property float|null $price_per_person
  * @property string $price_display_type
- * @property int $mon
- * @property int $tue
- * @property int $wed
- * @property int $thu
- * @property int $fri
- * @property int $sat
- * @property int $sun
+ * @property int $mon // TODO: deprecated
+ * @property int $tue // TODO: deprecated
+ * @property int $wed // TODO: deprecated
+ * @property int $thu // TODO: deprecated
+ * @property int $fri // TODO: deprecated
+ * @property int $sat // TODO: deprecated
+ * @property int $sun // TODO: deprecated
  * @property string $remarks
- * @property bool $use_custom_location
- * @property int|null $location_id
- * @property string $location_custom
+ * @property bool $use_custom_location // TODO: deprecated
+ * @property int|null $location_id // TODO: deprecated
+ * @property string $location_custom // TODO: deprecated
  *
  * @property Location $location
  * @property CourseNode $course

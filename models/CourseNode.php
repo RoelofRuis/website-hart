@@ -95,6 +95,12 @@ class CourseNode extends ActiveRecord
         return static::findOne(['slug' => $slug]);
     }
 
+    public static function findIndexable(): ActiveQuery
+    {
+        return static::find()
+            ->where(['is_taught' => true]);
+    }
+
     public static function findTaughtCourses(): ActiveQuery
     {
         return static::find()

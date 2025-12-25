@@ -140,6 +140,12 @@ class Teacher extends ActiveRecord implements IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
+    public static function findIndexable(): ActiveQuery
+    {
+        return static::find()
+            ->where(['is_active' => true]);
+    }
+
     public function generateAuthKey(): void
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
