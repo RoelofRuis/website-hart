@@ -16,13 +16,13 @@ $this->title = 'Vereniging HART Muziekschool'
                     <div class="col-12 col-lg-10">
                         <?= $homeTitle->content ?>
                         <div class="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-                            <a href="<?= Url::to(['course/index']) ?>" class="btn btn-secondary rounded-pill">
+                            <a href="<?= Url::to(['course/index']) ?>" class="px-4 btn btn-secondary rounded-pill">
                                 <?= Yii::t('app', 'Courses') ?>
                             </a>
-                            <a href="<?= Url::to(['teacher/index']) ?>" class="btn btn-secondary rounded-pill">
+                            <a href="<?= Url::to(['teacher/index']) ?>" class="px-4 btn btn-secondary rounded-pill">
                                 <?= Yii::t('app', 'Teachers') ?>
                             </a>
-                            <a href="<?= Url::to(['site/search']) ?>" class="btn btn-secondary rounded-pill">
+                            <a href="<?= Url::to(['site/search']) ?>" class="px-4 btn btn-secondary rounded-pill">
                                 <?= Yii::t('app', 'Search') ?>
                             </a>
                         </div>
