@@ -103,6 +103,8 @@ return [
     'Manage site-wide static content blocks.' => 'Beheer de statische tekstblokken op de hele website.',
     'Message' => 'Bericht',
     'Messages' => 'Berichten',
+    'Last updated' => 'Laatst bijgewerkt',
+    'Last updated: {date}' => 'Laatst bijgewerkt: {date}',
     'Monday' => 'Maandag',
     'Monthly' => 'Maandelijks',
     'My lesson formats' => 'Mijn lesvormen',

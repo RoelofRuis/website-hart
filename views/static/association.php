@@ -15,6 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-6">
         <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
         <?= HtmlPurifier::process($model->content); ?>
+
+        <?php if ($model->updated_at): ?>
+            <p class="text-muted small mt-5">
+                <?= Yii::t('app', 'Last updated: {date}', ['date' => Yii::$app->formatter->asDate($model->updated_at)]) ?>
+            </p>
+        <?php endif; ?>
     </div>
     <div class="col-6">
         <?= ContactFormWidget::widget([

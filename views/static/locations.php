@@ -19,4 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h5><?= Html::encode($location->name) ?></h5>
     <p><i><?= Html::encode($location->address) ?></i></p>
     <?php endforeach; ?>
+
+    <?php if ($model->updated_at): ?>
+        <p class="text-muted small mt-5">
+            <?= Yii::t('app', 'Last updated: {date}', ['date' => Yii::$app->formatter->asDate($model->updated_at)]) ?>
+        </p>
+    <?php endif; ?>
 </div>

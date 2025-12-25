@@ -3,6 +3,7 @@ namespace app\tests\functional;
 
 use app\models\ContactMessage;
 use app\tests\fixtures\ContactMessageFixture;
+use app\tests\fixtures\StaticContentFixture;
 use app\tests\fixtures\TeacherFixture;
 use app\tests\FunctionalTester;
 
@@ -22,6 +23,7 @@ class ContactSubmitCest
     {
         $I->haveFixtures([
             'contacts' => ContactMessageFixture::class,
+            'static' => StaticContentFixture::class,
         ]);
 
         // Open the contact page so the referrer is set and flash is rendered on redirect
@@ -75,6 +77,7 @@ class ContactSubmitCest
     {
         $I->haveFixtures([
             'contacts' => ContactMessageFixture::class,
+            'static' => StaticContentFixture::class,
         ]);
 
         $I->amOnPage('/contact');
@@ -95,6 +98,7 @@ class ContactSubmitCest
     {
         $I->haveFixtures([
             'contacts' => ContactMessageFixture::class,
+            'static' => StaticContentFixture::class,
         ]);
 
         $I->amOnPage('/contact');
@@ -113,6 +117,7 @@ class ContactSubmitCest
     {
         $I->haveFixtures([
             'contacts' => ContactMessageFixture::class,
+            'static' => StaticContentFixture::class,
         ]);
 
         $I->amOnPage('/contact');
