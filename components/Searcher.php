@@ -3,13 +3,16 @@
 namespace app\components;
 
 use app\models\forms\SearchForm;
+use Yii;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\Url;
 
 class Searcher
 {
-    public function search(SearchForm $form)
+    const SEARCH_SEED = 'search_seed';
+
+    public function search(SearchForm $form): SearchResult
     {
         $data_query = new Query();
 
@@ -29,9 +32,15 @@ class Searcher
         $query = (new Query())
             ->select("*")
             ->from(['data' => $data_query])
-            ->orderBy(['rank' => SORT_DESC, 'title' => SORT_ASC])
             ->limit($form->per_page + 1)
             ->offset($form->getOffset());
+
+        if ($form->hasEmptyQuery()) {
+            Yii::$app->db->createCommand("SELECT setseed(:seed)", [':seed' => $this->getSearchSeed()])->execute();
+            $query->orderBy(new Expression('RANDOM()'));
+        } else {
+            $query->orderBy(['rank' => SORT_DESC, 'title' => SORT_ASC]);
+        }
 
         if (!$form->hasEmptyQuery()) {
             $query->addParams([':q' => $form->getTrimmedQuery()]);
@@ -164,5 +173,15 @@ class Searcher
         }
 
         return $subquery;
+    }
+
+    private function getSearchSeed(): float
+    {
+        $seed = Yii::$app->session->get(self::SEARCH_SEED, null);
+        if ($seed === null) {
+            $seed = mt_rand() / mt_getrandmax();
+            Yii::$app->session->set(self::SEARCH_SEED, $seed);
+        }
+        return (float)$seed;
     }
 }
