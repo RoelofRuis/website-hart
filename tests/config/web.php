@@ -19,6 +19,20 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => array_merge($shared_components, [
+        'db' => [
+            'class' => \yii\db\Connection::class,
+            'dsn' => 'pgsql:host=db;port=5432;dbname=hart_test',
+            'username' => 'developer',
+            'password' => 'secret',
+            'charset' => 'utf8',
+            'schemaMap' => [
+                'pgsql' => \app\extended\Schema::class,
+            ]
+        ],
+        'assetManager' => [
+            'basePath' => __DIR__ . '/../_output/assets',
+            'baseUrl' => '/assets',
+        ],
         'request' => [
             'cookieValidationKey' => 'ADNfidsf(@3FDSPfPzD_FHF$#2afq)P',
         ],
