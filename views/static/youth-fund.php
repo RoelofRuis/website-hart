@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= HtmlPurifier::process($model->content); ?>
 
     <?php if ($model->updated_at): ?>
-        <p class="text-muted small mt-5">
+        <p class="text-muted small mt-4">
             <?= Yii::t('app', 'Last updated: {date}', ['date' => Yii::$app->formatter->asDate($model->updated_at)]) ?>
         </p>
     <?php endif; ?>
