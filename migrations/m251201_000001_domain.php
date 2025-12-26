@@ -12,21 +12,33 @@ class m251201_000001_domain extends Migration
             'address' => $this->string(255)->notNull(),
         ]);
 
-        $this->createTable('{{%teacher}}', [
+        $this->createTable('{{%user}}', [
             'id' => $this->bigPrimaryKey(),
             'full_name' => $this->string(150)->notNull(),
+            'email' => $this->string(150)->notNull()->unique(),
+            'password_hash' => $this->string()->notNull(),
+            'auth_key' => $this->string(32)->notNull(),
+            'job_title' => $this->string(150)->null(),
+            'is_admin' => $this->boolean()->notNull()->defaultValue(false),
+            'is_active' => $this->boolean()->notNull()->defaultValue(true),
+            'last_login' => $this->dateTime()->null(),
+        ]);
+
+        $this->createTable('{{%teacher}}', [
+            'id' => $this->bigPrimaryKey(),
+            'full_name' => $this->string(150)->notNull(), // TODO: REMOVE
             'slug' => $this->string(64)->notNull()->unique(),
             'description' => $this->text(),
-            'email' => $this->string(150)->unique(),
+            'email' => $this->string(150)->unique(), // TODO: REMOVE
             'website' => $this->string(255),
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
-            'password_hash' => $this->string()->notNull(),
-            'auth_key' => $this->string(32),
-            'is_admin' => $this->boolean()->notNull()->defaultValue(false),
-            'is_active' => $this->boolean()->notNull()->defaultValue(true),
-            'is_teaching' => $this->boolean()->notNull()->defaultValue(true),
-            'last_login' => $this->dateTime()->null(),
+            'password_hash' => $this->string()->notNull(), // TODO: REMOVE
+            'auth_key' => $this->string(32), // TODO: REMOVE
+            'is_admin' => $this->boolean()->notNull()->defaultValue(false), // TODO: REMOVE
+            'is_active' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
+            'is_teaching' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
+            'last_login' => $this->dateTime()->null(), // TODO: REMOVE
             'searchable_text' => $this->text(),
         ]);
         $this->execute('CREATE INDEX idx_teacher_searchable ON {{%teacher}} USING GIST (searchable_text gist_trgm_ops)');
@@ -37,7 +49,7 @@ class m251201_000001_domain extends Migration
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'cover_image' => $this->string(255)->null(),
-            'is_taught' => $this->boolean()->notNull()->defaultValue(true),
+            'is_taught' => $this->boolean()->notNull()->defaultValue(true), // TODO: remove
             'has_trial' => $this->boolean()->notNull()->defaultValue(false),
             'summary' => $this->text(),
             'description' => $this->text(),
