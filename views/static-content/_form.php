@@ -26,27 +26,22 @@ use app\widgets\HtmlEditor;
     ])
 ?>
 
+<?= $form->field($model,'cover_image')
+        ->widget(ImageUploadField::class, [
+                'uploadUrl' => '/upload/image',
+                'previewSize' => 220,
+        ]);
+?>
 
-<?= $form->field($model, 'is_searchable')->checkbox(['disabled' => true]); ?>
+<?= $form->field($model, 'summary')
+    ->textarea([
+        'rows' => 2,
+        'maxlength' => true,
+    ])
+    ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
+?>
 
-<?php if ($model->is_searchable): ?>
-    <?= $form->field($model,'cover_image')
-            ->widget(ImageUploadField::class, [
-                    'uploadUrl' => '/upload/image',
-                    'previewSize' => 220,
-            ]);
-    ?>
-
-    <?= $form->field($model, 'summary')
-        ->textarea([
-            'rows' => 2,
-            'maxlength' => true,
-        ])
-        ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
-    ?>
-
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'disabled' => true]); ?>
-<?php endif; ?>
+<?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'disabled' => true]); ?>
 
 <div class="form-group">
     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>

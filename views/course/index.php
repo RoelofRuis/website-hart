@@ -27,5 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'placeholder' => Yii::t('app', 'Search courses by name or description'),
         'type' => 'courses',
         'per_page' => 12,
+        'show_categories' => true,
     ]) ?>
 </div>

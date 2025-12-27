@@ -14,6 +14,7 @@ window.SearchWidget = window.SearchWidget || (function () {
     url.searchParams.set(cfg.paramName, q);
     if (cfg.type) url.searchParams.set('type', cfg.type);
     if (cfg.parentId) url.searchParams.set('parent_id', cfg.parentId);
+    if (cfg.categoryId) url.searchParams.set('category_id', cfg.categoryId);
     if (cfg.perPage) url.searchParams.set('per_page', String(cfg.perPage));
     if (page && page > 1) url.searchParams.set('page', String(page));
     return url;
@@ -103,6 +104,8 @@ window.SearchWidget = window.SearchWidget || (function () {
       spinnerEl: document.getElementById(root.getAttribute('data-spinner-id')),
       errorEl: document.getElementById(root.getAttribute('data-error-id')),
       loadMoreEl: document.getElementById(root.getAttribute('data-load-more-id')),
+      categoriesEl: document.getElementById(root.getAttribute('data-categories-id')),
+      categoryId: root.getAttribute('data-selected-category-id') || null,
       minLen: 2,
     };
     if (!cfg.endpoint || !cfg.formEl || !cfg.inputEl || !cfg.resultsEl) return;
@@ -119,6 +122,33 @@ window.SearchWidget = window.SearchWidget || (function () {
         if (cfg.loadMoreEl) cfg.loadMoreEl.classList.add('d-none');
       }
     }, cfg.debounceMs);
+
+    if (cfg.categoriesEl) {
+      cfg.categoriesEl.addEventListener('click', function (ev) {
+        const btn = ev.target.closest('[data-category-id]');
+        if (!btn) return;
+
+        const catId = btn.getAttribute('data-category-id');
+        if (cfg.categoryId === catId) {
+          cfg.categoryId = null;
+          btn.classList.remove('btn-secondary');
+          btn.classList.add('btn-outline-secondary');
+        } else {
+          // Deselect previous
+          if (cfg.categoryId) {
+            const prev = cfg.categoriesEl.querySelector('[data-category-id="' + cfg.categoryId + '"]');
+            if (prev) {
+              prev.classList.remove('btn-secondary');
+              prev.classList.add('btn-outline-secondary');
+            }
+          }
+          cfg.categoryId = catId;
+          btn.classList.remove('btn-outline-secondary');
+          btn.classList.add('btn-secondary');
+        }
+        onType();
+      });
+    }
 
     cfg.inputEl.addEventListener('input', onType);
     cfg.formEl.addEventListener('submit', function (ev) {

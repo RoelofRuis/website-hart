@@ -9,6 +9,7 @@ class SearchForm extends Model
     public string $q = '';
     public string $type = '';
     public ?int $parent_id = null;
+    public ?int $category_id = null;
     public int $per_page = 12;
     public int $page = 1;
 
@@ -17,7 +18,7 @@ class SearchForm extends Model
         return [
             ['q', 'string', 'max' => 255],
             ['type', 'in', 'range' => ['all', 'courses', 'teachers', 'subcourses']],
-            [['parent_id'], 'integer'],
+            [['parent_id', 'category_id'], 'integer'],
             [['per_page'], 'integer', 'min' => 1, 'max' => 30],
             [['page'], 'integer', 'min' => 1],
         ];

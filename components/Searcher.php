@@ -96,6 +96,10 @@ class Searcher
             ])
             ->from(['cn' => '{{%course}}']);
 
+        if ($form->category_id !== null) {
+            $subquery->andWhere(['cn.category_id' => $form->category_id]);
+        }
+
         if ($form->hasEmptyQuery()) {
             $subquery
                 ->addSelect([
@@ -153,8 +157,7 @@ class Searcher
                 'sc.slug AS slug',
                 'sc.cover_image AS image',
             ])
-            ->from(['sc' => '{{%static_content}}'])
-            ->andWhere(['sc.is_searchable' => true]);
+            ->from(['sc' => '{{%static_content}}']);
 
         if ($form->hasEmptyQuery()) {
             $subquery->addSelect([

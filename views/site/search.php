@@ -12,6 +12,7 @@ $this->title = Yii::t('app', 'Search');
         <?= SearchWidget::widget([
             'endpoint' => Url::to(['search/index']),
             'placeholder' => Yii::t('app', 'Search courses, teachers, information…'),
+            'show_categories' => true,
         ]) ?>
     </div>
 </div>

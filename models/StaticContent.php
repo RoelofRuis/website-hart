@@ -15,7 +15,6 @@ use yii\db\ActiveRecord;
  * @property string $summary
  * @property string $title
  * @property string $slug
- * @property bool $is_searchable
  * @property string $explainer
  * @property string $cover_image
  * @property DateTime $updated_at
@@ -57,7 +56,6 @@ class StaticContent extends ActiveRecord
             'slug' => Yii::t('app', 'Slug'),
             'explainer' => Yii::t('app', 'Explainer'),
             'cover_image' => Yii::t('app', 'Cover image'),
-            'is_searchable' => Yii::t('app', 'Is searchable'),
         ];
     }
 
