@@ -62,6 +62,11 @@ $this->registerJsFile('/js/unsaved-changes.js', [
     ])
 ?>
 
+<?= $form->field($model, 'tags')
+    ->textInput(['maxlength' => true])
+    ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+?>
+
 <div class="row">
     <div class="col-md-6">
         <label class="form-label"><?= Yii::t('app', 'Availability') ?></label>

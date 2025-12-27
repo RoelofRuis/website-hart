@@ -2,10 +2,12 @@
 
 namespace app\models;
 
+use app\components\behaviors\TagBehavior;
 use DateTime;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\caching\TagDependency;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -18,6 +20,9 @@ use yii\db\ActiveRecord;
  * @property string $explainer
  * @property string $cover_image
  * @property DateTime $updated_at
+ * @property string $tags
+ *
+ * @property Tag[] $tags_relation
  */
 class StaticContent extends ActiveRecord
 {
@@ -33,6 +38,10 @@ class StaticContent extends ActiveRecord
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => false,
             ],
+            'tag' => [
+                'class' => TagBehavior::class,
+                'tagRelation' => 'tags_relation',
+            ],
         ];
     }
 
@@ -42,7 +51,7 @@ class StaticContent extends ActiveRecord
             [['content'], 'required'],
             [['summary'], 'string', 'max' => 1000],
             [['cover_image'], 'string', 'max' => 255],
-            ['content', 'string'],
+            [['content', 'tags'], 'string'],
         ];
     }
 
@@ -56,7 +65,14 @@ class StaticContent extends ActiveRecord
             'slug' => Yii::t('app', 'Slug'),
             'explainer' => Yii::t('app', 'Explainer'),
             'cover_image' => Yii::t('app', 'Cover image'),
+            'tags' => Yii::t('app', 'Tags'),
         ];
+    }
+
+    public function getTags_relation(): ActiveQuery
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->viaTable('{{%static_content_tag}}', ['static_content_id' => 'id']);
     }
 
     public static function findByKey(string $key): self

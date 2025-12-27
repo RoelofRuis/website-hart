@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\TagBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -15,8 +16,10 @@ use yii\db\ActiveRecord;
  * @property string|null $summary
  * @property string|null $description
  * @property bool $has_trial
+ * @property string $tags
  *
  * @property Category $category
+ * @property Tag[] $tags_relation
  */
 class Course extends ActiveRecord
 {
@@ -30,6 +33,10 @@ class Course extends ActiveRecord
     public function behaviors(): array
     {
         return [
+            'tag' => [
+                'class' => TagBehavior::class,
+                'tagRelation' => 'tags_relation',
+            ],
         ];
     }
 
@@ -37,7 +44,7 @@ class Course extends ActiveRecord
     {
         return [
             [['name', 'slug'], 'required'],
-            [['description', 'summary'], 'string'],
+            [['description', 'summary', 'tags'], 'string'],
             [['has_trial'], 'boolean'],
             [['name', 'slug'], 'string', 'max' => 64],
             [['cover_image'], 'string', 'max' => 255],
@@ -57,6 +64,7 @@ class Course extends ActiveRecord
             'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),
             'has_trial' => Yii::t('app', 'Has trial'),
+            'tags' => Yii::t('app', 'Tags'),
         ];
     }
 
@@ -65,7 +73,7 @@ class Course extends ActiveRecord
         $scenarios = parent::scenarios();
         // Default scenario keeps all attributes as is.
         // Limit what a linked teacher can edit.
-        $scenarios[self::SCENARIO_TEACHER_UPDATE] = ['name', 'summary', 'description'];
+        $scenarios[self::SCENARIO_TEACHER_UPDATE] = ['name', 'summary', 'description', 'tags'];
         return $scenarios;
     }
 
@@ -78,6 +86,12 @@ class Course extends ActiveRecord
     public function getLessonFormats(): ActiveQuery
     {
         return $this->hasMany(LessonFormat::class, ['course_id' => 'id']);
+    }
+
+    public function getTags_relation(): ActiveQuery
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->viaTable('{{%course_tag}}', ['course_id' => 'id']);
     }
 
     public static function findBySlug(string $slug): ?self

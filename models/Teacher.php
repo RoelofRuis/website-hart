@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\TagBehavior;
 use DateTime;
 use Yii;
 use yii\db\ActiveQuery;
@@ -23,8 +24,10 @@ use yii\web\IdentityInterface;
  * @property bool $fri
  * @property bool $sat
  * @property bool $sun
+ * @property string $tags
  *
  * @property User $user
+ * @property Tag[] $tags_relation
  */
 class Teacher extends ActiveRecord
 {
@@ -36,6 +39,10 @@ class Teacher extends ActiveRecord
     public function behaviors(): array
     {
         return [
+            'tag' => [
+                'class' => TagBehavior::class,
+                'tagRelation' => 'tags_relation',
+            ],
         ];
     }
 
@@ -44,6 +51,7 @@ class Teacher extends ActiveRecord
         return [
             [['user_id', 'slug'], 'required'],
             [['user_id'], 'integer'],
+            [['description', 'tags'], 'string'],
             [['description'], 'string', 'max' => 2000],
             [['slug'], 'string', 'max' => 64],
             [['website'], 'string', 'max' => 255],
@@ -71,7 +79,14 @@ class Teacher extends ActiveRecord
             'fri' => Yii::t('app', 'Friday'),
             'sat' => Yii::t('app', 'Saturday'),
             'sun' => Yii::t('app', 'Sunday'),
+            'tags' => Yii::t('app', 'Tags'),
         ];
+    }
+
+    public function getTags_relation(): ActiveQuery
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->viaTable('{{%teacher_tag}}', ['teacher_id' => 'id']);
     }
 
     public function getAccessibleCourses(): ActiveQuery

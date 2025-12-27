@@ -36,7 +36,11 @@ class Searcher
             Yii::$app->db->createCommand("SELECT setseed(:seed)", [':seed' => $this->getSearchSeed()])->execute();
             $query->orderBy(new Expression('RANDOM()'));
         } else {
-            $query->orderBy(['rank' => SORT_DESC, 'title' => SORT_ASC]);
+            Yii::$app->db->createCommand("SELECT setseed(:seed)", [':seed' => $this->getSearchSeed()])->execute();
+            $query->orderBy([
+                new Expression('CASE WHEN type = \'static\' THEN 1 ELSE 0 END'),
+                new Expression('RANDOM()')
+            ]);
         }
 
         if (!$form->hasEmptyQuery()) {
@@ -109,10 +113,12 @@ class Searcher
         } else {
             $subquery
                 ->addSelect([
-                    'word_similarity(:q, cn.searchable_text) as rank',
-                    new Expression("ts_headline('simple', cn.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+                    new Expression("1 AS rank"),
+                    'cn.summary AS snippet'
                 ])
-                ->andWhere(':q <% cn.searchable_text');
+                ->innerJoin(['ct' => '{{%course_tag}}'], 'ct.course_id = cn.id')
+                ->innerJoin(['t' => '{{%tag}}'], 't.id = ct.tag_id')
+                ->andWhere(['LIKE', 't.name', new Expression(':q')]);
         }
 
         return $subquery;
@@ -139,10 +145,16 @@ class Searcher
         } else {
             $subquery
                 ->addSelect([
-                    'word_similarity(:q, t.searchable_text) as rank',
-                    new Expression("ts_headline('simple', t.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+                    new Expression("1 AS rank"),
+                    't.description AS snippet'
                 ])
-                ->andWhere(':q <% t.searchable_text');
+                ->innerJoin(['tt' => '{{%teacher_tag}}'], 'tt.teacher_id = t.id')
+                ->innerJoin(['tg' => '{{%tag}}'], 'tg.id = tt.tag_id')
+                ->andWhere([
+                    'OR',
+                    ['LIKE', 'tg.name', new Expression(':q')],
+                    ['LIKE', 'u.full_name', new Expression(':q')]
+                ]);
         }
 
         return $subquery;
@@ -167,10 +179,12 @@ class Searcher
         } else {
             $subquery
                 ->addSelect([
-                    'word_similarity(:q, sc.searchable_text) as rank',
-                    new Expression("ts_headline('simple', sc.searchable_text, plainto_tsquery('simple', :q), 'MaxWords=30, MinWords=10, ShortWord=2') AS snippet"),
+                    new Expression('0 AS rank'),
+                    'sc.summary AS snippet',
                 ])
-                ->andWhere(':q <% sc.searchable_text');
+                ->innerJoin(['sct' => '{{%static_content_tag}}'], 'sct.static_content_id = sc.id')
+                ->innerJoin(['tg' => '{{%tag}}'], 'tg.id = sct.tag_id')
+                ->andWhere(['LIKE', 'tg.name', new Expression(':q')]);
         }
 
         return $subquery;

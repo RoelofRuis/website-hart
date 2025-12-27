@@ -61,6 +61,11 @@ if ($isAdmin) {
     ])
 ?>
 
+<?= $form->field($model, 'tags')
+    ->textInput(['maxlength' => true])
+    ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+?>
+
 <?php if ($isAdmin): ?>
     <?php
     $categoryItems = ArrayHelper::map(\app\models\Category::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
