@@ -10,21 +10,23 @@ use yii\web\IdentityInterface;
 
 /**
  * @property int $id
- * @property string $full_name // TODO: remove
+ * @property int $user_id
  * @property string $slug
- * @property string $description
- * @property string $email // TODO: remove
- * @property string $website
- * @property string $telephone
- * @property string $profile_picture
- * @property string $password_hash // TODO: remove
- * @property string|null $auth_key // TODO: remove
- * @property bool $is_admin // TODO: remove
- * @property bool $is_active // TODO: remove
- * @property bool $is_teaching // TODO: remove
- * @property DateTime|null $last_login // TODO: remove
+ * @property string|null $description
+ * @property string|null $website
+ * @property string|null $telephone
+ * @property string|null $profile_picture
+ * @property bool $mon
+ * @property bool $tue
+ * @property bool $wed
+ * @property bool $thu
+ * @property bool $fri
+ * @property bool $sat
+ * @property bool $sun
+ *
+ * @property User $user
  */
-class Teacher extends ActiveRecord implements IdentityInterface
+class Teacher extends ActiveRecord
 {
     public static function tableName(): string
     {
@@ -40,34 +42,35 @@ class Teacher extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['full_name', 'slug', 'email'], 'required'],
-            [['description'], 'string', 'max' => 1000],
-            [['full_name', 'slug'], 'string', 'max' => 64],
-            [['email'], 'string', 'max' => 150],
-            [['email'], 'email'],
-            [['email'], 'unique'],
+            [['user_id', 'slug'], 'required'],
+            [['user_id'], 'integer'],
+            [['description'], 'string', 'max' => 2000],
+            [['slug'], 'string', 'max' => 64],
             [['website'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
             [['profile_picture'], 'string', 'max' => 255],
-            [['is_admin', 'is_active', 'is_teaching'], 'boolean'],
+            [['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], 'boolean'],
             [['slug'], 'unique'],
+            [['user_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
     public function attributeLabels(): array
     {
         return [
-            'full_name' => Yii::t('app', 'Full Name'),
+            'user_id' => Yii::t('app', 'User'),
             'slug' => Yii::t('app', 'Slug'),
             'description' => Yii::t('app', 'Description'),
-            'email' => Yii::t('app', 'Email'),
             'telephone' => Yii::t('app', 'Telephone'),
             'website' => Yii::t('app', 'Website'),
             'profile_picture' => Yii::t('app', 'Profile Picture'),
-            'is_admin' => Yii::t('app', 'Administrator'),
-            'is_active' => Yii::t('app', 'Active'),
-            'is_teaching' => Yii::t('app', 'Is Teaching'),
-            'last_login' => Yii::t('app', 'Last Login'),
+            'mon' => Yii::t('app', 'Monday'),
+            'tue' => Yii::t('app', 'Tuesday'),
+            'wed' => Yii::t('app', 'Wednesday'),
+            'thu' => Yii::t('app', 'Thursday'),
+            'fri' => Yii::t('app', 'Friday'),
+            'sat' => Yii::t('app', 'Saturday'),
+            'sun' => Yii::t('app', 'Sunday'),
         ];
     }
 
@@ -92,7 +95,55 @@ class Teacher extends ActiveRecord implements IdentityInterface
 
     public function getUser(): ActiveQuery
     {
-        // TODO: implement
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getFull_name(): ?string
+    {
+        return $this->user?->full_name;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->user?->email;
+    }
+
+    /**
+     * Returns selected day names as array (translated)
+     * @return string[]
+     */
+    public function getDayNames(): array
+    {
+        $labels = [
+            'mon' => Yii::t('app', 'Monday'),
+            'tue' => Yii::t('app', 'Tuesday'),
+            'wed' => Yii::t('app', 'Wednesday'),
+            'thu' => Yii::t('app', 'Thursday'),
+            'fri' => Yii::t('app', 'Friday'),
+            'sat' => Yii::t('app', 'Saturday'),
+            'sun' => Yii::t('app', 'Sunday'),
+        ];
+        $days = [];
+        foreach (array_keys($labels) as $key) {
+            if (!empty($this->$key)) {
+                $days[] = $labels[$key];
+            }
+        }
+        return $days;
+    }
+
+    /**
+     * Comma separated days string.
+     */
+    public function getFormattedDays(): string
+    {
+        return implode(', ', $this->getDayNames());
+    }
+
+    public function getLocations(): ActiveQuery
+    {
+        return $this->hasMany(Location::class, ['id' => 'location_id'])
+            ->viaTable('{{%teacher_location}}', ['teacher_id' => 'id']);
     }
 
     /** @deprecated */
@@ -151,7 +202,8 @@ class Teacher extends ActiveRecord implements IdentityInterface
     public static function findIndexable(): ActiveQuery
     {
         return static::find()
-            ->where(['is_active' => true]);
+            ->innerJoinWith('user')
+            ->where(['user.is_active' => true]);
     }
 
     /** @deprecated */

@@ -18,9 +18,6 @@ class Searcher
 
         if ($form->type === 'courses') {
             $data_query = $this->buildCourseSubquery($form);
-        } elseif ($form->type === 'subcourses') {
-            $data_query = $this->buildCourseSubquery($form)
-                ->andWhere(['parent_id' => $form->parent_id]);
         } elseif ($form->type === 'teachers') {
             $data_query = $this->buildTeacherSubquery($form);
         } elseif ($form->type === 'all') {
@@ -122,11 +119,12 @@ class Searcher
         $subquery = (new Query())
             ->select([
                 new Expression("'teacher'::text AS type"),
-                't.full_name AS title',
+                'u.full_name AS title',
                 't.slug AS slug',
                 't.profile_picture AS image',
             ])
-            ->from(['t' => '{{%teacher}}']);
+            ->from(['t' => '{{%teacher}}'])
+            ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id');
 
         if ($form->hasEmptyQuery()) {
             $subquery

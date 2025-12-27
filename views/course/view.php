@@ -26,55 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="course-view container-fluid">
-    <?php if ($model->is_taught): ?>
-        <div class="row">
-            <div class="col-lg-7 col-xl-8 mb-4">
-                <?php if (!empty($model->cover_image)): ?>
-                    <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover"
-                         class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
-                <?php endif; ?>
-                <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
-                <div class="lead">
-                    <?php
-                    echo HtmlPurifier::process($model->description ?? '');
-                    ?>
-                </div>
-
-                <?= $this->render('_lesson_options', ['model' => $model]) ?>
+    <div class="row">
+        <div class="col-lg-7 col-xl-8 mb-4">
+            <?php if (!empty($model->cover_image)): ?>
+                <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover"
+                     class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
+            <?php endif; ?>
+            <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
+            <div class="lead">
+                <?php
+                echo HtmlPurifier::process($model->description ?? '');
+                ?>
             </div>
 
-            <div class="col-lg-5 col-xl-4">
-                <?= $this->render('_contact_form', ['contact' => $contact]) ?>
-            </div>
+            <?= $this->render('_lesson_options', ['model' => $model]) ?>
+        </div>
 
+        <div class="col-lg-5 col-xl-4">
+            <?= $this->render('_contact_form', ['contact' => $contact]) ?>
         </div>
-    <?php else: ?>
-        <div class="row mb-4">
-            <div class="col-lg-6">
-                <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
-                <div class="lead">
-                    <?php
-                    echo HtmlPurifier::process($model->description ?? '');
-                    ?>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <?php if (!empty($model->cover_image)): ?>
-                    <img src="<?= Html::encode($model->cover_image) ?>" alt="<?= Html::encode($model->name) ?> cover"
-                         class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
-                <?php endif; ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <?= SearchWidget::widget([
-                        'endpoint' => Url::to(['search/index']),
-                        'placeholder' => Yii::t('app', 'Search in this collection'),
-                        'type' => 'subcourses',
-                        'parent_id' => $model->id,
-                        'per_page' => 12,
-                ]) ?>`
-            </div>
-        </div>
-    <?php endif; ?>
+
+    </div>
 </div>

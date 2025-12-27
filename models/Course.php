@@ -8,14 +8,15 @@ use yii\db\ActiveRecord;
 
 /**
  * @property int $id
- * @property int $parent_id // TODO: remove
+ * @property int|null $category_id
  * @property string $name
  * @property string $slug
  * @property string|null $cover_image URL to the cover image
  * @property string|null $summary
  * @property string|null $description
- * @property bool $is_taught // TODO: remove
  * @property bool $has_trial
+ *
+ * @property Category $category
  */
 class Course extends ActiveRecord
 {
@@ -35,14 +36,14 @@ class Course extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'slug', 'is_taught'], 'required'],
-            [['description'], 'string'],
-            [['is_taught', 'has_trial'], 'boolean'],
-            [['summary'], 'string'],
+            [['name', 'slug'], 'required'],
+            [['description', 'summary'], 'string'],
+            [['has_trial'], 'boolean'],
             [['name', 'slug'], 'string', 'max' => 64],
             [['cover_image'], 'string', 'max' => 255],
             [['slug'], 'unique'],
-            [['parent_id'], 'integer'],
+            [['category_id'], 'integer'],
+            [['category_id'], 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -51,11 +52,10 @@ class Course extends ActiveRecord
         return [
             'name' => Yii::t('app', 'Name'),
             'slug' => Yii::t('app', 'Slug'),
-            'parent_id' => Yii::t('app', 'Parent course'),
+            'category_id' => Yii::t('app', 'Category'),
             'description' => Yii::t('app', 'Description'),
             'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),
-            'is_taught' => Yii::t('app', 'Is taught'),
             'has_trial' => Yii::t('app', 'Has trial'),
         ];
     }
@@ -85,9 +85,13 @@ class Course extends ActiveRecord
         return static::findOne(['slug' => $slug]);
     }
 
+    public function getCategory(): ActiveQuery
+    {
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
     public static function findIndexable(): ActiveQuery
     {
-        return static::find()
-            ->where(['is_taught' => true]);
+        return static::find();
     }
 }

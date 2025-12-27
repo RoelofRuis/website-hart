@@ -13,7 +13,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $password_hash
  * @property string|null $auth_key
- * @property string $job_title
+ * @property string|null $job_title
  * @property bool $is_admin
  * @property bool $is_active
  * @property DateTime|null $last_login
@@ -28,7 +28,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['full_name', 'email', 'password_hash', 'job_title'], 'required'],
+            [['full_name', 'email', 'password_hash'], 'required'],
             [['is_admin', 'is_active'], 'boolean'],
             [['full_name', 'email', 'job_title'], 'string', 'max' => 150],
             [['email'], 'email'],

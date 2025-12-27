@@ -62,6 +62,21 @@ $this->registerJsFile('/js/unsaved-changes.js', [
     ])
 ?>
 
+<div class="row">
+    <div class="col-md-6">
+        <label class="form-label"><?= Yii::t('app', 'Availability') ?></label>
+        <div class="mb-3">
+            <?= $form->field($model, 'mon')->checkbox() ?>
+            <?= $form->field($model, 'tue')->checkbox() ?>
+            <?= $form->field($model, 'wed')->checkbox() ?>
+            <?= $form->field($model, 'thu')->checkbox() ?>
+            <?= $form->field($model, 'fri')->checkbox() ?>
+            <?= $form->field($model, 'sat')->checkbox() ?>
+            <?= $form->field($model, 'sun')->checkbox() ?>
+        </div>
+    </div>
+</div>
+
 <?php if (in_array('is_admin', $allAttributes, true)) : ?>
     <?= $form->field($model, 'is_admin')->checkbox() ?>
 <?php endif; ?>

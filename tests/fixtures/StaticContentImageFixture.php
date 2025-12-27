@@ -20,7 +20,7 @@ class StaticContentImageFixture extends Fixture
     public function load()
     {
         /** @var StaticContent[] $pages */
-        $pages = StaticContent::find()->where(['is_searchable' => true])->all();
+        $pages = StaticContent::find()->all();
         foreach ($pages as $page) {
             $svg = $this->generateSvg($page->key);
             $result = Yii::$app->storage->save($svg, 'image/svg+xml', [

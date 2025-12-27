@@ -15,7 +15,7 @@ $env = function(string $key, $default = null) {
 
 $host = $env('DB_HOST', 'db');
 $port = $env('DB_PORT', '5432');
-$dbname = $env('DB_DATABASE', 'hart');
+$dbname = $env('DB_DATABASE', 'vhm');
 $user = $env('DB_USER', 'developer');
 $pass = $env('DB_PASSWORD', 'secret');
 

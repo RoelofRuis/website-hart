@@ -43,22 +43,22 @@ class TeacherController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = Teacher::find();
+        $query = Teacher::find()->joinWith('user');
         if ($q !== null && $q !== '') {
             $query->andFilterWhere(['or',
-                ['ILIKE', 'full_name', $q],
+                ['ILIKE', 'user.full_name', $q],
                 ['ILIKE', 'description', $q],
             ]);
             // Prefer name matches over description matches
             $query->orderBy(new Expression(
-                "CASE WHEN full_name ILIKE :qprefix THEN 0 WHEN full_name ILIKE :qany THEN 1 ELSE 2 END, full_name ASC",
+                "CASE WHEN user.full_name ILIKE :qprefix THEN 0 WHEN user.full_name ILIKE :qany THEN 1 ELSE 2 END, user.full_name ASC",
             ))
                 ->addParams([
                     ':qprefix' => $q . '%',
                     ':qany' => '%' . $q . '%',
                 ]);
         } else {
-            $query->orderBy(['full_name' => SORT_ASC]);
+            $query->orderBy(['user.full_name' => SORT_ASC]);
         }
 
         $teachers = $query->all();
@@ -137,7 +137,7 @@ class TeacherController extends Controller
     {
         // Admin overview list for quick management
         $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find()->orderBy(['full_name' => SORT_ASC]),
+            'query' => Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC]),
             'pagination' => ['pageSize' => 20],
         ]);
 

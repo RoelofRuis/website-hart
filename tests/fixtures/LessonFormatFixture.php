@@ -13,6 +13,5 @@ class LessonFormatFixture extends ActiveFixture
     public $depends = [
         CourseFixture::class,
         TeacherFixture::class,
-        LocationFixture::class,
     ];
 }

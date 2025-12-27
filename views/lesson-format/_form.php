@@ -29,7 +29,7 @@ $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->a
 
 <?php $form = ActiveForm::begin(); ?>
 <div class="row">
-    <div class="col-6">
+    <div class="col-12">
         <?= $form->field($model, 'course_id')->hiddenInput()->label(false); ?>
         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity): ?>
             <?= $form->field($model, 'teacher_id')->hiddenInput()->label(false); ?>
@@ -42,63 +42,7 @@ $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->a
         <?= $form->field($model, 'price_display_type')->dropDownList($price_display_types, [
             'id' => 'lessonformat-price_display_types',
         ]); ?>
-    </div>
-    <div class="col-6">
-        <div class="mb-4">
-            <?= Html::label(Yii::t('app', 'Days'), null, ['class' => 'mb-1']); ?>
-            <div class="form-check"><?= $form->field($model, 'mon')->checkbox()->label(Yii::t('app', 'Monday')) ?></div>
-            <div class="form-check"><?= $form->field($model, 'tue')->checkbox()->label(Yii::t('app', 'Tuesday')) ?></div>
-            <div class="form-check"><?= $form->field($model, 'wed')->checkbox()->label(Yii::t('app', 'Wednesday')) ?></div>
-            <div class="form-check"><?= $form->field($model, 'thu')->checkbox()->label(Yii::t('app', 'Thursday')) ?></div>
-            <div class="form-check"><?= $form->field($model, 'fri')->checkbox()->label(Yii::t('app', 'Friday')) ?></div>
-            <div class="form-check"><?= $form->field($model, 'sat')->checkbox()->label(Yii::t('app', 'Saturday')) ?></div>
-            <div class="form-check"><?= $form->field($model, 'sun')->checkbox()->label(Yii::t('app', 'Sunday')) ?></div>
-        </div>
-
         <?= $form->field($model, 'remarks')->textarea(['rows' => 2]); ?>
-
-
-        <?= $form->field($model, 'use_custom_location')->checkbox([
-            'id' => 'lf-use-custom-location',
-        ]) ?>
-
-        <div id="lf-location-known">
-            <?= $form->field($model, 'location_id')->dropDownList($locations, [
-                'id' => 'lessonformat-location_id',
-                'prompt' => Yii::t('app', 'Select...'),
-            ]) ?>
-        </div>
-
-        <div id="lf-location-custom">
-            <?= $form->field($model, 'location_custom')->textInput([
-                'maxlength' => true,
-                'id' => 'lessonformat-location_custom',
-            ]); ?>
-        </div>
-
-        <?php $this->registerJs(<<<JS
-            (function(){
-            function toggleLocationMode(){
-            var chk = document.getElementById('lf-use-custom-location');
-            var known = document.getElementById('lf-location-known');
-            var custom = document.getElementById('lf-location-custom');
-            if (!chk || !known || !custom) return;
-            if (chk.checked) {
-            known.style.display = 'none';
-            custom.style.display = '';
-            } else {
-            known.style.display = '';
-            custom.style.display = 'none';
-        // Clear custom value when switching back to known location to avoid ambiguity
-        var inp = document.getElementById('lessonformat-location_custom');
-        if (inp) inp.value = '';
-        }
-        }
-        document.getElementById('lf-use-custom-location')?.addEventListener('change', toggleLocationMode);
-        // Initialize on load
-        toggleLocationMode();
-        })();
-        JS) ?>
     </div>
 </div>
 

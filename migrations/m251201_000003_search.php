@@ -63,7 +63,7 @@ class m251201_000003_search extends Migration
         );
 
         $this->createTable('{{%static_content_tag}}', [
-            'static_content_id' => $this->string(150)->notNull(),
+            'static_content_id' => $this->bigInteger(),
             'tag_id' => $this->bigInteger()->notNull(),
         ]);
         $this->addPrimaryKey('pk_static_content_tag', '{{%static_content_tag}}', ['static_content_id', 'tag_id']);

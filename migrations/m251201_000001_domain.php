@@ -49,7 +49,6 @@ class m251201_000001_domain extends Migration
             'CASCADE',
             'CASCADE',
         );
-        $this->execute('CREATE INDEX idx_teacher_searchable ON {{%teacher}} USING GIST (searchable_text gist_trgm_ops)'); // TODO: REMOVE
 
         $this->createTable('{{%teacher_location}}', [
             'teacher_id' => $this->bigInteger()->notNull(),
@@ -125,15 +124,6 @@ class m251201_000001_domain extends Migration
             '{{%teacher}}',
             'id',
             'CASCADE',
-            'CASCADE',
-        );
-        $this->addForeignKey(
-            'fk_lesson_format_location',
-            '{{%lesson_format}}',
-            'location_id',
-            '{{%location}}',
-            'id',
-            'SET NULL',
             'CASCADE',
         );
 

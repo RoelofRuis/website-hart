@@ -17,7 +17,7 @@ $current = Yii::$app->user->identity;
 $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
 
 if ($isAdmin) {
-    $allTeachers = Teacher::find()->orderBy(['full_name' => SORT_ASC])->all();
+    $allTeachers = Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC])->all();
     $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
 }
 
@@ -63,23 +63,11 @@ if ($isAdmin) {
 
 <?php if ($isAdmin): ?>
     <?php
-    // Parent course selector (exclude self)
-    $query = Course::find()->orderBy(['name' => SORT_ASC]);
-    if (!$model->isNewRecord) {
-        $query->andWhere(['<>', 'id', $model->id]);
-    }
-    $parentItems = ArrayHelper::map($query->all(), 'id', 'name');
+    $categoryItems = ArrayHelper::map(\app\models\Category::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
     ?>
-    <?= $form->field($model, 'parent_id')->dropDownList($parentItems, [
-        'prompt' => Yii::t('app', 'No parent'),
-    ])->hint(Html::encode(Yii::t('app', 'Select a parent course to make this course part of that collection.'))) ?>
-
-    <div class="mb-3">
-        <?= $form->field($model, 'is_taught')
-            ->checkbox()
-            ->hint(Html::encode(Yii::t('app', 'Allow linked teachers to add lesson plans for this course.')))
-        ?>
-    </div>
+    <?= $form->field($model, 'category_id')->dropDownList($categoryItems, [
+        'prompt' => Yii::t('app', 'Select a category'),
+    ])->hint(Html::encode(Yii::t('app', 'Select a category to make this course part of that collection.'))) ?>
 
     <div class="mb-3">
         <?= $form->field($model, 'has_trial')

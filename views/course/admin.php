@@ -40,9 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('app', 'Lesson formats'),
                 'value' => function (Course $model) {
-                    if (!$model->is_taught) {
-                        return '-';
-                    }
                     return count($model->lessonFormats);
                 },
                 'contentOptions' => ['style' => 'width: 140px; white-space: nowrap;'],

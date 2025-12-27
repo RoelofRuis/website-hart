@@ -35,8 +35,7 @@ class CourseController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = Course::find()
-            ->where(['is_taught' => true]);
+        $query = Course::find();
 
         if ($q !== null && $q !== '') {
             $query->andFilterWhere(['or',
