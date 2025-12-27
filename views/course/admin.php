@@ -2,7 +2,7 @@
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-use app\models\CourseNode;
+use app\models\Course;
 use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
@@ -33,13 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'enableSorting' => false,
                 'value' => function ($model) {
-                    /** @var app\models\CourseNode $model */
+                    /** @var app\models\Course $model */
                     return Html::a(Html::encode($model->name), ['course/view', 'slug' => $model->slug]);
                 },
             ],
             [
                 'label' => Yii::t('app', 'Lesson formats'),
-                'value' => function (CourseNode $model) {
+                'value' => function (Course $model) {
                     if (!$model->is_taught) {
                         return '-';
                     }
@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('app', 'Linked Teachers'),
                 'value' => function ($model) {
-                    /** @var app\models\CourseNode $model */
+                    /** @var app\models\Course $model */
                     $names = array_map(function ($t) { return $t->full_name; }, $model->teachers);
                     return implode(', ', $names);
                 },
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'controller' => 'course',
                 'template' => Yii::$app->user->isGuest || !Yii::$app->user->identity->is_admin ? '{update}' : '{update} {delete}',
                 'urlCreator' => function ($action, $model) {
-                    /** @var app\models\CourseNode $model */
+                    /** @var app\models\Course $model */
                     if ($action === 'update') return ['course/update', 'id' => $model->id];
                     if ($action === 'delete') return ['course/delete', 'id' => $model->id];
                     return '#';

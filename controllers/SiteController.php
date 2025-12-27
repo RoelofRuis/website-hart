@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\models\ContactMessage;
-use app\models\CourseNode;
+use app\models\Course;
 use app\models\forms\LoginForm;
 use app\models\StaticContent;
 use app\models\Teacher;
@@ -100,7 +100,7 @@ class SiteController extends Controller
         $urls[] = Url::to(['static/instrument-rental'], true);
         $urls[] = Url::to(['static/youth-fund'], true);
 
-        $indexed_courses = CourseNode::findIndexable()
+        $indexed_courses = Course::findIndexable()
             ->select(['slug'])
             ->indexBy('slug');
 

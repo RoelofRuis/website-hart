@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Teacher;
+use app\models\User;
 
 $params = require __DIR__ . '/params.php';
 $shared_components = require __DIR__ . '/components.php';
@@ -21,7 +21,7 @@ $config = [
             'cookieValidationKey' => 'Ifhd4CldUB83y_a3ejyLAQcUk3Q9GkD6',
         ],
         'user' => [
-            'identityClass' => Teacher::class,
+            'identityClass' => User::class,
             'enableAutoLogin' => false,
             'loginUrl' => ['site/login'],
         ],

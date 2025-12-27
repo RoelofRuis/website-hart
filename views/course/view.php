@@ -1,7 +1,7 @@
 <?php
 
 use app\models\ContactMessage;
-use app\models\CourseNode;
+use app\models\Course;
 use app\models\Teacher;
 use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
@@ -11,15 +11,15 @@ use yii\web\View;
 
 /**
  * @var View $this
- * @var CourseNode $model
- * @var CourseNode|null $parent_model
+ * @var Course $model
+ * @var Course|null $parent_model
  * @var ContactMessage $contact
  * @var Teacher[] $teachers
  */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
-if ($parent_model instanceof CourseNode) {
+if ($parent_model instanceof Course) {
     $this->params['breadcrumbs'][] = ['label' => $parent_model->name, 'url' => ['course/view', 'slug' => $parent_model->slug]];
 }
 $this->params['breadcrumbs'][] = $this->title;

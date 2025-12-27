@@ -2,38 +2,33 @@
 
 namespace app\models;
 
-use app\components\behaviors\SearchableTextBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
  * @property int $id
- * @property int $parent_id
+ * @property int $parent_id // TODO: remove
  * @property string $name
  * @property string $slug
  * @property string|null $cover_image URL to the cover image
  * @property string|null $summary
  * @property string|null $description
- * @property bool $is_taught
+ * @property bool $is_taught // TODO: remove
  * @property bool $has_trial
  */
-class CourseNode extends ActiveRecord
+class Course extends ActiveRecord
 {
     public const SCENARIO_TEACHER_UPDATE = 'teacherUpdate';
 
     public static function tableName(): string
     {
-        return '{{%course_node}}';
+        return '{{%course}}';
     }
 
     public function behaviors(): array
     {
         return [
-            'searchable' => [
-                'class' => SearchableTextBehavior::class,
-                'source_attributes' => ['name', 'summary', 'description'],
-            ]
         ];
     }
 
@@ -74,15 +69,10 @@ class CourseNode extends ActiveRecord
         return $scenarios;
     }
 
-    public function getParentCourseNode(): ActiveQuery
-    {
-        return $this->hasOne(CourseNode::class, ['id' => 'parent_id']);
-    }
-
     public function getTeachers(): ActiveQuery
     {
         return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
-            ->viaTable('{{%course_node_teacher}}', ['course_node_id' => 'id']);
+            ->viaTable('{{%course_teacher}}', ['course_id' => 'id']);
     }
 
     public function getLessonFormats(): ActiveQuery
@@ -99,15 +89,5 @@ class CourseNode extends ActiveRecord
     {
         return static::find()
             ->where(['is_taught' => true]);
-    }
-
-    public static function findTaughtCourses(): ActiveQuery
-    {
-        return static::find()
-            ->alias('c')
-            ->where(['c.is_taught' => true])
-            ->innerJoinWith('lessonFormats lf', false)
-            ->groupBy('c.id')
-            ->orderBy(['c.name' => SORT_ASC]);
     }
 }

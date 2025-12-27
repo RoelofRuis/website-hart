@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use app\components\behaviors\SearchableTextBehavior;
 use DateTime;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -10,6 +9,7 @@ use yii\caching\TagDependency;
 use yii\db\ActiveRecord;
 
 /**
+ * @property int $id
  * @property string $key
  * @property string $content
  * @property string $summary
@@ -34,10 +34,6 @@ class StaticContent extends ActiveRecord
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => false,
             ],
-            'searchable' => [
-                'class' => SearchableTextBehavior::class,
-                'source_attributes' => ['content'],
-            ]
         ];
     }
 

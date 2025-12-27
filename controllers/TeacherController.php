@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Teacher;
 use app\models\StaticContent;
+use app\models\User;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -88,8 +89,9 @@ class TeacherController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
 
+        /** @var User $current */
         $current = Yii::$app->user->identity;
-        if (!$current) {
+        if (!$current instanceof User) {
             throw new NotFoundHttpException('Teacher not found.');
         }
 

@@ -17,7 +17,7 @@ class m251201_000001_domain extends Migration
             'full_name' => $this->string(150)->notNull(),
             'email' => $this->string(150)->notNull()->unique(),
             'password_hash' => $this->string()->notNull(),
-            'auth_key' => $this->string(32)->notNull(),
+            'auth_key' => $this->string(32),
             'job_title' => $this->string(150)->null(),
             'is_admin' => $this->boolean()->notNull()->defaultValue(false),
             'is_active' => $this->boolean()->notNull()->defaultValue(true),
@@ -26,10 +26,9 @@ class m251201_000001_domain extends Migration
 
         $this->createTable('{{%teacher}}', [
             'id' => $this->bigPrimaryKey(),
-            'full_name' => $this->string(150)->notNull(), // TODO: REMOVE
+            'user_id' => $this->bigInteger()->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'description' => $this->text(),
-            'email' => $this->string(150)->unique(), // TODO: REMOVE
             'website' => $this->string(255),
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
@@ -40,14 +39,16 @@ class m251201_000001_domain extends Migration
             'fri' => $this->boolean()->notNull()->defaultValue(false),
             'sat' => $this->boolean()->notNull()->defaultValue(false),
             'sun' => $this->boolean()->notNull()->defaultValue(false),
-            'password_hash' => $this->string()->notNull(), // TODO: REMOVE
-            'auth_key' => $this->string(32), // TODO: REMOVE
-            'is_admin' => $this->boolean()->notNull()->defaultValue(false), // TODO: REMOVE
-            'is_active' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
-            'is_teaching' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
-            'last_login' => $this->dateTime()->null(), // TODO: REMOVE
-            'searchable_text' => $this->text(), // TODO: REMOVE
         ]);
+        $this->addForeignKey(
+            'fk_teacher_user',
+            '{{%teacher}}',
+            'user_id',
+            '{{%user}}',
+            'id',
+            'CASCADE',
+            'CASCADE',
+        );
         $this->execute('CREATE INDEX idx_teacher_searchable ON {{%teacher}} USING GIST (searchable_text gist_trgm_ops)'); // TODO: REMOVE
 
         $this->createTable('{{%teacher_location}}', [
@@ -56,46 +57,39 @@ class m251201_000001_domain extends Migration
         ]);
         $this->addPrimaryKey('pk_teacher_location', '{{%teacher_location}}', ['teacher_id', 'location_id']);
 
-        $this->createTable('{{%course_node}}', [
+        $this->createTable('{{%category}}', [
             'id' => $this->bigPrimaryKey(),
-            'parent_id' => $this->bigInteger()->null(), // TODO: REMOVE
+            'name' => $this->string(150)->notNull(),
+        ]);
+
+        $this->createTable('{{%course}}', [
+            'id' => $this->bigPrimaryKey(),
+            'category_id' => $this->bigInteger(),
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'cover_image' => $this->string(255)->null(),
-            'is_taught' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
             'has_trial' => $this->boolean()->notNull()->defaultValue(false),
             'summary' => $this->text(),
             'description' => $this->text(),
-            'searchable_text' => $this->text(), // TODO: REMOVE
         ]);
-        $this->execute('CREATE INDEX idx_course_node_searchable ON {{%course_node}} USING GIST (searchable_text gist_trgm_ops)'); // TODO: REMOVE
-        $this->addForeignKey(
-            'fk_course_node_parent',
-            '{{%course_node}}',
-            'parent_id',
-            '{{%course_node}}',
-            'id',
-            'CASCADE',
-            'CASCADE',
-        );
 
-        $this->createTable('{{%course_node_teacher}}', [
-            'course_node_id' => $this->bigInteger()->notNull(),
+        $this->createTable('{{%course_teacher}}', [
+            'course_id' => $this->bigInteger()->notNull(),
             'teacher_id' => $this->bigInteger()->notNull(),
         ]);
-        $this->addPrimaryKey('pk_course_node_teacher', '{{%course_node_teacher}}', ['course_node_id', 'teacher_id']);
+        $this->addPrimaryKey('pk_course_teacher', '{{%course_teacher}}', ['course_id', 'teacher_id']);
         $this->addForeignKey(
-            'fk_course_node_teacher_course_node',
-            '{{%course_node_teacher}}',
-            'course_node_id',
-            '{{%course_node}}',
+            'fk_course_teacher_course',
+            '{{%course_teacher}}',
+            'course_id',
+            '{{%course}}',
             'id',
             'CASCADE',
             'CASCADE',
         );
         $this->addForeignKey(
-            'fk_course_node_teacher_teacher',
-            '{{%course_node_teacher}}',
+            'fk_course_teacher_teacher',
+            '{{%course_teacher}}',
             'teacher_id',
             '{{%teacher}}',
             'id',
@@ -113,23 +107,13 @@ class m251201_000001_domain extends Migration
             'frequency' => $this->string(150)->notNull(),
             'price_per_person' => $this->decimal(10, 2)->null(),
             'price_display_type' => $this->string(16)->notNull()->defaultValue('hidden'),
-            'mon' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'tue' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'wed' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'thu' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'fri' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'sat' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'sun' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
             'remarks' => $this->text()->null(),
-            'use_custom_location' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
-            'location_id' => $this->bigInteger()->null(), // TODO: remove
-            'location_custom' => $this->string(255)->null(), // TODO: remove
         ]);
         $this->addForeignKey(
             'fk_lesson_format_course',
             '{{%lesson_format}}',
             'course_id',
-            '{{%course_node}}',
+            '{{%course}}',
             'id',
             'CASCADE',
             'CASCADE',
@@ -208,9 +192,11 @@ class m251201_000001_domain extends Migration
 
         $this->execute('DROP TABLE IF EXISTS {{%lesson_format}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%course_node_teacher}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course_teacher}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%course_node}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course}}');
+
+        $this->execute('DROP TABLE IF EXISTS {{%category}}');
 
         $this->execute('DROP TABLE IF EXISTS {{%teacher_location}}');
 

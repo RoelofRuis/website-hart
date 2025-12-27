@@ -3,9 +3,10 @@
 namespace app\controllers;
 
 use app\models\ContactMessage;
-use app\models\CourseNode;
+use app\models\Course;
 use app\models\Teacher;
 use app\models\StaticContent;
+use app\models\User;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -34,7 +35,7 @@ class CourseController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = CourseNode::find()
+        $query = Course::find()
             ->where(['is_taught' => true]);
 
         if ($q !== null && $q !== '') {
@@ -63,7 +64,7 @@ class CourseController extends Controller
 
     public function actionView($slug = null)
     {
-        $model = CourseNode::findBySlug($slug);
+        $model = Course::findBySlug($slug);
 
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
@@ -75,7 +76,7 @@ class CourseController extends Controller
             return $this->refresh();
         }
 
-        $parent_model = $model->getParentCourseNode()->one();
+        $parent_model = null; // TODO: remove
 
         return $this->render('view', [
             'model' => $model,
@@ -87,6 +88,7 @@ class CourseController extends Controller
 
     public function actionAdmin()
     {
+        /** @var User $current */
         $current = Yii::$app->user->identity;
         if ($current === null) {
             throw new NotFoundHttpException('Not allowed.');
@@ -94,8 +96,8 @@ class CourseController extends Controller
 
         // Admins see all courses; teachers see only their linked courses
         $query = $current->is_admin
-            ? CourseNode::find()
-            : $current->getAccessibleCourses();
+            ? Course::find()
+            : $current->getAccessibleCourses(); // TODO: fix this query
 
         // Eager-load related data used in the grid to avoid N+1 queries
         $dataProvider = new ActiveDataProvider([
@@ -110,11 +112,12 @@ class CourseController extends Controller
 
     public function actionCreate()
     {
-        $model = new CourseNode();
+        $model = new Course();
         $request = Yii::$app->request;
 
         if ($model->load($request->post()) && $model->save()) {
             // Only admins can assign teachers during create
+            /** @var User $current */
             $current = Yii::$app->user->identity;
             if ($current && $current->is_admin) {
                 $teacherIds = $request->post('teacherIds', []);
@@ -135,24 +138,25 @@ class CourseController extends Controller
 
     public function actionUpdate(int $id)
     {
-        $model = CourseNode::findOne($id);
+        $model = Course::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }
+        /** @var User $current */
         $current = Yii::$app->user->identity;
         $isAdmin = $current && $current->is_admin;
 
         if (!$isAdmin) {
             // Only teachers linked to this course can edit it (limited fields)
-            if (!$current instanceof Teacher) {
+            if (!$current instanceof User) {
                 throw new NotFoundHttpException('Not allowed.');
             }
             $linkedTeacherIds = $model->getTeachers()->select('id')->column();
-            if (!in_array($current->id, $linkedTeacherIds, true)) {
+            if (!in_array($current->id, $linkedTeacherIds, true)) { // TODO: fix this check!
                 throw new NotFoundHttpException('Not allowed.');
             }
             // Limit editable attributes for teachers
-            $model->setScenario(CourseNode::SCENARIO_TEACHER_UPDATE);
+            $model->setScenario(Course::SCENARIO_TEACHER_UPDATE);
         }
 
         $request = Yii::$app->request;
@@ -178,7 +182,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Synchronize teacher relations for a course using the pivot table course_node_teacher.
+     * Synchronize teacher relations for a course using the pivot table course_teacher.
      * Only integer IDs are considered; non-existing teachers are ignored by FK constraints.
      */
     private function syncCourseTeachers(int $courseId, array $teacherIds): void
@@ -191,7 +195,7 @@ class CourseController extends Controller
         try {
             // Remove existing links
             $db->createCommand()
-                ->delete('{{%course_node_teacher}}', ['course_node_id' => $courseId])
+                ->delete('{{%course_teacher}}', ['course_id' => $courseId])
                 ->execute();
 
             // Insert new links
@@ -204,7 +208,7 @@ class CourseController extends Controller
                 }
                 if (!empty($rows)) {
                     $db->createCommand()
-                        ->batchInsert('{{%course_node_teacher}}', ['course_node_id', 'teacher_id'], $rows)
+                        ->batchInsert('{{%course_teacher}}', ['course_id', 'teacher_id'], $rows)
                         ->execute();
                 }
             }
@@ -220,7 +224,7 @@ class CourseController extends Controller
 
     public function actionDelete(int $id)
     {
-        $model = CourseNode::findOne($id);
+        $model = Course::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException('Course not found.');
         }

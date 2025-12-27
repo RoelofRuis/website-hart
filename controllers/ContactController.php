@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\ContactMessage;
 use app\models\ContactNotification;
+use app\models\Teacher;
+use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -48,7 +50,7 @@ class ContactController extends Controller
 
     public function actionMessages()
     {
-        /** @var \app\models\Teacher $current */
+        /** @var User $current */
         $current = Yii::$app->user->identity;
         if (!$current) {
             throw new NotFoundHttpException('Teacher not found.');

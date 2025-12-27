@@ -29,7 +29,7 @@ use yii\db\ActiveRecord;
  * @property string $location_custom // TODO: deprecated
  *
  * @property Location $location
- * @property CourseNode $course
+ * @property Course $course
  */
 class LessonFormat extends ActiveRecord
 {
@@ -60,7 +60,7 @@ class LessonFormat extends ActiveRecord
             [['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], 'boolean'],
             [['remarks'], 'string', 'max' => 1000],
             [['location_id'], 'exist', 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
-            [['course_id'], 'exist', 'targetClass' => CourseNode::class, 'targetAttribute' => ['course_id' => 'id']],
+            [['course_id'], 'exist', 'targetClass' => Course::class, 'targetAttribute' => ['course_id' => 'id']],
             [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id']],
         ];
     }
@@ -92,7 +92,7 @@ class LessonFormat extends ActiveRecord
 
     public function getCourse(): ActiveQuery
     {
-        return $this->hasOne(CourseNode::class, ['id' => 'course_id']);
+        return $this->hasOne(Course::class, ['id' => 'course_id']);
     }
 
     public function getTeacher(): ActiveQuery
@@ -110,8 +110,9 @@ class LessonFormat extends ActiveRecord
         if (!parent::beforeValidate()) {
             return false;
         }
+        /** @var User $user */
         $user = Yii::$app->user->identity ?? null;
-        if ($user instanceof Teacher && !$user->is_admin) {
+        if ($user instanceof User && !$user->is_admin) {
             if ($this->isNewRecord) {
                 // Non-admin teachers can only create formats for themselves (teacher_id) and for the
                 // current course context (controller enforces course_id); enforce here as well.

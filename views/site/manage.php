@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row g-3">
         <div class="col-12 col-md-6 col-lg-4">
+            <!-- TODO: see if this id still makes sense -->
             <a class="text-decoration-none" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">

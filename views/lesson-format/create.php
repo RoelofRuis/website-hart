@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\LessonFormat $model */
-/** @var app\models\CourseNode $course */
+/** @var app\models\Course $course */
 
 use yii\bootstrap5\Html;
 

@@ -1,13 +1,13 @@
 <?php
 /** @var yii\web\View $this */
-/** @var app\models\CourseNode $model */
+/** @var app\models\Course $model */
 /** @var array $assignedTeacherIds */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\models\Teacher;
-use app\models\CourseNode;
+use app\models\Course;
 use app\widgets\MultiSelectDropdown;
 use app\widgets\HtmlEditor;
 use app\widgets\ImageUploadField;
@@ -64,7 +64,7 @@ if ($isAdmin) {
 <?php if ($isAdmin): ?>
     <?php
     // Parent course selector (exclude self)
-    $query = CourseNode::find()->orderBy(['name' => SORT_ASC]);
+    $query = Course::find()->orderBy(['name' => SORT_ASC]);
     if (!$model->isNewRecord) {
         $query->andWhere(['<>', 'id', $model->id]);
     }

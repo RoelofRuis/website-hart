@@ -1,7 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var app\models\CourseNode[] $courses */
+/** @var app\models\Course[] $courses */
 /** @var app\models\StaticContent $staticContent */
 /** @var string|null $q */
 

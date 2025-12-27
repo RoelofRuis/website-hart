@@ -4,22 +4,22 @@ namespace app\tests\fixtures;
 
 use Yii;
 use yii\test\Fixture;
-use app\models\CourseNode;
+use app\models\Course;
 
 /**
  * Generates simple SVG cover images for all courses and stores them via the
  * configured storage component. Updates Course.cover_image URLs accordingly.
  */
-class CourseNodeImageFixture extends Fixture
+class CourseImageFixture extends Fixture
 {
     public $depends = [
-        CourseNodeFixture::class,
+        CourseFixture::class,
     ];
 
     public function load()
     {
-        /** @var CourseNode[] $courses */
-        $courses = CourseNode::find()->all();
+        /** @var Course[] $courses */
+        $courses = Course::find()->all();
         foreach ($courses as $course) {
             $svg = $this->generateSvg($course->name);
             $result = Yii::$app->storage->save($svg, 'image/svg+xml', [

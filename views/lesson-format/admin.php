@@ -3,7 +3,7 @@
 /**
  * @var View $this
  * @var app\models\LessonFormat[] $formats
- * @var app\models\CourseNode[] $linkedCourses
+ * @var app\models\Course[] $linkedCourses
  */
 
 use yii\bootstrap5\Html;

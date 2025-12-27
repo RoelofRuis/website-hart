@@ -2,27 +2,27 @@
 
 return [
     [
-        'course_node_id' => 6,
+        'course_id' => 2,
         'teacher_id' => 7,
     ],
     [
-        'course_node_id' => 7,
+        'course_id' => 3,
         'teacher_id' => 2,
     ],
     [
-        'course_node_id' => 4,
+        'course_id' => 1,
         'teacher_id' => 6
     ],
     [
-        'course_node_id' => 5,
+        'course_id' => 2,
         'teacher_id' => 10,
     ],
     [
-        'course_node_id' => 8,
+        'course_id' => 4,
         'teacher_id' => 5,
     ],
     [
-        'course_node_id' => 6,
+        'course_id' => 2,
         'teacher_id' => 1,
     ]
 ];

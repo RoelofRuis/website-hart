@@ -1,5 +1,5 @@
 <?php
-/** @var app\models\CourseNode $model */
+/** @var app\models\Course $model */
 
 use yii\bootstrap5\Html;
 

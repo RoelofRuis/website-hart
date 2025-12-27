@@ -1,6 +1,6 @@
 <?php
 
-use app\models\CourseNode;
+use app\models\Course;
 use app\models\LessonFormat;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -9,7 +9,7 @@ use app\models\Location;
 
 /**
  * @var LessonFormat $model
- * @var CourseNode $course
+ * @var Course $course
  */
 
 $frequencies = [

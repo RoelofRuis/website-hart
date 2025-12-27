@@ -6,21 +6,21 @@ class m251201_000003_search extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('{{%tags}}', [
+        $this->createTable('{{%tag}}', [
             'id' => $this->bigPrimaryKey(),
             'name' => $this->string(255)->notNull(),
         ]);
-        $this->execute('CREATE INDEX idx_trgm_tags_name ON {{%tags}} USING GIN (name gin_trgm_ops)');
+        $this->execute('CREATE INDEX idx_trgm_tag_name ON {{%tag}} USING GIN (name gin_trgm_ops)');
 
-        $this->createTable('{{%teacher_tags}}', [
+        $this->createTable('{{%teacher_tag}}', [
             'teacher_id' => $this->bigInteger()->notNull(),
             'tag_id' => $this->bigInteger()->notNull(),
         ]);
-        $this->addPrimaryKey('pk_teacher_tags', '{{%teacher_tags}}', ['teacher_id', 'tag_id']);
+        $this->addPrimaryKey('pk_teacher_tag', '{{%teacher_tag}}', ['teacher_id', 'tag_id']);
 
         $this->addForeignKey(
-            'fk_teacher_tags_teacher',
-            '{{%teacher_tags}}',
+            'fk_teacher_tag_teacher',
+            '{{%teacher_tag}}',
             'teacher_id',
             '{{%teacher}}',
             'id',
@@ -28,49 +28,49 @@ class m251201_000003_search extends Migration
             'CASCADE'
         );
         $this->addForeignKey(
-            'fk_teacher_tags_tag',
-            '{{%teacher_tags}}',
+            'fk_teacher_tag_tag',
+            '{{%teacher_tag}}',
             'tag_id',
-            '{{%tags}}',
+            '{{%tag}}',
             'id',
             'CASCADE',
             'CASCADE'
         );
 
-        $this->createTable('{{%course_tags}}', [
+        $this->createTable('{{%course_tag}}', [
             'course_id' => $this->bigInteger()->notNull(),
             'tag_id' => $this->bigInteger()->notNull(),
         ]);
-        $this->addPrimaryKey('pk_course_tags', '{{%course_tags}}', ['course_id', 'tag_id']);
+        $this->addPrimaryKey('pk_course_tag', '{{%course_tag}}', ['course_id', 'tag_id']);
 
         $this->addForeignKey(
-            'fk_course_tags_course',
-            '{{%course_tags}}',
+            'fk_course_tag_course',
+            '{{%course_tag}}',
             'course_id',
-            '{{%course_node}}',
+            '{{%course}}',
             'id',
             'CASCADE',
             'CASCADE'
         );
         $this->addForeignKey(
-            'fk_course_tags_tag',
-            '{{%course_tags}}',
+            'fk_course_tag_tag',
+            '{{%course_tag}}',
             'tag_id',
-            '{{%tags}}',
+            '{{%tag}}',
             'id',
             'CASCADE',
             'CASCADE',
         );
 
-        $this->createTable('{{%static_content_tags}}', [
+        $this->createTable('{{%static_content_tag}}', [
             'static_content_id' => $this->string(150)->notNull(),
             'tag_id' => $this->bigInteger()->notNull(),
         ]);
-        $this->addPrimaryKey('pk_static_content_tags', '{{%static_content_tags}}', ['static_content_id', 'tag_id']);
+        $this->addPrimaryKey('pk_static_content_tag', '{{%static_content_tag}}', ['static_content_id', 'tag_id']);
 
         $this->addForeignKey(
-            'fk_static_content_tags_static_content',
-            '{{%static_content_tags}}',
+            'fk_static_content_tag_static_content',
+            '{{%static_content_tag}}',
             'static_content_id',
             '{{%static_content}}',
             'id',
@@ -78,10 +78,10 @@ class m251201_000003_search extends Migration
             'CASCADE',
         );
         $this->addForeignKey(
-            'fk_static_content_tags_tag',
-            '{{%static_content_tags}}',
+            'fk_static_content_tag_tag',
+            '{{%static_content_tag}}',
             'tag_id',
-            '{{%tags}}',
+            '{{%tag}}',
             'id',
             'CASCADE',
             'CASCADE',
@@ -90,12 +90,12 @@ class m251201_000003_search extends Migration
 
     public function safeDown()
     {
-        $this->execute('DROP TABLE IF EXISTS {{%static_content_tags}}');
+        $this->execute('DROP TABLE IF EXISTS {{%static_content_tag}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%course_tags}}');
+        $this->execute('DROP TABLE IF EXISTS {{%course_tag}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%teacher_tags}}');
+        $this->execute('DROP TABLE IF EXISTS {{%teacher_tag}}');
 
-        $this->execute('DROP TABLE IF EXISTS {{%tags}}');
+        $this->execute('DROP TABLE IF EXISTS {{%tag}}');
     }
 }

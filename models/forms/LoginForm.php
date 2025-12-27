@@ -3,6 +3,7 @@
 namespace app\models\forms;
 
 use app\models\Teacher;
+use app\models\User;
 use DateTime;
 use Yii;
 use yii\base\Model;
@@ -65,10 +66,10 @@ class LoginForm extends Model
         return false;
     }
 
-    public function getUser(): ?Teacher
+    public function getUser(): ?User
     {
         if ($this->_user === null) {
-            $this->_user = Teacher::findByEmail($this->email);
+            $this->_user = User::findByEmail($this->email);
         }
         return $this->_user;
     }

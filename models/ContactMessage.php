@@ -106,6 +106,7 @@ class ContactMessage extends ActiveRecord
 
     public static function getUnreadCount(int $teacherId): int
     {
+        // TODO: link to user!
         return (int) self::find()
             ->alias('cm')
             ->joinWith(['teachers t', 'lessonFormat lf'])

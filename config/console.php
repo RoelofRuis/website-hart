@@ -33,9 +33,6 @@ return [
             'class' => FixtureController::class,
             'namespace' => 'app\tests\fixtures',
         ],
-        'search' => [
-            'class' => SearchController::class,
-        ],
         'static' => [
             'class' => StaticController::class,
         ],

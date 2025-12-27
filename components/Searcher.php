@@ -97,7 +97,7 @@ class Searcher
                 'cn.slug AS slug',
                 'cn.cover_image AS image',
             ])
-            ->from(['cn' => '{{%course_node}}']);
+            ->from(['cn' => '{{%course}}']);
 
         if ($form->hasEmptyQuery()) {
             $subquery
