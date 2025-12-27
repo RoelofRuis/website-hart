@@ -33,29 +33,42 @@ class m251201_000001_domain extends Migration
             'website' => $this->string(255),
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
+            'mon' => $this->boolean()->notNull()->defaultValue(false),
+            'tue' => $this->boolean()->notNull()->defaultValue(false),
+            'wed' => $this->boolean()->notNull()->defaultValue(false),
+            'thu' => $this->boolean()->notNull()->defaultValue(false),
+            'fri' => $this->boolean()->notNull()->defaultValue(false),
+            'sat' => $this->boolean()->notNull()->defaultValue(false),
+            'sun' => $this->boolean()->notNull()->defaultValue(false),
             'password_hash' => $this->string()->notNull(), // TODO: REMOVE
             'auth_key' => $this->string(32), // TODO: REMOVE
             'is_admin' => $this->boolean()->notNull()->defaultValue(false), // TODO: REMOVE
             'is_active' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
             'is_teaching' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
             'last_login' => $this->dateTime()->null(), // TODO: REMOVE
-            'searchable_text' => $this->text(),
+            'searchable_text' => $this->text(), // TODO: REMOVE
         ]);
-        $this->execute('CREATE INDEX idx_teacher_searchable ON {{%teacher}} USING GIST (searchable_text gist_trgm_ops)');
+        $this->execute('CREATE INDEX idx_teacher_searchable ON {{%teacher}} USING GIST (searchable_text gist_trgm_ops)'); // TODO: REMOVE
+
+        $this->createTable('{{%teacher_location}}', [
+            'teacher_id' => $this->bigInteger()->notNull(),
+            'location_id' => $this->bigInteger()->notNull(),
+        ]);
+        $this->addPrimaryKey('pk_teacher_location', '{{%teacher_location}}', ['teacher_id', 'location_id']);
 
         $this->createTable('{{%course_node}}', [
             'id' => $this->bigPrimaryKey(),
-            'parent_id' => $this->bigInteger()->null(),
+            'parent_id' => $this->bigInteger()->null(), // TODO: REMOVE
             'name' => $this->string(150)->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'cover_image' => $this->string(255)->null(),
-            'is_taught' => $this->boolean()->notNull()->defaultValue(true), // TODO: remove
+            'is_taught' => $this->boolean()->notNull()->defaultValue(true), // TODO: REMOVE
             'has_trial' => $this->boolean()->notNull()->defaultValue(false),
             'summary' => $this->text(),
             'description' => $this->text(),
-            'searchable_text' => $this->text(),
+            'searchable_text' => $this->text(), // TODO: REMOVE
         ]);
-        $this->execute('CREATE INDEX idx_course_node_searchable ON {{%course_node}} USING GIST (searchable_text gist_trgm_ops)');
+        $this->execute('CREATE INDEX idx_course_node_searchable ON {{%course_node}} USING GIST (searchable_text gist_trgm_ops)'); // TODO: REMOVE
         $this->addForeignKey(
             'fk_course_node_parent',
             '{{%course_node}}',
@@ -100,17 +113,17 @@ class m251201_000001_domain extends Migration
             'frequency' => $this->string(150)->notNull(),
             'price_per_person' => $this->decimal(10, 2)->null(),
             'price_display_type' => $this->string(16)->notNull()->defaultValue('hidden'),
-            'mon' => $this->boolean()->notNull()->defaultValue(false),
-            'tue' => $this->boolean()->notNull()->defaultValue(false),
-            'wed' => $this->boolean()->notNull()->defaultValue(false),
-            'thu' => $this->boolean()->notNull()->defaultValue(false),
-            'fri' => $this->boolean()->notNull()->defaultValue(false),
-            'sat' => $this->boolean()->notNull()->defaultValue(false),
-            'sun' => $this->boolean()->notNull()->defaultValue(false),
+            'mon' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'tue' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'wed' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'thu' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'fri' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'sat' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'sun' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
             'remarks' => $this->text()->null(),
-            'use_custom_location' => $this->boolean()->notNull()->defaultValue(false),
-            'location_id' => $this->bigInteger()->null(),
-            'location_custom' => $this->string(255)->null(),
+            'use_custom_location' => $this->boolean()->notNull()->defaultValue(false), // TODO: remove
+            'location_id' => $this->bigInteger()->null(), // TODO: remove
+            'location_custom' => $this->string(255)->null(), // TODO: remove
         ]);
         $this->addForeignKey(
             'fk_lesson_format_course',
@@ -199,7 +212,11 @@ class m251201_000001_domain extends Migration
 
         $this->execute('DROP TABLE IF EXISTS {{%course_node}}');
 
+        $this->execute('DROP TABLE IF EXISTS {{%teacher_location}}');
+
         $this->execute('DROP TABLE IF EXISTS {{%teacher}}');
+
+        $this->execute('DROP TABLE IF EXISTS {{%user}}');
 
         $this->execute('DROP TABLE IF EXISTS {{%location}}');
     }
