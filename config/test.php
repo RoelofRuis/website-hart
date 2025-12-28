@@ -1,20 +1,19 @@
 <?php
 
 use app\extended\Schema;
-use app\models\Teacher;
+use app\models\User;
 use yii\caching\DummyCache;
 use yii\db\Connection;
 
-$params = require __DIR__ . '/../../config/params.php';
-$shared_components = require __DIR__ . '/../../config/components.php';
+$params = require __DIR__ . '/params.php';
+$shared_components = require __DIR__ . '/components.php';
 
 return [
     'id' => 'vhm-website-test',
     'name' => 'Vereniging HART Muziekschook Website Test',
     'language' => 'nl-NL',
     'sourceLanguage' => 'en-US',
-    'basePath' => dirname(__DIR__, 2),
-    'runtimePath' => __DIR__ . '/../../runtime',
+    'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -32,7 +31,7 @@ return [
             ]
         ],
         'assetManager' => [
-            'basePath' => __DIR__ . '/../_output/assets',
+            'basePath' => __DIR__ . '/../tests/_output/assets',
             'baseUrl' => '/assets',
         ],
         'request' => [
@@ -42,7 +41,7 @@ return [
             'class' => DummyCache::class,
         ],
         'user' => [
-            'identityClass' => Teacher::class,
+            'identityClass' => User::class,
             'enableAutoLogin' => false,
             'loginUrl' => ['site/login'],
         ],

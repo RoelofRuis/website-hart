@@ -5,8 +5,10 @@ paths:
   output: tests/_output
   data: tests/_data
   support: tests/_support
-  envs: tests/_envs
 settings:
   colors: true
   memory_limit: 1024M
-  log: true
+modules:
+  config:
+    Yii2:
+      configFile: 'config/test.php'

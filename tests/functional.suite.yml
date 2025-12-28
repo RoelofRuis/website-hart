@@ -2,7 +2,4 @@ actor: FunctionalTester
 modules:
   enabled:
     - Asserts
-    - Yii2:
-        configFile: 'tests/config/web.php'
-        cleanup: true
-        transaction: true
+    - Yii2
