@@ -1,6 +1,7 @@
 <?php
 
 /** @var app\models\ContactMessage $contact */
+/** @var app\models\Course $course */
 
 use app\models\ContactMessage;
 use yii\bootstrap5\ActiveForm;
@@ -22,25 +23,36 @@ use yii\bootstrap5\Html;
         <p class="text-muted mb-4"><?= Html::encode(Yii::t('app', 'Fill in the form and we will contact you soon.')) ?></p>
 
         <?php $form = ActiveForm::begin(['id' => 'course-signup-form']); ?>
-        <?= $form->field($contact, 'type')->hiddenInput(['id' => 'contact-type', 'value' => ContactMessage::TYPE_SIGNUP])->label(false) ?>
-        <?= $form->field($contact, 'lesson_format_id')->hiddenInput(['id' => 'selected-lesson-format-id'])->label(false) ?>
+        <?= $form->field($contact, 'type')->hiddenInput(['id' => 'contact-type', 'value' => $course->has_trial ? '' : ContactMessage::TYPE_SIGNUP])->label(false) ?>
 
-        <div id="selection-status-container" class="mb-4">
-            <label class="form-label d-block mb-2"><?= Html::encode(Yii::t('app', 'Chosen lesson format')) ?></label>
-            <div id="no-selection-placeholder" class="border-secondary small border rounded p-3 bg-light text-muted">
-                <?= Html::encode(Yii::t('app', 'Please select a lesson format from the list.')) ?>
-            </div>
-            <div id="selected-lesson-format-display" class="d-none p-3 rounded selected-lesson-format shadow-sm">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div id="selected-lesson-format-description" class="fw-bold"></div>
-                        <div id="selected-lesson-format-teacher" class="small text-muted"></div>
-                    </div>
-                    <button type="button" id="clear-selection" class="btn btn-sm btn-outline-secondary">
-                        <?= Html::encode(Yii::t('app', 'Change')) ?>
+        <div class="mb-4">
+            <label class="form-label d-block mb-2"><?= Html::encode(Yii::t('app', 'Selection')) ?></label>
+            <?php if ($course->has_trial): ?>
+                <div class="list-group">
+                    <button type="button" 
+                            class="list-group-item list-group-item-action lesson-format-selectable"
+                            data-type="signup">
+                        <div class="fw-bold"><?= Html::encode(Yii::t('app', 'General signup')) ?></div>
+                        <div class="small text-muted"><?= Html::encode(Yii::t('app', 'Sign up for this course and we will contact you.')) ?></div>
+                    </button>
+                    <button type="button" 
+                            class="list-group-item list-group-item-action lesson-format-selectable mt-2"
+                            data-type="trial">
+                        <div class="fw-bold"><?= Html::encode(Yii::t('app', 'Trial lesson')) ?></div>
+                        <div class="small text-muted"><?= Html::encode(Yii::t('app', 'Discover if this course is right for you.')) ?></div>
                     </button>
                 </div>
-            </div>
+                <div id="no-selection-error" class="text-danger small mt-1 d-none">
+                    <?= Html::encode(Yii::t('app', 'Please select an option.')) ?>
+                </div>
+            <?php else: ?>
+                <div class="p-3 border rounded bg-light">
+                    <div class="fw-bold text-primary">
+                        <i class="bi bi-check-circle-fill me-1"></i>
+                        <?= Html::encode(Yii::t('app', 'General signup')) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
 
         <?= $form->field($contact, 'age')->input('number', ['id' => 'contactmessage-age', 'min' => 0, 'max' => 100]) ?>
@@ -49,8 +61,8 @@ use yii\bootstrap5\Html;
         <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
         <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message') . ' ' . Yii::t('app', '(Optional)')) ?>
 
-        <div class="d-grid">
-            <?= Html::submitButton(Yii::t('app', 'Sign Up!'), ['class' => 'btn btn-primary']) ?>
+        <div class="d-grid mt-4">
+            <?= Html::submitButton(Yii::t('app', 'Sign Up!'), ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>
@@ -76,73 +88,27 @@ $js = <<<JS
 
   // Lesson format selection
   var lessonFormatItems = document.querySelectorAll('.lesson-format-selectable');
-  var hiddenInput = document.getElementById('selected-lesson-format-id');
   var typeInput = document.getElementById('contact-type');
-  var noSelectionPlaceholder = document.getElementById('no-selection-placeholder');
-  var selectionDisplay = document.getElementById('selected-lesson-format-display');
-  var descriptionText = document.getElementById('selected-lesson-format-description');
-  var teacherText = document.getElementById('selected-lesson-format-teacher');
-  var clearBtn = document.getElementById('clear-selection');
+  var errorMsg = document.getElementById('no-selection-error');
   var form = document.getElementById('course-signup-form');
-
-  function updateSelectionUI(id, description, teacher, type) {
-    if (id || type === 'trial') {
-      hiddenInput.value = id || '';
-      typeInput.value = type || 'signup';
-      descriptionText.textContent = description;
-      teacherText.textContent = teacher || '';
-      noSelectionPlaceholder.classList.add('d-none');
-      selectionDisplay.classList.remove('d-none');
-    } else {
-      hiddenInput.value = '';
-      typeInput.value = 'signup';
-      descriptionText.textContent = '';
-      teacherText.textContent = '';
-      noSelectionPlaceholder.classList.remove('d-none');
-      selectionDisplay.classList.add('d-none');
-      lessonFormatItems.forEach(function(el) { el.classList.remove('active'); });
-    }
-  }
 
   lessonFormatItems.forEach(function(item) {
     item.addEventListener('click', function() {
-      var id = this.getAttribute('data-id');
-      var description = this.getAttribute('data-description');
-      var teacher = this.getAttribute('data-teacher');
       var type = this.getAttribute('data-type') || 'signup';
-
-      // Deselect others
-      lessonFormatItems.forEach(function(el) { el.classList.remove('active'); });
+      typeInput.value = type;
       
+      lessonFormatItems.forEach(function(el) { el.classList.remove('active'); });
       this.classList.add('active');
-      updateSelectionUI(id, description, teacher, type);
-
-      // Scroll to form if it's not well in view
-      var rect = form.getBoundingClientRect();
-      if (rect.top < 0 || rect.bottom > window.innerHeight) {
-        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      if (errorMsg) errorMsg.classList.add('d-none');
     });
   });
 
-  if (clearBtn) {
-    clearBtn.addEventListener('click', function() {
-      updateSelectionUI(null, null, null, null);
-      // Scroll to options
-      var optionsList = document.querySelector('.lesson-format-list');
-      if (optionsList) {
-        optionsList.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    });
-  }
-
-  // Prevent submission if no selection
   form.addEventListener('submit', function(e) {
-    if (!hiddenInput.value && typeInput.value !== 'trial') {
+    if (lessonFormatItems.length > 0 && !typeInput.value) {
       e.preventDefault();
-      noSelectionPlaceholder.classList.add('shake');
-      setTimeout(function() { noSelectionPlaceholder.classList.remove('shake'); }, 500);
-      noSelectionPlaceholder.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (errorMsg) errorMsg.classList.remove('d-none');
+      var selectionLabel = document.querySelector('label.form-label');
+      if (selectionLabel) selectionLabel.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
 })();

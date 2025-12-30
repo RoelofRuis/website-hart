@@ -58,11 +58,9 @@ class ContactController extends Controller
 
         $messagesQuery = ContactMessage::find()
             ->alias('cm')
-            ->joinWith(['teachers t', 'lessonFormat lf'])
-            ->where(['t.id' => $current->id])
-            ->orWhere(['lf.teacher_id' => $current->id])
-            ->orderBy(['cm.created_at' => SORT_DESC])
-            ->groupBy('cm.id');
+            ->innerJoin('{{%contact_message_user}} cmu', 'cmu.contact_message_id = cm.id')
+            ->where(['cmu.user_id' => $current->id])
+            ->orderBy(['cm.created_at' => SORT_DESC]);
 
         $messages = $messagesQuery->all();
         foreach ($messages as $message) {

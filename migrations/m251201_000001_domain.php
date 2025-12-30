@@ -135,18 +135,8 @@ class m251201_000001_domain extends Migration
             'message' => $this->text()->null(),
             'age' => $this->integer()->null(),
             'telephone' => $this->string(50)->null(),
-            'lesson_format_id' => $this->bigInteger()->null(),
             'created_at' => $this->dateTime()->notNull(),
         ]);
-        $this->addForeignKey(
-            'fk_contact_message_lesson_format',
-            '{{%contact_message}}',
-            'lesson_format_id',
-            '{{%lesson_format}}',
-            'id',
-            'SET NULL',
-            'CASCADE',
-        );
         $this->createIndex('idx_contact_messages_created_at', '{{%contact_message}}', ['created_at']);
 
         $this->createTable('{{%contact_message_user}}', [

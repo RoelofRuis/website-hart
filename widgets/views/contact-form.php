@@ -33,7 +33,15 @@ use yii\bootstrap5\Html;
         ]); ?>
 
         <?= $form->field($model, 'user_id')->hiddenInput()->label(false); ?>
-        <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
+        
+        <?php if ($model->type === ContactMessage::TYPE_CONTACT || $model->type === ContactMessage::TYPE_PLAN): ?>
+            <?= $form->field($model, 'type')->radioList([
+                ContactMessage::TYPE_CONTACT => Yii::t('app', 'Contact generally'),
+                ContactMessage::TYPE_PLAN => Yii::t('app', 'Plan a lesson'),
+            ])->label(Yii::t('app', 'Reason for contact')) ?>
+        <?php else: ?>
+            <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
+        <?php endif; ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Your name')]) ?>
         <?= $form->field($model, 'email')->input('email', ['maxlength' => true, 'placeholder' => 'you@example.com']) ?>

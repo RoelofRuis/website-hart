@@ -34,9 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     $info = [];
                     if ($model->type === 'signup') {
                         $info[] = Yii::t('app', 'Signup');
-                        $info[] = Html::encode($model->lessonFormat->getFormattedDescription());
                     } elseif ($model->type === 'trial') {
                         $info[] = Yii::t('app', 'Trial');
+                    } elseif ($model->type === 'plan') {
+                        $info[] = Yii::t('app', 'Lesson plan');
                     } else {
                         $info[] = Yii::t('app', 'Contact');
                     }

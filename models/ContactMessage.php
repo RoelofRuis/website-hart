@@ -17,10 +17,7 @@ use yii\db\Expression;
  * @property int|null $age
  * @property string|null $telephone
  * @property int|null $user_id
- * @property int|null $lesson_format_id
  * @property int $created_at
- *
- * @property LessonFormat|null $lessonFormat
  */
 class ContactMessage extends ActiveRecord
 {
@@ -32,6 +29,7 @@ class ContactMessage extends ActiveRecord
     const TYPE_CONTACT = 'contact';
     const TYPE_SIGNUP = 'signup';
     const TYPE_TRIAL = 'trial';
+    const TYPE_PLAN = 'plan';
 
     public static function tableName(): string
     {
@@ -63,18 +61,13 @@ class ContactMessage extends ActiveRecord
         return [
             [['name', 'email'], 'required'],
             [['type'], 'string', 'max' => 16],
-            [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP, self::TYPE_TRIAL]],
+            [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP, self::TYPE_TRIAL, self::TYPE_PLAN]],
             [['name', 'email'], 'string', 'max' => 150],
             [['telephone'], 'string', 'max' => 50],
+            [['user_id'], 'integer'],
             ['email', 'email'],
             ['message', 'string', 'max' => 1000],
             ['age', 'integer', 'min' => 0, 'max' => 100],
-            [['teacher_id', 'lesson_format_id'], 'integer'],
-            [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id'], 'skipOnEmpty' => true],
-            ['lesson_format_id', 'exist', 'targetClass' => LessonFormat::class, 'targetAttribute' => ['lesson_format_id' => 'id'], 'skipOnEmpty' => true],
-            ['lesson_format_id', 'required', 'when' => function($model) {
-                return $model->type === self::TYPE_SIGNUP;
-            }],
         ];
     }
 
@@ -90,11 +83,6 @@ class ContactMessage extends ActiveRecord
         ];
     }
 
-    public function getLessonFormat(): ActiveQuery
-    {
-        return $this->hasOne(LessonFormat::class, ['id' => 'lesson_format_id']);
-    }
-
     public function getUsers(): ActiveQuery
     {
         return $this->hasMany(User::class, ['id' => 'user_id'])
@@ -106,16 +94,15 @@ class ContactMessage extends ActiveRecord
         return $this->hasMany(ContactNotification::class, ['contact_message_id' => 'id']);
     }
 
-    public static function getUnreadCount(int $teacherId): int
+    public static function getUnreadCount(int $userId): int
     {
-        // TODO: link to user!
         return (int) self::find()
             ->alias('cm')
-            ->joinWith(['teachers t', 'lessonFormat lf'])
+            ->innerJoin('{{%contact_message_user}} cmu', 'cmu.contact_message_id = cm.id')
             ->leftJoin('{{%contact_notification}} cn', 'cn.contact_message_id = cm.id AND cn.type = :type', [
                 ':type' => ContactNotification::TYPE_OPENED
             ])
-            ->where(['OR', ['t.id' => $teacherId], ['lf.teacher_id' => $teacherId]])
+            ->where(['cmu.user_id' => $userId])
             ->andWhere(['cn.id' => null])
             ->count('DISTINCT cm.id');
     }

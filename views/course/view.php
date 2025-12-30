@@ -30,12 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo HtmlPurifier::process($model->description ?? '');
                 ?>
             </div>
-
-            <?= $this->render('_lesson_options', ['model' => $model]) ?>
         </div>
 
         <div class="col-lg-5 col-xl-4">
-            <?= $this->render('_contact_form', ['contact' => $contact]) ?>
+            <?= $this->render('_contact_form', ['contact' => $contact, 'course' => $model]) ?>
         </div>
 
     </div>

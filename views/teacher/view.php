@@ -72,6 +72,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                             echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
                                             ?>
                                         </p>
+                                        <div class="mt-3">
+                                            <ul class="list-unstyled mb-0">
+                                                <?php foreach ($model->getLessonFormats()->where(['course_id' => $course->id])->all() as $format): ?>
+                                                    <li class="mb-1">
+                                                        <span class="badge bg-light text-dark border">
+                                                            <?= Html::encode($format->getFormattedDescription()) ?>
+                                                            <?php if ($price = $format->getFormattedPrice()): ?>
+                                                                <br><small class="text-muted"><?= Html::encode($price) ?></small>
+                                                            <?php endif; ?>
+                                                        </span>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
