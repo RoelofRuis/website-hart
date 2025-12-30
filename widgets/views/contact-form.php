@@ -32,7 +32,7 @@ use yii\bootstrap5\Html;
                 'method' => 'post',
         ]); ?>
 
-        <?= $form->field($model, 'teacher_id')->hiddenInput()->label(false); ?>
+        <?= $form->field($model, 'user_id')->hiddenInput()->label(false); ?>
         <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Your name')]) ?>

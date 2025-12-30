@@ -70,7 +70,7 @@ class ContactSubmitCest
         $I->assertSame('Jan Jansen', $record->name);
         $I->assertSame('Hallo! Dit is een testbericht.', $record->message);
         $I->assertSame(ContactMessage::TYPE_CONTACT, $record->type);
-        $I->assertSame([1], $record->getTeachers()->column());
+        $I->assertSame([1], $record->getUsers()->column());
     }
 
     public function submit_missing_fields_error(FunctionalTester $I): void

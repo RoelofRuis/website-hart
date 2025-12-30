@@ -8,7 +8,7 @@ use yii\helpers\HtmlPurifier;
 use app\widgets\ContactFormWidget;
 use app\models\ContactMessage;
 
-$this->title = $model->full_name;
+$this->title = $model->user->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,21 +17,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row align-items-center mb-4">
         <div class="col-md-3 text-center mb-3 mb-md-0">
             <?php if (!empty($model->profile_picture)): ?>
-                <img src="<?= Html::encode($model->profile_picture) ?>" class="img-fluid rounded" alt="<?= Html::encode($model->full_name) ?>">
+                <img src="<?= Html::encode($model->profile_picture) ?>" class="img-fluid rounded" alt="<?= Html::encode($model->user->full_name) ?>">
             <?php else: ?>
                 <div class="placeholder-avatar rounded bg-light d-inline-block" style="width:160px;height:160px;"></div>
             <?php endif; ?>
         </div>
         <div class="col-md-9">
-            <h1 class="mb-1"><?= Html::encode($model->full_name) ?></h1>
+            <h1 class="mb-1"><?= Html::encode($model->user->full_name) ?></h1>
             <div class="lead">
                 <?php
                 echo HtmlPurifier::process($model->description ?? '');
                 ?>
             </div>
             <div class="mt-3">
-                <?php if ($model->email): ?>
-                    <div><?= Html::encode(Yii::t('app', 'Email')) ?>: <?= Html::a(Html::encode($model->email), 'mailto:' . $model->email) ?></div>
+                <?php if ($model->user->email): ?>
+                    <div><?= Html::encode(Yii::t('app', 'Email')) ?>: <?= Html::a(Html::encode($model->user->email), 'mailto:' . $model->user->email) ?></div>
                 <?php endif; ?>
                 <?php if ($model->telephone): ?>
                     <div><?= Html::encode(Yii::t('app', 'Telephone')) ?>: <?= Html::encode($model->telephone) ?></div>
@@ -90,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= ContactFormWidget::widget([
                 'heading' => Yii::t('app', 'Contact the teacher'),
                 'type' => ContactMessage::TYPE_CONTACT,
-                'teacher_id' => $model->id,
+                'user_id' => $model->user->id,
             ]) ?>
         </div>
     </div>

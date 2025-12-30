@@ -11,7 +11,7 @@ class ContactFormWidget extends Widget
 {
     public string $heading = '';
     public string $type = ContactMessage::TYPE_CONTACT;
-    public ?int $teacher_id = null;
+    public ?int $user_id = null;
     public ?string $action = null;
 
     public function run(): string
@@ -21,12 +21,11 @@ class ContactFormWidget extends Widget
         $form_id = $this->getId() . '-contact-form';
 
         $model->type = $this->type;
-        $model->teacher_id = $this->teacher_id;
+        $model->user_id = $this->user_id;
 
         return $this->render('contact-form', [
             'model' => $model,
             'action' => $this->action ?: Url::to(['contact/submit']),
-            'teacher_id' => $this->teacher_id,
             'heading' => $heading,
             'form_id' => $form_id,
         ]);

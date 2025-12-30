@@ -149,14 +149,14 @@ class m251201_000001_domain extends Migration
         );
         $this->createIndex('idx_contact_messages_created_at', '{{%contact_message}}', ['created_at']);
 
-        $this->createTable('{{%teacher_contact_message}}', [
+        $this->createTable('{{%contact_message_user}}', [
             'contact_message_id' => $this->bigInteger()->notNull(),
-            'teacher_id' => $this->bigInteger()->notNull(),
+            'user_id' => $this->bigInteger()->notNull(),
         ]);
-        $this->addPrimaryKey('pk_teacher_contact_message', '{{%teacher_contact_message}}', ['contact_message_id', 'teacher_id']);
+        $this->addPrimaryKey('pk_contact_message_user', '{{%contact_message_user}}', ['contact_message_id', 'user_id']);
         $this->addForeignKey(
-            'fk_teacher_contact_message_contact_message',
-            '{{%teacher_contact_message}}',
+            'fk_contact_message_user_contact_message',
+            '{{%contact_message_user}}',
             'contact_message_id',
             '{{%contact_message}}',
             'id',
@@ -164,10 +164,10 @@ class m251201_000001_domain extends Migration
             'CASCADE',
         );
         $this->addForeignKey(
-            'fk_teacher_contact_message_teacher',
-            '{{%teacher_contact_message}}',
-            'teacher_id',
-            '{{%teacher}}',
+            'fk_contact_message_user_user',
+            '{{%contact_message_user}}',
+            'user_id',
+            '{{%user}}',
             'id',
             'CASCADE',
             'CASCADE'
@@ -176,7 +176,7 @@ class m251201_000001_domain extends Migration
 
     public function safeDown()
     {
-        $this->execute('DROP TABLE IF EXISTS {{%teacher_contact_message}}');
+        $this->execute('DROP TABLE IF EXISTS {{%contact_message_user}}');
 
         $this->execute('DROP TABLE IF EXISTS {{%contact_message}}');
 

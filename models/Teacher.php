@@ -3,11 +3,9 @@
 namespace app\models;
 
 use app\components\behaviors\TagBehavior;
-use DateTime;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
  * @property int $id
@@ -83,12 +81,6 @@ class Teacher extends ActiveRecord
         ];
     }
 
-    public function getTags_relation(): ActiveQuery
-    {
-        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
-            ->viaTable('{{%teacher_tag}}', ['teacher_id' => 'id']);
-    }
-
     public function getAccessibleCourses(): ActiveQuery
     {
         return $this->hasMany(Course::class, ['id' => 'course_id'])
@@ -111,16 +103,6 @@ class Teacher extends ActiveRecord
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
-    }
-
-    public function getFull_name(): ?string
-    {
-        return $this->user?->full_name;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->user?->email;
     }
 
     /**
@@ -161,57 +143,9 @@ class Teacher extends ActiveRecord
             ->viaTable('{{%teacher_location}}', ['teacher_id' => 'id']);
     }
 
-    /** @deprecated */
-    public static function findIdentity($id): Teacher|IdentityInterface|null
+    public static function findBySlug(string $slug): ActiveQuery
     {
-        return static::findOne($id);
-    }
-
-    /** @deprecated */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        return null;
-    }
-
-    /** @deprecated */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /** @deprecated */
-    public function getAuthKey(): ?string
-    {
-        return $this->auth_key;
-    }
-
-    /** @deprecated */
-    public function validateAuthKey($authKey): bool
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
-    public static function findBySlug(string $slug): ?self
-    {
-        return static::findOne(['slug' => $slug]);
-    }
-
-    /** @deprecated */
-    public static function findByEmail(string $email): ?self
-    {
-        return static::findOne(['email' => $email]);
-    }
-
-    /** @deprecated */
-    public function setPassword(string $password): void
-    {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-    }
-
-    /** @deprecated */
-    public function validatePassword(string $password): bool
-    {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return static::find()->where(['slug' => $slug]);
     }
 
     public static function findIndexable(): ActiveQuery
@@ -219,11 +153,5 @@ class Teacher extends ActiveRecord
         return static::find()
             ->innerJoinWith('user')
             ->where(['user.is_active' => true]);
-    }
-
-    /** @deprecated */
-    public function generateAuthKey(): void
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
     }
 }

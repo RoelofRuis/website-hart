@@ -16,7 +16,7 @@ use yii\db\Expression;
  * @property string|null $message
  * @property int|null $age
  * @property string|null $telephone
- * @property int|null $teacher_id
+ * @property int|null $user_id
  * @property int|null $lesson_format_id
  * @property int $created_at
  *
@@ -24,8 +24,10 @@ use yii\db\Expression;
  */
 class ContactMessage extends ActiveRecord
 {
-    /** @var ?int For collecting a pre-set teacher id. */
-    public $teacher_id = null;
+    /**
+     * @var ?int For collecting a pre-set teacher id.
+     */
+    public $user_id = null;
 
     const TYPE_CONTACT = 'contact';
     const TYPE_SIGNUP = 'signup';
@@ -51,8 +53,8 @@ class ContactMessage extends ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if (!empty($this->teacher_id)) {
-            $this->link('teachers', Teacher::findOne(['id' => $this->teacher_id]));
+        if (!empty($this->user_id)) {
+            $this->link('users', User::findOne(['id' => $this->user_id]));
         }
     }
 
@@ -93,10 +95,10 @@ class ContactMessage extends ActiveRecord
         return $this->hasOne(LessonFormat::class, ['id' => 'lesson_format_id']);
     }
 
-    public function getTeachers(): ActiveQuery
+    public function getUsers(): ActiveQuery
     {
-        return $this->hasMany(Teacher::class, ['id' => 'teacher_id'])
-            ->viaTable('{{%teacher_contact_message}}', ['contact_message_id' => 'id']);
+        return $this->hasMany(User::class, ['id' => 'user_id'])
+            ->viaTable('{{%contact_message_user}}', ['contact_message_id' => 'id']);
     }
 
     public function getNotifications(): ActiveQuery

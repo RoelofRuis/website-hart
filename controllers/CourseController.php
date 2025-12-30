@@ -75,13 +75,9 @@ class CourseController extends Controller
             return $this->refresh();
         }
 
-        $parent_model = null; // TODO: remove
-
         return $this->render('view', [
             'model' => $model,
-            'parent_model' => $parent_model,
             'contact' => $contact,
-            'teachers' => $model->getTeachers()->all(),
         ]);
     }
 

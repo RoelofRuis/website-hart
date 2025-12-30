@@ -72,8 +72,8 @@ class TeacherController extends Controller
 
     public function actionView(string $slug)
     {
-        $model = Teacher::findBySlug($slug);
-        if (!$model) {
+        $model = Teacher::findBySlug($slug)->with('user')->one();
+        if (!$model instanceof Teacher) {
             throw new NotFoundHttpException('Teacher not found.');
         }
 
