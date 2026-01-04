@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\ContactMessage;
 use app\models\ContactNotification;
-use app\models\Teacher;
 use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;

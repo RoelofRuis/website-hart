@@ -30,6 +30,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo HtmlPurifier::process($model->description ?? '');
                 ?>
             </div>
+
+            <div class="teachers-overview mt-5">
+                <h3 class="mb-4"><?= Html::encode(Yii::t('app', 'Teachers for this course')) ?></h3>
+                <div class="row">
+                    <?php foreach ($model->teachers as $teacher): ?>
+                        <div class="col-md-4 mb-4">
+                            <?= $this->render('../search/_card', [
+                                'href' => \yii\helpers\Url::to(['teacher/view', 'slug' => $teacher->slug]),
+                                'image' => $teacher->profile_picture,
+                                'title' => $teacher->user->full_name,
+                                'content' => $teacher->description,
+                                'cta' => Yii::t('app', 'View teacher'),
+                            ]); ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if (empty($model->teachers)): ?>
+                    <p class="text-muted"><?= Html::encode(Yii::t('app', 'No teachers assigned to this course yet.')) ?></p>
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="col-lg-5 col-xl-4">

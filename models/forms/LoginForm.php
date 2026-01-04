@@ -2,7 +2,6 @@
 
 namespace app\models\forms;
 
-use app\models\Teacher;
 use app\models\User;
 use DateTime;
 use Yii;
@@ -13,7 +12,7 @@ class LoginForm extends Model
     public string $email = '';
     public string $password = '';
 
-    private ?Teacher $_user = null;
+    private ?User $_user = null;
 
     public function rules(): array
     {

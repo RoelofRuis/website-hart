@@ -4,6 +4,7 @@ namespace app\models;
 
 use DateTime;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -79,5 +80,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function generateAuthKey(): void
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    public function getTeacher(): ActiveQuery
+    {
+        return $this->hasOne(Teacher::class, ['user_id' => 'id']);
     }
 }

@@ -38,6 +38,11 @@ class LessonFormatController extends Controller
             throw new NotFoundHttpException('Not allowed.');
         }
 
+        $teacher = $current->getTeacher()->one();
+        if (!$teacher instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
         $formats = $current->getLessonFormats()->with('course')->all(); // TODO: fix queries
         $linked_courses = $current->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
 
