@@ -41,6 +41,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div><?= Html::encode(Yii::t('app', 'Website')) ?>: <?= Html::a(Html::encode($model->website), $model->website) ?></div>
                 <?php endif; ?>
             </div>
+
+            <div class="teacher-info mt-4">
+                <?php $days = $model->getFormattedDays(); ?>
+                <?php if (!empty($days)): ?>
+                    <div class="mb-2">
+                        <strong><?= Html::encode(Yii::t('app', 'Teaching days')) ?>:</strong>
+                        <?= Html::encode($days) ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php $locations = $model->getLocations()->all(); ?>
+                <?php if (!empty($locations)): ?>
+                    <div class="mb-2">
+                        <strong><?= Html::encode(Yii::t('app', 'Locations')) ?>:</strong>
+                        <?= Html::encode(implode(', ', array_map(fn($l) => $l->name, $locations))) ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 

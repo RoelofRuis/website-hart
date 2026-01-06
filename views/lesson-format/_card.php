@@ -11,15 +11,12 @@ $selectable = $selectable ?? false;
 $selected = $selected ?? false;
 
 $class = 'list-group-item';
-if ($selectable) {
-    $class .= ' lesson-format-selectable';
-}
 if ($selected) {
     $class .= ' active';
 }
 ?>
 
-<li class="<?= $class ?>" 
+<li class="<?= $class ?>"
     data-id="<?= $model->id ?>" 
     data-description="<?= Html::encode($model->getFormattedDescription()) ?>"
     data-teacher="<?= Html::encode($model->teacher->user->full_name) ?>"

@@ -14,13 +14,17 @@ class Searcher
 
     public function search(SearchForm $form): SearchResult
     {
-        $data_query = new Query();
-
         if ($form->type === 'courses') {
             $data_query = $this->buildCourseSubquery($form);
         } elseif ($form->type === 'teachers') {
             $data_query = $this->buildTeacherSubquery($form);
-        } elseif ($form->type === 'all') {
+        } elseif ($form->type === 'subcourses') {
+            $data_query = $this->buildCourseSubquery($form);
+            if ($form->parent_id) {
+                // Assuming parent_id means category_id for subcourses if it's not a course field
+                $data_query->andFilterWhere(['cn.category_id' => $form->parent_id]);
+            }
+        } else {
             $data_query = $this->buildStaticSubquery($form)
                 ->union($this->buildCourseSubquery($form), true)
                 ->union($this->buildTeacherSubquery($form), true);
@@ -116,6 +120,12 @@ class Searcher
             ->from(['t' => '{{%teacher}}'])
             ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id');
 
+        if ($form->category_id) {
+            $subquery->innerJoin(['ct' => '{{%course_teacher}}'], 'ct.teacher_id = t.id')
+                ->innerJoin(['c' => '{{%course}}'], 'c.id = ct.course_id')
+                ->andWhere(['c.category_id' => $form->category_id]);
+        }
+
         if (!$form->hasEmptyQuery()) {
             $subquery->innerJoin(['tags' => (new Query)
                 ->select('teacher_id')
@@ -140,6 +150,10 @@ class Searcher
                 'sc.summary AS snippet',
             ])
             ->from(['sc' => '{{%static_content}}']);
+
+        if ($form->category_id) {
+            $subquery->andWhere('0=1');
+        }
 
         if (!$form->hasEmptyQuery()) {
             $subquery->innerJoin(['tags' => (new Query)
