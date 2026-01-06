@@ -22,7 +22,7 @@ if ($selected) {
 <li class="<?= $class ?>" 
     data-id="<?= $model->id ?>" 
     data-description="<?= Html::encode($model->getFormattedDescription()) ?>"
-    data-teacher="<?= Html::encode($model->teacher?->full_name) ?>"
+    data-teacher="<?= Html::encode($model->teacher->user->full_name) ?>"
     <?php if ($selectable): ?>role="option"<?php endif; ?>>
     <div class="d-flex justify-content-between align-items-start mb-1">
         <div>

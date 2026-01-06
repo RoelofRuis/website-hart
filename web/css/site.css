@@ -90,6 +90,10 @@ a:hover, a:focus { color: var(--color-magenta); }
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+.border-bottom-light {
+    border-bottom: 1px solid #f8f9fa;
+}
+
 .lesson-format-selectable {
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     cursor: pointer;

@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app', 'Linked Teachers'),
                 'value' => function ($model) {
                     /** @var app\models\Course $model */
-                    $names = array_map(function ($t) { return $t->full_name; }, $model->teachers);
+                    $names = array_map(function ($t) { return $t->user->full_name; }, $model->teachers);
                     return implode(', ', $names);
                 },
             ],

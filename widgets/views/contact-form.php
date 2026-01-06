@@ -36,7 +36,7 @@ use yii\bootstrap5\Html;
         
         <?php if ($model->type === ContactMessage::TYPE_CONTACT || $model->type === ContactMessage::TYPE_PLAN): ?>
             <?= $form->field($model, 'type')->radioList([
-                ContactMessage::TYPE_CONTACT => Yii::t('app', 'Contact generally'),
+                ContactMessage::TYPE_CONTACT => Yii::t('app', 'General contact'),
                 ContactMessage::TYPE_PLAN => Yii::t('app', 'Plan a lesson'),
             ])->label(Yii::t('app', 'Reason for contact')) ?>
         <?php else: ?>

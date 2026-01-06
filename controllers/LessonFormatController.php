@@ -43,8 +43,8 @@ class LessonFormatController extends Controller
             throw new NotFoundHttpException('Not allowed.');
         }
 
-        $formats = $current->getLessonFormats()->with('course')->all(); // TODO: fix queries
-        $linked_courses = $current->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
+        $formats = $teacher->getLessonFormats()->with('course')->all();
+        $linked_courses = $teacher->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
 
         return $this->render('admin', [
             'formats' => $formats,

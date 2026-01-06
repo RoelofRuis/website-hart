@@ -35,7 +35,6 @@ class Course extends ActiveRecord
         return [
             'tag' => [
                 'class' => TagBehavior::class,
-                'tagRelation' => 'tags_relation',
             ],
         ];
     }
@@ -88,7 +87,7 @@ class Course extends ActiveRecord
         return $this->hasMany(LessonFormat::class, ['course_id' => 'id']);
     }
 
-    public function getTags_relation(): ActiveQuery
+    public function getTags(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('{{%course_tag}}', ['course_id' => 'id']);

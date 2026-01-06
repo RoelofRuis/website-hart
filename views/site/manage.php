@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row g-3">
         <div class="col-12 col-md-6 col-lg-4">
             <!-- TODO: see if this id still makes sense -->
-            <a class="text-decoration-none" href="<?= Url::to(['teacher/update', 'id' => Yii::$app->user->id]) ?>">
+            <a class="text-decoration-none" href="<?= Url::to(['user/update', 'id' => Yii::$app->user->id]) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Profile')) ?></h5>
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <a class="text-decoration-none" href="<?= Url::to(['lesson-format/admin']) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Lesson Formats')) ?></h5>
+                        <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Lesson formats')) ?></h5>
                         <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Configure formats, availability and pricing.')) ?></p>
                     </div>
                 </div>
@@ -70,11 +70,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin): ?>
             <div class="col-12 col-md-6 col-lg-4">
-                <a class="text-decoration-none" href="<?= Url::to(['teacher/admin']) ?>">
+                <a class="text-decoration-none" href="<?= Url::to(['user/admin']) ?>">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Manage Teachers')) ?></h5>
-                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Administer teacher accounts and permissions.')) ?></p>
+                            <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Manage Users')) ?></h5>
+                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Administer user accounts and permissions.')) ?></p>
                         </div>
                     </div>
                 </a>

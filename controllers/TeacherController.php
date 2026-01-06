@@ -4,41 +4,13 @@ namespace app\controllers;
 
 use app\models\Teacher;
 use app\models\StaticContent;
-use app\models\User;
 use Yii;
 use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
 
 class TeacherController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['update', 'admin', 'create', 'delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['update'],
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['admin', 'create', 'delete'],
-                        'roles' => ['@'],
-                        'matchCallback' => function () {
-                            return !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
-                        }
-                    ],
-                ],
-            ],
-        ];
-    }
-
     public function actionIndex()
     {
         $q = Yii::$app->request->get('q');
@@ -80,100 +52,5 @@ class TeacherController extends Controller
         return $this->render('view', [
             'model' => $model,
         ]);
-    }
-
-    public function actionUpdate(int $id)
-    {
-        $model = Teacher::findOne($id);
-        if (!$model) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-
-        /** @var User $current */
-        $current = Yii::$app->user->identity;
-        if (!$current instanceof User) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-
-        $canEdit = $current->is_admin || ($current->id === $model->id);
-        if (!$canEdit) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-
-        // Restrict editable attributes for security
-        $safeAttributes = ['full_name', 'email', 'telephone', 'profile_picture', 'description'];
-        if ($current->is_admin) {
-            // Admins may also toggle admin/active flags
-            $safeAttributes[] = 'slug';
-            $safeAttributes[] = 'is_admin';
-            $safeAttributes[] = 'is_active';
-            $safeAttributes[] = 'is_teaching';
-        }
-
-        if ($model->load(Yii::$app->request->post())) {
-            // Prevent privilege escalation by non-admins
-            if (!$current->is_admin) {
-                $model->is_admin = (bool)$model->getOldAttribute('is_admin');
-                $model->is_active = (bool)$model->getOldAttribute('is_active');
-                // Non-admins are not allowed to change their slug
-                $model->slug = (string)$model->getOldAttribute('slug');
-            }
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher information updated successfully.'));
-                if ($current->id === $model->id) {
-                    return $this->redirect(['site/manage']);
-                }
-                return $this->redirect(['admin']);
-            }
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-            'safeAttributes' => $safeAttributes,
-        ]);
-    }
-
-    public function actionAdmin()
-    {
-        // Admin overview list for quick management
-        $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC]),
-            'pagination' => ['pageSize' => 20],
-        ]);
-
-        return $this->render('admin', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionCreate()
-    {
-        $model = new Teacher();
-
-        // By default do not allow creating an admin unless explicitly set by admin
-        $model->is_admin = false;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher created successfully.'));
-            return $this->redirect(['admin']);
-        }
-
-        // Allow admin to set admin and active flags
-        $safeAttributes = ['full_name', 'slug', 'email', 'telephone', 'profile_picture', 'description', 'is_admin', 'is_active', 'is_teaching'];
-        return $this->render('create', [
-            'model' => $model,
-            'safeAttributes' => $safeAttributes,
-        ]);
-    }
-
-    public function actionDelete(int $id)
-    {
-        $model = Teacher::findOne($id);
-        if (!$model) {
-            throw new NotFoundHttpException('Teacher not found.');
-        }
-        $model->delete();
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Teacher deleted.'));
-        return $this->redirect(['admin']);
     }
 }

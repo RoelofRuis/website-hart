@@ -39,7 +39,6 @@ class Teacher extends ActiveRecord
         return [
             'tag' => [
                 'class' => TagBehavior::class,
-                'tagRelation' => 'tags_relation',
             ],
         ];
     }
@@ -103,6 +102,12 @@ class Teacher extends ActiveRecord
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getTags(): ActiveQuery
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->viaTable('{{%teacher_tag}}', ['teacher_id' => 'id']);
     }
 
     /**

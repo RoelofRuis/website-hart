@@ -7,6 +7,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
 use app\widgets\ContactFormWidget;
 use app\models\ContactMessage;
+use yii\helpers\Url;
 
 $this->title = $model->user->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
@@ -49,50 +50,68 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <?php foreach ($model->getTaughtCourses()->all() as $course): ?>
                     <div class="col-md-12 mb-3">
-                        <div class="card h-100">
-                            <div class="row g-0 h-100">
-                                <div class="col-md-4">
-                                    <?php if ($course->cover_image): ?>
-                                        <img src="<?= Html::encode($course->cover_image) ?>" 
-                                             class="img-fluid rounded-start h-100" 
-                                             alt="<?= Html::encode($course->name) ?>"
-                                             style="object-fit: cover; aspect-ratio: 1/1;">
-                                    <?php else: ?>
-                                        <div class="bg-light h-100 d-flex align-items-center justify-content-center rounded-start" style="aspect-ratio: 1/1; min-height: 120px;">
-                                            <span class="text-muted" style="font-size: 2rem;">📚</span>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="col-md-8 d-flex flex-column">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
-                                        <p class="card-text mb-0">
-                                            <?php
-                                            $cText = trim(strip_tags($course->description ?? ''));
-                                            echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
-                                            ?>
-                                        </p>
-                                        <div class="mt-3">
-                                            <ul class="list-unstyled mb-0">
-                                                <?php foreach ($model->getLessonFormats()->where(['course_id' => $course->id])->all() as $format): ?>
-                                                    <li class="mb-1">
-                                                        <span class="badge bg-light text-dark border">
-                                                            <?= Html::encode($format->getFormattedDescription()) ?>
-                                                            <?php if ($price = $format->getFormattedPrice()): ?>
-                                                                <br><small class="text-muted"><?= Html::encode($price) ?></small>
-                                                            <?php endif; ?>
-                                                        </span>
-                                                    </li>
-                                                <?php endforeach; ?>
-                                            </ul>
+                        <a href="<?= Url::to(['course/view', 'slug' => $course->slug]) ?>" class="text-decoration-none text-reset">
+                            <div class="card h-100 lift-card">
+                                <div class="row g-0 h-100">
+                                    <div class="col-md-4">
+                                        <?php if ($course->cover_image): ?>
+                                            <img src="<?= Html::encode($course->cover_image) ?>" 
+                                                 class="img-fluid rounded-start h-100" 
+                                                 alt="<?= Html::encode($course->name) ?>"
+                                                 style="object-fit: cover; aspect-ratio: 1/1;">
+                                        <?php else: ?>
+                                            <div class="bg-light h-100 d-flex align-items-center justify-content-center rounded-start" style="aspect-ratio: 1/1; min-height: 120px;">
+                                                <span class="text-muted" style="font-size: 2rem;">📚</span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col-md-8 d-flex flex-column">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-2"><?= Html::encode($course->name) ?></h5>
+                                            <p class="card-text mb-0">
+                                                <?php
+                                                $cText = trim(strip_tags($course->description ?? ''));
+                                                echo Html::encode(mb_strimwidth($cText, 0, 160, '…'));
+                                                ?>
+                                            </p>
+                                            <div class="mt-3">
+                                                <table class="table table-sm table-borderless mb-0">
+                                                    <thead>
+                                                        <tr class="border-bottom">
+                                                            <th class="ps-0 font-weight-normal text-muted small"><?= Yii::t('app', 'Lesson format') ?></th>
+                                                            <th class="pe-0 font-weight-normal text-muted small text-end"><?= Yii::t('app', 'Price') ?></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php 
+                                                        $formats = $model->getLessonFormats()->where(['course_id' => $course->id])->all();
+                                                        foreach ($formats as $index => $format): ?>
+                                                            <tr class="<?= $index < count($formats) - 1 ? 'border-bottom-light' : '' ?>">
+                                                                <td class="ps-0 align-middle">
+                                                                    <div class="small">
+                                                                        <?= Html::encode($format->getFormattedDescription()) ?>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="pe-0 align-middle text-end">
+                                                                    <div class="small text-muted">
+                                                                        <?= Html::encode($format->getFormattedPrice() ?: Yii::t('app', 'Price on request')) ?>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-footer bg-transparent border-0 p-0">
+                                    <div class="btn btn-outline-primary w-100 rounded-0 rounded-bottom">
+                                        <?= Yii::t('app', 'View course') ?>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-footer bg-transparent border-0 p-0">
-                                <?= Html::a(Yii::t('app', 'View course'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-outline-primary w-100']) ?>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 <?php endforeach; ?>
                 <?php if (!$model->getTaughtCourses()->exists()): ?>

@@ -40,7 +40,6 @@ class StaticContent extends ActiveRecord
             ],
             'tag' => [
                 'class' => TagBehavior::class,
-                'tagRelation' => 'tags_relation',
             ],
         ];
     }
@@ -69,7 +68,7 @@ class StaticContent extends ActiveRecord
         ];
     }
 
-    public function getTags_relation(): ActiveQuery
+    public function getTags(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('{{%static_content_tag}}', ['static_content_id' => 'id']);
