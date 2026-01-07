@@ -9,13 +9,12 @@ use app\models\Course;
 /**
  * Generates simple SVG cover images for all courses and stores them via the
  * configured storage component. Updates Course.cover_image URLs accordingly.
- *
- * @deprecated
  */
 class CourseImageFixture extends Fixture
 {
     public $depends = [
         CourseFixture::class,
+        ImageStorageFixture::class
     ];
 
     public function load()
@@ -23,6 +22,9 @@ class CourseImageFixture extends Fixture
         /** @var Course[] $courses */
         $courses = Course::find()->all();
         foreach ($courses as $course) {
+            if (empty($course->cover_image)) {
+                continue;
+            }
             $svg = $this->generateSvg($course->name);
             $result = Yii::$app->storage->save($svg, 'image/svg+xml', [
                 'slug' => 'course/' . $course->slug,
