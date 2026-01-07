@@ -23,7 +23,7 @@ $isAdmin = Yii::$app->user->identity->is_admin;
         <?php $form = ActiveForm::begin(); ?>
 
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header">
                 <h5 class="mb-0"><?= Yii::t('app', 'User Information') ?></h5>
             </div>
             <div class="card-body">
@@ -58,7 +58,7 @@ $isAdmin = Yii::$app->user->identity->is_admin;
 
         <?php if ($teacher): ?>
             <div class="card mb-4">
-                <div class="card-header bg-success text-white">
+                <div class="card-header bg-petrol text-white">
                     <h5 class="mb-0"><?= Yii::t('app', 'Teacher Information') ?></h5>
                 </div>
                 <div class="card-body">
@@ -73,6 +73,7 @@ $isAdmin = Yii::$app->user->identity->is_admin;
 
                     <?= $form->field($teacher, 'website')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($teacher, 'profile_picture')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma separated tags')]) ?>
                     <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
 
                     <div class="row">

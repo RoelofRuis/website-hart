@@ -29,6 +29,8 @@ use yii\db\ActiveRecord;
  */
 class Teacher extends ActiveRecord
 {
+    public ?string $tags = null;
+
     public static function tableName(): string
     {
         return '{{%teacher}}';
@@ -104,7 +106,7 @@ class Teacher extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    public function getTags(): ActiveQuery
+    public function getTagsRelation(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('{{%teacher_tag}}', ['teacher_id' => 'id']);

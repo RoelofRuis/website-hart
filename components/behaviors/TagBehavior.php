@@ -20,51 +20,47 @@ class TagBehavior extends Behavior
     /**
      * @var string The name of the relation to the tags.
      */
-    public string $tagRelation = 'tags';
+    public string $tagRelation = 'tagsRelation';
 
     /**
      * @var string The name of the tag model's name attribute.
      */
     public string $tagNameAttribute = 'name';
 
-    private ?string $_tags = null;
-
     public function events(): array
     {
         return [
+            ActiveRecord::EVENT_AFTER_FIND => 'loadTags',
             ActiveRecord::EVENT_AFTER_INSERT => 'saveTags',
             ActiveRecord::EVENT_AFTER_UPDATE => 'saveTags',
         ];
     }
 
-    public function getTags(): string
+    public function loadTags(): void
     {
-        if ($this->_tags !== null) {
-            return $this->_tags;
+        if ($this->owner->{$this->tagAttribute} !== null) {
+            return;
         }
 
         if ($this->owner->isNewRecord) {
-            return '';
+            return;
         }
 
         $tags = $this->owner->{$this->tagRelation};
         $tagNames = ArrayHelper::getColumn($tags, $this->tagNameAttribute);
-        
-        return $this->_tags = implode(', ', $tagNames);
-    }
 
-    public function setTags(string $value): void
-    {
-        $this->_tags = $value;
+        $this->owner->{$this->tagAttribute} = implode(', ', $tagNames);
     }
 
     public function saveTags(): void
     {
-        if ($this->_tags === null) {
+        $tags = $this->owner->{$this->tagAttribute};
+
+        if ($tags === null) {
             return;
         }
 
-        $tagNames = array_filter(array_map('trim', explode(',', $this->_tags)));
+        $tagNames = array_filter(array_map('trim', explode(',', $tags)));
         $currentTags = $this->owner->{$this->tagRelation};
         $currentTagNames = ArrayHelper::getColumn($currentTags, $this->tagNameAttribute);
 
@@ -99,22 +95,5 @@ class TagBehavior extends Behavior
     public function canSetProperty($name, $checkVars = true): bool
     {
         return $name === $this->tagAttribute || parent::canSetProperty($name, $checkVars);
-    }
-
-    public function __get($name)
-    {
-        if ($name === $this->tagAttribute) {
-            return $this->getTags();
-        }
-        return parent::__get($name);
-    }
-
-    public function __set($name, $value)
-    {
-        if ($name === $this->tagAttribute) {
-            $this->setTags($value);
-        } else {
-            parent::__set($name, $value);
-        }
     }
 }

@@ -59,7 +59,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     ?>
 </header>
 
-<main id="main" class="flex-shrink-0 pb-5" role="main">
+<main id="main" class="flex-shrink-0 pb-3" role="main">
     <div class="container">
         <?php
             $route = Yii::$app->controller->route ?? '';

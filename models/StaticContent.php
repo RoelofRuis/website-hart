@@ -26,6 +26,8 @@ use yii\db\ActiveRecord;
  */
 class StaticContent extends ActiveRecord
 {
+    public ?string $tags = null;
+
     public static function tableName(): string
     {
         return '{{%static_content}}';
@@ -68,7 +70,7 @@ class StaticContent extends ActiveRecord
         ];
     }
 
-    public function getTags(): ActiveQuery
+    public function getTagsRelation(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('{{%static_content_tag}}', ['static_content_id' => 'id']);

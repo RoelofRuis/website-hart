@@ -22,7 +22,7 @@ class CourseImageFixture extends Fixture
         /** @var Course[] $courses */
         $courses = Course::find()->all();
         foreach ($courses as $course) {
-            if (empty($course->cover_image)) {
+            if (!empty($course->cover_image)) {
                 continue;
             }
             $svg = $this->generateSvg($course->name);

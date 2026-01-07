@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{update}',
                 'urlCreator' => function ($action, $model) {
                     /** @var app\models\StaticContent $model */
-                    if ($action === 'update') return ['static-content/update', 'key' => $model->key];
+                    if ($action === 'update') return ['static-content/update', 'id' => $model->id];
                     return '#';
                 },
                 'buttons' => [

@@ -76,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($teacher, 'website')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($teacher, 'profile_picture')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma separated tags')]) ?>
                 <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
 
                 <div class="row">

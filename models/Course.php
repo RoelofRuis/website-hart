@@ -19,10 +19,11 @@ use yii\db\ActiveRecord;
  * @property string $tags
  *
  * @property Category $category
- * @property Tag[] $tags_relation
  */
 class Course extends ActiveRecord
 {
+    public ?string $tags = null;
+
     public const SCENARIO_TEACHER_UPDATE = 'teacherUpdate';
 
     public static function tableName(): string
@@ -87,7 +88,7 @@ class Course extends ActiveRecord
         return $this->hasMany(LessonFormat::class, ['course_id' => 'id']);
     }
 
-    public function getTags(): ActiveQuery
+    public function getTagsRelation(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('{{%course_tag}}', ['course_id' => 'id']);

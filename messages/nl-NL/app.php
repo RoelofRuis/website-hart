@@ -208,4 +208,5 @@ return [
     '{n} people, {m} minutes, {w} weeks, {f}' => '{n,plural,=1{Individueel} =2{Duo} other{Groepsles # personen}}, {m} minuten, {f}, {w} weken ',
     '{n} selected' => '{n} geselecteerd',
     '€{n} per person per lesson' => '€ {n} per persoon per les',
+    'Welcome {username}' => 'Welkom {username}',
 ];

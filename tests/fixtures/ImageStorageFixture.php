@@ -19,7 +19,7 @@ class ImageStorageFixture extends Fixture
 
     public function load()
     {
-        foreach ($this->loadDir('@app/tests/_data/fixture_images/teacher', 'teacher') as list($url, $slug)) {
+        foreach ($this->loadDir('@app/tests/_data/fixture_images/teacher', 'teacher') as list($slug, $url)) {
             /** @var Teacher|null $teacher */
             $teacher = Teacher::findOne(['slug' => $slug]);
             if ($teacher) {

@@ -48,9 +48,9 @@ class StaticContentController extends Controller
         ]);
     }
 
-    public function actionUpdate(string $key)
+    public function actionUpdate(int $id)
     {
-        $model = StaticContent::findOne($key);
+        $model = StaticContent::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException('Static content not found.');
         }

@@ -10,8 +10,6 @@ use app\models\StaticContent;
  * Generates simple SVG cover images for searchable static pages and stores
  * them via the configured storage component. Updates StaticContent.cover_image
  * URLs accordingly.
- *
- * @deprecated
  */
 class StaticContentImageFixture extends Fixture
 {
