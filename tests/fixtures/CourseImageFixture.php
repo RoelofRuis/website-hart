@@ -9,6 +9,8 @@ use app\models\Course;
 /**
  * Generates simple SVG cover images for all courses and stores them via the
  * configured storage component. Updates Course.cover_image URLs accordingly.
+ *
+ * @deprecated
  */
 class CourseImageFixture extends Fixture
 {

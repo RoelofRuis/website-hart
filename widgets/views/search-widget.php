@@ -62,6 +62,11 @@ use yii\helpers\Html;
 
         <?php if (!empty($categories)): ?>
             <div id="<?= Html::encode($categories_id) ?>" class="mb-4 d-flex flex-wrap gap-2">
+                <button type="button"
+                        class="btn btn-sm <?= $selected_category_id === null ? 'btn-secondary' : 'btn-outline-secondary' ?> rounded-pill"
+                        data-category-id="">
+                    <?= Html::encode(Yii::t('app', 'All categories')) ?>
+                </button>
                 <?php foreach ($categories as $category): ?>
                     <?php $isActive = (int)$selected_category_id === (int)$category->id; ?>
                     <button type="button"

@@ -7,8 +7,8 @@ use yii\test\Fixture;
 use app\models\Teacher;
 
 /**
- * Copies sample teacher images into the configured storage (local or S3)
- * and updates teacher.profile_picture URLs accordingly.
+ * Copies sample images into the configured storage (local or S3)
+ * and updates picture URLs accordingly.
  */
 class ImageStorageFixture extends Fixture
 {

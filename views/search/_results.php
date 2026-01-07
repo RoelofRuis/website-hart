@@ -1,4 +1,6 @@
 <?php
+use yii\helpers\Html;
+
 /** @var yii\web\View $this */
 /** @var app\components\SearchResult $result */
 
@@ -38,4 +40,8 @@ $items = $result->getItems();
     <?php if ($result->hasNextPage() && !empty($result->getNextPage())): ?>
         <div class="search-meta" data-next-page="<?= (int)$result->getNextPage() ?>"></div>
     <?php endif; ?>
+<?php else: ?>
+    <div class="search-no-results text-muted my-4">
+        <?= Html::encode(Yii::t('app', 'No results found.')) ?>
+    </div>
 <?php endif; ?>

@@ -128,24 +128,23 @@ window.SearchWidget = window.SearchWidget || (function () {
         const btn = ev.target.closest('[data-category-id]');
         if (!btn) return;
 
-        const catId = btn.getAttribute('data-category-id');
+        const catId = btn.getAttribute('data-category-id') || null;
         if (cfg.categoryId === catId) {
-          cfg.categoryId = null;
-          btn.classList.remove('btn-secondary');
-          btn.classList.add('btn-outline-secondary');
-        } else {
-          // Deselect previous
-          if (cfg.categoryId) {
-            const prev = cfg.categoriesEl.querySelector('[data-category-id="' + cfg.categoryId + '"]');
-            if (prev) {
-              prev.classList.remove('btn-secondary');
-              prev.classList.add('btn-outline-secondary');
-            }
-          }
-          cfg.categoryId = catId;
-          btn.classList.remove('btn-outline-secondary');
-          btn.classList.add('btn-secondary');
+          // No change
+          return;
         }
+
+        // Deselect previous
+        const prev = cfg.categoriesEl.querySelector('.btn-secondary');
+        if (prev) {
+          prev.classList.remove('btn-secondary');
+          prev.classList.add('btn-outline-secondary');
+        }
+
+        cfg.categoryId = catId;
+        btn.classList.remove('btn-outline-secondary');
+        btn.classList.add('btn-secondary');
+
         onType();
       });
     }

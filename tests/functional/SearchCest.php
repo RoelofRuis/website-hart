@@ -30,39 +30,45 @@ class SearchCest
 
     public function testSearchByTag(FunctionalTester $I)
     {
-        $I->amOnPage('/search?q=music');
+        $I->amOnPage('/search?q=muziek');
         
         // Alice (teacher), Bob (teacher), Daan (teacher), Gina (teacher)
         // Muziektheorie (course), Piano (course), Gitaar (course), Ontdek de muziek (course)
         // Teachers (static), Courses (static)
         
-        $I->see('Alice van Dijk', '.search-result-title');
-        $I->see('Bob Jansen', '.search-result-title');
-        $I->see('Muziektheorie', '.search-result-title');
-        $I->see('Onze docenten', '.search-result-title');
+        $I->see('Alice van Dijk', '.card-title');
+        $I->see('Bob Jansen', '.card-title');
+        $I->see('Muziektheorie', '.card-title');
+        $I->see('Onze docenten', '.card-title');
     }
 
     public function testSearchByTeacherName(FunctionalTester $I)
     {
         $I->amOnPage('/search?q=Alice');
-        $I->see('Alice van Dijk', '.search-result-title');
+        $I->see('Alice van Dijk', '.card-title');
     }
 
     public function testSearchPartialMatch(FunctionalTester $I)
     {
-        $I->amOnPage('/search?q=mus');
-        $I->see('Alice van Dijk', '.search-result-title');
-        $I->see('Muziektheorie', '.search-result-title');
+        $I->amOnPage('/search?q=muz');
+        $I->see('Alice van Dijk', '.card-title');
+        $I->see('Muziektheorie', '.card-title');
     }
 
     public function testStaticContentAtBottom(FunctionalTester $I)
     {
-        $I->amOnPage('/search?q=music');
+        $I->amOnPage('/search?q=muziek');
         
         // This is hard to test exactly without knowing the random order, 
         // but we can check if the last results contain static content.
         // Actually, the requirement says "Always display static content matches at the bottom".
         
-        $I->see('Onze docenten', '.search-result-title');
+        $I->see('Onze docenten', '.card-title');
+    }
+
+    public function testNoResults(FunctionalTester $I)
+    {
+        $I->amOnPage('/search?q=nonexistentsearchterm');
+        $I->see('Geen resultaten gevonden.', '.search-no-results');
     }
 }
