@@ -5,6 +5,8 @@ return [
     // Static pages
     '' => 'site/index',
     'portaal/login' => 'site/login',
+    'zoeken' => 'site/search',
+    'sitemap.xml' => 'site/sitemap',
     'contact' => 'static/contact',
     'avg-privacy' => 'static/avg',
     'vereniging' => 'static/association',
@@ -13,8 +15,6 @@ return [
     'over-vhm' => 'static/about',
     'instrumentenverhuur' => 'static/instrument-rental',
     'jeugdfonds' => 'static/youth-fund',
-    'zoeken' => 'static/search',
-    'sitemap.xml' => 'site/sitemap',
 
     // Courses
     'cursussen' => 'course/index',
@@ -32,10 +32,10 @@ return [
     'portaal' => 'site/manage',
     'portaal/logout' => 'site/logout',
     'portaal/berichten' => 'contact/messages',
-    'profile/update/<id:\d+>' => 'user/update',
     'portaal/cursussen' => 'course/admin',
     'portaal/cursus/<id:\d+>' => 'course/update',
     'portaal/gebruikers' => 'user/admin',
+    'portaal/gebruiker/<id:\d+>' => 'user/update',
     'portaal/gebruiker-maken' => 'user/create',
     'portaal/lesvormen' => 'lesson-format/admin',
     'portaal/lesvorm/<id:\d+>' => 'lesson-format/update',
