@@ -44,7 +44,9 @@ class Course extends ActiveRecord
     {
         return [
             [['name', 'slug'], 'required'],
-            [['description', 'summary', 'tags'], 'string'],
+            [['tags'], 'string'],
+            [['description'], 'string', 'max' => 2000],
+            [['summary'], 'string', 'max' => 200],
             [['has_trial'], 'boolean'],
             [['name', 'slug'], 'string', 'max' => 64],
             [['cover_image'], 'string', 'max' => 255],
@@ -71,9 +73,9 @@ class Course extends ActiveRecord
     public function scenarios(): array
     {
         $scenarios = parent::scenarios();
-        // Default scenario keeps all attributes as is.
+        // The default scenario keeps all attributes as is.
         // Limit what a linked teacher can edit.
-        $scenarios[self::SCENARIO_TEACHER_UPDATE] = ['name', 'summary', 'description', 'tags'];
+        $scenarios[self::SCENARIO_TEACHER_UPDATE] = ['name', 'description'];
         return $scenarios;
     }
 

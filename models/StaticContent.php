@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property string $cover_image
  * @property DateTime $updated_at
  * @property string $tags
+ * @property bool $searchable
  *
  * @property Tag[] $tags_relation
  */
@@ -50,7 +51,8 @@ class StaticContent extends ActiveRecord
     {
         return [
             [['content'], 'required'],
-            [['summary'], 'string', 'max' => 1000],
+            [['content'], 'string'],
+            [['summary'], 'string', 'max' => 200],
             [['cover_image'], 'string', 'max' => 255],
             [['content', 'tags'], 'string'],
         ];
@@ -67,6 +69,7 @@ class StaticContent extends ActiveRecord
             'explainer' => Yii::t('app', 'Explainer'),
             'cover_image' => Yii::t('app', 'Cover image'),
             'tags' => Yii::t('app', 'Tags'),
+            'searchable' => Yii::t('app', 'Searchable'),
         ];
     }
 

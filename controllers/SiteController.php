@@ -76,10 +76,15 @@ class SiteController extends Controller
 
     public function actionManage()
     {
-        $unreadCount = ContactMessage::getUnreadCount(Yii::$app->user->id);
+        $unread_count = ContactMessage::getUnreadCount(Yii::$app->user->id);
+
+        $is_admin = Yii::$app->user->identity->is_admin;
+        $is_teacher = Yii::$app->user->identity->getTeacher()->exists();
 
         return $this->render('manage', [
-            'unreadCount' => $unreadCount,
+            'unread_count' => $unread_count,
+            'is_admin' => $is_admin,
+            'is_teacher' => $is_teacher,
         ]);
     }
 

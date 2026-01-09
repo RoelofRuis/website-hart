@@ -37,6 +37,18 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'full_name' => Yii::t('app', 'Full Name'),
+            'email' => Yii::t('app', 'Email'),
+            'job_title' => Yii::t('app', 'Job Title'),
+            'is_admin' => Yii::t('app', 'Is Admin'),
+            'is_active' => Yii::t('app', 'Is Active'),
+            'last_login' => Yii::t('app', 'Last Login'),
+        ];
+    }
+
     public static function findIdentity($id): User|IdentityInterface|null
     {
         return static::findOne($id);

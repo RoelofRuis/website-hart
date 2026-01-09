@@ -6,8 +6,9 @@ return [
         'key' => 'copyright',
         'title' => 'Copyright',
         'content' => '<p>Alle inhoud op deze website is auteursrechtelijk beschermd door Vereniging HART Muziekschool, tenzij anders vermeld.</p>',
-        'summary' => 'Informatie over het auteursrecht op onze website.',
+        'searchable' => true,
         'slug' => 'copyright',
+        'summary' => 'Informatie over het auteursrecht op onze website.',
         'explainer' => 'Inhoud voor pagina Copyright.',
         'cover_image' => '/bestand/static/copyright',
     ],
@@ -15,6 +16,7 @@ return [
         'id' => 2,
         'key' => 'about',
         'title' => 'Over de vereniging',
+        'searchable' => true,
         'content' => '',
         'summary' => 'Informatie over onze vereniging.',
         'slug' => 'about',
@@ -41,6 +43,7 @@ return [
         Deze mails zullen dan ook onbehandeld direct worden verwijderd.
     </p>',
         'summary' => 'Informatie over de vereniging, het bestuur en hoe u contact kunt opnemen.',
+        'searchable' => true,
         'slug' => 'association',
         'explainer' => 'Inhoud voor pagina Vereniging & Bestuur.',
         'cover_image' => '/bestand/static/association',
@@ -49,6 +52,7 @@ return [
         'id' => 4,
         'key' => 'contact',
         'title' => 'Contact',
+        'searchable' => true,
         'content' => '<p>Bij vragen over lessen, instrumenten, docenten etc. kunt u ons bereiken via onderstaand contactformulier. Onze collega Josien van der Tweel krijgt uw bericht dan, zij kan u ongetwijfeld verder helpen.</p>',
         'summary' => 'Contactformulier voor vragen over lessen, instrumenten en docenten.',
         'slug' => 'contact',
@@ -58,6 +62,7 @@ return [
     [
         'id' => 5,
         'key' => 'privacy',
+        'searchable' => true,
         'title' => 'AVG / Privacy',
         'content' => '<b>Algemene Verordening Gegevensbescherming van Vereniging Hart Muziekschool Register verwerking Persoonsgegevens en Privacyverklaring</b>
     <p>
@@ -103,6 +108,7 @@ return [
         'id' => 6,
         'key' => 'locations',
         'title' => 'Locaties',
+        'searchable' => true,
         'content' => 'Vereniging HART Muziekschool is gevestigd op verschillende adressen.',
         'summary' => 'Overzicht van onze leslocaties en adressen.',
         'slug' => 'locations',
@@ -112,6 +118,7 @@ return [
     [
         'id' => 7,
         'key' => 'home-title',
+        'searchable' => false,
         'content' => '<h1 class="mb-2">Welkom bij HART Muziekschool</h1><p class="lead mb-0">Samen muziek maken, leren en beleven.</p>',
         'slug' => 'home-title',
         'explainer' => 'De titel zoals weergegeven op de homepage.',
@@ -120,6 +127,7 @@ return [
     [
         'id' => 8,
         'key' => 'home-news',
+        'searchable' => false,
         'content' => '<h2>Nieuws & updates</h2>
 <p>Welkom bij Vereniging HART Muziekschool. Hier lees je kort wat er speelt binnen onze vereniging.</p>
 
@@ -143,6 +151,7 @@ return [
         'id' => 9,
         'key' => 'teachers-index',
         'title' => 'Onze docenten',
+        'searchable' => true,
         'content' => '<p>Maak kennis met onze ervaren en gepassioneerde docenten. Elke docent bij HART Muziekschool is een zelfstandig ondernemer met een eigen lespraktijk.</p>',
         'summary' => 'Informatie over onze docenten.',
         'slug' => 'docenten',
@@ -153,6 +162,7 @@ return [
         'id' => 10,
         'key' => 'courses-index',
         'title' => 'Ons lesaanbod',
+        'searchable' => true,
         'content' => '<p>HART Muziekschool biedt een breed scala aan muzieklessen voor alle leeftijden en niveaus. Van klassiek tot pop, en van individuele lessen tot samenspel.</p>',
         'summary' => 'Informatie over ons cursusaanbod.',
         'slug' => 'cursussen',
@@ -163,6 +173,7 @@ return [
         'id' => 11,
         'key' => 'rental',
         'title' => 'Instrumentenverhuur',
+        'searchable' => true,
         'content' => '<p>Heeft u zelf nog geen instrument? Geen probleem! Bij verschillende organisaties kunt u een instrument huren. Kijk bijvoorbeeld eens op <a href="https://www.muziekfonds.nl/" target="_blank">Muziekfonds.nl</a>.</p>',
         'summary' => 'Informatie over het huren van een instrument.',
         'slug' => 'instrumentenverhuur',
@@ -173,6 +184,7 @@ return [
         'id' => 12,
         'key' => 'youth-fund',
         'title' => 'Jeugdfonds Sport & Cultuur',
+        'searchable' => true,
         'content' => '<p>Het Jeugdfonds Sport & Cultuur maakt het mogelijk dat kinderen en jongeren uit gezinnen met weinig geld toch muzieklessen kunnen volgen. Voor meer informatie kunt u terecht op de website van het <a href="https://jeugdfondssportencultuur.nl/fondsen/haarlem/" target="_blank">Jeugdfonds Sport & Cultuur Haarlem</a>.</p>',
         'summary' => 'Informatie over financiële ondersteuning voor muzieklessen.',
         'slug' => 'jeugdfonds',

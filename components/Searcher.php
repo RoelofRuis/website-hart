@@ -115,7 +115,7 @@ class Searcher
                 'u.full_name AS title',
                 't.slug AS slug',
                 't.profile_picture AS image',
-                't.description AS snippet',
+                't.summary AS snippet',
             ])
             ->from(['t' => '{{%teacher}}'])
             ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id');
@@ -149,7 +149,8 @@ class Searcher
                 'sc.cover_image AS image',
                 'sc.summary AS snippet',
             ])
-            ->from(['sc' => '{{%static_content}}']);
+            ->from(['sc' => '{{%static_content}}'])
+            ->andWhere(['sc.searchable' => true]);
 
         if ($form->category_id) {
             $subquery->andWhere('0=1');

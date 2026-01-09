@@ -16,8 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
     <p><?= HtmlPurifier::process($model->content); ?></p>
     <?php foreach ($locations as $location): ?>
-    <h5><?= Html::encode($location->name) ?></h5>
-    <p><i><?= Html::encode($location->address) ?></i></p>
+    <div id="location-<?= $location->id ?>" class="mb-4">
+        <h5><?= Html::encode($location->name) ?></h5>
+        <p><i><?= Html::encode($location->address) ?></i></p>
+    </div>
     <?php endforeach; ?>
 
     <?php if ($model->updated_at): ?>

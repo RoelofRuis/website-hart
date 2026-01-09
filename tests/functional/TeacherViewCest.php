@@ -28,8 +28,9 @@ class TeacherViewCest
         $I->see('Maandag', '.teacher-info');
         $I->see('Dinsdag', '.teacher-info');
         
-        // Check for locations
-        $I->see('Hoofdgebouw', '.teacher-info');
-        $I->see('Slachthuis', '.teacher-info');
+        // Check for locations as links
+        $I->seeElement('.teacher-info a', ['href' => '/locaties#location-1']);
+        $I->see('Hoofdgebouw', '.teacher-info a');
+        $I->see('Slachthuis', '.teacher-info a');
     }
 }

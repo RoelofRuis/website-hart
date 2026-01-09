@@ -65,25 +65,17 @@ class UserController extends Controller
                     // user_id will be set after user save
                 }
 
-                $valid = $user->validate();
-                if ($teacher) {
-                    // We need to bypass the user_id required validation for now or set it to a dummy
-                    $teacher->user_id = 0; 
-                    $valid = $teacher->validate() && $valid;
-                }
 
-                if ($valid) {
-                    if ($user->save()) {
-                        if ($teacher) {
-                            $teacher->user_id = $user->id;
-                            if (empty($teacher->slug)) {
-                                $teacher->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $user->full_name), '-'));
-                            }
-                            $teacher->save(false);
+                if ($user->save()) {
+                    if ($teacher) {
+                        $teacher->user_id = $user->id;
+                        if (empty($teacher->slug)) {
+                            $teacher->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $user->full_name), '-'));
                         }
-                        Yii::$app->session->setFlash('success', Yii::t('app', 'User created successfully.'));
-                        return $this->redirect(['user/admin']);
+                        $teacher->save(false);
                     }
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'User created successfully.'));
+                    return $this->redirect(['user/admin']);
                 }
             }
         }

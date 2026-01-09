@@ -2,6 +2,8 @@
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
+use app\models\Teacher;
+use app\models\User;
 use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
@@ -27,15 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'attribute' => 'full_name',
+                'enableSorting' => false,
                 'format' => 'raw',
-                'value' => function ($model) {
-                    /** @var app\models\User $model */
-                    return Html::a(Html::encode($model->full_name), ['user/update', 'id' => $model->id]);
+                'value' => function (User $model) {
+                    $teacher = $model->getTeacher()->one();
+                    if ($teacher instanceof Teacher) {
+                        return Html::a(Html::encode($model->full_name), ['teacher/view', 'slug' => $teacher->slug], ['target' => '_blank']);
+                    } else {
+                        return Html::encode($model->full_name);
+                    }
                 },
             ],
             [
-                'attribute' => 'email',
-                'format' => 'email',
+                    'attribute' => 'job_title',
+                    'enableSorting' => false,
             ],
             [
                 'label' => Yii::t('app', 'Roles'),
@@ -52,7 +59,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
+                'attribute' => 'email',
+                'enableSorting' => false,
+                'format' => 'email',
+            ],
+            [
                 'attribute' => 'is_active',
+                'label' => Yii::t('app', 'Active'),
+                'enableSorting' => false,
                 'format' => 'boolean',
             ],
             [

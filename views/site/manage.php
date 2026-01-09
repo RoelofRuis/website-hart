@@ -4,7 +4,9 @@ use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
-/** @var int $unreadCount */
+/** @var int $unread_count */
+/** @var bool $is_admin */
+/** @var bool $is_teacher */
 
 $this->title = Yii::t('app', 'Teacher Dashboard');
 $this->params['breadcrumbs'][] = $this->title;
@@ -13,12 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="mb-2"><?= Html::encode(Yii::t('app', 'Teacher Dashboard')) ?></h1>
     <h2 class="h5 mb-3 text-muted"><?= Html::encode(Yii::t('app', 'Welcome {username}', ['username' => Yii::$app->user->identity->full_name])) ?></h2>
     <p class="lead text-muted mb-4">
-        <?= Html::encode(Yii::t('app', 'Here you manage everything: profile, messages, courses and lesson formats.')) ?>
+        <?= Html::encode(Yii::t('app', 'Here you manage all your information. Click a card to get started.')) ?>
     </p>
 
     <div class="row g-3">
         <div class="col-12 col-md-6 col-lg-4">
-            <!-- TODO: see if this id still makes sense -->
             <a class="text-decoration-none" href="<?= Url::to(['user/update', 'id' => Yii::$app->user->id]) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
@@ -35,9 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body">
                         <h5 class="card-title mb-2 d-flex justify-content-between align-items-center">
                             <?= Html::encode(Yii::t('app', 'Messages')) ?>
-                            <?php if ($unreadCount > 0): ?>
+                            <?php if ($unread_count > 0): ?>
                                 <span class="badge rounded-pill bg-danger">
-                                    <?= $unreadCount ?>
+                                    <?= $unread_count ?>
                                 </span>
                             <?php endif; ?>
                         </h5>
@@ -58,18 +59,20 @@ $this->params['breadcrumbs'][] = $this->title;
             </a>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-4">
-            <a class="text-decoration-none" href="<?= Url::to(['lesson-format/admin']) ?>">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Lesson formats')) ?></h5>
-                        <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Configure formats, availability and pricing.')) ?></p>
+        <?php if ($is_teacher): ?>
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="text-decoration-none" href="<?= Url::to(['lesson-format/admin']) ?>">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Lesson formats')) ?></h5>
+                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Configure formats, availability and pricing.')) ?></p>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        <?php endif; ?>
 
-        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin): ?>
+        <?php if ($is_admin): ?>
             <div class="col-12 col-md-6 col-lg-4">
                 <a class="text-decoration-none" href="<?= Url::to(['user/admin']) ?>">
                     <div class="card h-100 shadow-sm">

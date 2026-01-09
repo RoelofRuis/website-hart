@@ -29,6 +29,7 @@ class m251201_000001_domain extends Migration
             'user_id' => $this->bigInteger()->notNull(),
             'slug' => $this->string(64)->notNull()->unique(),
             'description' => $this->text(),
+            'summary' => $this->string(200),
             'website' => $this->string(255),
             'telephone' => $this->string(50),
             'profile_picture' => $this->string(255),
@@ -68,7 +69,7 @@ class m251201_000001_domain extends Migration
             'slug' => $this->string(64)->notNull()->unique(),
             'cover_image' => $this->string(255)->null(),
             'has_trial' => $this->boolean()->notNull()->defaultValue(false),
-            'summary' => $this->text(),
+            'summary' => $this->string(200),
             'description' => $this->text(),
         ]);
 

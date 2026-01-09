@@ -28,26 +28,33 @@ $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->a
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
-<div class="row">
-    <div class="col-12">
-        <?= $form->field($model, 'course_id')->hiddenInput()->label(false); ?>
-        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity): ?>
-            <?= $form->field($model, 'teacher_id')->hiddenInput()->label(false); ?>
-            <?= $form->field($model, 'persons_per_lesson')->input('number', ['min' => 1]); ?>
-            <?= $form->field($model, 'duration_minutes')->input('number', ['min' => 15, 'step' => 5]); ?>
-            <?= $form->field($model, 'weeks_per_year')->input('number', ['min' => 1, 'max' => 52]); ?>
-            <?= $form->field($model, 'frequency')->dropDownList($frequencies, ['prompt' => Yii::t('app', 'Select...')]); ?>
-            <?= $form->field($model, 'price_per_person')->input('number', ['min' => 0, 'step' => '0.01']); ?>
-        <?php endif; ?>
-        <?= $form->field($model, 'price_display_type')->dropDownList($price_display_types, [
-            'id' => 'lessonformat-price_display_types',
-        ]); ?>
-        <?= $form->field($model, 'remarks')->textarea(['rows' => 2]); ?>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <?= $form->field($model, 'course_id')->hiddenInput()->label(false); ?>
+                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity): ?>
+                    <?= $form->field($model, 'teacher_id')->hiddenInput()->label(false); ?>
+                    <?= $form->field($model, 'persons_per_lesson')->input('number', ['min' => 1]); ?>
+                    <?= $form->field($model, 'duration_minutes')->input('number', ['min' => 15, 'step' => 5]); ?>
+                    <?= $form->field($model, 'weeks_per_year')->input('number', ['min' => 1, 'max' => 52]); ?>
+                    <?= $form->field($model, 'frequency')->dropDownList($frequencies, ['prompt' => Yii::t('app', 'Select...')]); ?>
+                    <?= $form->field($model, 'price_per_person')->input('number', ['min' => 0, 'step' => '0.01']); ?>
+                <?php endif; ?>
+                <?= $form->field($model, 'price_display_type')->dropDownList($price_display_types, [
+                    'id' => 'lessonformat-price_display_types',
+                ]); ?>
+                <?= $form->field($model, 'remarks')->textarea(['rows' => 2]); ?>
+            </div>
+        </div>
     </div>
 </div>
 
-<?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']); ?>
-<?= Html::a(Yii::t('app', 'Cancel'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-secondary']); ?>
+<div class="form-group mt-4">
+    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']); ?>
+    <?= Html::a(Yii::t('app', 'Cancel'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-secondary ms-2']); ?>
+</div>
 <?php ActiveForm::end(); ?>
 
 

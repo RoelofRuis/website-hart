@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property int $user_id
  * @property string $slug
  * @property string|null $description
+ * @property string|null $summary
  * @property string|null $website
  * @property string|null $telephone
  * @property string|null $profile_picture
@@ -52,6 +53,7 @@ class Teacher extends ActiveRecord
             [['user_id'], 'integer'],
             [['description', 'tags'], 'string'],
             [['description'], 'string', 'max' => 2000],
+            [['summary'], 'string', 'max' => 200],
             [['slug'], 'string', 'max' => 64],
             [['website'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
@@ -68,6 +70,7 @@ class Teacher extends ActiveRecord
             'user_id' => Yii::t('app', 'User'),
             'slug' => Yii::t('app', 'Slug'),
             'description' => Yii::t('app', 'Description'),
+            'summary' => Yii::t('app', 'Summary'),
             'telephone' => Yii::t('app', 'Telephone'),
             'website' => Yii::t('app', 'Website'),
             'profile_picture' => Yii::t('app', 'Profile Picture'),

@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enableSorting' => false,
                 'value' => function ($model) {
                     /** @var app\models\Course $model */
-                    return Html::a(Html::encode($model->name), ['course/view', 'slug' => $model->slug]);
+                    return Html::a(Html::encode($model->name), ['course/view', 'slug' => $model->slug], ['target' => '_blank']);
                 },
             ],
             [

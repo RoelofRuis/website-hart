@@ -97,15 +97,17 @@ class CourseController extends Controller
             throw new NotFoundHttpException('Not allowed.');
         }
 
-        $teacher = $current->getTeacher()->one();
-        if (!$teacher instanceof Teacher) {
-            throw new NotFoundHttpException('Not allowed.');
-        }
-
         // Admins see all courses; teachers see only their linked courses
-        $query = $current->is_admin
-            ? Course::find()
-            : $teacher->getAccessibleCourses();
+        if ($current->is_admin) {
+            $query = Course::find();
+        } else {
+            $teacher = $current->getTeacher()->one();
+            if (!$teacher instanceof Teacher) {
+                throw new NotFoundHttpException('Not allowed.');
+            }
+
+            $query = $teacher->getAccessibleCourses();
+        }
 
         // Eager-load related data used in the grid to avoid N+1 queries
         $dataProvider = new ActiveDataProvider([
