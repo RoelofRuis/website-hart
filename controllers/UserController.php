@@ -49,14 +49,16 @@ class UserController extends Controller
         }
 
         $user = new User();
+        $user->scenario = 'create';
         $user->is_active = true;
         $teacher = null;
 
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             if ($user->load($post)) {
-                // Set a random password for new users
-                $user->setPassword(Yii::$app->security->generateRandomString(12));
+                if (!empty($user->password)) {
+                    $user->setPassword($user->password);
+                }
                 $user->generateAuthKey();
 
                 if (!empty($post['make_teacher'])) {
@@ -161,6 +163,9 @@ class UserController extends Controller
                 }
 
                 if ($valid) {
+                    if (!empty($user->password)) {
+                        $user->setPassword($user->password);
+                    }
                     $user->save(false);
                     if ($teacher) {
                         $teacher->save(false);

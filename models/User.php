@@ -18,9 +18,12 @@ use yii\web\IdentityInterface;
  * @property bool $is_admin
  * @property bool $is_active
  * @property DateTime|null $last_login
+ * @property string|null $password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public $password;
+
     public static function tableName(): string
     {
         return '{{%user}}';
@@ -30,8 +33,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['full_name', 'email', 'password_hash'], 'required'],
+            [['password'], 'required', 'on' => 'create'],
             [['is_admin', 'is_active'], 'boolean'],
             [['full_name', 'email', 'job_title'], 'string', 'max' => 150],
+            [['password'], 'string', 'min' => 8, 'skipOnEmpty' => true],
             [['email'], 'email'],
             [['email'], 'unique'],
         ];
@@ -46,6 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
             'is_admin' => Yii::t('app', 'Is Admin'),
             'is_active' => Yii::t('app', 'Is Active'),
             'last_login' => Yii::t('app', 'Last Login'),
+            'password' => Yii::t('app', 'Password'),
         ];
     }
 
