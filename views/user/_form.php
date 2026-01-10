@@ -1,6 +1,7 @@
 <?php
 
 use app\widgets\PasswordInput;
+use app\widgets\ImageUploadField;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
@@ -71,7 +72,10 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     </div>
                 </div>
 
-                <?= $form->field($teacher, 'profile_picture')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($teacher, 'profile_picture')->widget(ImageUploadField::class, [
+                    'uploadUrl' => '/upload/image',
+                    'previewSize' => 200,
+                ]) ?>
                 <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
 
                 <div class="row">
@@ -118,7 +122,10 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                         </div>
                     </div>
 
-                    <?= $form->field($teacher, 'profile_picture')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($teacher, 'profile_picture')->widget(ImageUploadField::class, [
+                        'uploadUrl' => '/upload/image',
+                        'previewSize' => 200,
+                    ]) ?>
                     <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma-separated list of search terms.')]) ?>
                     <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
 
