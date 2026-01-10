@@ -42,5 +42,8 @@ return [
     'portaal/lesvorm-maken' => 'lesson-format/create',
     'portaal/lesvorm-kopieren' => 'lesson-format/copy',
     'portaal/inhoud' => 'static-content/admin',
-    'portaal/inhoud/<id:\d+>' => 'static-content/update'
+    'portaal/inhoud/<id:\d+>' => 'static-content/update',
+    'portaal/categorieen' => 'category/index',
+    'portaal/categorie-maken' => 'category/create',
+    'portaal/categorie/<id:\d+>' => 'category/update',
 ];

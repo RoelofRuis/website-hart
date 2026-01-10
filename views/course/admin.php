@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></h1>
         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin): ?>
+            <?= Html::a(Yii::t('app', 'Edit categories'), ['category/index'], ['class' => 'btn btn-outline-primary me-2']) ?>
             <?= Html::a(Yii::t('app', 'Create course'), ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?>
     </div>
