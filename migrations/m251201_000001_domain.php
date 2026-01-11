@@ -147,6 +147,9 @@ class m251201_000001_domain extends Migration
         $this->createTable('{{%contact_message_user}}', [
             'contact_message_id' => $this->bigInteger()->notNull(),
             'user_id' => $this->bigInteger()->notNull(),
+            'created_at' => $this->dateTime()->notNull()->defaultValue('NOW()'),
+            'emailed_at' => $this->dateTime()->null(),
+            'notified_at' => $this->dateTime()->null(),
         ]);
         $this->addPrimaryKey('pk_contact_message_user', '{{%contact_message_user}}', ['contact_message_id', 'user_id']);
         $this->addForeignKey(

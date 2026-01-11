@@ -3,10 +3,11 @@
 namespace app\controllers;
 
 use app\models\ContactMessage;
-use app\models\ContactNotification;
+use app\models\ContactMessageUser;
 use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -63,18 +64,21 @@ class ContactController extends Controller
 
         $messages = $messagesQuery->all();
         foreach ($messages as $message) {
-            $alreadyOpened = ContactNotification::find()->where([
+            $notification = ContactMessageUser::find()->where([
                 'contact_message_id' => $message->id,
-                'type' => ContactNotification::TYPE_OPENED
-            ])->exists();
+                'user_id' => $current->id,
+            ])->one();
 
-            if (!$alreadyOpened) {
-                $notification = new ContactNotification([
-                    'contact_message_id' => $message->id,
-                    'type' => ContactNotification::TYPE_OPENED,
-                ]);
-                $notification->save();
+            if (!$notification instanceof ContactMessageUser) {
+                continue;
             }
+
+            if (!empty($notification->notified_at)) {
+                continue;
+            }
+
+            $notification->notified_at = new Expression('NOW()');
+            $notification->save();
         }
 
         $dataProvider = new ActiveDataProvider([

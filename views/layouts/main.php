@@ -67,7 +67,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         ?>
         <?php if ($showBreadcrumbs): ?>
             <div class="mt-4">
-                <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
+                <?= Breadcrumbs::widget([
+                    'links' => $this->params['breadcrumbs'],
+                    'itemTemplate' => "<li class=\"breadcrumb-item p-1 bg-white rounded-2\" style=\"--bs-bg-opacity: .5;\">{link}</li>\n",
+                    'activeItemTemplate' => "<li class=\"breadcrumb-item active p-1 bg-white rounded-2\" style=\"--bs-bg-opacity: .5;\">{link}</li>\n",
+                ]); ?>
             </div>
         <?php endif; ?>
         <?= $content ?>

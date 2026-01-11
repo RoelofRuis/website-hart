@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ContactMessage;
+use app\models\ContactMessageUser;
 use app\models\Course;
 use app\models\forms\LoginForm;
 use app\models\StaticContent;
@@ -76,7 +77,10 @@ class SiteController extends Controller
 
     public function actionManage()
     {
-        $unread_count = ContactMessage::getUnreadCount(Yii::$app->user->id);
+        $unread_count = ContactMessageUser::find()
+            ->where(['user_id' => Yii::$app->user->id])
+            ->andWhere(['notified_at' => null])
+            ->count();
 
         $is_admin = Yii::$app->user->identity->is_admin;
         $is_teacher = Yii::$app->user->identity->getTeacher()->exists();

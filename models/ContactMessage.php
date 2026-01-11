@@ -93,22 +93,4 @@ class ContactMessage extends ActiveRecord
         return $this->hasMany(User::class, ['id' => 'user_id'])
             ->viaTable('{{%contact_message_user}}', ['contact_message_id' => 'id']);
     }
-
-    public function getNotifications(): ActiveQuery
-    {
-        return $this->hasMany(ContactNotification::class, ['contact_message_id' => 'id']);
-    }
-
-    public static function getUnreadCount(int $userId): int
-    {
-        return (int) self::find()
-            ->alias('cm')
-            ->innerJoin('{{%contact_message_user}} cmu', 'cmu.contact_message_id = cm.id')
-            ->leftJoin('{{%contact_notification}} cn', 'cn.contact_message_id = cm.id AND cn.type = :type', [
-                ':type' => ContactNotification::TYPE_OPENED
-            ])
-            ->where(['cmu.user_id' => $userId])
-            ->andWhere(['cn.id' => null])
-            ->count('DISTINCT cm.id');
-    }
 }
