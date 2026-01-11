@@ -26,10 +26,10 @@ class ContactMessage extends ActiveRecord
      */
     public $user_id = null;
 
-    const TYPE_CONTACT = 'contact';
-    const TYPE_SIGNUP = 'signup';
-    const TYPE_TRIAL = 'trial';
-    const TYPE_PLAN = 'plan';
+    const TYPE_TEACHER_CONTACT = 'teacher_contact';
+    const TYPE_TEACHER_PLAN = 'teacher_plan';
+    const TYPE_COURSE_SIGNUP = 'course_signup';
+    const TYPE_COURSE_TRIAL = 'course_trial';
 
     public static function tableName(): string
     {
@@ -61,7 +61,12 @@ class ContactMessage extends ActiveRecord
         return [
             [['name', 'email'], 'required'],
             [['type'], 'string', 'max' => 16],
-            [['type'], 'in', 'range' => [self::TYPE_CONTACT, self::TYPE_SIGNUP, self::TYPE_TRIAL, self::TYPE_PLAN]],
+            [['type'], 'in', 'range' => [
+                self::TYPE_TEACHER_CONTACT,
+                self::TYPE_COURSE_SIGNUP,
+                self::TYPE_COURSE_TRIAL,
+                self::TYPE_TEACHER_PLAN
+            ]],
             [['name', 'email'], 'string', 'max' => 150],
             [['telephone'], 'string', 'max' => 50],
             [['user_id'], 'integer'],

@@ -3,6 +3,7 @@ namespace app\tests\functional;
 
 use app\tests\fixtures\StaticContentFixture;
 use app\tests\FunctionalTester;
+use Codeception\Example;
 
 class StaticContentCest
 {
@@ -13,15 +14,24 @@ class StaticContentCest
         ]);
     }
 
-    public function testLastUpdatedVisible(FunctionalTester $I)
+    /** @dataProvider _timestampedPagesProvider */
+    public function testLastUpdatedVisible(FunctionalTester $I, Example $example)
     {
-        $I->amOnPage('/over-vhm');
+        $I->amOnPage($example[0]);
         $I->see('Laatst bijgewerkt:');
-        
-        $I->amOnPage('/avg-privacy');
-        $I->see('Laatst bijgewerkt:');
+    }
 
-        $I->amOnPage('/contact');
-        $I->see('Laatst bijgewerkt:');
+    public function _timestampedPagesProvider()
+    {
+        return [
+            ['/over-vhm'],
+            ['/locaties'],
+            ['/vereniging'],
+            ['/contact'],
+            ['/avg-privacy'],
+            ['/auteursrecht'],
+            ['/instrumentenverhuur'],
+            ['/jeugdfonds'],
+        ];
     }
 }

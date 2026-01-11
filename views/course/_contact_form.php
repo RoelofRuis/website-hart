@@ -27,8 +27,8 @@ use yii\bootstrap5\Html;
         <div class="mb-4">
             <?php if ($course->has_trial): ?>
                 <?= $form->field($contact, 'type')->radioList([
-                    ContactMessage::TYPE_SIGNUP => Yii::t('app', 'General signup'),
-                    ContactMessage::TYPE_TRIAL => Yii::t('app', 'Trial lesson'),
+                    ContactMessage::TYPE_COURSE_SIGNUP => Yii::t('app', 'General signup'),
+                    ContactMessage::TYPE_COURSE_TRIAL => Yii::t('app', 'Trial lesson'),
                 ])->label(Yii::t('app', 'Selection')) ?>
             <?php else: ?>
                 <div class="mb-3 field-contact-type">
@@ -40,7 +40,7 @@ use yii\bootstrap5\Html;
                         </div>
                     </div>
                 </div>
-                <?= $form->field($contact, 'type')->hiddenInput(['value' => ContactMessage::TYPE_SIGNUP])->label(false) ?>
+                <?= $form->field($contact, 'type')->hiddenInput(['value' => ContactMessage::TYPE_COURSE_SIGNUP])->label(false) ?>
             <?php endif; ?>
         </div>
 

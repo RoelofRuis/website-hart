@@ -148,7 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5 col-xl-4">
             <?= ContactFormWidget::widget([
                 'heading' => Yii::t('app', 'Contact the teacher'),
-                'type' => ContactMessage::TYPE_CONTACT,
+                'type' => ContactMessage::TYPE_TEACHER_CONTACT,
                 'user_id' => $model->user->id,
             ]) ?>
         </div>

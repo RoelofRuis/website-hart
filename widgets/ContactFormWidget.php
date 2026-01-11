@@ -10,7 +10,7 @@ use yii\helpers\Url;
 class ContactFormWidget extends Widget
 {
     public string $heading = '';
-    public string $type = ContactMessage::TYPE_CONTACT;
+    public string $type = ContactMessage::TYPE_TEACHER_CONTACT;
     public ?int $user_id = null;
     public ?string $action = null;
 

@@ -69,7 +69,7 @@ class CourseController extends Controller
             throw new NotFoundHttpException('Course not found.');
         }
         $contact = new ContactMessage();
-        $contact->type = ContactMessage::TYPE_SIGNUP;
+        $contact->type = ContactMessage::TYPE_COURSE_SIGNUP;
 
         if ($contact->load(Yii::$app->request->post()) && $contact->save()) {
             // Link to all teachers of the course

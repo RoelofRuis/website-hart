@@ -32,6 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="teachers-overview mt-5">
+                <?php if (empty($model->teachers)): ?>
+                    <span class=" text-muted mb-4"><?= Html::encode(Yii::t('app', 'This course has no teachers yet.')) ?></span>
+                <?php else: ?>
                 <h3 class="mb-4"><?= Html::encode(Yii::t('app', 'Teachers for this course')) ?></h3>
                 <div class="row">
                     <?php foreach ($model->teachers as $teacher): ?>
@@ -46,8 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <?php if (empty($model->teachers)): ?>
-                    <p class="text-muted"><?= Html::encode(Yii::t('app', 'No teachers assigned to this course yet.')) ?></p>
                 <?php endif; ?>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php
 
-// This bootstrap is used by Codeception to initialize the Yii application for tests
+// Codeception uses this bootstrap to initialize the Yii application for tests
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'test');
 

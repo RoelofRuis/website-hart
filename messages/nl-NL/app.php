@@ -119,7 +119,7 @@ return [
     'No courses assigned yet.' => 'Nog geen cursussen gekoppeld.',
     'No lesson formats yet. Use "Add format" to create one.' => 'Nog geen lesvormen. Gebruik "Lesvorm toevoegen" om een te maken.',
     'No results found.' => 'Geen resultaten gevonden.',
-    'No teachers assigned to this course yet.' => 'Er zijn nog geen docenten aan deze cursus gekoppeld.',
+    'This course has no teachers yet.' => 'Er zijn nog geen docenten voor deze cursus.',
     'Number of courses' => 'Aantal cursussen',
     'One selected' => 'Één geselecteerd',
     'Open' => 'Open',

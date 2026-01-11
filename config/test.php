@@ -1,12 +1,11 @@
 <?php
 
-use app\extended\Schema;
 use app\models\User;
 use yii\caching\DummyCache;
-use yii\db\Connection;
 
 $params = require __DIR__ . '/params.php';
 $shared_components = require __DIR__ . '/components.php';
+$db = require __DIR__ . '/test_db.php';
 
 return [
     'id' => 'vhm-website-test',
@@ -20,16 +19,7 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => array_merge($shared_components, [
-        'db' => [
-            'class' => Connection::class,
-            'dsn' => 'pgsql:host=db;port=5432;dbname=vhm_test',
-            'username' => 'developer',
-            'password' => 'secret',
-            'charset' => 'utf8',
-            'schemaMap' => [
-                'pgsql' => Schema::class,
-            ]
-        ],
+        'db' => $db,
         'assetManager' => [
             'basePath' => __DIR__ . '/../tests/_output/assets',
             'baseUrl' => '/assets',

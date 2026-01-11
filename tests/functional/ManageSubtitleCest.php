@@ -3,7 +3,6 @@ namespace app\tests\functional;
 
 use app\tests\fixtures\UserFixture;
 use app\tests\FunctionalTester;
-use Yii;
 
 class ManageSubtitleCest
 {
