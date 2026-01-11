@@ -10,6 +10,7 @@ use yii\bootstrap5\Html;
  * @var string $action
  * @var string $heading
  * @var string $form_id
+ * @var array $reasons
  */
 ?>
 <div class="card">
@@ -35,10 +36,11 @@ use yii\bootstrap5\Html;
 
         <?= $form->field($model, 'user_id')->hiddenInput()->label(false); ?>
         
-        <?= $form->field($model, 'type')->radioList([
-            ContactMessage::TYPE_TEACHER_CONTACT => Yii::t('app', 'General contact'),
-            ContactMessage::TYPE_TEACHER_PLAN => Yii::t('app', 'Plan a lesson'),
-        ])->label(Yii::t('app', 'Reason for contact')) ?>
+        <?php if (count($reasons) > 1): ?>
+            <?= $form->field($model, 'type')->radioList($reasons)->label(Yii::t('app', 'Reason for contact')) ?>
+        <?php else: ?>
+            <?= $form->field($model, 'type')->hiddenInput(['value' => array_key_first($reasons)])->label(false) ?>
+        <?php endif; ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Your name')]) ?>
         <?= $form->field($model, 'email')->input('email', ['maxlength' => true, 'placeholder' => 'you@example.com']) ?>

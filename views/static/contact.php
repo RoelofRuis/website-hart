@@ -6,6 +6,7 @@
 use app\models\StaticContent;
 use yii\bootstrap5\Html;
 use app\widgets\ContactFormWidget;
+use app\models\ContactMessage;
 use yii\helpers\HtmlPurifier;
 
 $this->title = $model->title;
@@ -25,6 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-lg-5 col-xl-4">
         <?= ContactFormWidget::widget([
             'heading' => Yii::t('app', 'General contact form'),
+            'reasons' => [
+                ContactMessage::TYPE_TEACHER_CONTACT => Yii::t('app', 'General contact'),
+            ],
         ]) ?>
     </div>
 </div>

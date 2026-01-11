@@ -87,6 +87,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'heading' => Yii::t('app', 'Contact the teacher'),
                 'type' => ContactMessage::TYPE_TEACHER_CONTACT,
                 'user_id' => $teacher->user->id,
+                'reasons' => [
+                    ContactMessage::TYPE_TEACHER_CONTACT => Yii::t('app', 'General contact'),
+                    ContactMessage::TYPE_TEACHER_PLAN => Yii::t('app', 'Plan a lesson'),
+                ],
             ]) ?>
         </div>
     </div>

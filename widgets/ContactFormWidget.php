@@ -13,12 +13,20 @@ class ContactFormWidget extends Widget
     public string $type = ContactMessage::TYPE_TEACHER_CONTACT;
     public ?int $user_id = null;
     public ?string $action = null;
+    public array $reasons = [];
 
     public function run(): string
     {
         $model = new ContactMessage();
         $heading = $this->heading !== '' ? $this->heading : Yii::t('app', 'Send us a message');
         $form_id = $this->getId() . '-contact-form';
+
+        if (empty($this->reasons)) {
+            $this->reasons = [
+                ContactMessage::TYPE_TEACHER_CONTACT => Yii::t('app', 'General contact'),
+                ContactMessage::TYPE_TEACHER_PLAN => Yii::t('app', 'Plan a lesson'),
+            ];
+        }
 
         $model->type = $this->type;
         $model->user_id = $this->user_id;
@@ -28,6 +36,7 @@ class ContactFormWidget extends Widget
             'action' => $this->action ?: Url::to(['contact/submit']),
             'heading' => $heading,
             'form_id' => $form_id,
+            'reasons' => $this->reasons,
         ]);
     }
 }
