@@ -33,6 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enableSorting' => false,
             ],
             [
+                'attribute' => 'updated_at',
+                'enableSorting' => false,
+                'format' => ['datetime', 'd-M-Y H:m'],
+            ],
+            [
                 'class' => 'yii\\grid\\ActionColumn',
                 'controller' => 'static-content',
                 'template' => '{update}',

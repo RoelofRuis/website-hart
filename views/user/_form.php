@@ -1,9 +1,11 @@
 <?php
 
+use app\models\Location;
 use app\widgets\PasswordInput;
 use app\widgets\ImageUploadField;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var app\models\User $user */
@@ -77,6 +79,10 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     'previewSize' => 200,
                 ]) ?>
                 <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
+                <?= $form->field($teacher, 'location_ids')->checkboxList(
+                    ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
+                    ['inline' => true]
+                ) ?>
 
                 <div class="row">
                     <div class="col-12">
@@ -128,6 +134,10 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     ]) ?>
                     <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma-separated list of search terms.')]) ?>
                     <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
+                    <?= $form->field($teacher, 'location_ids')->checkboxList(
+                        ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
+                        ['inline' => true]
+                    ) ?>
 
                     <div class="row">
                         <div class="col-12">

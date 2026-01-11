@@ -46,4 +46,7 @@ return [
     'portaal/categorieen' => 'category/index',
     'portaal/categorie-maken' => 'category/create',
     'portaal/categorie/<id:\d+>' => 'category/update',
+    'portaal/locaties' => 'location/index',
+    'portaal/locatie-maken' => 'location/create',
+    'portaal/locatie/<id:\d+>' => 'location/update',
 ];

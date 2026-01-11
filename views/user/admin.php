@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
+        <?= Html::a(Yii::t('app', 'Edit locations'), ['location/index'], ['class' => 'btn btn-outline-primary me-2']) ?>
         <?= Html::a(Yii::t('app', 'Create user'), ['create'], ['class' => 'btn btn-primary']) ?>
     </div>
 

@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php foreach ($locations as $location): ?>
     <div id="location-<?= $location->id ?>" class="mb-4">
         <h5><?= Html::encode($location->name) ?></h5>
-        <p><i><?= Html::encode($location->address) ?></i></p>
+        <p><i><?= Html::encode($location->getAddressString()) ?></i></p>
     </div>
     <?php endforeach; ?>
 

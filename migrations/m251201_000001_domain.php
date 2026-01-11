@@ -10,6 +10,8 @@ class m251201_000001_domain extends Migration
             'id' => $this->bigPrimaryKey(),
             'name' => $this->string(150)->notNull(),
             'address' => $this->string(255)->notNull(),
+            'postal_code' => $this->string(10)->notNull(),
+            'city' => $this->string(150)->notNull(),
         ]);
 
         $this->createTable('{{%user}}', [

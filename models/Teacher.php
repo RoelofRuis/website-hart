@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\behaviors\TagBehavior;
+use yii\helpers\ArrayHelper;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -32,6 +33,9 @@ class Teacher extends ActiveRecord
 {
     public ?string $tags = null;
 
+    /** @var int[]|null */
+    public ?array $location_ids = null;
+
     public static function tableName(): string
     {
         return '{{%teacher}}';
@@ -52,6 +56,7 @@ class Teacher extends ActiveRecord
             [['user_id', 'slug'], 'required'],
             [['user_id'], 'integer'],
             [['description', 'tags'], 'string'],
+            [['location_ids'], 'each', 'rule' => ['integer']],
             [['description'], 'string', 'max' => 2000],
             [['summary'], 'string', 'max' => 200],
             [['slug'], 'string', 'max' => 64],
@@ -82,6 +87,7 @@ class Teacher extends ActiveRecord
             'sat' => Yii::t('app', 'Saturday'),
             'sun' => Yii::t('app', 'Sunday'),
             'tags' => Yii::t('app', 'Tags'),
+            'location_ids' => Yii::t('app', 'Locations'),
         ];
     }
 
@@ -163,5 +169,27 @@ class Teacher extends ActiveRecord
         return static::find()
             ->innerJoinWith('user')
             ->where(['user.is_active' => true]);
+    }
+
+    public function afterFind(): void
+    {
+        parent::afterFind();
+        if ($this->location_ids === null) {
+            $this->location_ids = ArrayHelper::getColumn($this->locations, 'id');
+        }
+    }
+
+    public function afterSave($insert, $changedAttributes): void
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($this->location_ids !== null) {
+            $this->unlinkAll('locations', true);
+            foreach ($this->location_ids as $location_id) {
+                $location = Location::findOne($location_id);
+                if ($location) {
+                    $this->link('locations', $location);
+                }
+            }
+        }
     }
 }

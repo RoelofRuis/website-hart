@@ -70,6 +70,7 @@ class StaticContent extends ActiveRecord
             'cover_image' => Yii::t('app', 'Cover image'),
             'tags' => Yii::t('app', 'Tags'),
             'searchable' => Yii::t('app', 'Searchable'),
+            'updated_at' => Yii::t('app', 'Updated at'),
         ];
     }
 
