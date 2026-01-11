@@ -72,6 +72,14 @@ class StaticController extends Controller
 
         $response = Yii::$app->response;
 
+        // If there are flash messages, do not use HTTP caching
+        $session = Yii::$app->session;
+        if ($session->hasFlash('success') || $session->hasFlash('error')) {
+            return $this->render($view,
+                array_merge($params, ['model' => $model])
+            );
+        }
+
         // Compute ETag from slug + content hash (stable even without updated_at)
         $etag = 'W/"' . sha1($model->slug . ':' . $model->content) . '"';
         $response->headers->set('ETag', $etag);
