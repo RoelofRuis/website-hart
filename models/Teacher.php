@@ -91,6 +91,11 @@ class Teacher extends ActiveRecord
         ];
     }
 
+    public function getFullName(): string
+    {
+        return $this->user->full_name;
+    }
+
     public function getAccessibleCourses(): ActiveQuery
     {
         return $this->hasMany(Course::class, ['id' => 'course_id'])

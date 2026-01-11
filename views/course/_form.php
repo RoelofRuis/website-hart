@@ -19,7 +19,9 @@ $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
 
 if ($isAdmin) {
     $allTeachers = Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC])->all();
-    $teacherItems = ArrayHelper::map($allTeachers, 'id', 'full_name');
+    $teacherItems = ArrayHelper::map($allTeachers, 'id', function($teacher) {
+        return $teacher->user->full_name;
+    });
 }
 
 ?>
