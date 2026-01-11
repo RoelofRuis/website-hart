@@ -16,8 +16,9 @@ use yii\bootstrap5\Html;
     <div class="card-body">
         <?php foreach (['success', 'error'] as $type): ?>
             <?php if (Yii::$app->session->hasFlash($type)): ?>
+                <?php $flashMessage = Yii::$app->session->getFlash($type); ?>
                 <div class="alert alert-<?= $type === 'success' ? 'success' : 'danger' ?>">
-                    <?= Html::encode(Yii::$app->session->getFlash($type)) ?>
+                    <?= Html::encode($flashMessage) ?>
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>

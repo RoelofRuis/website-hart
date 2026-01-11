@@ -42,21 +42,6 @@ if ($selected) {
         </div>
     <?php endif; ?>
 
-    <?php if ($model->teacher && $model->teacher->getFormattedDays()): ?>
-        <div class="small text-muted mb-1">
-            <?= Html::encode($model->teacher->getFormattedDays()) ?>
-        </div>
-    <?php endif; ?>
-
-    <?php 
-    $locations = $model->teacher ? $model->teacher->getLocations()->all() : [];
-    if (!empty($locations)): ?>
-        <div class="small text-muted mb-1">
-            <?= Html::encode(Yii::t('app', 'Locations')) ?>: 
-            <?= Html::encode(implode(', ', array_map(function($l) { return $l->name; }, $locations))) ?>
-        </div>
-    <?php endif; ?>
-
     <?php if ($showActions): ?>
         <div class="mt-2 text-end">
             <?= Html::a(Yii::t('app', 'Edit'), ['lesson-format/update', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary']) ?>

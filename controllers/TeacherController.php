@@ -50,7 +50,7 @@ class TeacherController extends Controller
         }
 
         return $this->render('view', [
-            'model' => $model,
+            'teacher' => $model,
         ]);
     }
 }
