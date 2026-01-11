@@ -93,8 +93,8 @@ a:hover, a:focus { color: var(--color-magenta); }
 
 .lift-card:hover .btn-outline-primary {
     color: #fff;
-    background-color: var(--color-turquoise);
-    border-color: var(--color-turquoise);
+    background-color: var(--color-petrol);
+    border-color: var(--color-petrol);
 }
 
 .border-bottom-light {
@@ -130,11 +130,11 @@ a:hover, a:focus { color: var(--color-magenta); }
     --bs-btn-bg: var(--color-turquoise);
     --bs-btn-border-color: var(--color-turquoise);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--color-turquoise);
-    --bs-btn-hover-border-color: var(--color-turquoise);
+    --bs-btn-hover-bg: var(--color-petrol);
+    --bs-btn-hover-border-color: var(--color-petrol);
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--color-turquoise);
-    --bs-btn-active-border-color: var(--color-turquoise);
+    --bs-btn-active-bg: var(--color-petrol);
+    --bs-btn-active-border-color: var(--color-petrol);
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--color-turquoise);
     --bs-btn-disabled-border-color: var(--color-turquoise);
@@ -257,11 +257,11 @@ a:hover, a:focus { color: var(--color-magenta); }
     --bs-btn-color: var(--color-turquoise);
     --bs-btn-border-color: var(--color-turquoise);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--color-turquoise);
-    --bs-btn-hover-border-color: var(--color-turquoise);
+    --bs-btn-hover-bg: var(--color-petrol);
+    --bs-btn-hover-border-color: var(--color-petrol);
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--color-turquoise);
-    --bs-btn-active-border-color: var(--color-turquoise);
+    --bs-btn-active-bg: var(--color-petrol);
+    --bs-btn-active-border-color: var(--color-petrol);
 }
 .btn-outline-secondary {
     --bs-btn-color: var(--color-petrol);

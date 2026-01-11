@@ -17,9 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endforeach; ?>
 
     <h1 class="mb-2"><?= Html::encode(Yii::t('app', 'Teacher Dashboard')) ?></h1>
-    <h2 class="h5 mb-3 text-muted"><?= Html::encode(Yii::t('app', 'Welcome {username}', ['username' => Yii::$app->user->identity->full_name])) ?></h2>
     <p class="lead text-muted mb-4">
-        <?= Html::encode(Yii::t('app', 'Here you manage all your information. Click a card to get started.')) ?>
+        <?= Html::encode(Yii::t('app', 'Welcome {username}! Here you manage all your information. Click a card to get started.', ['username' => Yii::$app->user->identity->full_name])) ?>
     </p>
 
     <div class="row g-3">

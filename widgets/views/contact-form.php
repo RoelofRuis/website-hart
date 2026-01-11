@@ -43,7 +43,9 @@ use yii\bootstrap5\Html;
         <?= $form->field($model, 'email')->input('email', ['maxlength' => true, 'placeholder' => 'you@example.com']) ?>
         <?= $form->field($model, 'message')->textarea(['rows' => 6, 'placeholder' => Yii::t('app', 'Write your message...')]) ?>
 
-        <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>
+        <div class="d-grid">
+            <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary btn-lg']) ?>
+        </div>
 
         <?php ActiveForm::end(); ?>
     </div>

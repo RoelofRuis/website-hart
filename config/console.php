@@ -1,8 +1,10 @@
 <?php
 
+use app\console\ContactController;
 use app\console\NotificationController;
 use app\console\StaticController;
 use yii\console\controllers\FixtureController;
+use yii\console\controllers\MessageController;
 use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
 
@@ -33,6 +35,9 @@ $config = [
         ],
         'notification' => [
             'class' => NotificationController::class,
+        ],
+        'contact' => [
+            'class' => ContactController::class,
         ]
     ],
     'params' => $params,

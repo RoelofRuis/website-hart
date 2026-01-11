@@ -12,7 +12,7 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row site-static">
-    <div class="col-6">
+    <div class="col-lg-7 col-xl-8">
         <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
         <?= HtmlPurifier::process($model->content); ?>
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         <?php endif; ?>
     </div>
-    <div class="col-6">
+    <div class="col-lg-5 col-xl-4">
         <?= ContactFormWidget::widget([
             'heading' => Yii::t('app', 'General contact form'),
         ]) ?>
