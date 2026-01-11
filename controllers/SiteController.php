@@ -2,16 +2,18 @@
 
 namespace app\controllers;
 
-use app\models\ContactMessage;
 use app\models\ContactMessageUser;
 use app\models\Course;
 use app\models\forms\LoginForm;
 use app\models\StaticContent;
 use app\models\Teacher;
+use app\models\UrlRule;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\ErrorAction;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class SiteController extends Controller
@@ -32,13 +34,26 @@ class SiteController extends Controller
         ];
     }
 
-    public function actions()
+    public function actionError()
     {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception instanceof NotFoundHttpException) {
+            $url = Yii::$app->request->url;
+            $pathInfo = Yii::$app->request->pathInfo;
+
+            // Try matching both full URL and path info
+            $rule = UrlRule::find()
+                ->where(['source_url' => [$url, '/' . $pathInfo, $pathInfo]])
+                ->one();
+
+            if ($rule) {
+                $rule->updateCounters(['hit_counter' => 1]);
+                return $this->redirect($rule->target_url, 301);
+            }
+        }
+
+        $errorAction = new ErrorAction('error', $this);
+        return $errorAction->run();
     }
 
     public function actionIndex()

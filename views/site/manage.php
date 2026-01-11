@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <a class="text-decoration-none" href="<?= Url::to(['user/update', 'id' => Yii::$app->user->id]) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Profile')) ?></h5>
+                        <h5 class="card-title mb-2">👤 <?= Html::encode(Yii::t('app', 'Profile')) ?></h5>
                         <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Edit your teacher profile and settings.')) ?></p>
                     </div>
                 </div>
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title mb-2 d-flex justify-content-between align-items-center">
-                            <?= Html::encode(Yii::t('app', 'Messages')) ?>
+                            ✉️ <?= Html::encode(Yii::t('app', 'Messages')) ?>
                             <?php if ($unread_count > 0): ?>
                                 <span class="badge rounded-pill bg-danger">
                                     <?= $unread_count ?>
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <a class="text-decoration-none" href="<?= Url::to(['course/admin']) ?>">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Manage Courses')) ?></h5>
+                        <h5 class="card-title mb-2">📚 <?= Html::encode(Yii::t('app', 'Manage Courses')) ?></h5>
                         <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Edit your courses.')) ?></p>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a class="text-decoration-none" href="<?= Url::to(['lesson-format/admin']) ?>">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Lesson formats')) ?></h5>
+                            <h5 class="card-title mb-2">📅 <?= Html::encode(Yii::t('app', 'Lesson formats')) ?></h5>
                             <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Configure formats, availability and pricing.')) ?></p>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a class="text-decoration-none" href="<?= Url::to(['user/admin']) ?>">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Manage Users')) ?></h5>
+                            <h5 class="card-title mb-2">👥 <?= Html::encode(Yii::t('app', 'Manage Users')) ?></h5>
                             <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Administer user accounts and permissions.')) ?></p>
                         </div>
                     </div>
@@ -91,8 +91,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a class="text-decoration-none" href="<?= Url::to(['static-content/admin']) ?>">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-2"><?= Html::encode(Yii::t('app', 'Static Content')) ?></h5>
+                            <h5 class="card-title mb-2">📄 <?= Html::encode(Yii::t('app', 'Static Content')) ?></h5>
                             <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Manage site-wide static content blocks.')) ?></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="text-decoration-none" href="<?= Url::to(['url-rule/index']) ?>">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">🔀 <?= Html::encode(Yii::t('app', 'Redirects')) ?></h5>
+                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Manage permanent redirects for old URLs.')) ?></p>
                         </div>
                     </div>
                 </a>

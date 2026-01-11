@@ -49,4 +49,7 @@ return [
     'portaal/locaties' => 'location/index',
     'portaal/locatie-maken' => 'location/create',
     'portaal/locatie/<id:\d+>' => 'location/update',
+    'portaal/doorverwijzingen' => 'url-rule/index',
+    'portaal/doorverwijzing-maken' => 'url-rule/create',
+    'portaal/doorverwijzing/<id:\d+>' => 'url-rule/update',
 ];
