@@ -26,7 +26,7 @@ class StaticController extends Controller
             }
 
             $model = new StaticContent($page);
-            if ($model->save()) {
+            if ($model->save(false)) {
                 echo "Added {$page['key']}\n";
             } else {
                 echo "Failed to add {$page['key']}\n";
