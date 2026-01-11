@@ -14,7 +14,7 @@ class m251201_000000_static extends Migration
             'key' => $this->string(16)->notNull()->unique(),
             'title' => $this->string(150),
             'content' => $this->text()->notNull(),
-            'slug' => $this->string(64)->notNull()->unique(),
+            'slug' => $this->string(64)->null(),
             'searchable' => $this->boolean()->defaultValue(false),
             'summary' => $this->string(200),
             'cover_image' => $this->string(255)->null(),
