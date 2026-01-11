@@ -13,18 +13,20 @@ use yii\helpers\Url;
 <div class="col-md-12 mb-3">
     <a href="<?= Url::to(['course/view', 'slug' => $course->slug]) ?>" class="text-decoration-none text-reset">
         <div class="card h-100 lift-card">
-            <div class="row g-0 h-100">
+            <div class="row g-0">
                 <div class="col-md-4">
-                    <?php if ($course->cover_image): ?>
-                        <img src="<?= Html::encode($course->cover_image) ?>"
-                             class="img-fluid rounded-start h-100"
-                             alt="<?= Html::encode($course->name) ?>"
-                             style="object-fit: cover; aspect-ratio: 1/1;">
-                    <?php else: ?>
-                        <div class="bg-light h-100 d-flex align-items-center justify-content-center rounded-start" style="aspect-ratio: 1/1; min-height: 120px;">
-                            <span class="text-muted" style="font-size: 2rem;">📚</span>
-                        </div>
-                    <?php endif; ?>
+                    <div class="ratio ratio-1x1">
+                        <?php if ($course->cover_image): ?>
+                            <img src="<?= Html::encode($course->cover_image) ?>"
+                                 class="img-fluid rounded-start"
+                                 alt="<?= Html::encode($course->name) ?>"
+                                 style="object-fit: cover;">
+                        <?php else: ?>
+                            <div class="bg-light d-flex align-items-center justify-content-center rounded-start">
+                                <span class="text-muted" style="font-size: 2rem;">📚</span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 <div class="col-md-8 d-flex flex-column">
                     <div class="card-body">
@@ -38,34 +40,31 @@ use yii\helpers\Url;
                     </div>
                 </div>
             </div>
-            <div class="row px-4">
-                <table class="table table-sm table-borderless">
-                    <thead>
-                    <tr class="border-bottom">
-                        <th class="ps-0 font-weight-normal text-muted small"><?= Yii::t('app', 'Lesson format') ?></th>
-                        <th class="pe-0 font-weight-normal text-muted small text-end"><?= Yii::t('app', 'Price') ?></th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <div class="px-3 pb-3">
+                <div class="list-group list-group-flush border-top">
                     <?php
                     /** @var LessonFormat[] $formats */
                     $formats = $teacher->getLessonFormats()->where(['course_id' => $course->id])->all();
                     foreach ($formats as $index => $format): ?>
-                        <tr class="<?= $index < count($formats) - 1 ? 'border-bottom-light' : '' ?>">
-                            <td class="ps-0 align-middle">
-                                <div class="small">
-                                    <?= Html::encode($format->getFormattedDescription()) ?>
+                        <div class="list-group-item px-0 py-2 border-bottom-light">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold small text-petrol"><?= Html::encode($format->getFormattedDescription()) ?></div>
+                                    <?php if ($format->remarks): ?>
+                                        <div class="small text-muted mt-1">
+                                            <i class="bi bi-info-circle me-1"></i><?= Html::encode($format->remarks) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                            </td>
-                            <td class="pe-0 align-middle text-end">
-                                <div class="small text-muted">
-                                    <?= Html::encode($format->getFormattedPrice() ?: Yii::t('app', 'Price on request')) ?>
+                                <div class="text-end ms-2">
+                                    <div class="badge bg-light text-dark fw-normal">
+                                        <?= Html::encode($format->getFormattedPrice() ?: Yii::t('app', 'Price on request')) ?>
+                                    </div>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
-                    </tbody>
-                </table>
+                </div>
             </div>
             <div class="card-footer bg-transparent border-0 p-0">
                 <div class="btn btn-outline-primary w-100 rounded-0 rounded-bottom">

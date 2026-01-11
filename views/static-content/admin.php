@@ -33,6 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enableSorting' => false,
             ],
             [
+                'header' => Yii::t('app', 'Status'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    /** @var \app\models\StaticContent $model */
+                    if (empty($model->content)) {
+                        return '<span class="badge bg-danger">' . Html::encode(Yii::t('app', 'Incomplete')) . '</span>';
+                    }
+                    return '<span class="badge bg-success">' . Html::encode(Yii::t('app', 'Complete')) . '</span>';
+                }
+            ],
+            [
                 'attribute' => 'updated_at',
                 'enableSorting' => false,
                 'format' => ['datetime', 'd-M-Y H:m'],

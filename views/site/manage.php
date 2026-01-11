@@ -7,6 +7,7 @@ use yii\helpers\Url;
 /** @var int $unread_count */
 /** @var bool $is_admin */
 /** @var bool $is_teacher */
+/** @var bool $incomplete_static_content */
 
 $this->title = Yii::t('app', 'Teacher Dashboard');
 $this->params['breadcrumbs'][] = $this->title;
@@ -89,10 +90,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="col-12 col-md-6 col-lg-4">
                 <a class="text-decoration-none" href="<?= Url::to(['static-content/admin']) ?>">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm <?= $incomplete_static_content ? 'bg-danger text-white' : '' ?>">
                         <div class="card-body">
-                            <h5 class="card-title mb-2">📄 <?= Html::encode(Yii::t('app', 'Static Content')) ?></h5>
-                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Manage site-wide static content blocks.')) ?></p>
+                            <h5 class="card-title mb-2 <?= $incomplete_static_content ? 'text-white' : '' ?>">📄 <?= Html::encode(Yii::t('app', 'Static Content')) ?></h5>
+                            <p class="card-text mb-0 <?= $incomplete_static_content ? 'text-white' : 'text-muted' ?>">
+                                <?= Html::encode(Yii::t('app', 'Manage site-wide static content blocks.')) ?>
+                                <?php if ($incomplete_static_content): ?>
+                                    <br><strong><?= Html::encode(Yii::t('app', 'Some content is still missing!')) ?></strong>
+                                <?php endif; ?>
+                            </p>
                         </div>
                     </div>
                 </a>

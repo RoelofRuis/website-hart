@@ -100,10 +100,16 @@ class SiteController extends Controller
         $is_admin = Yii::$app->user->identity->is_admin;
         $is_teacher = Yii::$app->user->identity->getTeacher()->exists();
 
+        $incomplete_static_content = false;
+        if ($is_admin) {
+            $incomplete_static_content = StaticContent::find()->where(['or', ['content' => ''], ['content' => null]])->exists();
+        }
+
         return $this->render('manage', [
             'unread_count' => $unread_count,
             'is_admin' => $is_admin,
             'is_teacher' => $is_teacher,
+            'incomplete_static_content' => $incomplete_static_content,
         ]);
     }
 
