@@ -3,6 +3,7 @@
 use app\console\ContactController;
 use app\console\NotificationController;
 use app\console\StaticController;
+use app\console\UserController;
 use yii\console\controllers\FixtureController;
 use yii\console\controllers\MessageController;
 use yii\console\controllers\MigrateController;
@@ -38,6 +39,9 @@ $config = [
         ],
         'contact' => [
             'class' => ContactController::class,
+        ],
+        'user' => [
+            'class' => UserController::class,
         ]
     ],
     'params' => $params,
