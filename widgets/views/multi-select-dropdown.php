@@ -39,27 +39,32 @@ use yii\helpers\Json;
             ], $dataAttrs)
     ) ?>
 
-    <div class="dropdown-menu p-3 w-100" style="max-height: 320px; overflow:auto;">
-        <?php if (empty($items)): ?>
-            <div class="text-muted"><?= Html::encode('No options') ?></div>
-        <?php else: ?>
-            <?php foreach ($items as $value => $label): ?>
-                <?php
-                $checkboxId = $id . '-' . md5((string)$value);
-                $isChecked = in_array($value, $selected);
-                ?>
-                <div class="form-check">
-                    <?= Html::checkbox($name . '[]', $isChecked, [
-                            'class' => 'form-check-input',
-                            'id' => $checkboxId,
-                            'value' => (string)$value,
-                    ]) ?>
-                    <?= Html::label($encodeLabels ? Html::encode($label) : $label, $checkboxId, [
-                            'class' => 'form-check-label',
-                    ]) ?>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+    <div class="dropdown-menu p-3 w-100" style="max-height: 400px; overflow:auto;">
+        <div class="mb-2">
+            <input type="text" class="form-control form-control-sm msd-search" placeholder="<?= Html::encode(Yii::t('app', 'Search...')) ?>" autocomplete="off">
+        </div>
+        <div class="msd-items">
+            <?php if (empty($items)): ?>
+                <div class="text-muted"><?= Html::encode('No options') ?></div>
+            <?php else: ?>
+                <?php foreach ($items as $value => $label): ?>
+                    <?php
+                    $checkboxId = $id . '-' . md5((string)$value);
+                    $isChecked = in_array($value, $selected);
+                    ?>
+                    <div class="form-check msd-item">
+                        <?= Html::checkbox($name . '[]', $isChecked, [
+                                'class' => 'form-check-input',
+                                'id' => $checkboxId,
+                                'value' => (string)$value,
+                        ]) ?>
+                        <?= Html::label($encodeLabels ? Html::encode($label) : $label, $checkboxId, [
+                                'class' => 'form-check-label',
+                        ]) ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
@@ -103,5 +108,22 @@ JS;
 
         // Initialize on page load to reflect any pre-selected values
         updateLabel();
+
+        // Search functionality
+        var searchInput = dropdown.querySelector('.msd-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                var filter = searchInput.value.toLowerCase();
+                var items = dropdown.querySelectorAll('.msd-item');
+                items.forEach(function(item) {
+                    var label = item.querySelector('.form-check-label').textContent.toLowerCase();
+                    if (label.indexOf(filter) > -1) {
+                        item.style.display = "";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            });
+        }
     })();
 </script>

@@ -104,4 +104,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Teacher::class, ['user_id' => 'id']);
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
 }

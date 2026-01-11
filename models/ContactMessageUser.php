@@ -17,4 +17,13 @@ class ContactMessageUser extends ActiveRecord
     {
         return '{{%contact_message_user}}';
     }
+
+    public function rules()
+    {
+        return [
+            [['contact_message_id', 'user_id'], 'required'],
+            [['contact_message_id', 'user_id'], 'integer'],
+            [['emailed_at', 'notified_at'], 'safe'],
+        ];
+    }
 }

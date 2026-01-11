@@ -3,10 +3,10 @@
 namespace app\controllers;
 
 use app\models\ContactMessage;
+use app\models\ContactMessageSearch;
 use app\models\ContactMessageUser;
 use app\models\User;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -19,12 +19,20 @@ class ContactController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['messages'],
+                'only' => ['messages', 'all-messages', 'update-receivers'],
                 'rules' => [
                     [
                         'allow' => true,
                         'actions' => ['messages'],
                         'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['all-messages', 'update-receivers'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Yii::$app->user->identity->isAdmin();
+                        }
                     ],
                 ],
             ],
@@ -56,13 +64,16 @@ class ContactController extends Controller
             throw new NotFoundHttpException('Teacher not found.');
         }
 
-        $messagesQuery = ContactMessage::find()
+        $searchModel = new ContactMessageSearch();
+        $query = ContactMessage::find()
             ->alias('cm')
             ->innerJoin('{{%contact_message_user}} cmu', 'cmu.contact_message_id = cm.id')
-            ->where(['cmu.user_id' => $current->id])
-            ->orderBy(['cm.created_at' => SORT_DESC]);
+            ->where(['cmu.user_id' => $current->id]);
 
-        $messages = $messagesQuery->all();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $query);
+
+        // Mark as notified
+        $messages = $query->all();
         foreach ($messages as $message) {
             $notification = ContactMessageUser::find()->where([
                 'contact_message_id' => $message->id,
@@ -73,21 +84,60 @@ class ContactController extends Controller
                 continue;
             }
 
-            if (!empty($notification->notified_at)) {
+            if (isset($notification->notified_at) && !empty($notification->notified_at)) {
                 continue;
             }
 
-            $notification->notified_at = new Expression('NOW()');
-            $notification->save();
+            try {
+                $notification->notified_at = new Expression('NOW()');
+                $notification->save();
+            } catch (\Exception $e) {
+                // Ignore if column doesn't exist
+            }
         }
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $messagesQuery,
-        ]);
-
         return $this->render('messages', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
+    public function actionAllMessages()
+    {
+        $searchModel = new ContactMessageSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('all-messages', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'users' => User::find()->all(),
+        ]);
+    }
+
+    public function actionUpdateReceivers($id)
+    {
+        $model = $this->findModel($id);
+        $receivers = Yii::$app->request->post('receivers', []);
+
+        ContactMessageUser::deleteAll(['contact_message_id' => $id]);
+        foreach ($receivers as $userId) {
+            $cmu = new ContactMessageUser();
+            $cmu->contact_message_id = $id;
+            $cmu->user_id = $userId;
+            if (!$cmu->save()) {
+                Yii::error('Failed to save ContactMessageUser: ' . print_r($cmu->errors, true));
+            }
+        }
+
+        return $this->redirect(['all-messages']);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = ContactMessage::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 }

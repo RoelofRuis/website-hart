@@ -3,29 +3,32 @@
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var app\models\ContactMessageSearch $searchModel
+ * @var app\models\User[] $users
  */
 
 use app\models\ContactMessage;
+use app\widgets\MultiSelectDropdown;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 
-$this->title = Yii::t('app', 'Your messages');
+$this->title = Yii::t('app', 'All messages');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$userList = ArrayHelper::map($users, 'id', 'full_name');
 ?>
 
-<div class="teacher-messages">
+<div class="all-messages">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
-        <?php if (Yii::$app->user->identity->isAdmin()): ?>
-            <?= Html::a(Yii::t('app', 'Show all messages'), ['all-messages'], ['class' => 'btn btn-outline-primary me-2']) ?>
-        <?php endif; ?>
+        <?= Html::a(Yii::t('app', 'Show your messages'), ['messages'], ['class' => 'btn btn-outline-primary me-2']) ?>
     </div>
 
     <div class="contact-message-search mb-4">
         <?php $form = ActiveForm::begin([
-            'action' => ['messages'],
+            'action' => ['all-messages'],
             'method' => 'get',
             'options' => ['class' => 'row g-3'],
         ]); ?>
@@ -46,6 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'tableOptions' => ['class' => 'table table-light table-striped table-bordered'],
+        'rowOptions' => function (ContactMessage $model) {
+            if (empty($model->users)) {
+                return ['class' => 'table-danger'];
+            }
+            return [];
+        },
         'layout' => "{pager}\n{items}\n{summary}",
         'columns' => [
             [
@@ -78,18 +87,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     if ($model->age !== null) {
                         $info[] = Yii::t('app', 'Age') . ': ' . Html::encode((string)$model->age);
                     }
-                    if ($model->age !== null && $model->age < 18) {
-                        $info[] = Yii::t('app', 'Parent') . ': ' . Html::encode($model->name);
-                        $info[] = Yii::t('app', 'Parent email') . ': ' . Html::encode($model->email);
-                        if (!empty($model->telephone)) {
-                            $info[] = Yii::t('app', 'Parent phone') . ': ' . Html::encode($model->telephone);
-                        }
-                    } else {
-                        $info[] = Yii::t('app', 'Student name') . ': ' . Html::encode($model->name);
-                        $info[] = Yii::t('app', 'Student email') . ': ' . Html::encode($model->email);
-                        if (!empty($model->telephone)) {
-                            $info[] = Yii::t('app', 'Student phone') . ': ' . Html::encode($model->telephone);
-                        }
+                    $info[] = Yii::t('app', 'Name') . ': ' . Html::encode($model->name);
+                    $info[] = Yii::t('app', 'Email') . ': ' . Html::encode($model->email);
+                    if (!empty($model->telephone)) {
+                        $info[] = Yii::t('app', 'Phone') . ': ' . Html::encode($model->telephone);
                     }
                     return implode('<br>', $info);
                 },
@@ -97,8 +98,39 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'message',
-                'enableSorting' => false,
-            ]
+            ],
+            [
+                'label' => Yii::t('app', 'Receivers'),
+                'value' => function (ContactMessage $model) use ($userList) {
+                    $receivers = $model->users;
+                    $names = ArrayHelper::getColumn($receivers, 'full_name');
+                    $content = Html::ul($names, ['class' => 'list-unstyled mb-2']);
+                    
+                    $currentIds = ArrayHelper::getColumn($receivers, 'id');
+
+                    $dropdown = MultiSelectDropdown::widget([
+                        'id' => 'receivers-' . $model->id,
+                        'name' => 'receivers',
+                        'items' => $userList,
+                        'selected' => $currentIds,
+                        'placeholder' => Yii::t('app', 'Select receivers...'),
+                        'buttonClass' => 'btn btn-sm btn-outline-secondary w-100 text-start',
+                    ]);
+
+                    $form = '<form action="' . \yii\helpers\Url::to(['update-receivers', 'id' => $model->id]) . '" method="post" class="mt-2">' .
+                        Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken) .
+                        $dropdown .
+                        Html::submitButton(Yii::t('app', 'Update'), [
+                            'class' => 'btn btn-sm btn-petrol mt-1 w-100',
+                            'id' => 'update-btn-' . $model->id
+                        ]) .
+                        '</form>';
+                    
+                    $content .= $form;
+                    return $content;
+                },
+                'format' => 'raw',
+            ],
         ]
     ]); ?>
 </div>
