@@ -6,6 +6,7 @@
 
 use app\models\Location;
 use app\models\StaticContent;
+use app\widgets\LeafletMapWidget;
 use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
 
@@ -16,15 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="mb-3"><?= Html::encode($this->title) ?></h1>
     <p><?= HtmlPurifier::process($model->content); ?></p>
     <?php foreach ($locations as $location): ?>
-    <div id="location-<?= $location->id ?>" class="mb-4">
-        <h5><?= Html::encode($location->name) ?></h5>
-        <p><i><?= Html::encode($location->getAddressString()) ?></i></p>
+    <div class="card mb-4 anchor" id="location-<?= $location->id ?>">
+        <div class="card-body">
+            <div class="mb-4">
+                <h5><?= Html::encode($location->name) ?></h5>
+                <p><i><?= Html::encode($location->getAddressString()) ?></i></p>
+                <?= LeafletMapWidget::widget(['lat' => $location->latitude, 'lng' => $location->longitude]); ?>
+            </div>
+        </div>
     </div>
     <?php endforeach; ?>
 
-    <?php if ($model->updated_at): ?>
-        <p class="text-muted small mt-4">
-            <?= Yii::t('app', 'Last updated: {date}', ['date' => Yii::$app->formatter->asDate($model->updated_at)]) ?>
-        </p>
-    <?php endif; ?>
 </div>

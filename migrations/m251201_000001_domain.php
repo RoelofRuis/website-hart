@@ -12,6 +12,8 @@ class m251201_000001_domain extends Migration
             'address' => $this->string(255)->notNull(),
             'postal_code' => $this->string(10)->notNull(),
             'city' => $this->string(150)->notNull(),
+            'latitude' => $this->decimal(10, 8)->null(),
+            'longitude' => $this->decimal(11, 8)->null(),
         ]);
 
         $this->createTable('{{%user}}', [

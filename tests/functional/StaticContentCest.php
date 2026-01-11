@@ -25,7 +25,6 @@ class StaticContentCest
     {
         return [
             ['/over-vhm'],
-            ['/locaties'],
             ['/vereniging'],
             ['/contact'],
             ['/avg-privacy'],

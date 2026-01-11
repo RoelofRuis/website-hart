@@ -12,6 +12,8 @@ use yii\db\ActiveRecord;
  * @property string $address
  * @property string $postal_code
  * @property string $city
+ * @property string $latitude
+ * @property string $longitude
  */
 class Location extends ActiveRecord
 {
@@ -23,8 +25,9 @@ class Location extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'address', 'postal_code', 'city'], 'required'],
+            [['name', 'address', 'postal_code', 'city', 'latitude', 'longitude'], 'required'],
             [['name'], 'string', 'max' => 150],
+            [['latitude', 'longitude'], 'string'],
             [['address'], 'string', 'max' => 255],
         ];
     }
@@ -60,6 +63,8 @@ class Location extends ActiveRecord
             'address' => Yii::t('app', 'Address'),
             'postal_code' => Yii::t('app', 'Postal code'),
             'city' => Yii::t('app', 'City'),
+            'latitude' => Yii::t('app', 'Latitude'),
+            'longitude' => Yii::t('app', 'Longitude'),
         ];
     }
 }

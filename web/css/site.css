@@ -35,6 +35,7 @@
 html, body {
     font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
     color: var(--color-petrol);
+    scroll-padding-top: var(--navbar-height);
     background-image: repeating-linear-gradient(
             45deg,
             rgba(220, 255, 255, 0.1),
