@@ -17,9 +17,6 @@ services:
       - local_storage:/var/www/storage
       # Keep vendor inside the container so host bind mount doesn't mask it
       - vendor_data:/var/www/vendor
-      # Ensure Yii writable paths are not blocked by host FS permissions
-      - /var/www/web/assets
-      - /var/www/runtime
 
   db:
     image: postgres:15

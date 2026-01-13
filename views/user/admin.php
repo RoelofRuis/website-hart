@@ -13,10 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="user-admin-index">
-    <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
-        <div class="alert alert-<?= Html::encode($type) ?>" role="alert"><?= Html::encode($message) ?></div>
-    <?php endforeach; ?>
-
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
         <?= Html::a(Yii::t('app', 'Edit locations'), ['location/index'], ['class' => 'btn btn-outline-primary me-2']) ?>
@@ -85,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                 ],
-                'contentOptions' => ['style' => 'width: 180px; white-space: nowrap;'],
+                'contentOptions' => ['style' => 'width: 280px; white-space: nowrap;'],
             ],
         ],
     ]) ?>

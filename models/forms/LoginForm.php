@@ -38,11 +38,11 @@ class LoginForm extends Model
         }
         $user = $this->getUser();
         if (!$user || !$user->validatePassword($this->password)) {
-            $this->addError($attribute, 'Incorrect email or password.');
+            $this->addError($attribute, Yii::t('app', 'Incorrect email or password.'));
             return;
         }
         if (!$user->is_active) {
-            $this->addError($attribute, Yii::t('app', 'Your account is inactive.'));
+            $this->addError($attribute,Yii::t('app', 'Incorrect email or password.'));
         }
     }
 

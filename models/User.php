@@ -17,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string|null $job_title
  * @property bool $is_admin
  * @property bool $is_active
+ * @property string|null $activation_token
  * @property DateTime|null $last_login
  * @property string|null $password
  */
@@ -39,6 +40,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['password'], 'string', 'min' => 8, 'skipOnEmpty' => true],
             [['email'], 'email'],
             [['email'], 'unique'],
+            [['activation_token'], 'string'],
         ];
     }
 
@@ -98,6 +100,41 @@ class User extends ActiveRecord implements IdentityInterface
     public function generateAuthKey(): void
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    public function generateActivationToken(): void
+    {
+        $this->activation_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    public function isActivationTokenValid(?string $token): bool
+    {
+        if (empty($token) || $this->activation_token !== $token) {
+            return false;
+        }
+
+        $timestamp = (int) substr($this->activation_token, strrpos($this->activation_token, '_') + 1);
+        $expire = 86400; // 24 hours
+        return $timestamp + $expire >= time();
+    }
+
+    public function activate(): bool
+    {
+        $this->is_active = true;
+        $this->activation_token = null;
+        return $this->save(false);
+    }
+
+    public function sendActivationEmail(): bool
+    {
+        return Yii::$app->mailer->compose(
+            ['html' => 'user-activation-html', 'text' => 'user-activation-text'],
+            ['user' => $this]
+        )
+            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
+            ->setTo($this->email)
+            ->setSubject('Account activation for ' . Yii::$app->name)
+            ->send();
     }
 
     public function getTeacher(): ActiveQuery

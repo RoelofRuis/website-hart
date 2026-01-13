@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Teacher;
 use app\models\User;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -20,7 +21,7 @@ class UserController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'admin', 'create', 'delete'],
+                        'actions' => ['update', 'admin', 'create', 'delete', 'resend-activation'],
                         'roles' => ['@'],
                     ]
                 ]
@@ -30,7 +31,7 @@ class UserController extends Controller
 
     public function actionAdmin()
     {
-        $dataProvider = new \yii\data\ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider([
             'query' => User::find()->orderBy(['full_name' => SORT_ASC]),
             'pagination' => [
                 'pageSize' => 20,
@@ -50,7 +51,7 @@ class UserController extends Controller
 
         $user = new User();
         $user->scenario = 'create';
-        $user->is_active = true;
+        $user->is_active = false;
         $teacher = null;
 
         if (Yii::$app->request->isPost) {
@@ -60,13 +61,13 @@ class UserController extends Controller
                     $user->setPassword($user->password);
                 }
                 $user->generateAuthKey();
+                $user->generateActivationToken();
 
                 if (!empty($post['make_teacher'])) {
                     $teacher = new Teacher();
                     $teacher->load($post);
                     // user_id will be set after user save
                 }
-
 
                 if ($user->save()) {
                     if ($teacher) {
@@ -183,6 +184,32 @@ class UserController extends Controller
             'user' => $user,
             'teacher' => $teacher,
         ]);
+    }
+
+    public function actionResendActivation(int $id)
+    {
+        if (!Yii::$app->user->identity->is_admin) {
+            throw new ForbiddenHttpException('Not allowed.');
+        }
+
+        $user = User::findOne($id);
+        if (!$user) {
+            throw new NotFoundHttpException('User not found.');
+        }
+
+        if ($user->is_active) {
+            Yii::$app->session->setFlash('info', Yii::t('app', 'User is already active.'));
+            return $this->redirect(['admin']);
+        }
+
+        $user->generateActivationToken();
+        if ($user->save(false) && $user->sendActivationEmail()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Activation link sent.'));
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Failed to send activation link.'));
+        }
+
+        return $this->redirect(['admin']);
     }
 
 

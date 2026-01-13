@@ -74,6 +74,14 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ]); ?>
             </div>
         <?php endif; ?>
+
+        <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
+            <div class="alert alert-<?= Html::encode($type) ?> alert-dismissible fade show" role="alert">
+                <?= Html::encode($message) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endforeach; ?>
+
         <?= $content ?>
     </div>
 </main>

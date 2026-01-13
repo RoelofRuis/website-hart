@@ -24,7 +24,8 @@ class m251201_000001_domain extends Migration
             'auth_key' => $this->string(32),
             'job_title' => $this->string(150)->null(),
             'is_admin' => $this->boolean()->notNull()->defaultValue(false),
-            'is_active' => $this->boolean()->notNull()->defaultValue(true),
+            'is_active' => $this->boolean()->notNull()->defaultValue(false),
+            'activation_token' => $this->string()->null()->unique(),
             'last_login' => $this->dateTime()->null(),
         ]);
 

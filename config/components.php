@@ -38,8 +38,10 @@ return [
     ],
     'mailer' => [
         'class' => Mailer::class,
-        'useFileTransport' => false,
-        'transport' => $env('MAILER_DSN', 'smtp://mailhog:1025'),
+        'useFileTransport' => true,
+        'transport' => [
+            'dsn' => $env('MAILER_DSN', 'smtp://mailhog:1025'),
+        ],
     ],
     'log' => [
         'traceLevel' => YII_DEBUG ? 3 : 0,

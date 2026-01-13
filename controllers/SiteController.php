@@ -8,6 +8,7 @@ use app\models\forms\LoginForm;
 use app\models\StaticContent;
 use app\models\Teacher;
 use app\models\UrlRule;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
@@ -88,6 +89,23 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    public function actionActivate(string $token)
+    {
+        $user = User::findOne(['activation_token' => $token]);
+        if (!$user || !$user->isActivationTokenValid($token)) {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'The activation link is invalid or has expired. Please contact an administrator.'));
+            return $this->goHome();
+        }
+
+        if ($user->activate()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Your account has been activated! You can now log in.'));
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we could not activate your account. Please contact an administrator.'));
+        }
+
+        return $this->redirect(['site/login']);
     }
 
     public function actionManage()
