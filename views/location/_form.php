@@ -29,7 +29,7 @@ use yii\bootstrap5\ActiveForm;
 
                     <?= $form->field($model, 'longitude')->textInput(['maxlength' => true]) ?>
 
-                    <?= LeafletMapWidget::widget(['lat' => $model->latitude, 'lng' => $model->longitude]); ?>
+                    <?= LeafletMapWidget::widget(['lat' => $model->latitude ?? 0.0, 'lng' => $model->longitude ?? 0.0]); ?>
                 </div>
             </div>
 
