@@ -3,6 +3,7 @@
 use app\console\ContactController;
 use app\console\NotificationController;
 use app\console\StaticController;
+use app\console\StorageController;
 use app\console\UserController;
 use yii\console\controllers\FixtureController;
 use yii\console\controllers\MessageController;
@@ -42,6 +43,9 @@ $config = [
         ],
         'user' => [
             'class' => UserController::class,
+        ],
+        'storage' => [
+            'class' => StorageController::class,
         ]
     ],
     'params' => $params,

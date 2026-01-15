@@ -75,6 +75,12 @@ class Storage
         return $this->fs->fileExists($path);
     }
 
+    public function listContents(string $path = '', bool $deep = false): array
+    {
+        $path = ltrim($path, '/');
+        return $this->fs->listContents($path, $deep)->toArray();
+    }
+
     public function save(string $contents, string $contentType, array $options = []): array
     {
         $slug = isset($options['slug']) && is_string($options['slug']) && $options['slug'] !== ''
