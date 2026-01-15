@@ -33,8 +33,8 @@ class Teacher extends ActiveRecord
 {
     public ?string $tags = null;
 
-    /** @var int[]|null */
-    public ?array $location_ids = null;
+    /** @var string|int[]|null */
+    public string|array|null $location_ids = null;
 
     public static function tableName(): string
     {
@@ -53,6 +53,9 @@ class Teacher extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['location_ids'], 'filter', 'filter' => function($value) {
+                return is_array($value) ? $value : [];
+            }],
             [['user_id', 'slug'], 'required'],
             [['user_id'], 'integer'],
             [['description', 'tags'], 'string'],
