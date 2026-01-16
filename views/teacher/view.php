@@ -30,8 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-md-8">
                     <h1 class="mb-1"><?= Html::encode($teacher->user->full_name) ?></h1>
                     <div class="mt-3">
-                        <?php if ($teacher->user->email): ?>
-                            <div><?= Html::encode(Yii::t('app', 'Email')) ?>: <?= Html::a(Html::encode($teacher->user->email), 'mailto:' . $teacher->user->email) ?></div>
+                        <?php
+                        $displayEmail = null;
+                        if ($teacher->email_display_type === $teacher::EMAIL_DISPLAY_USER) {
+                            $displayEmail = $teacher->user->email;
+                        } elseif ($teacher->email_display_type === $teacher::EMAIL_DISPLAY_TEACHER) {
+                            $displayEmail = $teacher->teacher_email;
+                        }
+                        ?>
+                        <?php if ($displayEmail): ?>
+                            <div><?= Html::encode(Yii::t('app', 'Email')) ?>: <?= Html::a(Html::encode($displayEmail), 'mailto:' . $displayEmail) ?></div>
                         <?php endif; ?>
                         <?php if ($teacher->telephone): ?>
                             <div><?= Html::encode(Yii::t('app', 'Telephone')) ?>: <?= Html::encode($teacher->telephone) ?></div>

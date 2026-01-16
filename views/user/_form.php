@@ -67,6 +67,18 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
+                        <?= $form->field($teacher, 'teacher_email')->textInput(['maxlength' => true])->hint(Yii::t('app', 'Provide a teacher email in case you like to use a different email to display on your profile.')) ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($teacher, 'email_display_type')->dropDownList([
+                            $teacher::EMAIL_DISPLAY_NONE => Yii::t('app', 'Hide email'),
+                            $teacher::EMAIL_DISPLAY_USER => Yii::t('app', 'Show main user email'),
+                            $teacher::EMAIL_DISPLAY_TEACHER => Yii::t('app', 'Show teacher email'),
+                        ]) ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
                         <?= $form->field($teacher, 'website')->textInput(['maxlength' => true]) ?>
                     </div>
                     <div class="col-md-6">
@@ -119,6 +131,18 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
             <?php if ($teacher): ?>
                 <div class="card-body" id="teacher-details" style="display: <?= $makeTeacher ? 'block' : 'none' ?>;">
                     <?= $form->field($teacher, 'slug', ['enableClientValidation' => false])->textInput(['maxlength' => true]); ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($teacher, 'teacher_email')->textInput(['maxlength' => true]) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($teacher, 'email_display_type')->dropDownList([
+                                $teacher::EMAIL_DISPLAY_NONE => Yii::t('app', 'Hide email'),
+                                $teacher::EMAIL_DISPLAY_USER => Yii::t('app', 'Show main user email'),
+                                $teacher::EMAIL_DISPLAY_TEACHER => Yii::t('app', 'Show teacher email'),
+                            ]) ?>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <?= $form->field($teacher, 'website')->textInput(['maxlength' => true]) ?>

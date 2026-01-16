@@ -25,12 +25,18 @@ use yii\db\ActiveRecord;
  * @property bool $sat
  * @property bool $sun
  * @property string $tags
+ * @property string|null $teacher_email
+ * @property int $email_display_type
  *
  * @property User $user
  * @property Tag[] $tags_relation
  */
 class Teacher extends ActiveRecord
 {
+    public const EMAIL_DISPLAY_NONE = 0;
+    public const EMAIL_DISPLAY_USER = 1;
+    public const EMAIL_DISPLAY_TEACHER = 2;
+
     public ?string $tags = null;
 
     /** @var string|int[]|null */
@@ -57,13 +63,14 @@ class Teacher extends ActiveRecord
                 return is_array($value) ? $value : [];
             }],
             [['user_id', 'slug'], 'required'],
-            [['user_id'], 'integer'],
+            [['user_id', 'email_display_type'], 'integer'],
+            [['teacher_email'], 'email'],
             [['description', 'tags'], 'string'],
             [['location_ids'], 'each', 'rule' => ['integer']],
             [['description'], 'string', 'max' => 2000],
             [['summary'], 'string', 'max' => 200],
             [['slug'], 'string', 'max' => 64],
-            [['website'], 'string', 'max' => 255],
+            [['website', 'teacher_email'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
             [['profile_picture'], 'string', 'max' => 255],
             [['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], 'boolean'],
@@ -81,6 +88,8 @@ class Teacher extends ActiveRecord
             'summary' => Yii::t('app', 'Summary'),
             'telephone' => Yii::t('app', 'Telephone'),
             'website' => Yii::t('app', 'Website'),
+            'teacher_email' => Yii::t('app', 'Teacher email'),
+            'email_display_type' => Yii::t('app', 'Which email to display?'),
             'profile_picture' => Yii::t('app', 'Profile Picture'),
             'mon' => Yii::t('app', 'Monday'),
             'tue' => Yii::t('app', 'Tuesday'),
