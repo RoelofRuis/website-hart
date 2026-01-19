@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Location;
+use app\widgets\LockedField;
 use app\widgets\PasswordInput;
 use app\widgets\ImageUploadField;
 use yii\bootstrap5\ActiveForm;
@@ -110,6 +111,16 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                         </div>
                     </div>
                 </div>
+
+                <?php if ($is_admin): ?>
+                <?= $form->field($teacher, 'slug')->widget(LockedField::class, [
+                    'locked' => !$teacher->isNewRecord, // lock only on update
+                    'inputOptions' => [
+                        'id' => Html::getInputId($teacher, 'slug'),
+                        'maxlength' => true,
+                    ],
+                ]); ?>
+                <?php endif; ?>
             </div>
         </div>
     <?php elseif ($is_admin): ?>
@@ -130,7 +141,6 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
             </div>
             <?php if ($teacher): ?>
                 <div class="card-body" id="teacher-details" style="display: <?= $makeTeacher ? 'block' : 'none' ?>;">
-                    <?= $form->field($teacher, 'slug', ['enableClientValidation' => false])->textInput(['maxlength' => true]); ?>
                     <div class="row">
                         <div class="col-md-6">
                             <?= $form->field($teacher, 'teacher_email')->textInput(['maxlength' => true]) ?>

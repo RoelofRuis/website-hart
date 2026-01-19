@@ -161,6 +161,7 @@ return [
     'Profile Picture' => 'Profielfoto',
     'Profile of' => 'Profiel van',
     'Profile updated successfully.' => 'Profiel succesvol bijgewerkt.',
+    'Provide a teacher email in case you like to use a different email to display on your profile.' => 'Gebruik een docenten e-mailadres wanneer je niet je gebruikers e-mailadres wil tonen op je profiel.',
     'Read more' => 'Lees meer',
     'Reason for contact' => 'Reden voor contact',
     'Receivers' => 'Ontvangers',
@@ -226,6 +227,7 @@ return [
     'The above error occurred while the Web server was processing your request.' => 'Bovenstaande fout trad op tijdens het verwerken van je verzoek.',
     'The activation link is invalid or has expired. Please contact an administrator.' => 'De activatielink is ongeldig of verlopen. Neem contact op met een beheerder.',
     'The following fields help users find this content in search results. Add a cover image, summary, and relevant tags to improve discoverability.' => 'De volgende velden helpen gebruikers deze inhoud in zoekresultaten te vinden. Voeg een omslagafbeelding, samenvatting en relevante tags toe.',
+    'The name in the URL that identifies this course.' => 'De naam in de URL die deze cursus identificeert.',
     'The requested page does not exist.' => 'Deze pagina bestaat niet.',
     'This course has no teachers yet.' => 'Er zijn nog geen docenten voor deze cursus.',
     'Thursday' => 'Donderdag',
@@ -276,5 +278,4 @@ return [
     '{n} people, {m} minutes, {w} weeks, {f}' => '{n,plural,=1{Individueel} =2{Duo} other{Groepsles # personen}}, {m} minuten, {f}, {w} weken ',
     '{n} selected' => '{n} geselecteerd',
     '€{n} per person per lesson' => '€ {n} per persoon per les',
-    'Provide a teacher email in case you like to use a different email to display on your profile.' => 'Gebruik een docenten e-mailadres wanneer je niet je gebruikers e-mailadres wil tonen op je profiel.',
 ];

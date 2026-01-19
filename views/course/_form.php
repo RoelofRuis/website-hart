@@ -42,6 +42,9 @@ if ($isAdmin) {
             ?>
 
             <?php if ($isAdmin): ?>
+            <div class="alert alert-warning">
+                <h4>⚠️ Admin settings</h4>
+
                 <?= $form->field($model, 'cover_image')
                     ->widget(ImageUploadField::class, [
                         'uploadUrl' => '/upload/image',
@@ -62,17 +65,13 @@ if ($isAdmin) {
                     ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
                 ?>
 
-                <?= LockedField::widget([
-                    'model' => $model,
-                    'attribute' => 'slug',
+                <?= $form->field($model, 'slug')->widget(LockedField::class, [
                     'locked' => !$model->isNewRecord, // lock only on update
-                    'tooltip' => Yii::t('app', 'Unlock to edit'),
-                    'unlockLabel' => Yii::t('app', 'Unlock'),
                     'inputOptions' => [
                         'id' => Html::getInputId($model, 'slug'),
                         'maxlength' => true,
                     ],
-                ]) ?>
+                ])->hint(Html::encode(Yii::t('app', 'The name in the URL that identifies this course.'))) ?>
 
                 <?php $categoryItems = ArrayHelper::map(Category::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'); ?>
                 <?= $form->field($model, 'category_id')->dropDownList($categoryItems, [
@@ -93,6 +92,7 @@ if ($isAdmin) {
                             'placeholder' => Yii::t('app', 'Select one or more teachers...'),
                     ]) ?>
                 </div>
+            </div>
             <?php endif; ?>
         </div>
     </div>

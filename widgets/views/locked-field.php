@@ -4,7 +4,6 @@
  * @var string|null $value
  * @var string $inputId
  * @var string $buttonId
- * @var string $label
  * @var string $unlockLabel
  * @var string $tooltip
  * @var array $inputOptions
@@ -14,20 +13,17 @@
 use yii\bootstrap5\Html;
 
 ?>
-<div class="mb-3">
-    <label class="form-label" for="<?= Html::encode($inputId) ?>"><?= Html::encode($label) ?></label>
-    <div class="input-group">
-        <?= Html::input('text', $name, $value, $inputOptions) ?>
-        <?php if ($renderButton): ?>
-            <button type="button"
-                    class="btn btn-outline-secondary"
-                    id="<?= Html::encode($buttonId) ?>"
-                    data-bs-toggle="tooltip"
-                    title="<?= Html::encode($tooltip) ?>">
-                <?= Html::encode($unlockLabel) ?>
-            </button>
-        <?php endif; ?>
-    </div>
+<div class="input-group">
+    <?= Html::input('text', $name, $value, $inputOptions) ?>
+    <?php if ($renderButton): ?>
+        <button type="button"
+                class="btn btn-outline-secondary"
+                id="<?= Html::encode($buttonId) ?>"
+                data-bs-toggle="tooltip"
+                title="<?= Html::encode($tooltip) ?>">
+            <?= Html::encode($unlockLabel) ?>
+        </button>
+    <?php endif; ?>
 </div>
 
 <?php

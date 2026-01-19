@@ -49,7 +49,6 @@ class LockedField extends InputWidget
             'value' => $value,
             'inputId' => $inputId,
             'buttonId' => $buttonId,
-            'label' => $this->model->getAttributeLabel($this->attribute),
             'unlockLabel' => $this->unlockLabel,
             'tooltip' => $this->tooltip,
             'inputOptions' => $inputOptions,
