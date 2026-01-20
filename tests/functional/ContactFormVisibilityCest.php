@@ -22,7 +22,7 @@ class ContactFormVisibilityCest
         $I->see('Neem contact op met het bestuur', 'h3');
         $I->dontSee('Reden voor contact', 'label');
         $I->dontSeeElement('input[name="ContactMessage[type]"][type="radio"]');
-        $I->seeElement('input[name="ContactMessage[type]"][type="hidden"]', ['value' => ContactMessage::TYPE_TEACHER_CONTACT]);
+        $I->seeElement('input[name="ContactMessage[type]"][type="hidden"]', ['value' => ContactMessage::TYPE_ORGANISATION_CONTACT]);
     }
 
     public function testContactPageHasNoRadio(FunctionalTester $I)
@@ -31,7 +31,7 @@ class ContactFormVisibilityCest
         $I->see('Algemeen contactformulier', 'h3');
         $I->dontSee('Reden voor contact', 'label');
         $I->dontSeeElement('input[name="ContactMessage[type]"][type="radio"]');
-        $I->seeElement('input[name="ContactMessage[type]"][type="hidden"]', ['value' => ContactMessage::TYPE_TEACHER_CONTACT]);
+        $I->seeElement('input[name="ContactMessage[type]"][type="hidden"]', ['value' => ContactMessage::TYPE_GENERAL_CONTACT]);
     }
 
     public function testTeacherPageHasRadio(FunctionalTester $I)

@@ -5,6 +5,7 @@ namespace app\tests\functional;
 use app\models\ContactMessage;
 use app\models\ContactTypeReceiver;
 use app\tests\fixtures\ContactMessageFixture;
+use app\tests\fixtures\StaticContentFixture;
 use app\tests\fixtures\TeacherFixture;
 use app\tests\fixtures\UserFixture;
 use app\tests\FunctionalTester;
@@ -17,6 +18,7 @@ class ContactSettingsCest
             'users' => UserFixture::class,
             'teachers' => TeacherFixture::class,
             'messages' => ContactMessageFixture::class,
+            'static' => StaticContentFixture::class,
         ]);
     }
 
@@ -32,17 +34,16 @@ class ContactSettingsCest
         $I->see('Contactpagina');
 
         // Select Bob (id 2) and Carla (id 3) as receivers for contact page
-        $I->checkOption('ContactTypeReceiver[contact_page][]', '2');
-        $I->checkOption('ContactTypeReceiver[contact_page][]', '3');
-        $I->click('Instellingen opslaan');
+        $I->checkOption('#chk-general_contact-2');
+        $I->checkOption('#chk-general_contact-3');
+        $I->click('Opslaan');
 
-        $I->see('Instellingen succesvol opgeslagen.');
-        $I->seeCheckboxIsChecked('ContactTypeReceiver[contact_page][]', '2');
-        $I->seeCheckboxIsChecked('ContactTypeReceiver[contact_page][]', '3');
+        $I->see(' Instellingen opgeslagen');
+        $I->seeCheckboxIsChecked('#chk-general_contact-2');
+        $I->seeCheckboxIsChecked('#chk-general_contact-3');
 
-        // Verify in DB
-        $I->seeRecord(ContactTypeReceiver::class, ['type' => 'contact_page', 'user_id' => 2]);
-        $I->seeRecord(ContactTypeReceiver::class, ['type' => 'contact_page', 'user_id' => 3]);
+        $I->seeRecord(ContactTypeReceiver::class, ['type' => 'general_contact', 'user_id' => 2]);
+        $I->seeRecord(ContactTypeReceiver::class, ['type' => 'general_contact', 'user_id' => 3]);
 
         // Now test routing: submit a general contact message
         $I->amOnPage('/contact');
@@ -50,7 +51,6 @@ class ContactSettingsCest
             'ContactMessage[name]' => 'New Sender',
             'ContactMessage[email]' => 'new@example.com',
             'ContactMessage[message]' => 'Test message for routing',
-            'ContactMessage[type]' => 'teacher_contact',
         ]);
 
         $I->see('Dank, je bericht is verstuurd!');

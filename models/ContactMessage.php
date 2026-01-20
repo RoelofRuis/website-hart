@@ -31,7 +31,7 @@ class ContactMessage extends ActiveRecord
     const TYPE_COURSE_SIGNUP = 'course_signup';
     const TYPE_COURSE_TRIAL = 'course_trial';
     const TYPE_GENERAL_CONTACT = 'general_contact';
-    const TYPE_ORGANISATION_CONTACT = 'organisation_contact';
+    const TYPE_ORGANISATION_CONTACT = 'org_contact';
 
     public static function tableName(): string
     {
@@ -68,8 +68,6 @@ class ContactMessage extends ActiveRecord
                     $this->link('users', $receiver->user);
                 }
             }
-            // Refresh relation
-            $this->unsetRelation('users');
         }
     }
 
