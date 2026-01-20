@@ -3,6 +3,7 @@
 namespace app\components;
 
 use app\models\forms\SearchForm;
+use app\components\Placeholder;
 use Yii;
 use yii\db\Expression;
 use yii\db\Query;
@@ -51,14 +52,17 @@ class Searcher
             $title = (string)$row['title'];
             $slug = (string)$row['slug'];
             $snippet = (string)($row['snippet'] ?? '');
-            $image = isset($row['image']) ? (string)$row['image'] : null;
+            $image = isset($row['image']) && !empty($row['image']) ? (string)$row['image'] : null;
 
             if ($type === 'course') {
                 $url = Url::to(['course/view', 'slug' => $slug]);
+                $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_COURSE);
             } elseif ($type === 'teacher') {
                 $url = Url::to(['teacher/view', 'slug' => $slug]);
+                $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_TEACHER);
             } elseif ($type === 'static') {
                 $url = Url::to(['static/' . $slug]);
+                $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_STATIC);
             } else {
                 $url = '#';
             }
@@ -85,7 +89,7 @@ class Searcher
                 'cn.name AS title',
                 'cn.slug AS slug',
                 'cn.cover_image AS image',
-                'cn.summary AS snippet'
+                new Expression("''::text AS snippet"),
             ])
             ->andFilterWhere(['cn.category_id' => $form->category_id])
             ->from(['cn' => '{{%course}}']);

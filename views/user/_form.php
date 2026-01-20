@@ -123,14 +123,6 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                                 ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
                         ?>
 
-                        <?= $form->field($teacher, 'summary')
-                                ->textarea([
-                                        'rows' => 2,
-                                        'maxlength' => true,
-                                ])
-                                ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
-                        ?>
-
                         <?= $form->field($teacher, 'slug')->widget(LockedField::class, [
                                 'locked' => !$teacher->isNewRecord, // lock only on update
                                 'inputOptions' => [
@@ -210,14 +202,6 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     <?= $form->field($teacher, 'tags')
                             ->textInput(['maxlength' => true])
                             ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
-                    ?>
-
-                    <?= $form->field($teacher, 'summary')
-                            ->textarea([
-                                    'rows' => 2,
-                                    'maxlength' => true,
-                            ])
-                            ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
                     ?>
 
                     <?= $form->field($teacher, 'slug')->widget(LockedField::class, [

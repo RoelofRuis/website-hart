@@ -6,6 +6,7 @@
  */
 
 use app\models\LessonFormat;
+use app\components\Placeholder;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -22,9 +23,10 @@ use yii\helpers\Url;
                                  alt="<?= Html::encode($course->name) ?>"
                                  style="object-fit: cover;">
                         <?php else: ?>
-                            <div class="bg-light d-flex align-items-center justify-content-center rounded-start">
-                                <span class="text-muted" style="font-size: 2rem;">📚</span>
-                            </div>
+                            <img src="<?= Placeholder::getUrl(Placeholder::TYPE_COURSE) ?>"
+                                 class="img-fluid rounded-start"
+                                 alt="<?= Html::encode($course->name) ?>"
+                                 style="object-fit: cover;">
                         <?php endif; ?>
                     </div>
                 </div>

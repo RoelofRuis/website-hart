@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $user_id
  * @property string $slug
  * @property string|null $description
+ * @deprecated will not be used anymore
  * @property string|null $summary
  * @property string|null $website
  * @property string|null $telephone

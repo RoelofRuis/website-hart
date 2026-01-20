@@ -20,6 +20,7 @@ use yii\helpers\Html;
             <?= Html::img($image, [
                 'class' => 'card-img-top',
                 'alt' => Html::encode($title),
+                'style' => 'aspect-ratio: 16/9; object-fit: cover;',
             ]) ?>
         <?php endif; ?>
         <div class="card-body">

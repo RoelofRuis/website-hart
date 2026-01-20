@@ -2,6 +2,7 @@
 
 use app\console\ContactController;
 use app\console\NotificationController;
+use app\console\PlaceholderController;
 use app\console\StaticController;
 use app\console\StorageController;
 use app\console\UserController;
@@ -43,6 +44,9 @@ $config = [
         ],
         'user' => [
             'class' => UserController::class,
+        ],
+        'placeholder' => [
+            'class' => PlaceholderController::class,
         ],
         'storage' => [
             'class' => StorageController::class,

@@ -7,6 +7,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
 use app\widgets\ContactFormWidget;
 use app\models\ContactMessage;
+use app\components\Placeholder;
 
 $this->title = $teacher->user->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
@@ -24,7 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
                              style="max-height: 260px; object-fit: cover; width: 100%"
                         >
                     <?php else: ?>
-                        <div class="placeholder-avatar rounded bg-light d-inline-block" style="width:160px;height:160px;"></div>
+                        <img src="<?= Placeholder::getUrl(Placeholder::TYPE_TEACHER) ?>"
+                             class="img-fluid rounded" alt="<?= Html::encode($teacher->user->full_name) ?>"
+                             style="max-height: 260px; object-fit: cover; width: 100%"
+                        >
                     <?php endif; ?>
                 </div>
                 <div class="col-md-8">
