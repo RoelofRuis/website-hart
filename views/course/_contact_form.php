@@ -10,9 +10,9 @@ use yii\bootstrap5\Html;
 ?>
 <div class="card shadow-sm">
     <div class="card-body">
-        <?php foreach (['success', 'error'] as $type): ?>
+        <?php foreach (['form-success' => 'success', 'form-error' => 'danger'] as $type => $class): ?>
             <?php if (Yii::$app->session->hasFlash($type)): ?>
-                <div class="alert alert-<?= $type === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show" role="alert">
+                <div class="alert alert-<?= $class ?> alert-dismissible fade show" role="alert">
                     <?= Html::encode(Yii::$app->session->getFlash($type)) ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>

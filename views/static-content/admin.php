@@ -13,9 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="site-static-content-admin py-3">
-    <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
-        <div class="alert alert-<?= Html::encode($type) ?>" role="alert"><?= Html::encode($message) ?></div>
-    <?php endforeach; ?>
 
     <h1 class="h3 mb-3"><?= Html::encode($this->title) ?></h1>
 

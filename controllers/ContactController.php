@@ -44,12 +44,12 @@ class ContactController extends Controller
         $model = new ContactMessage();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you! Your message has been sent.'));
+                Yii::$app->session->setFlash('form-success', Yii::t('app', 'Thank you! Your message has been sent.'));
             } else {
-                Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we could not send your message. Please try again later.'));
+                Yii::$app->session->setFlash('form-error', Yii::t('app', 'Sorry, we could not send your message. Please try again later.'));
             }
         } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Please correct the errors in the form.'));
+            Yii::$app->session->setFlash('form-error', Yii::t('app', 'Please correct the errors in the form.'));
         }
 
         $referrer = Yii::$app->request->referrer;
