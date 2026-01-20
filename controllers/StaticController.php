@@ -74,7 +74,7 @@ class StaticController extends Controller
 
         // If there are flash messages, do not use HTTP caching
         $session = Yii::$app->session;
-        if ($session->hasFlash('success') || $session->hasFlash('error')) {
+        if (!empty($session->getAllFlashes())) {
             return $this->render($view,
                 array_merge($params, ['model' => $model])
             );

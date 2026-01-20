@@ -119,7 +119,6 @@ class ContactController extends Controller
 
     public function actionUpdateReceivers($id)
     {
-        $model = $this->findModel($id);
         $receivers = Yii::$app->request->post('receivers', []);
 
         ContactMessageUser::deleteAll(['contact_message_id' => $id]);
@@ -179,14 +178,5 @@ class ContactController extends Controller
             'users' => $users,
             'selected' => $selected,
         ]);
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = ContactMessage::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
