@@ -221,5 +221,24 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
         <?= Html::a(Yii::t('app', 'Cancel'), $is_admin ? ['user/admin'] : ['site/manage'], ['class' => 'btn btn-secondary ms-2']) ?>
     </div>
 
+    <?php
+    $user_full_name_id = Html::getInputId($user, 'full_name');
+    $teacher_slug_id = Html::getInputId($teacher ?? new \app\models\Teacher(), 'slug');
+    $js = <<<JS
+    $('#{$user_full_name_id}').on('blur', function() {
+        let fullName = $(this).val();
+        let slugField = $('#{$teacher_slug_id}');
+        if (fullName && (!slugField.val() || slugField.prop('readonly') === false)) {
+            let slug = fullName.toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            slugField.val(slug);
+        }
+    });
+JS;
+    $this->registerJs($js);
+    ?>
+
     <?php ActiveForm::end(); ?>
 </div>

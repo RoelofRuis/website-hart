@@ -93,5 +93,24 @@ $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
         <?= Html::a(Yii::t('app', 'Cancel'), ['course/admin'], ['class' => 'btn btn-secondary ms-2']) ?>
     </div>
 
+    <?php
+    $course_name_id = Html::getInputId($model, 'name');
+    $course_slug_id = Html::getInputId($model, 'slug');
+    $js = <<<JS
+    $('#{$course_name_id}').on('blur', function() {
+        let name = $(this).val();
+        let slugField = $('#{$course_slug_id}');
+        if (name && (!slugField.val() || slugField.prop('readonly') === false)) {
+            let slug = name.toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            slugField.val(slug);
+        }
+    });
+JS;
+    $this->registerJs($js);
+    ?>
+
     <?php ActiveForm::end(); ?>
 </div>

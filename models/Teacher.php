@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\components\behaviors\TagBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -63,7 +64,13 @@ class Teacher extends ActiveRecord
             [['location_ids'], 'filter', 'filter' => function($value) {
                 return is_array($value) ? $value : [];
             }],
-            [['user_id', 'slug'], 'required'],
+            [['user_id', 'slug'], 'required', 'on' => 'default'],
+            [['slug'], 'filter', 'filter' => function($value) {
+                if (empty($value) && $this->user) {
+                    return Inflector::slug($this->user->full_name);
+                }
+                return Inflector::slug($value);
+            }],
             [['user_id', 'email_display_type'], 'integer'],
             [['teacher_email'], 'email'],
             [['description', 'tags'], 'string'],

@@ -6,6 +6,7 @@ use app\components\behaviors\TagBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\Inflector;
 
 /**
  * @property int $id
@@ -44,6 +45,9 @@ class Course extends ActiveRecord
     {
         return [
             [['name', 'slug'], 'required'],
+            [['slug'], 'filter', 'filter' => function($value) {
+                return Inflector::slug($value ?: $this->name);
+            }],
             [['tags'], 'string'],
             [['description'], 'string', 'max' => 2000],
             [['summary'], 'string', 'max' => 200],
