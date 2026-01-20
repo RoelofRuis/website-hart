@@ -10,6 +10,7 @@ use app\models\ContactMessage;
 use app\widgets\MultiSelectDropdown;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 
@@ -55,7 +56,11 @@ $userList = ArrayHelper::map($users, 'id', 'full_name');
             }
             return [];
         },
-        'layout' => "{pager}\n{items}\n{summary}",
+        'layout' => "{items}\n<div class='mt-4 d-flex justify-content-between align-items-start'>{pager}{summary}</div>",
+        'pager' => [
+            'class' => LinkPager::class,
+            'options' => ['class' => 'pagination mb-0'],
+        ],
         'columns' => [
             [
                 'attribute' => 'created_at',

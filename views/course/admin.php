@@ -4,6 +4,7 @@
 
 use app\models\Course;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Manage Courses');
@@ -24,7 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'tableOptions' => ['class' => 'table table-light table-striped table-bordered'],
-        'layout' => "{pager}\n{items}\n{summary}",
+        'layout' => "{items}\n<div class='mt-4 d-flex justify-content-between align-items-start'>{pager}{summary}</div>",
+        'pager' => [
+            'class' => LinkPager::class,
+            'options' => ['class' => 'pagination mb-0'],
+        ],
         'columns' => [
             [
                 'attribute' => 'name',

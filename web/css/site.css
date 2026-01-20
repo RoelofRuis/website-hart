@@ -366,3 +366,20 @@ a:hover, a:focus { color: var(--color-magenta); }
     object-fit: cover;
     height: 200px;
 }
+
+.pagination .page-link {
+    color: var(--color-petrol);
+    border-color: var(--color-light-blue);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-turquoise);
+    border-color: var(--color-turquoise);
+    color: #fff;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--color-light-blue);
+    border-color: var(--color-turquoise);
+    color: var(--color-petrol);
+}
