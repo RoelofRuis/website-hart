@@ -3,8 +3,6 @@
 namespace app\components;
 
 use app\models\forms\SearchForm;
-use app\components\Placeholder;
-use Yii;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\Url;
