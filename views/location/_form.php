@@ -10,35 +10,32 @@ use yii\bootstrap5\ActiveForm;
 ?>
 
 <div class="location-form">
-    <div class="card">
+    <?php $form = ActiveForm::begin(); ?>
+
+    <div class="card mb-4">
         <div class="card-body">
-            <?php $form = ActiveForm::begin(); ?>
-
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6">
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
                     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-
                     <?= $form->field($model, 'postal_code')->textInput(['maxlength' => true]) ?>
-
                     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     <?= $form->field($model, 'latitude')->textInput(['maxlength' => true]) ?>
-
                     <?= $form->field($model, 'longitude')->textInput(['maxlength' => true]) ?>
-
-                    <?= LeafletMapWidget::widget(['lat' => $model->latitude ?? 0.0, 'lng' => $model->longitude ?? 0.0]); ?>
+                    <div class="mt-3">
+                        <?= LeafletMapWidget::widget(['lat' => $model->latitude ?? 0.0, 'lng' => $model->longitude ?? 0.0]); ?>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group mt-3">
-                <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-                <?= Html::a(Yii::t('app', 'Cancel'), ['index'], ['class' => 'btn btn-secondary']) ?>
-            </div>
-
-            <?php ActiveForm::end(); ?>
         </div>
     </div>
+
+    <div class="form-group mt-4">
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), ['index'], ['class' => 'btn btn-secondary ms-2']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 </div>

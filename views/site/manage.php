@@ -13,10 +13,6 @@ $this->title = Yii::t('app', 'Teacher Dashboard');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-manage">
-    <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
-        <div class="alert alert-<?= Html::encode($type) ?>" role="alert"><?= Html::encode($message) ?></div>
-    <?php endforeach; ?>
-
     <h1 class="mb-2"><?= Html::encode(Yii::t('app', 'Teacher Dashboard')) ?></h1>
     <p class="lead text-muted mb-4">
         <?= Html::encode(Yii::t('app', 'Welcome {username}! Here you manage all your information. Click a card to get started.', ['username' => Yii::$app->user->identity->full_name])) ?>

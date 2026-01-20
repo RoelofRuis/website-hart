@@ -31,23 +31,39 @@ $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->a
 
 <div class="card mb-4">
     <div class="card-body">
-        <div class="row">
-            <div class="col-12">
-                <?= $form->field($model, 'course_id')->hiddenInput()->label(false); ?>
-                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity): ?>
-                    <?= $form->field($model, 'teacher_id')->hiddenInput()->label(false); ?>
+        <?= $form->field($model, 'course_id')->hiddenInput()->label(false); ?>
+        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity): ?>
+            <?= $form->field($model, 'teacher_id')->hiddenInput()->label(false); ?>
+            <div class="row">
+                <div class="col-md-6">
                     <?= $form->field($model, 'persons_per_lesson')->input('number', ['min' => 1]); ?>
+                </div>
+                <div class="col-md-6">
                     <?= $form->field($model, 'duration_minutes')->input('number', ['min' => 15, 'step' => 5]); ?>
-                    <?= $form->field($model, 'weeks_per_year')->input('number', ['min' => 1, 'max' => 52]); ?>
-                    <?= $form->field($model, 'frequency')->dropDownList($frequencies, ['prompt' => Yii::t('app', 'Select...')]); ?>
-                    <?= $form->field($model, 'price_per_person')->input('number', ['min' => 0, 'step' => '0.01']); ?>
-                <?php endif; ?>
-                <?= $form->field($model, 'price_display_type')->dropDownList($price_display_types, [
-                    'id' => 'lessonformat-price_display_types',
-                ]); ?>
-                <?= $form->field($model, 'remarks')->textarea(['rows' => 2]); ?>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'weeks_per_year')->input('number', ['min' => 1, 'max' => 52]); ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'frequency')->dropDownList($frequencies, ['prompt' => Yii::t('app', 'Select...')]); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'price_per_person', [
+                        'inputTemplate' => '<div class="input-group"><span class="input-group-text">€</span>{input}</div>',
+                    ])->input('number', ['min' => 0, 'step' => '0.01']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'price_display_type')->dropDownList($price_display_types, [
+                        'id' => 'lessonformat-price_display_types',
+                    ]); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?= $form->field($model, 'remarks')->textarea(['rows' => 2]); ?>
     </div>
 </div>
 

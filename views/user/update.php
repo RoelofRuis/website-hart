@@ -9,6 +9,7 @@ use yii\bootstrap5\Html;
 $this->title = Yii::t('app', 'Update Profile: {name}', [
     'name' => $user->full_name,
 ]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['admin']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 

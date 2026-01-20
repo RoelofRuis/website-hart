@@ -201,6 +201,9 @@ class Teacher extends ActiveRecord
         parent::afterSave($insert, $changedAttributes);
         if ($this->location_ids !== null) {
             $this->unlinkAll('locations', true);
+            if (!is_array($this->location_ids)) {
+                return;
+            }
             foreach ($this->location_ids as $location_id) {
                 $location = Location::findOne($location_id);
                 if ($location) {

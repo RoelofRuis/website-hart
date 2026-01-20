@@ -28,7 +28,7 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     <?= $form->field($user, 'full_name')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($user, 'email')->label(Yii::t('app', 'Main email'))->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
 
@@ -39,21 +39,23 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                 <?php if ($user->isNewRecord || $is_admin || Yii::$app->user->id === $user->id): ?>
                     <div class="col-md-6">
                         <?= PasswordInput::widget([
-                            'field' => $form->field($user, 'password'),
-                            'isNewRecord' => $user->isNewRecord,
+                                'field' => $form->field($user, 'password'),
+                                'isNewRecord' => $user->isNewRecord,
                         ]) ?>
                     </div>
                 <?php endif; ?>
             </div>
 
             <?php if ($is_admin): ?>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <?= $form->field($user, 'is_active')->checkbox() ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?= $form->field($user, 'is_admin')->checkbox() ?>
+                <div class="alert alert-warning mt-3">
+                    <h5 class="alert-heading">⚠️ <?= Yii::t('app', 'Admin settings') ?></h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <?= $form->field($user, 'is_active')->checkbox() ?>
+                        </div>
+                        <div class="col-md-4">
+                            <?= $form->field($user, 'is_admin')->checkbox() ?>
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>
@@ -68,13 +70,14 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($teacher, 'teacher_email')->textInput(['maxlength' => true])->hint(Yii::t('app', 'Provide a teacher email in case you like to use a different email to display on your profile.')) ?>
+                        <?= $form->field($teacher, 'teacher_email')->textInput(['maxlength' => true])
+                                ->hint(Yii::t('app', 'Provide a teacher email in case you like to use a different email to display on your profile.')) ?>
                     </div>
                     <div class="col-md-6">
                         <?= $form->field($teacher, 'email_display_type')->dropDownList([
-                            $teacher::EMAIL_DISPLAY_NONE => Yii::t('app', 'Hide email'),
-                            $teacher::EMAIL_DISPLAY_USER => Yii::t('app', 'Show main user email'),
-                            $teacher::EMAIL_DISPLAY_TEACHER => Yii::t('app', 'Show teacher email'),
+                                $teacher::EMAIL_DISPLAY_NONE => Yii::t('app', 'Hide email'),
+                                $teacher::EMAIL_DISPLAY_USER => Yii::t('app', 'Show main user email'),
+                                $teacher::EMAIL_DISPLAY_TEACHER => Yii::t('app', 'Show teacher email'),
                         ]) ?>
                     </div>
                 </div>
@@ -88,13 +91,13 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                 </div>
 
                 <?= $form->field($teacher, 'profile_picture')->widget(ImageUploadField::class, [
-                    'uploadUrl' => '/upload/image',
-                    'previewSize' => 200,
+                        'uploadUrl' => '/upload/image',
+                        'previewSize' => 200,
                 ]) ?>
                 <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
                 <?= $form->field($teacher, 'location_ids')->checkboxList(
-                    ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
-                    ['inline' => true]
+                        ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
+                        ['inline' => true]
                 ) ?>
 
                 <div class="row">
@@ -113,13 +116,29 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                 </div>
 
                 <?php if ($is_admin): ?>
-                <?= $form->field($teacher, 'slug')->widget(LockedField::class, [
-                    'locked' => !$teacher->isNewRecord, // lock only on update
-                    'inputOptions' => [
-                        'id' => Html::getInputId($teacher, 'slug'),
-                        'maxlength' => true,
-                    ],
-                ]); ?>
+                    <div class="alert alert-warning mt-3">
+                        <h5 class="alert-heading">⚠️ <?= Yii::t('app', 'Admin settings') ?></h5>
+                        <?= $form->field($teacher, 'tags')
+                                ->textInput(['maxlength' => true])
+                                ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+                        ?>
+
+                        <?= $form->field($teacher, 'summary')
+                                ->textarea([
+                                        'rows' => 2,
+                                        'maxlength' => true,
+                                ])
+                                ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
+                        ?>
+
+                        <?= $form->field($teacher, 'slug')->widget(LockedField::class, [
+                                'locked' => !$teacher->isNewRecord, // lock only on update
+                                'inputOptions' => [
+                                        'id' => Html::getInputId($teacher, 'slug'),
+                                        'maxlength' => true,
+                                ],
+                        ]); ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -130,9 +149,9 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                 <h5 class="mb-0"><?= Yii::t('app', 'Teacher Status') ?></h5>
                 <div class="form-check form-switch mb-0">
                     <?= Html::checkbox('make_teacher', $makeTeacher, [
-                        'class' => 'form-check-input',
-                        'id' => 'makeTeacherSwitch',
-                        'onchange' => 'document.getElementById("teacher-details").style.display = this.checked ? "block" : "none"'
+                            'class' => 'form-check-input',
+                            'id' => 'makeTeacherSwitch',
+                            'onchange' => 'document.getElementById("teacher-details").style.display = this.checked ? "block" : "none"'
                     ]) ?>
                     <label class="form-check-label" for="makeTeacherSwitch">
                         <?= Yii::t('app', 'Make this user a teacher') ?>
@@ -147,9 +166,9 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($teacher, 'email_display_type')->dropDownList([
-                                $teacher::EMAIL_DISPLAY_NONE => Yii::t('app', 'Hide email'),
-                                $teacher::EMAIL_DISPLAY_USER => Yii::t('app', 'Show main user email'),
-                                $teacher::EMAIL_DISPLAY_TEACHER => Yii::t('app', 'Show teacher email'),
+                                    $teacher::EMAIL_DISPLAY_NONE => Yii::t('app', 'Hide email'),
+                                    $teacher::EMAIL_DISPLAY_USER => Yii::t('app', 'Show main user email'),
+                                    $teacher::EMAIL_DISPLAY_TEACHER => Yii::t('app', 'Show teacher email'),
                             ]) ?>
                         </div>
                     </div>
@@ -163,14 +182,14 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     </div>
 
                     <?= $form->field($teacher, 'profile_picture')->widget(ImageUploadField::class, [
-                        'uploadUrl' => '/upload/image',
-                        'previewSize' => 200,
+                            'uploadUrl' => '/upload/image',
+                            'previewSize' => 200,
                     ]) ?>
                     <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma-separated list of search terms.')]) ?>
                     <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
                     <?= $form->field($teacher, 'location_ids')->checkboxList(
-                        ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
-                        ['inline' => true]
+                            ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
+                            ['inline' => true]
                     ) ?>
 
                     <div class="row">
@@ -187,14 +206,35 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                             </div>
                         </div>
                     </div>
+
+                    <?= $form->field($teacher, 'tags')
+                            ->textInput(['maxlength' => true])
+                            ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+                    ?>
+
+                    <?= $form->field($teacher, 'summary')
+                            ->textarea([
+                                    'rows' => 2,
+                                    'maxlength' => true,
+                            ])
+                            ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
+                    ?>
+
+                    <?= $form->field($teacher, 'slug')->widget(LockedField::class, [
+                            'locked' => !$teacher->isNewRecord, // lock only on update
+                            'inputOptions' => [
+                                    'id' => Html::getInputId($teacher, 'slug'),
+                                    'maxlength' => true,
+                            ],
+                    ]); ?>
                 </div>
             <?php endif; ?>
         </div>
     <?php endif; ?>
 
     <div class="form-group mt-4">
-        <?= Html::submitButton($user->isNewRecord ? Yii::t('app', 'Create User') : Yii::t('app', 'Save Changes'), ['class' => 'btn btn-primary btn-lg']) ?>
-        <?= Html::a(Yii::t('app', 'Cancel'), $is_admin ? ['user/admin'] : ['site/manage'], ['class' => 'btn btn-secondary btn-lg ms-2']) ?>
+        <?= Html::submitButton($user->isNewRecord ? Yii::t('app', 'Create User') : Yii::t('app', 'Save Changes'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), $is_admin ? ['user/admin'] : ['site/manage'], ['class' => 'btn btn-secondary ms-2']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

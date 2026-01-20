@@ -2,27 +2,19 @@
 /** @var yii\web\View $this */
 /** @var Course $model */
 /** @var array $assignedTeacherIds */
+/** @var array $categories */
+/** @var array $teachers */
 
-use app\models\Category;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use yii\helpers\ArrayHelper;
-use app\models\Teacher;
-use app\models\Course;
 use app\widgets\MultiSelectDropdown;
 use app\widgets\HtmlEditor;
 use app\widgets\ImageUploadField;
 use app\widgets\LockedField;
+use app\models\Course;
 
 $current = Yii::$app->user->identity;
 $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
-
-if ($isAdmin) {
-    $allTeachers = Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC])->all();
-    $teacherItems = ArrayHelper::map($allTeachers, 'id', function($teacher) {
-        return $teacher->user->full_name;
-    });
-}
 
 ?>
 
@@ -42,8 +34,8 @@ if ($isAdmin) {
             ?>
 
             <?php if ($isAdmin): ?>
-            <div class="alert alert-warning">
-                <h4>⚠️ Admin settings</h4>
+            <div class="alert alert-warning mt-4">
+                <h5 class="alert-heading">⚠️ <?= Yii::t('app', 'Admin settings') ?></h5>
 
                 <?= $form->field($model, 'cover_image')
                     ->widget(ImageUploadField::class, [
@@ -73,8 +65,7 @@ if ($isAdmin) {
                     ],
                 ])->hint(Html::encode(Yii::t('app', 'The name in the URL that identifies this course.'))) ?>
 
-                <?php $categoryItems = ArrayHelper::map(Category::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'); ?>
-                <?= $form->field($model, 'category_id')->dropDownList($categoryItems, [
+                <?= $form->field($model, 'category_id')->dropDownList($categories, [
                         'prompt' => Yii::t('app', 'Select a category'),
                 ])->hint(Html::encode(Yii::t('app', 'Select a category to make this course part of that collection.'))) ?>
 
@@ -87,7 +78,7 @@ if ($isAdmin) {
                     <label class="form-label"><?= Html::encode(Yii::t('app', 'Assign teachers')) ?></label>
                     <?= MultiSelectDropdown::widget([
                             'name' => 'teacherIds',
-                            'items' => $teacherItems,
+                            'items' => $teachers,
                             'selected' => $assignedTeacherIds,
                             'placeholder' => Yii::t('app', 'Select one or more teachers...'),
                     ]) ?>

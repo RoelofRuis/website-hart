@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Category;
+use yii\helpers\ArrayHelper;
 use app\models\ContactMessage;
 use app\models\Course;
 use app\models\Teacher;
@@ -140,9 +142,18 @@ class CourseController extends Controller
 
         $assigned = (array)$request->post('teacherIds', []);
 
+        $categories = ArrayHelper::map(Category::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
+        $teachers = ArrayHelper::map(
+            Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC])->all(),
+            'id',
+            fn($t) => $t->user->full_name
+        );
+
         return $this->render('create', [
             'model' => $model,
             'assignedTeacherIds' => $assigned,
+            'categories' => $categories,
+            'teachers' => $teachers,
         ]);
     }
 
@@ -185,9 +196,18 @@ class CourseController extends Controller
             ? (array)$request->post('teacherIds', $model->getTeachers()->select('id')->column())
             : $model->getTeachers()->select('id')->column();
 
+        $categories = ArrayHelper::map(Category::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
+        $teachers = ArrayHelper::map(
+            Teacher::find()->joinWith('user')->orderBy(['user.full_name' => SORT_ASC])->all(),
+            'id',
+            fn($t) => $t->user->full_name
+        );
+
         return $this->render('update', [
             'model' => $model,
             'assignedTeacherIds' => $assigned,
+            'categories' => $categories,
+            'teachers' => $teachers,
         ]);
     }
 

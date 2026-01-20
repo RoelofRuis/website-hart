@@ -10,16 +10,18 @@ use yii\bootstrap5\Html;
 ?>
 
 <div class="category-form">
-
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <div class="card mb-4">
+        <div class="card-body">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
-    <div class="form-group mt-3">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('app', 'Cancel'), ['index'], ['class' => 'btn btn-secondary']) ?>
+    <div class="form-group mt-4">
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Cancel'), ['index'], ['class' => 'btn btn-secondary ms-2']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>
