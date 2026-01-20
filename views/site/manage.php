@@ -110,6 +110,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </a>
             </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="text-decoration-none" href="<?= Url::to(['contact/settings']) ?>">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">⚙️ <?= Html::encode(Yii::t('app', 'Contact Settings')) ?></h5>
+                            <p class="card-text text-muted mb-0"><?= Html::encode(Yii::t('app', 'Configure receivers for general contact messages.')) ?></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         <?php endif; ?>
     </div>
 

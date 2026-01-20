@@ -72,12 +72,16 @@ $userList = ArrayHelper::map($users, 'id', 'full_name');
                 'label' => Yii::t('app', 'Type'),
                 'value' => function (ContactMessage $model) {
                     $info = [];
-                    if ($model->type === 'signup') {
+                    if ($model->type === ContactMessage::TYPE_COURSE_SIGNUP) {
                         $info[] = Yii::t('app', 'Signup');
-                    } elseif ($model->type === 'trial') {
+                    } elseif ($model->type === ContactMessage::TYPE_COURSE_TRIAL) {
                         $info[] = Yii::t('app', 'Trial');
-                    } elseif ($model->type === 'plan') {
+                    } elseif ($model->type === ContactMessage::TYPE_TEACHER_PLAN) {
                         $info[] = Yii::t('app', 'Lesson plan');
+                    } elseif ($model->type === ContactMessage::TYPE_GENERAL_CONTACT) {
+                        $info[] = Yii::t('app', 'General contact message');
+                    } elseif ($model->type === ContactMessage::TYPE_ORGANISATION_CONTACT) {
+                        $info[] = Yii::t('app', 'Organisational contact message');
                     } else {
                         $info[] = Yii::t('app', 'Contact');
                     }

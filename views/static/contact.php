@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= ContactFormWidget::widget([
             'heading' => Yii::t('app', 'General contact form'),
             'reasons' => [
-                ContactMessage::TYPE_TEACHER_CONTACT => Yii::t('app', 'General contact'),
+                ContactMessage::TYPE_GENERAL_CONTACT => Yii::t('app', 'General contact'),
             ],
         ]) ?>
     </div>

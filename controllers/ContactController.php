@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\ContactMessage;
 use app\models\ContactMessageSearch;
 use app\models\ContactMessageUser;
+use app\models\ContactTypeReceiver;
+use app\models\Teacher;
 use app\models\User;
 use Yii;
 use yii\db\Expression;
@@ -19,7 +21,7 @@ class ContactController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['messages', 'all-messages', 'update-receivers'],
+                'only' => ['messages', 'all-messages', 'update-receivers', 'settings'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -28,7 +30,7 @@ class ContactController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['all-messages', 'update-receivers'],
+                        'actions' => ['all-messages', 'update-receivers', 'settings'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
                             return Yii::$app->user->identity->isAdmin();
@@ -44,6 +46,7 @@ class ContactController extends Controller
         $model = new ContactMessage();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->save()) {
+                $model->linkFallbackReceivers();
                 Yii::$app->session->setFlash('form-success', Yii::t('app', 'Thank you! Your message has been sent.'));
             } else {
                 Yii::$app->session->setFlash('form-error', Yii::t('app', 'Sorry, we could not send your message. Please try again later.'));
@@ -130,6 +133,52 @@ class ContactController extends Controller
         }
 
         return $this->redirect(['all-messages']);
+    }
+
+    public function actionSettings()
+    {
+        if (Yii::$app->request->isPost) {
+            $settings = Yii::$app->request->post('ContactTypeReceiver', []);
+            ContactTypeReceiver::deleteAll();
+            foreach ($settings as $type => $userIds) {
+                if (is_array($userIds)) {
+                    foreach ($userIds as $userId) {
+                        if ($userId !== '') {
+                            $model = new ContactTypeReceiver();
+                            $model->type = (string)$type;
+                            $model->user_id = (int)$userId;
+                            if (!$model->save()) {
+                                Yii::error('Failed to save ContactTypeReceiver: ' . print_r($model->errors, true));
+                            } else {
+                                Yii::debug("Saved receiver for $type: $userId");
+                            }
+                        }
+                    }
+                }
+            }
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Instellingen succesvol opgeslagen.'));
+            return $this->redirect(['settings']);
+        }
+
+        $types = [
+            ContactMessage::TYPE_GENERAL_CONTACT => Yii::t('app', 'Contactpagina'),
+            ContactMessage::TYPE_ORGANISATION_CONTACT => Yii::t('app', 'Organisatiepagina'),
+            ContactMessage::TYPE_COURSE_SIGNUP => Yii::t('app', 'Cursusinschrijving fallback'),
+            ContactMessage::TYPE_COURSE_TRIAL => Yii::t('app', 'Proefles fallback'),
+        ];
+
+        $users = User::find()->orderBy(['full_name' => SORT_ASC])->all();
+        $currentSettings = ContactTypeReceiver::find()->all();
+        $selected = [];
+        foreach ($currentSettings as $setting) {
+            $selected[$setting->type][] = $setting->user_id;
+        }
+
+        return $this->render('settings', [
+            'types' => $types,
+            'users' => $users,
+            'selected' => $selected,
+        ]);
     }
 
     protected function findModel($id)

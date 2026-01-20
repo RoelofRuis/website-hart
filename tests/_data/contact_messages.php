@@ -3,7 +3,7 @@
 return [
     'message1' => [
         'id' => 1,
-        'type' => 'teacher_contact',
+        'type' => 'contact_page',
         'name' => 'John Doe',
         'email' => 'john@example.com',
         'message' => 'I would like to take piano lessons.',

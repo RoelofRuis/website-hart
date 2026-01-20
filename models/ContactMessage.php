@@ -30,6 +30,8 @@ class ContactMessage extends ActiveRecord
     const TYPE_TEACHER_PLAN = 'teacher_plan';
     const TYPE_COURSE_SIGNUP = 'course_signup';
     const TYPE_COURSE_TRIAL = 'course_trial';
+    const TYPE_GENERAL_CONTACT = 'general_contact';
+    const TYPE_ORGANISATION_CONTACT = 'organisation_contact';
 
     public static function tableName(): string
     {
@@ -56,6 +58,21 @@ class ContactMessage extends ActiveRecord
         }
     }
 
+    /** Link default receivers if no users are assigned. */
+    public function linkFallbackReceivers(): void
+    {
+        if (empty($this->users)) {
+            $receivers = ContactTypeReceiver::find()->where(['type' => $this->type])->all();
+            foreach ($receivers as $receiver) {
+                if ($receiver->user) {
+                    $this->link('users', $receiver->user);
+                }
+            }
+            // Refresh relation
+            $this->unsetRelation('users');
+        }
+    }
+
     public function rules(): array
     {
         return [
@@ -65,7 +82,9 @@ class ContactMessage extends ActiveRecord
                 self::TYPE_TEACHER_CONTACT,
                 self::TYPE_COURSE_SIGNUP,
                 self::TYPE_COURSE_TRIAL,
-                self::TYPE_TEACHER_PLAN
+                self::TYPE_TEACHER_PLAN,
+                self::TYPE_GENERAL_CONTACT,
+                self::TYPE_ORGANISATION_CONTACT,
             ]],
             [['name', 'email'], 'string', 'max' => 150],
             [['telephone'], 'string', 'max' => 50],

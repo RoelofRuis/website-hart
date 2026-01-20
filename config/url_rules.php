@@ -32,6 +32,7 @@ return [
     'portaal' => 'site/manage',
     'portaal/logout' => 'site/logout',
     'portaal/berichten' => 'contact/messages',
+    'portaal/contact' => 'contact/settings',
     'portaal/alle-berichten' => 'contact/all-messages',
     'portaal/cursussen' => 'course/admin',
     'portaal/cursus/<id:\d+>' => 'course/update',

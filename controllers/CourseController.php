@@ -81,6 +81,8 @@ class CourseController extends Controller
                 }
             }
 
+            $contact->linkFallbackReceivers();
+
             Yii::$app->session->setFlash('success', Yii::t('app', 'Thanks! Your signup has been received.'));
             return $this->refresh();
         }
