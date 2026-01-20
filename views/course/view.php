@@ -4,6 +4,7 @@ use app\models\ContactMessage;
 use app\models\Course;
 use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Url;
 use yii\web\View;
 
 /**
@@ -40,10 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php foreach ($model->teachers as $teacher): ?>
                         <div class="col-md-4 mb-4">
                             <?= $this->render('../search/_card', [
-                                'href' => \yii\helpers\Url::to(['teacher/view', 'slug' => $teacher->slug]),
+                                'href' => Url::to(['teacher/view', 'slug' => $teacher->slug]),
                                 'image' => $teacher->profile_picture,
                                 'title' => $teacher->user->full_name,
-                                'content' => $teacher->description,
+                                'content' => $teacher->summary,
                                 'cta' => Yii::t('app', 'View teacher'),
                             ]); ?>
                         </div>
