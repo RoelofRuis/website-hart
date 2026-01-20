@@ -8,7 +8,6 @@ class SearchForm extends Model
 {
     public string $q = '';
     public string $type = '';
-    public ?int $parent_id = null;
     public ?int $category_id = null;
     public int $per_page = 12;
     public int $page = 1;

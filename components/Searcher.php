@@ -10,8 +10,6 @@ use yii\helpers\Url;
 
 class Searcher
 {
-    const SEARCH_SEED = 'search_seed';
-
     public function search(SearchForm $form): SearchResult
     {
         if ($form->type === 'courses') {
@@ -20,9 +18,8 @@ class Searcher
             $data_query = $this->buildTeacherSubquery($form);
         } elseif ($form->type === 'subcourses') {
             $data_query = $this->buildCourseSubquery($form);
-            if ($form->parent_id) {
-                // Assuming parent_id means category_id for subcourses if it's not a course field
-                $data_query->andFilterWhere(['cn.category_id' => $form->parent_id]);
+            if ($form->category_id) {
+                $data_query->andFilterWhere(['cn.category_id' => $form->category_id]);
             }
         } else {
             $data_query = $this->buildStaticSubquery($form)
@@ -37,10 +34,9 @@ class Searcher
             ->offset($form->getOffset())
             ->orderBy([
                 new Expression('CASE WHEN type = \'static\' THEN 1 ELSE 0 END'),
-                new Expression('RANDOM()')
+                'title' => SORT_ASC,
             ]);
 
-        Yii::$app->db->createCommand("SELECT setseed(:seed)", [':seed' => $this->getSearchSeed()])->execute();
         $rows = $query->all();
 
         $results = [];
@@ -167,15 +163,5 @@ class Searcher
         }
 
         return $subquery;
-    }
-
-    private function getSearchSeed(): float
-    {
-        $seed = Yii::$app->session->get(self::SEARCH_SEED);
-        if ($seed === null) {
-            $seed = mt_rand() / mt_getrandmax();
-            Yii::$app->session->set(self::SEARCH_SEED, $seed);
-        }
-        return (float)$seed;
     }
 }
