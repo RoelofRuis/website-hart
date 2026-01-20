@@ -6,7 +6,10 @@
  * @var string $title
  * @var string $content
  * @var string $cta
+ * @var boolean $hide_on_mobile
  */
+
+$hide_on_mobile = $hide_on_mobile ?? false;
 
 use yii\helpers\Html;
 
@@ -18,7 +21,7 @@ use yii\helpers\Html;
     <div class="card h-100 lift-card">
         <?php if (!empty($image)): ?>
             <?= Html::img($image, [
-                'class' => 'card-img-top',
+                'class' => $hide_on_mobile ? 'card-img-top d-none d-md-block' : 'card-img-top',
                 'alt' => Html::encode($title),
                 'style' => 'aspect-ratio: 16/9; object-fit: cover;',
             ]) ?>

@@ -50,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'title' => $teacher->user->full_name,
                                 'content' => $teacher->summary,
                                 'cta' => Yii::t('app', 'View teacher'),
+                                'hide_on_mobile' => true,
                             ]); ?>
                         </div>
                     <?php endforeach; ?>
