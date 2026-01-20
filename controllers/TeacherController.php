@@ -32,7 +32,6 @@ class TeacherController extends Controller
         } else {
             $query->orderBy(['user.full_name' => SORT_ASC]);
         }
-
         $teachers = $query->all();
         $staticContent = StaticContent::findByKey('teachers-index');
         return $this->render('index', [
@@ -44,13 +43,16 @@ class TeacherController extends Controller
 
     public function actionView(string $slug)
     {
-        $model = Teacher::findBySlug($slug)->with('user')->one();
-        if (!$model instanceof Teacher) {
+        $teacher = Teacher::findBySlug($slug)->with('user')->one();
+        if (!$teacher instanceof Teacher) {
             throw new NotFoundHttpException('Teacher not found.');
         }
 
+        $courses = $teacher->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
+
         return $this->render('view', [
-            'teacher' => $model,
+            'teacher' => $teacher,
+            'courses' => $courses,
         ]);
     }
 }

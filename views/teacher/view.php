@@ -2,6 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var app\models\Teacher $teacher */
+/** @var app\models\Course[] $courses */
 
 use yii\bootstrap5\Html;
 use yii\helpers\HtmlPurifier;
@@ -80,14 +81,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-12">
                     <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h3>
                     <div class="row">
-                        <?php foreach ($teacher->getTaughtCourses()->all() as $course): ?>
-                            <?= $this->render('_course_card', [
-                                'course' => $course,
-                                'teacher' => $teacher,
-                            ]); ?>
-                        <?php endforeach; ?>
-                        <?php if (!$teacher->getTaughtCourses()->exists()): ?>
+                        <?php if (empty($courses)): ?>
                             <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No courses assigned yet.')) ?></div>
+                        <?php else: ?>
+                            <?php foreach ($courses as $course): ?>
+                                <?= $this->render('_course_card', [
+                                    'course' => $course,
+                                    'teacher' => $teacher,
+                                ]); ?>
+                            <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
                 </div>

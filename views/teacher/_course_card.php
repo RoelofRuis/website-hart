@@ -10,6 +10,9 @@ use app\components\Placeholder;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/** @var LessonFormat[] $formats */
+$formats = $teacher->getLessonFormats()->where(['course_id' => $course->id])->all();
+
 ?>
 <div class="col-md-12 mb-3">
     <a href="<?= Url::to(['course/view', 'slug' => $course->slug]) ?>" class="text-decoration-none text-reset">
@@ -42,12 +45,10 @@ use yii\helpers\Url;
                     </div>
                 </div>
             </div>
+            <?php if (!empty($formats)): ?>
             <div class="px-3 pb-3">
                 <div class="list-group list-group-flush border-top">
-                    <?php
-                    /** @var LessonFormat[] $formats */
-                    $formats = $teacher->getLessonFormats()->where(['course_id' => $course->id])->all();
-                    foreach ($formats as $index => $format): ?>
+                    <?php foreach ($formats as $index => $format): ?>
                         <div class="list-group-item px-0 py-2 border-bottom-light">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div class="flex-grow-1">
@@ -68,6 +69,7 @@ use yii\helpers\Url;
                     <?php endforeach; ?>
                 </div>
             </div>
+            <?php endif; ?>
             <div class="card-footer bg-transparent border-0 p-0">
                 <div class="btn btn-outline-primary w-100 rounded-0 rounded-bottom">
                     <?= Yii::t('app', 'View course') ?>
