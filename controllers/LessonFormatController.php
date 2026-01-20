@@ -58,14 +58,19 @@ class LessonFormatController extends Controller
         if (!$course) {
             throw new NotFoundHttpException('Course not found.');
         }
+
         /** @var User $current */
         $current = Yii::$app->user->identity;
         if (!$current instanceof User) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        // Allow admins, or teachers already linked to this course, to add a lesson option.
-        // Linking teachers to courses is admin-only; teachers cannot self-link by creating a format.
-        $isLinked = $course->getLessonFormats()->andWhere(['teacher_id' => $current->id])->exists();
+
+        $teacher = $current->getTeacher()->one();
+        if (!$teacher instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $isLinked = $teacher->getAccessibleCourses()->andWhere(['id' => $course_id])->exists();
         $allowed = $current->is_admin || $isLinked;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
@@ -73,7 +78,7 @@ class LessonFormatController extends Controller
 
         $model = new LessonFormat([
             'course_id' => $course->id,
-            'teacher_id' => $current->id,
+            'teacher_id' => $teacher->id,
             'price_display_type' => LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_LESSON,
         ]);
 
@@ -81,7 +86,7 @@ class LessonFormatController extends Controller
             if (!$current->is_admin) {
                 // Prevent spoofing by non-admins
                 $model->course_id = $course->id;
-                $model->teacher_id = $current->id;
+                $model->teacher_id = $teacher->id;
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Lesson option created.'));
@@ -101,12 +106,19 @@ class LessonFormatController extends Controller
         if (!$model) {
             throw new NotFoundHttpException('Lesson format not found.');
         }
+
         /** @var User $current */
         $current = Yii::$app->user->identity;
         if (!$current instanceof User) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        $allowed = $current->is_admin || $model->teacher_id === $current->id;
+
+        $teacher = $current->getTeacher()->one();
+        if (!$teacher instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $allowed = $current->is_admin || $model->teacher_id === $teacher->id;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }
@@ -114,7 +126,7 @@ class LessonFormatController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if (!$current->is_admin) {
                 // Lock ownership fields for non-admins
-                $model->teacher_id = $current->id;
+                $model->teacher_id = $teacher->id;
                 // Do not allow changing course
                 $model->course_id = $model->getOldAttribute('course_id');
             }
@@ -136,12 +148,19 @@ class LessonFormatController extends Controller
         if (!$model) {
             throw new NotFoundHttpException('Lesson format not found.');
         }
+
         /** @var User $current */
         $current = Yii::$app->user->identity;
         if (!$current instanceof User) {
             throw new NotFoundHttpException('Not allowed.');
         }
-        $allowed = $current->is_admin || $model->teacher_id === $current->id;
+
+        $teacher = $current->getTeacher()->one();
+        if (!$teacher instanceof Teacher) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $allowed = $current->is_admin || $model->teacher_id === $teacher->id;
         if (!$allowed) {
             throw new NotFoundHttpException('Not allowed.');
         }
@@ -156,9 +175,15 @@ class LessonFormatController extends Controller
         if (!$source) {
             throw new NotFoundHttpException('Lesson format not found.');
         }
+
         /** @var User $current */
         $current = Yii::$app->user->identity;
         if (!$current instanceof User) {
+            throw new NotFoundHttpException('Not allowed.');
+        }
+
+        $teacher = $current->getTeacher()->one();
+        if (!$teacher instanceof Teacher) {
             throw new NotFoundHttpException('Not allowed.');
         }
 
