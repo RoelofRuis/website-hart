@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * @var array $selected
  */
 
-$this->title = Yii::t('app', 'Contactinstellingen');
+$this->title = Yii::t('app', 'Contact Settings');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -47,8 +47,8 @@ $userList = ArrayHelper::map($users, fn($u) => $u->id, fn($u) => $u->full_name);
         </div>
         <?php endforeach; ?>
         <div class="form-group mt-4">
-            <?= Html::submitButton(Yii::t('app', 'Instellingen opslaan'), ['class' => 'btn btn-primary']) ?>
-            <?= Html::a(Yii::t('app', 'Annuleren'), ['site/manage'], ['class' => 'btn btn-outline-secondary']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Cancel'), ['site/manage'], ['class' => 'btn btn-outline-secondary']) ?>
         </div>
     </form>
 </div>

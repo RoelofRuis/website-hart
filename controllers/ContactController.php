@@ -156,15 +156,15 @@ class ContactController extends Controller
                     }
                 }
             }
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Instellingen succesvol opgeslagen.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Settings saved.'));
             return $this->redirect(['settings']);
         }
 
         $types = [
-            ContactMessage::TYPE_GENERAL_CONTACT => Yii::t('app', 'Contactpagina'),
-            ContactMessage::TYPE_ORGANISATION_CONTACT => Yii::t('app', 'Organisatiepagina'),
-            ContactMessage::TYPE_COURSE_SIGNUP => Yii::t('app', 'Cursusinschrijving fallback'),
-            ContactMessage::TYPE_COURSE_TRIAL => Yii::t('app', 'Proefles fallback'),
+            ContactMessage::TYPE_GENERAL_CONTACT => Yii::t('app', 'Contact Page'),
+            ContactMessage::TYPE_ORGANISATION_CONTACT => Yii::t('app', 'Organisation Page'),
+            ContactMessage::TYPE_COURSE_SIGNUP => Yii::t('app', 'Course signup fallback'),
+            ContactMessage::TYPE_COURSE_TRIAL => Yii::t('app', 'Trial lesson fallback'),
         ];
 
         $users = User::find()->orderBy(['full_name' => SORT_ASC])->all();
