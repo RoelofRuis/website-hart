@@ -47,7 +47,11 @@ window.SearchWidget = window.SearchWidget || (function () {
     const controller = new AbortController();
     state.set(cfg.root, { controller, lastQ: q, page: page || 1, nextPage: st.nextPage || null });
 
-    if (cfg.spinnerEl) cfg.spinnerEl.classList.remove('d-none');
+    if (cfg.spinnerEl) {
+      cfg.spinnerEl.classList.remove('d-none');
+      const btnContent = cfg.spinnerEl.closest('button')?.querySelector('.search-button-content');
+      if (btnContent) btnContent.classList.add('d-none');
+    }
     try {
       const url = buildUrl(cfg, q, page || 1);
       const res = await fetch(url.toString(), {
@@ -70,6 +74,16 @@ window.SearchWidget = window.SearchWidget || (function () {
         cfg.resultsEl.innerHTML = html.trim();
       }
 
+      // Update clear button visibility based on whether results are present
+      if (cfg.clearEl) {
+        const hasResults = cfg.resultsEl.querySelector('.row') !== null;
+        if (q.length > 0 && !hasResults) {
+          cfg.clearEl.classList.remove('d-none');
+        } else {
+          cfg.clearEl.classList.add('d-none');
+        }
+      }
+
       const st2 = state.get(cfg.root) || {};
       st2.nextPage = nextPage || null;
       state.set(cfg.root, st2);
@@ -85,7 +99,11 @@ window.SearchWidget = window.SearchWidget || (function () {
       if (e.name === 'AbortError') return;
       setError(cfg, e.message || 'Request failed');
     } finally {
-      if (cfg.spinnerEl) cfg.spinnerEl.classList.add('d-none');
+      if (cfg.spinnerEl) {
+        cfg.spinnerEl.classList.add('d-none');
+        const btnContent = cfg.spinnerEl.closest('button')?.querySelector('.search-button-content');
+        if (btnContent) btnContent.classList.remove('d-none');
+      }
     }
   }
 
@@ -105,6 +123,7 @@ window.SearchWidget = window.SearchWidget || (function () {
       errorEl: document.getElementById(root.getAttribute('data-error-id')),
       loadMoreEl: document.getElementById(root.getAttribute('data-load-more-id')),
       categoriesEl: document.getElementById(root.getAttribute('data-categories-id')),
+      clearEl: document.getElementById(root.id + '-clear'),
       categoryId: root.getAttribute('data-selected-category-id') || null,
       minLen: 2,
     };
@@ -112,6 +131,14 @@ window.SearchWidget = window.SearchWidget || (function () {
 
     const onType = debounce(() => {
       const q = cfg.inputEl.value.trim();
+      const hasResults = cfg.resultsEl.querySelector('.row') !== null;
+      if (cfg.clearEl) {
+        if (q.length > 0 && !hasResults) {
+          cfg.clearEl.classList.remove('d-none');
+        } else {
+          cfg.clearEl.classList.add('d-none');
+        }
+      }
       if (q.length >= cfg.minLen || q.length === 0) {
         // Reset to the first page
         fetchAndRender(cfg, q, 1, false);
@@ -154,6 +181,14 @@ window.SearchWidget = window.SearchWidget || (function () {
       ev.preventDefault();
       onType();
     });
+
+    if (cfg.clearEl) {
+      cfg.clearEl.addEventListener('click', function () {
+        cfg.inputEl.value = '';
+        onType();
+        cfg.inputEl.focus();
+      });
+    }
 
     if (cfg.loadMoreEl) {
       cfg.loadMoreEl.addEventListener('click', function () {

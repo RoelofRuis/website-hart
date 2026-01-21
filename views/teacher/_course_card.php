@@ -71,7 +71,7 @@ $formats = $teacher->getLessonFormats()->where(['course_id' => $course->id])->al
             </div>
             <?php endif; ?>
             <div class="card-footer bg-transparent border-0 p-0">
-                <div class="btn btn-outline-primary w-100 rounded-0 rounded-bottom">
+                <div class="btn btn-outline-primary w-100 rounded-0 rounded-bottom" aria-hidden="true">
                     <?= Yii::t('app', 'View course') ?>
                 </div>
             </div>

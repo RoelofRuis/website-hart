@@ -9,8 +9,12 @@ use yii\helpers\HtmlPurifier;
 use app\widgets\ContactFormWidget;
 use app\models\ContactMessage;
 use app\components\Placeholder;
+use app\components\StructuredData;
+
+StructuredData::registerTeacher($this, $teacher);
 
 $this->title = $teacher->user->full_name;
+$this->params['meta_description'] = mb_strimwidth(strip_tags($teacher->getFullName() . ': ' . $teacher->description ?? ''), 0, 160, '…');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teachers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -79,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="row mt-4">
                 <div class="col-12">
-                    <h3 class="mb-3"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h3>
+                    <h2 class="h3 mb-3"><?= Html::encode(Yii::t('app', 'Courses taught')) ?></h2>
                     <div class="row">
                         <?php if (empty($courses)): ?>
                             <div class="col-12 text-muted"><?= Html::encode(Yii::t('app', 'No courses assigned yet.')) ?></div>
@@ -98,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-lg-5 col-xl-4">
             <?= ContactFormWidget::widget([
-                'heading' => Yii::t('app', 'Contact the teacher'),
+                'heading' => Yii::t('app', 'Contact {teacher}', ['teacher' => $teacher->user->full_name]),
                 'type' => ContactMessage::TYPE_TEACHER_CONTACT,
                 'user_id' => $teacher->user->id,
                 'reasons' => [

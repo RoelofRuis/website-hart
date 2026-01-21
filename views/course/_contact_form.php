@@ -19,7 +19,7 @@ use yii\bootstrap5\Html;
             <?php endif; ?>
         <?php endforeach; ?>
 
-        <h3 class="card-title mb-3"><?= Html::encode(Yii::t('app', 'Sign Up!')) ?></h3>
+        <h3 class="card-title mb-3"><?= Html::encode(Yii::t('app', 'Sign Up for {course}', ['course' => $course->name])) ?></h3>
         <p class="text-muted mb-4"><?= Html::encode(Yii::t('app', 'Fill in the form and we will contact you soon.')) ?></p>
 
         <?php $form = ActiveForm::begin(['id' => 'course-signup-form']); ?>
@@ -51,7 +51,7 @@ use yii\bootstrap5\Html;
         <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message') . ' ' . Yii::t('app', '(Optional)')) ?>
 
         <div class="d-grid mt-4">
-            <?= Html::submitButton(Yii::t('app', 'Sign Up!'), ['class' => 'btn btn-primary btn-lg']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Sign Up!') . ' <i class="bi bi-send ms-2"></i>', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

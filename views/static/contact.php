@@ -10,6 +10,7 @@ use app\models\ContactMessage;
 use yii\helpers\HtmlPurifier;
 
 $this->title = $model->title;
+$this->params['meta_description'] = mb_strimwidth($this->title . ': ' . strip_tags($model->content), 0, 160, '…');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row site-static">

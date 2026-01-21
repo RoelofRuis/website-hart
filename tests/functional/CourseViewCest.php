@@ -30,7 +30,7 @@ class CourseViewCest
 
         $I->amOnPage('/cursus/piano');
         $I->see('Piano', 'h1');
-        $I->see('Docenten voor deze cursus', 'h3');
+        $I->see('Docenten voor deze cursus', 'h2');
         $I->see('Gina Vos', '.card-title');
         $I->see('Joris Willems', '.card-title');
         $I->see('Alice van Dijk', '.card-title');

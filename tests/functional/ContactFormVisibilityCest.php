@@ -37,7 +37,7 @@ class ContactFormVisibilityCest
     public function testTeacherPageHasRadio(FunctionalTester $I)
     {
         $I->amOnPage('/docent/alice-van-dijk');
-        $I->see('Neem contact op met de docent', 'h3');
+        $I->see('Neem contact op met Alice van Dijk', 'h3');
         $I->see('Reden voor contact', 'label');
         $I->seeElement('input[name="ContactMessage[type]"][type="radio"]');
     }

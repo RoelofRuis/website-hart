@@ -47,7 +47,7 @@ use yii\bootstrap5\Html;
         <?= $form->field($model, 'message')->textarea(['rows' => 6, 'placeholder' => Yii::t('app', 'Write your message...')]) ?>
 
         <div class="d-grid">
-            <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary btn-lg']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Send') . ' <i class="bi bi-send ms-2"></i>', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

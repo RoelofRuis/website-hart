@@ -46,17 +46,24 @@ use yii\helpers\Html;
 
         <form id="<?= Html::encode($form_id) ?>" class="position-relative" action="<?= Html::encode($endpoint) ?>"
               method="GET" role="search" novalidate>
-            <div class="mb-3 position-relative">
-                <?= Html::input('text', $param_name, $value ?? '', [
+            <div class="mb-3">
+                <div class="input-group input-group-lg">
+                    <?= Html::input('text', $param_name, $value ?? '', [
                         'id' => $input_id,
-                        'class' => 'form-control form-control-lg',
+                        'class' => 'form-control',
                         'placeholder' => $placeholder,
                         'aria-label' => $aria_label,
                         'autocomplete' => 'off',
-                ]) ?>
-                <div id="<?= Html::encode($spinner_id) ?>"
-                     class="position-absolute top-50 end-0 translate-middle-y me-3 spinner-border text-secondary d-none"
-                     role="status" aria-hidden="true" style="width:1.5rem;height:1.5rem;"></div>
+                    ]) ?>
+                    <button class="btn btn-primary px-4 d-flex align-items-center justify-content-center" type="submit" style="min-width: 120px;">
+                        <span class="search-button-content">
+                            <i class="bi bi-search me-2"></i><?= Yii::t('app', 'Search') ?>
+                        </span>
+                        <div id="<?= Html::encode($spinner_id) ?>"
+                             class="spinner-border spinner-border-sm d-none"
+                             role="status" aria-hidden="true"></div>
+                    </button>
+                </div>
             </div>
         </form>
 
@@ -79,6 +86,7 @@ use yii\helpers\Html;
         <?php endif; ?>
 
         <div id="<?= Html::encode($results_id) ?>" class="search-results"
+             aria-live="polite"
              data-empty="<?= Html::encode(Yii::t('app', 'Type at least 2 characters to search…')) ?>"></div>
 
         <div id="<?= Html::encode($error_id) ?>" class="mt-2 d-none"></div>

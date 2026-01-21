@@ -4,7 +4,10 @@
 /** @var app\models\StaticContent $homeTitle */
 /** @var app\models\StaticContent $homeNews */
 
+use app\components\StructuredData;
 use yii\helpers\Url;
+
+StructuredData::registerOrganization($this);
 
 $this->title = 'Vereniging HART Muziekschool'
 ?>

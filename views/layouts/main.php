@@ -15,7 +15,8 @@ AppAsset::register($this);
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no']);
-$this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()]);
+$this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? Yii::t('app', 'Discover music lessons at VHM Muziekschool. From piano to guitar, our experienced teachers help you grow your musical talent.')], 'description');
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 ?>
@@ -24,17 +25,18 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 <head>
     <title><?= Html::encode($this->title) ?></title>
-    <!-- Preconnects for faster Google Fonts fetching -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Montserrat font, loaded with display swap for performance -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
+
+<a class="visually-hidden-focusable" href="#main">
+    <?= Yii::t('app', 'Skip to main content') ?>
+</a>
 
 <header id="header">
     <?php
@@ -70,6 +72,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <?php if ($showBreadcrumbs): ?>
             <div class="mt-4">
                 <?= Breadcrumbs::widget([
+                    'options' => ['aria-label' => Yii::t('app', 'Breadcrumbs'), 'class' => 'breadcrumb'],
                     'links' => $this->params['breadcrumbs'],
                     'itemTemplate' => "<li class=\"breadcrumb-item p-1 bg-white rounded-2\" style=\"--bs-bg-opacity: .5;\">{link}</li>\n",
                     'activeItemTemplate' => "<li class=\"breadcrumb-item active p-1 bg-white rounded-2\" style=\"--bs-bg-opacity: .5;\">{link}</li>\n",
@@ -104,8 +107,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
             <div class="col-12 col-md-5 text-md-start text-center">
                 <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><a target="_blank" href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?> <i class="bi bi-box-arrow-up-right ms-1"></i></a></li>
-                    <li class="mb-2"><a target="_blank" href="https://www.instagram.com/hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Instagram')) ?> <i class="bi bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li class="mb-2">
+                        <a target="_blank" rel="noopener" href="https://www.facebook.com/Hartmuziekschool/" aria-label="<?= Yii::t('app', 'Visit our Facebook page (opens in new tab)') ?>">
+                            <?= Html::encode(Yii::t('app', 'Facebook')) ?> <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a target="_blank" rel="noopener" href="https://www.instagram.com/hartmuziekschool/" aria-label="<?= Yii::t('app', 'Visit our Instagram page (opens in new tab)') ?>">
+                            <?= Html::encode(Yii::t('app', 'Instagram')) ?> <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true"></i>
+                        </a>
+                    </li>
                     <li class="mb-2"><a href="<?= Url::to(['static/instrument-rental']) ?>"><?= Html::encode(Yii::t('app', 'Renting an instrument')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['static/youth-fund']) ?>"><?= Html::encode(Yii::t('app', 'Youth Culture Fund')) ?></a></li>
                 </ul>

@@ -55,5 +55,6 @@ class SearchCest
     {
         $I->amOnPage('/search?q=nonexistentsearchterm');
         $I->see('Geen resultaten gevonden.', '.search-no-results');
+        $I->see('Zoekopdracht wissen', 'button');
     }
 }
