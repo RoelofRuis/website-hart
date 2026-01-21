@@ -36,7 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function (User $model) {
                     $teacher = $model->getTeacher()->one();
                     if ($teacher instanceof Teacher) {
-                        return Html::a(Html::encode($model->full_name), ['teacher/view', 'slug' => $teacher->slug], ['target' => '_blank']);
+                        return Html::a(
+                            Html::encode($model->full_name) . ' <i class="bi bi-box-arrow-up-right ms-1"></i>',
+                            ['teacher/view', 'slug' => $teacher->slug],
+                            ['target' => '_blank']
+                        );
                     } else {
                         return Html::encode($model->full_name);
                     }

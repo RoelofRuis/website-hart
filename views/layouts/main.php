@@ -29,6 +29,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Montserrat font, loaded with display swap for performance -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
@@ -102,8 +104,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
             <div class="col-12 col-md-5 text-md-start text-center">
                 <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><a target="_blank" href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?></a></li>
-                    <li class="mb-2"><a target="_blank" href="https://www.instagram.com/hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Instagram')) ?></a></li>
+                    <li class="mb-2"><a target="_blank" href="https://www.facebook.com/Hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Facebook')) ?> <i class="bi bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li class="mb-2"><a target="_blank" href="https://www.instagram.com/hartmuziekschool/"><?= Html::encode(Yii::t('app', 'Instagram')) ?> <i class="bi bi-box-arrow-up-right ms-1"></i></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['static/instrument-rental']) ?>"><?= Html::encode(Yii::t('app', 'Renting an instrument')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['static/youth-fund']) ?>"><?= Html::encode(Yii::t('app', 'Youth Culture Fund')) ?></a></li>
                 </ul>
