@@ -44,9 +44,9 @@ if ($selected) {
 
     <?php if ($showActions): ?>
         <div class="mt-2 text-end">
-            <?= Html::a(Yii::t('app', 'Edit'), ['lesson-format/update', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary']) ?>
-            <?= Html::a(Yii::t('app', 'Copy'), ['lesson-format/copy', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
-            <?= Html::a(Yii::t('app', 'Delete'), ['lesson-format/delete', 'id' => $model->id], [
+            <?= Html::a('<i class="bi bi-pencil me-1"></i>' . Yii::t('app', 'Edit'), ['lesson-format/update', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary']) ?>
+            <?= Html::a('<i class="bi bi-copy me-1"></i>' . Yii::t('app', 'Copy'), ['lesson-format/copy', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
+            <?= Html::a('<i class="bi bi-trash me-1"></i>' . Yii::t('app', 'Delete'), ['lesson-format/delete', 'id' => $model->id], [
                 'class' => 'btn btn-sm btn-outline-danger',
                 'data' => [
                     'confirm' => Yii::t('app', 'Are you sure you want to delete this format?'),

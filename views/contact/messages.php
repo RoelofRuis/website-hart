@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
         <?php if (Yii::$app->user->identity->isAdmin()): ?>
-            <?= Html::a(Yii::t('app', 'Show all messages'), ['all-messages'], ['class' => 'btn btn-outline-primary me-2']) ?>
+            <?= Html::a('<i class="bi bi-list-ul me-1"></i>' . Yii::t('app', 'Show all messages'), ['all-messages'], ['class' => 'btn btn-outline-primary me-2']) ?>
         <?php endif; ?>
     </div>
 
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="col-md-2">
-            <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-petrol w-100', 'name' => 'search-button']) ?>
+            <?= Html::submitButton('<i class="bi bi-search me-1"></i>' . Yii::t('app', 'Search'), ['class' => 'btn btn-petrol w-100', 'name' => 'search-button']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'buttons' => [
                     'update' => function ($url) {
-                        return Html::a(Yii::t('app', 'Edit'), $url, ['class' => 'btn btn-sm btn-outline-secondary']);
+                        return Html::a('<i class="bi bi-pencil me-1"></i>' . Yii::t('app', 'Edit'), $url, ['class' => 'btn btn-sm btn-outline-secondary']);
                     },
                 ],
                 'contentOptions' => ['style' => 'width: 120px; white-space: nowrap;'],

@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                        <?= Html::encode(Yii::t('app', 'Add format')) ?>
+                        <i class="bi bi-plus-lg me-1"></i> <?= Html::encode(Yii::t('app', 'Add format')) ?>
                     </button>
                     <ul class="dropdown-menu">
                         <?php foreach ($linkedCourses as $course): ?>
