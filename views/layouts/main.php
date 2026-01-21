@@ -82,8 +82,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
         <?php foreach (Yii::$app->session->getAllFlashes() as $type => $message): ?>
             <?php if (str_starts_with($type, 'form-')) continue; ?>
-            <div class="alert alert-<?= Html::encode($type) ?> alert-dismissible fade show" role="alert">
-                <?= Html::encode($message) ?>
+            <div class="alert alert-<?= Html::encode($type) ?> alert-dismissible fade show shadow-sm border-2" role="alert">
+                <div class="d-flex align-items-center">
+                    <?php if($type === 'success'): ?>
+                        <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+                    <?php elseif($type === 'danger'): ?>
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+                    <?php endif; ?>
+                    <div><?= Html::encode($message) ?></div>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endforeach; ?>

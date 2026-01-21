@@ -32,8 +32,8 @@ use yii\helpers\Html;
                 <?= Html::encode(strip_tags($content)); ?>
             </p>
         </div>
-        <div class="card-footer p-0">
-            <span class="btn btn-outline-primary w-100 rounded-0 rounded-bottom" aria-hidden="true">
+        <div class="card-footer p-0 border-0">
+            <span class="btn btn-petrol w-100 rounded-0 rounded-bottom py-2 fw-bold" aria-hidden="true">
                 <?= Html::encode($cta); ?>
             </span>
         </div>

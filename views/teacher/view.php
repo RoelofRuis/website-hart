@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            <div class="lead">
+            <div class="lead mb-4">
                 <?= HtmlPurifier::process($teacher->description ?? ''); ?>
             </div>
 

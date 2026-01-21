@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      class="img-fluid mb-3 rounded" style="max-height: 260px; object-fit: cover; width: 100%;">
             <?php endif; ?>
             <h1 class="mb-3"><?= Html::encode($model->name) ?></h1>
-            <div class="lead">
+            <div class="lead mb-4">
                 <?php
                 echo HtmlPurifier::process($model->description ?? '');
                 ?>

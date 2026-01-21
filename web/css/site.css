@@ -47,8 +47,18 @@ html, body {
 
 body { padding-top: var(--navbar-height); }
 
-a { color: var(--color-turquoise); }
-a:hover, a:focus { color: var(--color-magenta); }
+a {
+    color: #3b8a8b; /* Darker turquoise for better contrast (#55BDBE was too light) */
+    text-underline-offset: 3px;
+}
+a:hover, a:focus {
+    color: var(--color-magenta);
+}
+
+.lead {
+    line-height: 1.6;
+    font-weight: 400;
+}
 
 .app-navbar {
     background-color: var(--color-petrol) !important;
@@ -82,19 +92,31 @@ a:hover, a:focus { color: var(--color-magenta); }
 .text-yellow { color: var(--color-yellow) !important; }
 .text-turquoise { color: var(--color-turquoise) !important; }
 
+.btn-petrol {
+    background-color: var(--color-petrol);
+    color: #fff;
+    border-color: var(--color-petrol);
+}
+
+.btn-petrol:hover, .btn-petrol:focus {
+    background-color: var(--color-turquoise);
+    color: #fff;
+    border-color: var(--color-turquoise);
+}
+
 .lift-card {
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transition: transform 0.2s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0,0,0,0.08);
 }
 
 .lift-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.lift-card:hover .btn-outline-primary {
-    color: #fff;
-    background-color: var(--color-petrol);
-    border-color: var(--color-petrol);
+.lift-card:hover .btn-petrol {
+    background-color: var(--color-magenta);
+    border-color: var(--color-magenta);
 }
 
 .border-bottom-light {
