@@ -14,7 +14,6 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $key
  * @property string $content
- * @property string $summary
  * @property string $title
  * @property string $slug
  * @property string $explainer
@@ -52,7 +51,6 @@ class StaticContent extends ActiveRecord
         return [
             [['content'], 'required'],
             [['content'], 'string'],
-            [['summary'], 'string', 'max' => 200],
             [['cover_image'], 'string', 'max' => 255],
             [['content', 'tags'], 'string'],
         ];
@@ -64,7 +62,6 @@ class StaticContent extends ActiveRecord
             'key' => Yii::t('app', 'Key'),
             'title' => Yii::t('app', 'Title'),
             'content' => Yii::t('app', 'Content'),
-            'summary' => Yii::t('app', 'Summary'),
             'slug' => Yii::t('app', 'Slug'),
             'explainer' => Yii::t('app', 'Explainer'),
             'cover_image' => Yii::t('app', 'Cover image'),

@@ -4,6 +4,7 @@ namespace app\tests\functional;
 
 use app\tests\fixtures\CourseFixture;
 use app\tests\fixtures\CourseTeacherFixture;
+use app\tests\fixtures\LessonFormatFixture;
 use app\tests\fixtures\TeacherFixture;
 use app\tests\fixtures\UserFixture;
 use app\tests\FunctionalTester;
@@ -17,6 +18,7 @@ class CourseViewCest
             'teachers' => TeacherFixture::class,
             'courses' => CourseFixture::class,
             'course_teachers' => CourseTeacherFixture::class,
+            'lesson_formats' => LessonFormatFixture::class,
         ]);
     }
 
@@ -34,6 +36,10 @@ class CourseViewCest
         $I->see('Gina Vos', '.card-title');
         $I->see('Joris Willems', '.card-title');
         $I->see('Alice van Dijk', '.card-title');
+
+        // Check if taught courses are shown instead of summary
+        // Alice van Dijk (teacher 1) teaches Piano (course 2)
+        $I->see('Piano', '.card-text');
     }
 
     public function testCourseWithoutTeachersReturns404(FunctionalTester $I)

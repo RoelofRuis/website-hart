@@ -51,13 +51,13 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                     <h5 class="alert-heading">⚠️ <?= Yii::t('app', 'Admin settings') ?></h5>
                     <div class="row">
                         <div class="col-md-4">
-                            <?= $form->field($user, 'is_active')->checkbox() ?>
+                            <?= $form->field($user, 'is_active')->checkbox()->hint(Yii::t('app', 'Inactive users cannot log in.')) ?>
                         </div>
                         <div class="col-md-4">
-                            <?= $form->field($user, 'is_visible')->checkbox() ?>
+                            <?= $form->field($user, 'is_visible')->checkbox()->hint(Yii::t('app', 'Hidden users are not listed on the site.')) ?>
                         </div>
                         <div class="col-md-4">
-                            <?= $form->field($user, 'is_admin')->checkbox() ?>
+                            <?= $form->field($user, 'is_admin')->checkbox()->hint(Yii::t('app', 'Admin users have full access to the admin panel.')) ?>
                         </div>
                     </div>
                 </div>

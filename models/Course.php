@@ -14,7 +14,6 @@ use yii\helpers\Inflector;
  * @property string $name
  * @property string $slug
  * @property string|null $cover_image URL to the cover image
- * @property string|null $summary
  * @property string|null $description
  * @property bool $has_trial
  * @property string $tags
@@ -50,7 +49,6 @@ class Course extends ActiveRecord
             }],
             [['tags'], 'string'],
             [['description'], 'string', 'max' => 2000],
-            [['summary'], 'string', 'max' => 200],
             [['has_trial'], 'boolean'],
             [['name', 'slug'], 'string', 'max' => 64],
             [['cover_image'], 'string', 'max' => 255],
@@ -67,7 +65,6 @@ class Course extends ActiveRecord
             'slug' => Yii::t('app', 'Slug'),
             'category_id' => Yii::t('app', 'Category'),
             'description' => Yii::t('app', 'Description'),
-            'summary' => Yii::t('app', 'Summary'),
             'cover_image' => Yii::t('app', 'Cover image'),
             'has_trial' => Yii::t('app', 'Has trial'),
             'tags' => Yii::t('app', 'Tags'),

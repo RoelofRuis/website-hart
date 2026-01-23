@@ -44,7 +44,6 @@ class StaticController extends Controller
             'title' => 'Copyright',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'about',
@@ -54,7 +53,6 @@ class StaticController extends Controller
             'title' => 'Over de vereniging',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'association',
@@ -64,7 +62,6 @@ class StaticController extends Controller
             'title' => 'Vereniging & Bestuur',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'contact',
@@ -74,7 +71,6 @@ class StaticController extends Controller
             'title' => 'Contact',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'privacy',
@@ -84,7 +80,6 @@ class StaticController extends Controller
             'title' => 'AVG / Privacy',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'locations',
@@ -94,7 +89,6 @@ class StaticController extends Controller
             'title' => 'Locaties',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'rental',
@@ -104,7 +98,6 @@ class StaticController extends Controller
             'title' => 'Instrumentenverhuur',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'youth-fund',
@@ -114,7 +107,6 @@ class StaticController extends Controller
             'title' => 'Jeugdfonds Sport & Cultuur',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'teachers-index',
@@ -124,7 +116,6 @@ class StaticController extends Controller
             'title' => 'Onze docenten',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'courses-index',
@@ -134,7 +125,6 @@ class StaticController extends Controller
             'title' => 'Ons lesaanbod',
             'content' => '',
             'searchable' => true,
-            'summary' => '',
         ],
         [
             'key' => 'home-title',

@@ -14,7 +14,6 @@ use yii\db\ActiveRecord;
  * @property int $user_id
  * @property string $slug
  * @property string|null $description
- * @property string|null $summary // TODO: deprecated
  * @property string|null $website
  * @property string|null $telephone
  * @property string|null $profile_picture
@@ -75,7 +74,6 @@ class Teacher extends ActiveRecord
             [['description', 'tags'], 'string'],
             [['location_ids'], 'each', 'rule' => ['integer']],
             [['description'], 'string', 'max' => 2000],
-            [['summary'], 'string', 'max' => 200],
             [['slug'], 'string', 'max' => 64],
             [['website', 'teacher_email'], 'string', 'max' => 255],
             [['telephone'], 'string', 'max' => 50],
@@ -92,7 +90,6 @@ class Teacher extends ActiveRecord
             'user_id' => Yii::t('app', 'User'),
             'slug' => Yii::t('app', 'Slug'),
             'description' => Yii::t('app', 'Description'),
-            'summary' => Yii::t('app', 'Summary'),
             'telephone' => Yii::t('app', 'Telephone'),
             'website' => Yii::t('app', 'Website'),
             'teacher_email' => Yii::t('app', 'Teacher email'),
@@ -195,6 +192,11 @@ class Teacher extends ActiveRecord
         return static::find()
             ->innerJoinWith('user')
             ->where(['user.is_active' => true, 'user.is_visible' => true]);
+    }
+
+    public function getFormattedTaughtCourses(): string
+    {
+        return implode(', ', ArrayHelper::getColumn($this->taughtCourses, 'name'));
     }
 
     public function afterFind(): void

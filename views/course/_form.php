@@ -49,14 +49,6 @@ $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
                         ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
                 ?>
 
-                <?= $form->field($model, 'summary')
-                    ->textarea([
-                        'rows' => 2,
-                        'maxlength' => true,
-                    ])
-                    ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
-                ?>
-
                 <?= $form->field($model, 'slug')->widget(LockedField::class, [
                     'locked' => !$model->isNewRecord, // lock only on update
                     'inputOptions' => [

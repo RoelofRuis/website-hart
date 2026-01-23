@@ -19,7 +19,7 @@ class StructuredData extends Component
             "@context" => "https://schema.org",
             "@type" => "Course",
             "name" => $course->name,
-            "description" => $course->summary ?: strip_tags($course->description ?? ''),
+            "description" => strip_tags($course->description ?? ''),
             "provider" => [
                 "@type" => "Organization",
                 "name" => "Vereniging HART Muziekschool",
@@ -44,7 +44,7 @@ class StructuredData extends Component
             "@context" => "https://schema.org",
             "@type" => "Person",
             "name" => $teacher->user->full_name,
-            "description" => $teacher->summary ?: strip_tags($teacher->description ?? ''),
+            "description" => strip_tags($teacher->description ?? ''),
             "url" => Url::to(['teacher/view', 'slug' => $teacher->slug], true),
         ];
 

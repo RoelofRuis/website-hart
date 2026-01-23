@@ -3,6 +3,7 @@
 namespace app\components;
 
 use app\models\forms\SearchForm;
+use app\models\Teacher;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\Url;
@@ -49,7 +50,7 @@ class Searcher
             $type = (string)$row['type'];
             $title = (string)$row['title'];
             $slug = (string)$row['slug'];
-            $snippet = (string)($row['snippet'] ?? '');
+            $snippet = '';
             $image = isset($row['image']) && !empty($row['image']) ? (string)$row['image'] : null;
 
             if ($type === 'course') {
@@ -58,6 +59,10 @@ class Searcher
             } elseif ($type === 'teacher') {
                 $url = Url::to(['teacher/view', 'slug' => $slug]);
                 $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_TEACHER);
+                $teacher = Teacher::find()->where(['slug' => $slug])->one();
+                if ($teacher) {
+                    $snippet = $teacher->getFormattedTaughtCourses();
+                }
             } elseif ($type === 'static') {
                 $url = Url::to(['static/' . $slug]);
                 $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_STATIC);
@@ -87,7 +92,6 @@ class Searcher
                 'cn.name AS title',
                 'cn.slug AS slug',
                 'cn.cover_image AS image',
-                new Expression("''::text AS snippet"),
             ])
             ->distinct()
             ->andFilterWhere(['cn.category_id' => $form->category_id])
@@ -118,7 +122,6 @@ class Searcher
                 'u.full_name AS title',
                 't.slug AS slug',
                 't.profile_picture AS image',
-                't.summary AS snippet',
             ])
             ->from(['t' => '{{%teacher}}'])
             ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id')
@@ -151,7 +154,6 @@ class Searcher
                 'sc.title AS title',
                 'sc.slug AS slug',
                 'sc.cover_image AS image',
-                'sc.summary AS snippet',
             ])
             ->from(['sc' => '{{%static_content}}'])
             ->andWhere(['sc.searchable' => true]);

@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'href' => Url::to(['teacher/view', 'slug' => $teacher->slug]),
                                 'image' => empty($teacher->profile_picture) ? Placeholder::getURL(Placeholder::TYPE_TEACHER) : $teacher->profile_picture,
                                 'title' => $teacher->user->full_name,
-                                'content' => $teacher->summary,
+                                'content' => $teacher->getFormattedTaughtCourses(),
                                 'cta' => Yii::t('app', 'View teacher'),
                                 'hide_on_mobile' => true,
                             ]); ?>

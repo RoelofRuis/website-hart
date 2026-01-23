@@ -43,7 +43,6 @@ class CourseController extends Controller
             $query->andFilterWhere(['or',
                 ['ILIKE', 'name', $q],
                 ['ILIKE', 'description', $q],
-                ['ILIKE', 'summary', $q],
             ])
                 ->orderBy(new Expression("CASE WHEN name ILIKE :qprefix THEN 0 WHEN name LIKE :qany THEN 1 ELSE 2 END, name ASC"))
                 ->addParams([

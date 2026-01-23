@@ -41,14 +41,6 @@ use app\widgets\HtmlEditor;
                     ]);
             ?>
 
-            <?= $form->field($model, 'summary')
-                ->textarea([
-                    'rows' => 2,
-                    'maxlength' => true,
-                ])
-                ->hint(Html::encode(Yii::t('app', 'Short summary shown on the cards in the search results.')))
-            ?>
-
             <?= $form->field($model, 'tags')
                 ->textInput(['maxlength' => true])
                 ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
