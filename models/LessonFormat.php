@@ -24,11 +24,15 @@ use yii\db\ActiveRecord;
 class LessonFormat extends ActiveRecord
 {
     const PRICE_DISPLAY_HIDDEN = 'hidden';
+    const PRICE_DISPLAY_ON_REQUEST = 'on_request';
     const PRICE_DISPLAY_PER_PERSON_PER_LESSON = 'pppl';
+    const PRICE_DISPLAY_PER_PERSON_PER_YEAR = 'pppy';
 
     const FREQUENCY_WEEKLY = 'weekly';
     const FREQUENCY_BIWEEKLY = 'biweekly';
     const FREQUENCY_MONTHLY = 'monthly';
+    const FREQUENCY_OTHER = 'other';
+    const FREQUENCY_IN_AGREEMENT = 'in_agreement';
 
     public static function tableName(): string
     {
@@ -42,9 +46,9 @@ class LessonFormat extends ActiveRecord
             [['course_id', 'teacher_id', 'persons_per_lesson', 'duration_minutes', 'weeks_per_year'], 'integer'],
             [['price_per_person'], 'number'],
             [['frequency'], 'string', 'max' => 50],
-            [['frequency'], 'in', 'range' => [self::FREQUENCY_WEEKLY, self::FREQUENCY_BIWEEKLY, self::FREQUENCY_MONTHLY]],
+            [['frequency'], 'in', 'range' => [self::FREQUENCY_WEEKLY, self::FREQUENCY_BIWEEKLY, self::FREQUENCY_MONTHLY, self::FREQUENCY_OTHER, self::FREQUENCY_IN_AGREEMENT]],
             [['price_display_type'], 'string', 'max' => 16],
-            [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_PER_PERSON_PER_LESSON]],
+            [['price_display_type'], 'in', 'range' => [self::PRICE_DISPLAY_HIDDEN, self::PRICE_DISPLAY_ON_REQUEST, self::PRICE_DISPLAY_PER_PERSON_PER_LESSON, self::PRICE_DISPLAY_PER_PERSON_PER_YEAR]],
             [['remarks'], 'string', 'max' => 1000],
             [['course_id'], 'exist', 'targetClass' => Course::class, 'targetAttribute' => ['course_id' => 'id']],
             [['teacher_id'], 'exist', 'targetClass' => Teacher::class, 'targetAttribute' => ['teacher_id' => 'id']],
@@ -107,6 +111,7 @@ class LessonFormat extends ActiveRecord
             self::FREQUENCY_WEEKLY => Yii::t('app', 'Weekly'),
             self::FREQUENCY_BIWEEKLY => Yii::t('app', 'Bi-weekly'),
             self::FREQUENCY_MONTHLY => Yii::t('app', 'Monthly'),
+            self::FREQUENCY_OTHER => Yii::t('app', 'Other Frequency'),
             default => $this->frequency ?? '',
         };
     }
@@ -120,10 +125,14 @@ class LessonFormat extends ActiveRecord
             $n = number_format((float)$this->price_per_person, 2, ',', '.');
             return Yii::t('app', '€{n} per person per lesson', ['n' => $n]);
         }
-        if ($this->price_display_type === self::PRICE_DISPLAY_HIDDEN) {
-            return '';
+        if ($this->price_display_type === self::PRICE_DISPLAY_PER_PERSON_PER_YEAR && $this->price_per_person !== null) {
+            $n = number_format((float)$this->price_per_person, 2, ',', '.');
+            return Yii::t('app', '€{n} per person per year', ['n' => $n]);
         }
-        return Yii::t('app', 'Price on request');
+        if ($this->price_display_type === self::PRICE_DISPLAY_ON_REQUEST) {
+            return Yii::t('app', 'Price on request');
+        }
+        return '';
     }
 
     /**

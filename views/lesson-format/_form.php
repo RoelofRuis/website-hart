@@ -16,11 +16,15 @@ $frequencies = [
     LessonFormat::FREQUENCY_WEEKLY => Yii::t('app', 'Weekly'),
     LessonFormat::FREQUENCY_BIWEEKLY => Yii::t('app', 'Bi-weekly'),
     LessonFormat::FREQUENCY_MONTHLY => Yii::t('app', 'Monthly'),
+    LessonFormat::FREQUENCY_IN_AGREEMENT => Yii::t('app', 'In agreement'),
+    LessonFormat::FREQUENCY_OTHER => Yii::t('app', 'Other Frequency'),
 ];
 
 $price_display_types = [
     LessonFormat::PRICE_DISPLAY_HIDDEN => Yii::t('app', 'Hidden'),
     LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_LESSON => Yii::t('app', 'Per person per lesson'),
+    LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_YEAR => Yii::t('app', 'Per person per year'),
+    LessonFormat::PRICE_DISPLAY_ON_REQUEST => Yii::t('app', 'Price on request'),
 ];
 
 $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
@@ -69,7 +73,7 @@ $locations = ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->a
 
 <div class="form-group mt-4">
     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']); ?>
-    <?= Html::a(Yii::t('app', 'Cancel'), ['course/view', 'slug' => $course->slug], ['class' => 'btn btn-secondary ms-2']); ?>
+    <?= Html::a(Yii::t('app', 'Cancel'), ['lesson-format/admin'], ['class' => 'btn btn-secondary ms-2']); ?>
 </div>
 <?php ActiveForm::end(); ?>
 
