@@ -29,7 +29,7 @@ class StaticController extends Controller
 
     public function actionAvg()
     {
-        return $this->renderStatic('avg', 'avg');
+        return $this->renderStatic('privacy', 'avg');
     }
 
     public function actionLocations()

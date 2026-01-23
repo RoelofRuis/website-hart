@@ -100,7 +100,7 @@ return [
         Matthijs Tuijn, secretaris van Hart Muziekschool, is in die hoedanigheid aangesteld als functionaris voor de Gegevensbescherming: info@hartmuziekschool.nl.
     </p>',
         'summary' => 'Privacyverklaring en uitleg over verwerking en opslag van persoonsgegevens binnen VHM.',
-        'slug'=> 'avg',
+        'slug'=> 'privacy',
         'explainer' => 'Inhoud voor de pagina AVG/Privacy.',
         'cover_image' => '/bestand/static/avg',
     ],
