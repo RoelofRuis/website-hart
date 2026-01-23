@@ -89,8 +89,13 @@ class Searcher
                 'cn.cover_image AS image',
                 new Expression("''::text AS snippet"),
             ])
+            ->distinct()
             ->andFilterWhere(['cn.category_id' => $form->category_id])
-            ->from(['cn' => '{{%course}}']);
+            ->from(['cn' => '{{%course}}'])
+            ->innerJoin(['ct_v' => '{{%course_teacher}}'], 'ct_v.course_id = cn.id')
+            ->innerJoin(['t_v' => '{{%teacher}}'], 't_v.id = ct_v.teacher_id')
+            ->innerJoin(['u_v' => '{{%user}}'], 'u_v.id = t_v.user_id')
+            ->andWhere(['u_v.is_active' => true, 'u_v.is_visible' => true]);
 
         if (!$form->hasEmptyQuery()) {
             $subquery->innerJoin(['tags' => (new Query)
@@ -116,7 +121,8 @@ class Searcher
                 't.summary AS snippet',
             ])
             ->from(['t' => '{{%teacher}}'])
-            ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id');
+            ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id')
+            ->andWhere(['u.is_active' => true, 'u.is_visible' => true]);
 
         if ($form->category_id) {
             $subquery->innerJoin(['ct' => '{{%course_teacher}}'], 'ct.teacher_id = t.id')

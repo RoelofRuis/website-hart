@@ -3,6 +3,7 @@
 namespace app\tests\functional;
 
 use app\tests\fixtures\CourseFixture;
+use app\tests\fixtures\CourseTeacherFixture;
 use app\tests\fixtures\CourseTagFixture;
 use app\tests\fixtures\StaticContentFixture;
 use app\tests\fixtures\StaticContentTagFixture;
@@ -20,6 +21,7 @@ class SearchCest
             'users' => UserFixture::class,
             'teachers' => TeacherFixture::class,
             'courses' => CourseFixture::class,
+            'course_teachers' => CourseTeacherFixture::class,
             'static' => StaticContentFixture::class,
             'tags' => TagFixture::class,
             'teacher_tags' => TeacherTagFixture::class,

@@ -185,14 +185,16 @@ class Teacher extends ActiveRecord
 
     public static function findBySlug(string $slug): ActiveQuery
     {
-        return static::find()->where(['slug' => $slug]);
+        return static::find()
+            ->innerJoinWith('user')
+            ->where(['teacher.slug' => $slug, 'user.is_active' => true, 'user.is_visible' => true]);
     }
 
     public static function findIndexable(): ActiveQuery
     {
         return static::find()
             ->innerJoinWith('user')
-            ->where(['user.is_active' => true]);
+            ->where(['user.is_active' => true, 'user.is_visible' => true]);
     }
 
     public function afterFind(): void

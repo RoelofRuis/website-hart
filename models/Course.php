@@ -89,6 +89,13 @@ class Course extends ActiveRecord
             ->viaTable('{{%course_teacher}}', ['course_id' => 'id']);
     }
 
+    public function getVisibleTeachers(): ActiveQuery
+    {
+        return $this->getTeachers()
+            ->innerJoinWith('user', false)
+            ->where(['user.is_active' => true, 'user.is_visible' => true]);
+    }
+
     public function getLessonFormats(): ActiveQuery
     {
         return $this->hasMany(LessonFormat::class, ['course_id' => 'id']);
@@ -102,7 +109,7 @@ class Course extends ActiveRecord
 
     public static function findBySlug(string $slug): ?self
     {
-        return static::findOne(['slug' => $slug]);
+        return static::findIndexable()->andWhere(['course.slug' => $slug])->one();
     }
 
     public function getCategory(): ActiveQuery
@@ -112,6 +119,9 @@ class Course extends ActiveRecord
 
     public static function findIndexable(): ActiveQuery
     {
-        return static::find();
+        return static::find()
+            ->innerJoinWith('teachers.user')
+            ->where(['user.is_active' => true, 'user.is_visible' => true])
+            ->distinct();
     }
 }

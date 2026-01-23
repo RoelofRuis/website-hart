@@ -37,7 +37,7 @@ class CourseController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = Course::find();
+        $query = Course::findIndexable();
 
         if ($q !== null && $q !== '') {
             $query->andFilterWhere(['or',
@@ -74,8 +74,8 @@ class CourseController extends Controller
         $contact->type = ContactMessage::TYPE_COURSE_SIGNUP;
 
         if ($contact->load(Yii::$app->request->post()) && $contact->save()) {
-            // Link to all teachers of the course
-            foreach ($model->teachers as $teacher) {
+            // Link to all visible teachers of the course
+            foreach ($model->visibleTeachers as $teacher) {
                 if ($teacher->user) {
                     $contact->link('users', $teacher->user);
                 }

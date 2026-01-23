@@ -36,10 +36,9 @@ class CourseViewCest
         $I->see('Alice van Dijk', '.card-title');
     }
 
-    public function testNoTeachersMessage(FunctionalTester $I)
+    public function testCourseWithoutTeachersReturns404(FunctionalTester $I)
     {
-        // Course ID 5 is "Cello" - no teachers in course_teacher.php for ID 5
         $I->amOnPage('/cursus/cello');
-        $I->see('Er zijn nog geen docenten voor deze cursus.');
+        $I->seeResponseCodeIs(404);
     }
 }

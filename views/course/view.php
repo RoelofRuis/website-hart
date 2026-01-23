@@ -41,12 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="teachers-overview mt-5">
-                <?php if (empty($model->teachers)): ?>
+                <?php if (empty($model->visibleTeachers)): ?>
                     <span class=" text-muted mb-4"><?= Html::encode(Yii::t('app', 'This course has no teachers yet.')) ?></span>
                 <?php else: ?>
                 <h2 class="h3 mb-4"><?= Html::encode(Yii::t('app', 'Teachers for this course')) ?></h2>
                 <div class="row">
-                    <?php foreach ($model->teachers as $teacher): ?>
+                    <?php foreach ($model->visibleTeachers as $teacher): ?>
                         <div class="col-md-4 mb-4">
                             <?= $this->render('../search/_card', [
                                 'href' => Url::to(['teacher/view', 'slug' => $teacher->slug]),

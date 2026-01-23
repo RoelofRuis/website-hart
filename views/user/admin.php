@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function (User $model) {
                     $teacher = $model->getTeacher()->one();
-                    if ($teacher instanceof Teacher) {
+                    if ($teacher instanceof Teacher && $model->is_visible) {
                         return Html::a(
                             Html::encode($model->full_name) . ' <i class="bi bi-box-arrow-up-right ms-1"></i>',
                             ['teacher/view', 'slug' => $teacher->slug],
@@ -70,10 +70,59 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'email',
             ],
             [
-                'attribute' => 'is_active',
-                'label' => Yii::t('app', 'Active'),
-                'enableSorting' => false,
-                'format' => 'boolean',
+                'label' => Yii::t('app', 'Status'),
+                'format' => 'raw',
+                'value' => function (User $model) {
+                    $icons = [];
+
+                    // Visible
+                    if ($model->is_visible) {
+                        $icons[] = Html::tag('i', '', [
+                            'class' => 'bi bi-eye text-success me-2',
+                            'title' => Yii::t('app', 'Visible'),
+                            'data-bs-toggle' => 'tooltip',
+                        ]);
+                    } else {
+                        $icons[] = Html::tag('i', '', [
+                            'class' => 'bi bi-eye-slash text-danger me-2',
+                            'title' => Yii::t('app', 'Hidden'),
+                            'data-bs-toggle' => 'tooltip',
+                        ]);
+                    }
+
+                    // Active
+                    if ($model->is_active) {
+                        $icons[] = Html::tag('i', '', [
+                            'class' => 'bi bi-check-circle text-success me-2',
+                            'title' => Yii::t('app', 'Active'),
+                            'data-bs-toggle' => 'tooltip',
+                        ]);
+                    } else {
+                        $icons[] = Html::tag('i', '', [
+                            'class' => 'bi bi-x-circle text-danger me-2',
+                            'title' => Yii::t('app', 'Inactive'),
+                            'data-bs-toggle' => 'tooltip',
+                        ]);
+                    }
+
+                    // Admin
+                    if ($model->is_admin) {
+                        $icons[] = Html::tag('i', '', [
+                            'class' => 'bi bi-person-badge text-primary',
+                            'title' => Yii::t('app', 'Admin'),
+                            'data-bs-toggle' => 'tooltip',
+                        ]);
+                    } else {
+                        $icons[] = Html::tag('i', '', [
+                            'class' => 'bi bi-person text-muted',
+                            'title' => Yii::t('app', 'User'),
+                            'data-bs-toggle' => 'tooltip',
+                        ]);
+                    }
+
+                    return implode('', $icons);
+                },
+                'contentOptions' => ['style' => 'width: 100px; text-align: center;'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -95,3 +144,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 </div>
+
+<?php
+$js = <<<JS
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+JS;
+$this->registerJs($js);
+?>

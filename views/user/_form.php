@@ -54,6 +54,9 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                             <?= $form->field($user, 'is_active')->checkbox() ?>
                         </div>
                         <div class="col-md-4">
+                            <?= $form->field($user, 'is_visible')->checkbox() ?>
+                        </div>
+                        <div class="col-md-4">
                             <?= $form->field($user, 'is_admin')->checkbox() ?>
                         </div>
                     </div>

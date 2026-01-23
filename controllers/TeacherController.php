@@ -15,7 +15,7 @@ class TeacherController extends Controller
     {
         $q = Yii::$app->request->get('q');
 
-        $query = Teacher::find()->joinWith('user');
+        $query = Teacher::findIndexable();
         if ($q !== null && $q !== '') {
             $query->andFilterWhere(['or',
                 ['ILIKE', 'user.full_name', $q],
