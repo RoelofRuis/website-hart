@@ -90,7 +90,7 @@ class Course extends ActiveRecord
     {
         return $this->getTeachers()
             ->innerJoinWith('user', false)
-            ->where(['user.is_active' => true, 'user.is_visible' => true]);
+            ->where(['user.is_visible' => true]);
     }
 
     public function getLessonFormats(): ActiveQuery
@@ -118,7 +118,7 @@ class Course extends ActiveRecord
     {
         return static::find()
             ->innerJoinWith('teachers.user')
-            ->where(['user.is_active' => true, 'user.is_visible' => true])
+            ->where(['user.is_visible' => true])
             ->distinct();
     }
 }

@@ -184,14 +184,14 @@ class Teacher extends ActiveRecord
     {
         return static::find()
             ->innerJoinWith('user')
-            ->where(['teacher.slug' => $slug, 'user.is_active' => true, 'user.is_visible' => true]);
+            ->where(['teacher.slug' => $slug, 'user.is_visible' => true]);
     }
 
     public static function findIndexable(): ActiveQuery
     {
         return static::find()
             ->innerJoinWith('user')
-            ->where(['user.is_active' => true, 'user.is_visible' => true]);
+            ->where(['user.is_visible' => true]);
     }
 
     public function getFormattedTaughtCourses(): string
