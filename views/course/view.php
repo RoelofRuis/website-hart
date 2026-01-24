@@ -53,6 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'image' => empty($teacher->profile_picture) ? Placeholder::getURL(Placeholder::TYPE_TEACHER) : $teacher->profile_picture,
                                 'title' => $teacher->user->full_name,
                                 'content' => $teacher->getFormattedTaughtCourses(),
+                                'icon' => 'bi-person',
+                                'tooltip' => Yii::t('app', 'Teacher'),
                                 'cta' => Yii::t('app', 'View teacher'),
                                 'hide_on_mobile' => true,
                             ]); ?>

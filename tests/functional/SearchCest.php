@@ -38,6 +38,14 @@ class SearchCest
         $I->see('Ontdek de muziek', '.card-title');
         $I->see('Iris de Boer', '.card-title');
         $I->see('Muziektheorie', '.card-title');
+
+        // Verify icons are present
+        $I->seeElement('.bi-person'); // Teacher
+        $I->seeElement('.bi-book');   // Course
+        // No static content matches 'muziek' in fixtures, so we check it in a separate page
+        
+        $I->amOnPage('/search?q=contact');
+        $I->seeElement('.bi-info-circle'); // Static content (Contact page)
     }
 
     public function testSearchByTeacherName(FunctionalTester $I)

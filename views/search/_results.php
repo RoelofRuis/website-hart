@@ -25,6 +25,20 @@ $items = $result->getItems();
                 'static' => Yii::t('app', 'Read more'),
                 default => Yii::t('app', 'Open'),
             };
+
+            $icon = match ($type) {
+                'course' => 'bi-book',
+                'teacher' => 'bi-person',
+                'static' => 'bi-info-circle',
+                default => 'bi-box-arrow-up-right',
+            };
+
+            $tooltip = match ($type) {
+                'course' => Yii::t('app', 'Course'),
+                'teacher' => Yii::t('app', 'Teacher'),
+                'static' => Yii::t('app', 'Information'),
+                default => null,
+            }
             ?>
             <div class="col-md-4 mb-4">
                 <?= $this->render('_card', [
@@ -33,6 +47,9 @@ $items = $result->getItems();
                     'title' => $title,
                     'content' => $snippet,
                     'cta' => $cta,
+                    'icon' => $icon,
+                    'tooltip' => $tooltip,
+                    'type' => $type,
                 ]); ?>
             </div>
         <?php endforeach; ?>

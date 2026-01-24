@@ -111,6 +111,7 @@ return [
     'Inactive users cannot log in.' => 'Niet actieve gebruikers kunnen niet inloggen.',
     'Incomplete' => 'Incompleet',
     'Incorrect email or password.' => 'Onjuist e-mailadres of wachtwoord.',
+    'Information' => 'Informatie',
     'Instagram' => 'Instagram',
     'Is Active' => 'Is actief',
     'Is Admin' => 'Is administrator',

@@ -405,3 +405,7 @@ a:hover, a:focus {
     border-color: var(--color-turquoise);
     color: var(--color-petrol);
 }
+
+.text-shadow {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
