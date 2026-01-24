@@ -136,6 +136,9 @@ class UserController extends Controller
 
         /** @var Teacher $teacher */
         $teacher = $user->getTeacher()->one();
+        if (class_exists('Yii')) {
+            file_put_contents(\Yii::getAlias('@runtime/logs/debug.log'), "UserController: teacher for user {$id} is " . ($teacher ? "found (ID {$teacher->id})" : "NOT found") . "\n", FILE_APPEND);
+        }
 
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();

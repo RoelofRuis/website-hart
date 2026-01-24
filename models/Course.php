@@ -36,7 +36,6 @@ class Course extends ActiveRecord
         return [
             'tag' => [
                 'class' => TagBehavior::class,
-                'autoTagAttribute' => 'name',
             ],
         ];
     }

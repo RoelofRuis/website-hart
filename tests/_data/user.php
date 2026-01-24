@@ -9,6 +9,7 @@ return [
         'job_title' => 'Docent piano',
         'is_admin' => true,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 2,
@@ -18,6 +19,7 @@ return [
         'job_title' => 'Docent gitaar',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 3,
@@ -27,6 +29,7 @@ return [
         'job_title' => 'Docent viool',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 4,
@@ -36,6 +39,7 @@ return [
         'job_title' => 'Docent drums',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 5,
@@ -45,6 +49,7 @@ return [
         'job_title' => 'Zangcoach',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 6,
@@ -54,6 +59,7 @@ return [
         'job_title' => 'Docent saxofoon',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 7,
@@ -63,6 +69,7 @@ return [
         'job_title' => 'Docent piano',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 8,
@@ -72,6 +79,7 @@ return [
         'job_title' => 'Basgitaar en bandcoaching',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 9,
@@ -81,6 +89,7 @@ return [
         'job_title' => 'Docent cello',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 10,
@@ -90,6 +99,7 @@ return [
         'job_title' => 'Klarinet- en dwarsfluitdocent',
         'is_admin' => false,
         'is_active' => true,
+        'is_visible' => true,
     ],
     [
         'id' => 11,
@@ -99,5 +109,6 @@ return [
         'job_title' => 'Contentmanager',
         'is_admin' => true,
         'is_active' => true,
+        'is_visible' => false,
     ],
 ];

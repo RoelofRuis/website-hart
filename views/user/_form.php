@@ -204,7 +204,7 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
 
                     <?= $form->field($teacher, 'tags')
                             ->textInput(['maxlength' => true])
-                            ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms. The name will be added automatically when saving.')))
+                            ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
                     ?>
 
                     <?= $form->field($teacher, 'slug')->widget(LockedField::class, [

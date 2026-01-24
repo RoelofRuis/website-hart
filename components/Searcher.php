@@ -99,7 +99,7 @@ class Searcher
             ->innerJoin(['ct_v' => '{{%course_teacher}}'], 'ct_v.course_id = cn.id')
             ->innerJoin(['t_v' => '{{%teacher}}'], 't_v.id = ct_v.teacher_id')
             ->innerJoin(['u_v' => '{{%user}}'], 'u_v.id = t_v.user_id')
-            ->andWhere(['u_v.is_active' => true, 'u_v.is_visible' => true]);
+            ->andWhere(['u_v.is_visible' => true]);
 
         if (!$form->hasEmptyQuery()) {
             $subquery->innerJoin(['tags' => (new Query)
@@ -125,7 +125,7 @@ class Searcher
             ])
             ->from(['t' => '{{%teacher}}'])
             ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id')
-            ->andWhere(['u.is_active' => true, 'u.is_visible' => true]);
+            ->andWhere(['u.is_visible' => true]);
 
         if ($form->category_id) {
             $subquery->innerJoin(['ct' => '{{%course_teacher}}'], 'ct.teacher_id = t.id')

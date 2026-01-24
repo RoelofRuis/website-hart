@@ -47,19 +47,11 @@ class Teacher extends ActiveRecord
         return '{{%teacher}}';
     }
 
-    private ?string $_oldFullName = null;
-
-    public function getOldFullName(): ?string
-    {
-        return $this->_oldFullName;
-    }
-
     public function behaviors(): array
     {
         return [
             'tag' => [
                 'class' => TagBehavior::class,
-                'autoTagAttribute' => 'fullName',
             ],
         ];
     }
@@ -210,7 +202,6 @@ class Teacher extends ActiveRecord
     public function afterFind(): void
     {
         parent::afterFind();
-        $this->_oldFullName = $this->getFullName();
         if ($this->location_ids === null) {
             $this->location_ids = ArrayHelper::getColumn($this->locations, 'id');
         }

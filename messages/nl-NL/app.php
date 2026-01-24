@@ -48,7 +48,6 @@ return [
     'City' => 'Stad',
     'Clear search' => 'Zoekopdracht wissen',
     'Comma-separated list of search terms.' => 'Kommagescheiden lijst met zoektermen.',
-    'Comma-separated list of search terms. The name will be added automatically when saving.' => 'Kommagescheiden lijst met zoektermen. De naam wordt automatisch toegevoegd bij het opslaan.',
     'Complete' => 'Compleet',
     'Configure formats, availability and pricing.' => 'Beheer lesvormen, beschikbaarheid en prijzen.',
     'Configure receivers for general contact messages.' => 'Beheer ontvangers voor algemene contactberichten.',

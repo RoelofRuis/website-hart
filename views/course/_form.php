@@ -46,7 +46,7 @@ $isAdmin = $current && !Yii::$app->user->isGuest && $current->is_admin;
 
                 <?= $form->field($model, 'tags')
                         ->textInput(['maxlength' => true])
-                        ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms. The name will be added automatically when saving.')))
+                        ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
                 ?>
 
                 <?= $form->field($model, 'slug')->widget(LockedField::class, [
