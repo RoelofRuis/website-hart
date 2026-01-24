@@ -29,7 +29,7 @@ class StaticController extends Controller
 
     public function actionAvg()
     {
-        return $this->renderStatic('privacy', 'avg');
+        return $this->renderStatic('privacy', 'privacy');
     }
 
     public function actionLocations()
@@ -46,21 +46,21 @@ class StaticController extends Controller
 
     public function actionInstrumentRental()
     {
-        return $this->renderStatic('instrumentenverhuur', 'instrument-rental');
+        return $this->renderStatic('rental', 'instrument-rental');
     }
 
     public function actionYouthFund()
     {
-        return $this->renderStatic('jeugdfonds', 'youth-fund');
+        return $this->renderStatic('youth-fund', 'youth-fund');
     }
 
-    private function renderStatic(string $slug, string $view, array $params = []): Response|string
+    private function renderStatic(string $key, string $view, array $params = []): Response|string
     {
-        $row = Yii::$app->cache->getOrSet([__METHOD__, 'slug' => $slug], function () use ($slug) {
-            return StaticContent::find()->where(['slug' => $slug])->asArray()->one() ?: [];
+        $row = Yii::$app->cache->getOrSet([__METHOD__, 'key' => $key], function () use ($key) {
+            return StaticContent::find()->where(['key' => $key])->asArray()->one() ?: [];
         }, 600, new TagDependency(['tags' => [
             'static-content',
-            'static-content:slug:' . $slug,
+            'static-content:key:' . $key,
         ]]));
 
         if (empty($row)) {

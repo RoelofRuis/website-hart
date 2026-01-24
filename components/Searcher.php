@@ -64,7 +64,7 @@ class Searcher
                     $snippet = $teacher->getFormattedTaughtCourses();
                 }
             } elseif ($type === 'static') {
-                $url = Url::to(['static/' . $slug]);
+                $url = Url::to([$slug]);
                 $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_STATIC);
             } else {
                 $url = '#';

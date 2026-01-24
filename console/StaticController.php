@@ -4,6 +4,7 @@ namespace app\console;
 
 use app\models\StaticContent;
 use yii\console\Controller;
+use yii\db\Exception;
 
 /**
  * Manage static content.
@@ -14,7 +15,7 @@ class StaticController extends Controller
      * Fill the database with the required static content records.
      *
      * @return void
-     * @throws \yii\db\Exception
+     * @throws Exception
      */
     public function actionFill()
     {
@@ -40,7 +41,7 @@ class StaticController extends Controller
             'key' => 'copyright',
             'explainer' => 'Inhoud voor pagina Copyright',
             'cover_image' => null,
-            'slug' => 'copyright',
+            'slug' => '/static/copyright',
             'title' => 'Copyright',
             'content' => '',
             'searchable' => true,
@@ -49,7 +50,7 @@ class StaticController extends Controller
             'key' => 'about',
             'explainer' => 'Inhoud van de pagina \'Over Vereniging HART Muziekschool.\'',
             'cover_image' => null,
-            'slug' => 'about',
+            'slug' => '/static/about',
             'title' => 'Over de vereniging',
             'content' => '',
             'searchable' => true,
@@ -58,7 +59,7 @@ class StaticController extends Controller
             'key' => 'association',
             'explainer' => 'Inhoud van de pagina over het bestuur.',
             'cover_image' => null,
-            'slug' => 'association',
+            'slug' => '/static/association',
             'title' => 'Vereniging & Bestuur',
             'content' => '',
             'searchable' => true,
@@ -67,7 +68,7 @@ class StaticController extends Controller
             'key' => 'contact',
             'explainer' => 'Inhoud van de pagina Contact.',
             'cover_image' => null,
-            'slug' => 'contact',
+            'slug' => '/static/contact',
             'title' => 'Contact',
             'content' => '',
             'searchable' => true,
@@ -76,7 +77,7 @@ class StaticController extends Controller
             'key' => 'privacy',
             'explainer' => 'Inhoud van de pagina AVG\Privacy.',
             'cover_image' => null,
-            'slug' => 'privacy',
+            'slug' => '/static/avg',
             'title' => 'AVG / Privacy',
             'content' => '',
             'searchable' => true,
@@ -85,7 +86,7 @@ class StaticController extends Controller
             'key' => 'locations',
             'explainer' => 'Inhoud van de pagina Locaties.',
             'cover_image' => null,
-            'slug' => 'locations',
+            'slug' => '/static/locations',
             'title' => 'Locaties',
             'content' => '',
             'searchable' => true,
@@ -94,7 +95,7 @@ class StaticController extends Controller
             'key' => 'rental',
             'explainer' => 'Inhoud van de pagina Instrumentenverhuur.',
             'cover_image' => null,
-            'slug' => 'instrumentenverhuur',
+            'slug' => '/static/instrument-rental',
             'title' => 'Instrumentenverhuur',
             'content' => '',
             'searchable' => true,
@@ -103,7 +104,7 @@ class StaticController extends Controller
             'key' => 'youth-fund',
             'explainer' => 'Inhoud van de pagina Jeugdfonds Sport & Cultuur.',
             'cover_image' => null,
-            'slug' => 'jeugdfonds',
+            'slug' => '/static/youth-fund',
             'title' => 'Jeugdfonds Sport & Cultuur',
             'content' => '',
             'searchable' => true,
@@ -112,7 +113,7 @@ class StaticController extends Controller
             'key' => 'teachers-index',
             'explainer' => 'Inhoud bovenaan de docenten indexpagina',
             'cover_image' => null,
-            'slug' => 'docenten',
+            'slug' => '/teacher/index',
             'title' => 'Onze docenten',
             'content' => '',
             'searchable' => true,
@@ -121,7 +122,7 @@ class StaticController extends Controller
             'key' => 'courses-index',
             'explainer' => 'Inhoud bovenaan de cursussen index pagina',
             'cover_image' => null,
-            'slug' => 'cursussen',
+            'slug' => '/course/index',
             'title' => 'Ons lesaanbod',
             'content' => '',
             'searchable' => true,
