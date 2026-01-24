@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use DateTime;
 use Yii;
 use yii\db\ActiveQuery;
@@ -25,6 +26,16 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     public $password;
+
+    public function behaviors(): array
+    {
+        return [
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => ['password_hash', 'auth_key', 'activation_token'],
+            ],
+        ];
+    }
 
     public static function tableName(): string
     {

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -33,6 +34,16 @@ class LessonFormat extends ActiveRecord
     const FREQUENCY_MONTHLY = 'monthly';
     const FREQUENCY_OTHER = 'other';
     const FREQUENCY_IN_AGREEMENT = 'in_agreement';
+
+    public function behaviors()
+    {
+        return [
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
+            ],
+        ];
+    }
 
     public static function tableName(): string
     {

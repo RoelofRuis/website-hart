@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use app\components\behaviors\TagBehavior;
 use DateTime;
 use Yii;
@@ -42,6 +43,10 @@ class StaticContent extends ActiveRecord
             ],
             'tag' => [
                 'class' => TagBehavior::class,
+            ],
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
             ],
         ];
     }

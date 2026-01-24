@@ -1,5 +1,6 @@
 <?php
 
+use app\console\ChangelogController;
 use app\console\ContactController;
 use app\console\NotificationController;
 use app\console\PlaceholderController;
@@ -50,6 +51,9 @@ $config = [
         ],
         'storage' => [
             'class' => StorageController::class,
+        ],
+        'changelog' => [
+            'class' => ChangelogController::class,
         ]
     ],
     'params' => $params,

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use app\components\behaviors\TagBehavior;
 use Yii;
 use yii\db\ActiveQuery;
@@ -36,6 +37,10 @@ class Course extends ActiveRecord
         return [
             'tag' => [
                 'class' => TagBehavior::class,
+            ],
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
             ],
         ];
     }

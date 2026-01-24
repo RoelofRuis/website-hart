@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use app\components\behaviors\TagBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -52,6 +53,10 @@ class Teacher extends ActiveRecord
         return [
             'tag' => [
                 'class' => TagBehavior::class,
+            ],
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
             ],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -24,6 +25,16 @@ class UrlRule extends ActiveRecord
             [['source_url', 'target_url'], 'required'],
             [['source_url', 'target_url'], 'string', 'max' => 500],
             [['hit_counter'], 'integer'],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
+            ],
         ];
     }
 

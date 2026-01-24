@@ -2,14 +2,8 @@
 
 use yii\db\Migration;
 
-/**
- * Class m260120_154500_contact_type_receiver
- */
 class m260120_154500_contact_type_receiver extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%contact_type_receiver}}', [
@@ -29,9 +23,6 @@ class m260120_154500_contact_type_receiver extends Migration
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('{{%contact_type_receiver}}');

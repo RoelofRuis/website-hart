@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -20,6 +21,16 @@ class Location extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%location}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
+            ],
+        ];
     }
 
     public function rules(): array

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\ChangelogBehavior;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -21,6 +22,16 @@ class Category extends ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
+        ];
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'changelog' => [
+                'class' => ChangelogBehavior::class,
+                'excludeAttributes' => [],
+            ],
         ];
     }
 
