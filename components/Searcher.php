@@ -102,13 +102,18 @@ class Searcher
             ->andWhere(['u_v.is_visible' => true]);
 
         if (!$form->hasEmptyQuery()) {
-            $subquery->innerJoin(['tags' => (new Query)
+            $tagSubquery = (new Query)
                 ->select('course_id')
                 ->distinct()
                 ->from(['ct' => '{{%course_tag}}'])
                 ->innerJoin(['tg' => '{{%tag}}'], 'tg.id = ct.tag_id')
-                ->where("tg.name ILIKE :q", [':q' => '%' . $form->getTrimmedQuery() . '%'])
-            ], 'tags.course_id = cn.id');
+                ->where("tg.name ILIKE :q", [':q' => $form->getTrimmedQuery()]);
+
+            $subquery->andWhere([
+                'OR',
+                ['IN', 'cn.id', $tagSubquery],
+                'cn.name ILIKE :q'
+            ], [':q' => $form->getTrimmedQuery()]);
         }
 
         return $subquery;
@@ -134,13 +139,21 @@ class Searcher
         }
 
         if (!$form->hasEmptyQuery()) {
-            $subquery->innerJoin(['tags' => (new Query)
+            $tagSubquery = (new Query)
                 ->select('teacher_id')
                 ->distinct()
                 ->from(['tt' => '{{%teacher_tag}}'])
                 ->innerJoin(['tg' => '{{%tag}}'], 'tg.id = tt.tag_id')
-                ->where("tg.name ILIKE :q", [':q' => '%' . $form->getTrimmedQuery() . '%'])
-            ], 'tags.teacher_id = t.id');
+                ->where("tg.name ILIKE :q", [':q' => $form->getTrimmedQuery()]);
+
+            $subquery->andWhere([
+                'OR',
+                ['IN', 't.id', $tagSubquery],
+                ['AND',
+                    ['u.is_visible' => true],
+                    'u.full_name ILIKE :q',
+                ]
+            ], [':q' => $form->getTrimmedQuery()]);
         }
 
         return $subquery;
@@ -163,13 +176,19 @@ class Searcher
         }
 
         if (!$form->hasEmptyQuery()) {
-            $subquery->innerJoin(['tags' => (new Query)
+            $tagSubquery = (new Query)
                 ->select('static_content_id')
                 ->distinct()
                 ->from(['sct' => '{{%static_content_tag}}'])
                 ->innerJoin(['tg' => '{{%tag}}'], 'tg.id = sct.tag_id')
-                ->where("tg.name ILIKE :q", [':q' => '%' . $form->getTrimmedQuery() . '%'])
-            ], 'tags.static_content_id = sc.id');
+                ->where("tg.name ILIKE :q", [':q' => $form->getTrimmedQuery()]);
+
+
+            $subquery->andWhere([
+                'OR',
+                ['IN', 'sc.id', $tagSubquery],
+                'sc.title ILIKE :q',
+            ], [':q' => $form->getTrimmedQuery()]);
         }
 
         return $subquery;

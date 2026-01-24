@@ -123,7 +123,7 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                         <h5 class="alert-heading">⚠️ <?= Yii::t('app', 'Admin settings') ?></h5>
                         <?= $form->field($teacher, 'tags')
                                 ->textInput(['maxlength' => true])
-                                ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+                                ->hint(Html::encode(Yii::t('app', 'Comma-separated list of additional search terms.')))
                         ?>
 
                         <?= $form->field($teacher, 'slug')->widget(LockedField::class, [
@@ -180,7 +180,7 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                             'uploadUrl' => '/upload/image',
                             'previewSize' => 200,
                     ]) ?>
-                    <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma-separated list of search terms.')]) ?>
+                    <?= $form->field($teacher, 'tags')->textInput(['placeholder' => Yii::t('app', 'Comma-separated list of additional search terms.')]) ?>
                     <?= $form->field($teacher, 'description')->textarea(['rows' => 6]) ?>
                     <?= $form->field($teacher, 'location_ids')->checkboxList(
                             ArrayHelper::map(Location::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
@@ -204,7 +204,7 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
 
                     <?= $form->field($teacher, 'tags')
                             ->textInput(['maxlength' => true])
-                            ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+                            ->hint(Html::encode(Yii::t('app', 'Comma-separated list of additional search terms.')))
                     ?>
 
                     <?= $form->field($teacher, 'slug')->widget(LockedField::class, [

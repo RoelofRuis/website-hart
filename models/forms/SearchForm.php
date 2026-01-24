@@ -25,12 +25,12 @@ class SearchForm extends Model
 
     public function getTrimmedQuery(): string
     {
-        return trim($this->q);
+        return '%' . trim($this->q) . '%';
     }
 
     public function hasEmptyQuery(): bool
     {
-        return empty($this->getTrimmedQuery());
+        return empty(trim($this->q));
     }
 
     public function getOffset(): int

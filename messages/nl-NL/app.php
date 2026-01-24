@@ -47,7 +47,7 @@ return [
     'Category updated successfully.' => 'Categorie succesvol aangepast.',
     'City' => 'Stad',
     'Clear search' => 'Zoekopdracht wissen',
-    'Comma-separated list of search terms.' => 'Kommagescheiden lijst met zoektermen.',
+    'Comma-separated list of additional search terms.' => 'Kommagescheiden lijst met extra zoektermen.',
     'Complete' => 'Compleet',
     'Configure formats, availability and pricing.' => 'Beheer lesvormen, beschikbaarheid en prijzen.',
     'Configure receivers for general contact messages.' => 'Beheer ontvangers voor algemene contactberichten.',

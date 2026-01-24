@@ -43,7 +43,7 @@ use app\widgets\HtmlEditor;
 
             <?= $form->field($model, 'tags')
                 ->textInput(['maxlength' => true])
-                ->hint(Html::encode(Yii::t('app', 'Comma-separated list of search terms.')))
+                ->hint(Html::encode(Yii::t('app', 'Comma-separated list of additional search terms.')))
             ?>
 
             <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'disabled' => true]); ?>

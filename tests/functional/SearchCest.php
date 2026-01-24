@@ -46,6 +46,21 @@ class SearchCest
         $I->see('Alice van Dijk', '.card-title');
     }
 
+    public function testSearchByTeacherNameNoTag(FunctionalTester $I)
+    {
+        // 'Bob Jansen' is teacher with id 2.
+        // He has tags: Gitaar (id 4), Jazz (id 5), Pop (id 6)
+        // I will search for 'Jansen' which is not a tag but part of his full name.
+        $I->amOnPage('/search?q=Jansen');
+        $I->see('Bob Jansen', '.card-title');
+    }
+
+    public function testSearchByCourseName(FunctionalTester $I)
+    {
+        $I->amOnPage('/search?q=Harp');
+        $I->see('Harp', '.card-title');
+    }
+
     public function testSearchPartialMatch(FunctionalTester $I)
     {
         $I->amOnPage('/search?q=theo');
