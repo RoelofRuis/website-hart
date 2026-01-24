@@ -27,6 +27,11 @@ class TagBehavior extends Behavior
      */
     public string $tagNameAttribute = 'name';
 
+    /**
+     * @var string|null The name of the attribute that should be automatically added as a tag.
+     */
+    public ?string $autoTagAttribute = null;
+
     public function events(): array
     {
         return [
@@ -34,6 +39,48 @@ class TagBehavior extends Behavior
             ActiveRecord::EVENT_AFTER_INSERT => 'saveTags',
             ActiveRecord::EVENT_AFTER_UPDATE => 'saveTags',
         ];
+    }
+
+    public function beforeSave(): void
+    {
+        if ($this->autoTagAttribute !== null) {
+            $autoTagValue = $this->owner->{$this->autoTagAttribute};
+            if (!empty($autoTagValue)) {
+                $tags = $this->owner->{$this->tagAttribute};
+                $tagNames = !empty($tags) ? array_map('trim', explode(',', $tags)) : [];
+
+                // Remove old value if it changed
+                if (!$this->owner->isNewRecord) {
+                    $oldValue = null;
+                    if ($this->owner->hasAttribute($this->autoTagAttribute)) {
+                        $oldValue = $this->owner->getOldAttribute($this->autoTagAttribute);
+                    } else {
+                        $oldMethod = 'getOld' . ucfirst($this->autoTagAttribute);
+                        if (method_exists($this->owner, $oldMethod)) {
+                            $oldValue = $this->owner->$oldMethod();
+                        }
+                    }
+
+                    if ($oldValue && strcasecmp($oldValue, $autoTagValue) !== 0) {
+                        $tagNames = array_filter($tagNames, fn($t) => strcasecmp($t, $oldValue) !== 0);
+                    }
+                }
+
+                // Add new value if not present (case-insensitive check)
+                $found = false;
+                foreach ($tagNames as $tn) {
+                    if (strcasecmp($tn, $autoTagValue) === 0) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $tagNames[] = $autoTagValue;
+                }
+
+                $this->owner->{$this->tagAttribute} = implode(', ', $tagNames);
+            }
+        }
     }
 
     public function loadTags(): void
@@ -54,8 +101,47 @@ class TagBehavior extends Behavior
 
     public function saveTags(): void
     {
-        $tags = $this->owner->{$this->tagAttribute};
+        if ($this->autoTagAttribute !== null) {
+            $autoTagValue = $this->owner->{$this->autoTagAttribute};
+            if (!empty($autoTagValue)) {
+                $tags = $this->owner->{$this->tagAttribute};
+                $tagNames = !empty($tags) ? array_map('trim', explode(',', $tags)) : [];
 
+                // Remove old value if it changed
+                if (!$this->owner->isNewRecord) {
+                    $oldValue = null;
+                    if ($this->owner->hasAttribute($this->autoTagAttribute)) {
+                        $oldValue = $this->owner->getOldAttribute($this->autoTagAttribute);
+                    } else {
+                        $oldMethod = 'getOld' . ucfirst($this->autoTagAttribute);
+                        if (method_exists($this->owner, $oldMethod)) {
+                            $oldValue = $this->owner->$oldMethod();
+                        }
+                    }
+
+                    if ($oldValue && strcasecmp($oldValue, $autoTagValue) !== 0) {
+                        $tagNames = array_filter($tagNames, fn($t) => strcasecmp($t, $oldValue) !== 0);
+                    }
+                }
+
+                // Add new value if not present (case-insensitive check)
+                $found = false;
+                foreach ($tagNames as $tn) {
+                    if (strcasecmp($tn, $autoTagValue) === 0) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $tagNames[] = $autoTagValue;
+                }
+
+                $this->owner->{$this->tagAttribute} = implode(', ', $tagNames);
+            }
+        }
+
+        $tags = $this->owner->{$this->tagAttribute};
+        
         if ($tags === null) {
             return;
         }
@@ -64,10 +150,35 @@ class TagBehavior extends Behavior
         $currentTags = $this->owner->{$this->tagRelation};
         $currentTagNames = ArrayHelper::getColumn($currentTags, $this->tagNameAttribute);
 
-        // Tags to add
-        $tagsToAdd = array_diff($tagNames, $currentTagNames);
-        // Tags to remove
-        $tagsToRemove = array_diff($currentTagNames, $tagNames);
+        // Tags to add (case-insensitive)
+        $tagsToAdd = [];
+        foreach ($tagNames as $tn) {
+            $exists = false;
+            foreach ($currentTagNames as $ctn) {
+                if (strcasecmp($tn, $ctn) === 0) {
+                    $exists = true;
+                    break;
+                }
+            }
+            if (!$exists) {
+                $tagsToAdd[] = $tn;
+            }
+        }
+
+        // Tags to remove (case-insensitive)
+        $tagsToRemove = [];
+        foreach ($currentTagNames as $ctn) {
+            $keep = false;
+            foreach ($tagNames as $tn) {
+                if (strcasecmp($tn, $ctn) === 0) {
+                    $keep = true;
+                    break;
+                }
+            }
+            if (!$keep) {
+                $tagsToRemove[] = $ctn;
+            }
+        }
 
         foreach ($tagsToRemove as $tagName) {
             $tag = Tag::findOne([$this->tagNameAttribute => $tagName]);
@@ -77,7 +188,8 @@ class TagBehavior extends Behavior
         }
 
         foreach ($tagsToAdd as $tagName) {
-            $tag = Tag::findOne([$this->tagNameAttribute => $tagName]);
+            // Check if tag already exists in DB (maybe with different casing)
+            $tag = Tag::find()->where(['ilike', $this->tagNameAttribute, $tagName])->one();
             if (!$tag) {
                 $tag = new Tag();
                 $tag->{$this->tagNameAttribute} = $tagName;
