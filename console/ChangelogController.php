@@ -4,7 +4,6 @@ namespace app\console;
 
 use app\models\Changelog;
 use app\models\User;
-use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use yii\helpers\Console;
@@ -102,11 +101,11 @@ class ChangelogController extends Controller
     {
         $userStr = $log->changed_by ? "User #$log->changed_by" : "System/Guest";
         $this->stdout("[$log->changed_at] $log->model_class (ID: $log->model_id) by $userStr\n", Console::FG_CYAN);
-        
+
         foreach ($log->changes as $attribute => $values) {
             $old = is_scalar($values['old']) ? $values['old'] : Json::encode($values['old']);
             $new = is_scalar($values['new']) ? $values['new'] : Json::encode($values['new']);
-            
+
             $this->stdout("  - $attribute: ", Console::FG_YELLOW);
             $this->stdout("$old", Console::FG_RED);
             $this->stdout(" -> ");

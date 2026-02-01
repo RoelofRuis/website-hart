@@ -2,12 +2,12 @@
 
 namespace app\components;
 
+use app\models\File;
+use Aws\S3\S3Client;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
-use Aws\S3\S3Client;
 use Yii;
-use app\models\File;
 use yii\helpers\Url;
 
 class Storage

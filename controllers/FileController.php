@@ -3,11 +3,11 @@
 namespace app\controllers;
 
 use app\components\Storage;
+use app\models\File;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use app\models\File;
 
 class FileController extends Controller
 {

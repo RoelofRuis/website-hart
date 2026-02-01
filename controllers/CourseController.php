@@ -2,19 +2,20 @@
 
 namespace app\controllers;
 
+use app\components\Searcher;
 use app\models\Category;
-use yii\helpers\ArrayHelper;
 use app\models\ContactMessage;
 use app\models\Course;
-use app\models\Teacher;
+use app\models\forms\SearchForm;
 use app\models\StaticContent;
+use app\models\Teacher;
 use app\models\User;
 use Yii;
-use yii\db\Expression;
+use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
 
 class CourseController extends Controller
 {
@@ -33,31 +34,24 @@ class CourseController extends Controller
             ],
         ];
     }
+
     public function actionIndex()
     {
-        $q = Yii::$app->request->get('q');
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->get(), '');
+        $form->type = 'courses';
+        $form->per_page = 12;
 
-        $query = Course::findIndexable();
+        $searcher = new Searcher();
+        $result = $searcher->search($form);
 
-        if ($q !== null && $q !== '') {
-            $query->andFilterWhere(['or',
-                ['ILIKE', 'name', $q],
-                ['ILIKE', 'description', $q],
-            ])
-                ->orderBy(new Expression("CASE WHEN name ILIKE :qprefix THEN 0 WHEN name LIKE :qany THEN 1 ELSE 2 END, name ASC"))
-                ->addParams([
-                    ':qprefix' => $q . '%',
-                    ':qany' => '%' . $q . '%',
-                ]);
-        } else {
-            $query->orderBy(['name' => SORT_ASC]);
-        }
+        $initial_results = $this->renderPartial('/search/_results', [
+            'result' => $result,
+        ]);
 
-        $courses = $query->all();
         $staticContent = StaticContent::findByKey('courses-index');
         return $this->render('index', [
-            'courses' => $courses,
-            'q' => $q,
+            'initial_results' => $initial_results,
             'staticContent' => $staticContent,
         ]);
     }

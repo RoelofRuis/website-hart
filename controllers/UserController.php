@@ -143,7 +143,7 @@ class UserController extends Controller
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $user_loaded = $user->load($post);
-            
+
             $teacher_loaded = false;
             if ($teacher) {
                 $teacher_loaded = $teacher->load($post);
@@ -157,10 +157,10 @@ class UserController extends Controller
             if ($user_loaded) {
                 if (!$current->is_admin) {
                     // Non-admins cannot change these
-                    $user->is_admin = (bool) $user->getOldAttribute('is_admin');
-                    $user->is_active = (bool) $user->getOldAttribute('is_active');
+                    $user->is_admin = (bool)$user->getOldAttribute('is_admin');
+                    $user->is_active = (bool)$user->getOldAttribute('is_active');
                 }
-                
+
                 $valid = $user->validate();
                 if ($teacher) {
                     $valid = $teacher->validate() && $valid;

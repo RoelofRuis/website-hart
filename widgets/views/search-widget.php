@@ -23,6 +23,7 @@ use yii\helpers\Html;
  * @var string $load_more_id
  * @var string $categories_id
  * @var \app\models\Category[] $categories
+ * @var string|null $initial_results
  */
 ?>
 <div class="row justify-content-center">
@@ -87,7 +88,11 @@ use yii\helpers\Html;
 
         <div id="<?= Html::encode($results_id) ?>" class="search-results"
              aria-live="polite"
-             data-empty="<?= Html::encode(Yii::t('app', 'Type at least 2 characters to search…')) ?>"></div>
+             data-empty="<?= Html::encode(Yii::t('app', 'Type at least 2 characters to search…')) ?>">
+            <?php if ($initial_results !== null): ?>
+                <?= $initial_results ?>
+            <?php endif; ?>
+        </div>
 
         <div id="<?= Html::encode($error_id) ?>" class="mt-2 d-none"></div>
 

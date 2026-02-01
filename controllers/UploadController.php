@@ -3,15 +3,15 @@
 namespace app\controllers;
 
 use app\components\Storage;
-use Yii;
-use yii\web\Controller;
-use yii\web\UploadedFile;
-use yii\filters\AccessControl;
-use yii\web\Response;
-use yii\web\BadRequestHttpException;
-use yii\imagine\Image;
-use Imagine\Image\Point;
 use Imagine\Image\Palette\RGB;
+use Imagine\Image\Point;
+use Yii;
+use yii\filters\AccessControl;
+use yii\imagine\Image;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 class UploadController extends Controller
 {

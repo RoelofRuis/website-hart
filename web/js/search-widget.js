@@ -39,6 +39,35 @@ window.SearchWidget = window.SearchWidget || (function () {
     const np = meta.getAttribute('data-next-page');
     return np ? parseInt(np, 10) : null;
   }
+  
+  function renderSkeletons(cfg) {
+    const perPage = cfg.perPage || 6;
+    let html = '<div class="row">';
+    for (let i = 0; i < perPage; i++) {
+      html += `
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 skeleton-card" aria-hidden="true">
+            <div class="skeleton-img card-img-top placeholder" style="aspect-ratio: 16/9; background-color: #e9ecef;"></div>
+            <div class="card-body">
+              <h5 class="card-title placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </h5>
+              <p class="card-text placeholder-glow">
+                <span class="placeholder col-7"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+              </p>
+            </div>
+            <div class="card-footer p-0 border-0">
+              <span class="btn btn-secondary disabled placeholder col-12 rounded-0 rounded-bottom py-2"></span>
+            </div>
+          </div>
+        </div>`;
+    }
+    html += '</div>';
+    cfg.resultsEl.innerHTML = html;
+  }
 
   async function fetchAndRender(cfg, q, page, append) {
     clearError(cfg);
@@ -52,6 +81,11 @@ window.SearchWidget = window.SearchWidget || (function () {
       const btnContent = cfg.spinnerEl.closest('button')?.querySelector('.search-button-content');
       if (btnContent) btnContent.classList.add('d-none');
     }
+
+    if (!append) {
+      renderSkeletons(cfg);
+    }
+
     try {
       const url = buildUrl(cfg, q, page || 1);
       const res = await fetch(url.toString(), {
@@ -202,7 +236,17 @@ window.SearchWidget = window.SearchWidget || (function () {
 
     // Initial load
     const q0 = (cfg.inputEl.value || '').trim();
-    fetchAndRender(cfg, q0, 1, false);
+    const hasInitialResults = cfg.resultsEl.querySelector('.row') !== null;
+    if (!hasInitialResults) {
+      fetchAndRender(cfg, q0, 1, false);
+    } else {
+      // Sync state if initial results were pre-rendered
+      const np = parseNextPage(cfg.resultsEl);
+      state.set(cfg.root, { lastQ: q0, page: 1, nextPage: np });
+      if (np) {
+        cfg.loadMoreEl.classList.remove('d-none');
+      }
+    }
   }
 
   function autoInit() {

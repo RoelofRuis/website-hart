@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\components\Searcher;
 use app\models\ContactMessageUser;
 use app\models\Course;
 use app\models\forms\LoginForm;
+use app\models\forms\SearchForm;
 use app\models\StaticContent;
 use app\models\Teacher;
 use app\models\UrlRule;
@@ -67,7 +69,19 @@ class SiteController extends Controller
 
     public function actionSearch()
     {
-        return $this->render('search');
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->get(), '');
+
+        $searcher = new Searcher();
+        $result = $searcher->search($form);
+
+        $initial_results = $this->renderPartial('/search/_results', [
+            'result' => $result,
+        ]);
+
+        return $this->render('search', [
+            'initial_results' => $initial_results,
+        ]);
     }
 
     public function actionLogin()

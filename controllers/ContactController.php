@@ -6,7 +6,6 @@ use app\models\ContactMessage;
 use app\models\ContactMessageSearch;
 use app\models\ContactMessageUser;
 use app\models\ContactTypeReceiver;
-use app\models\Teacher;
 use app\models\User;
 use Yii;
 use yii\db\Expression;

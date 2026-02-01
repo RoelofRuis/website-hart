@@ -3,12 +3,11 @@
 namespace app\console;
 
 use app\components\Storage;
-use Yii;
+use League\Flysystem\DirectoryAttributes;
+use League\Flysystem\FileAttributes;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use yii\helpers\Console;
-use League\Flysystem\FileAttributes;
-use League\Flysystem\DirectoryAttributes;
 
 /**
  * Console controller for managing and testing storage.

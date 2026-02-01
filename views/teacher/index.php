@@ -1,9 +1,8 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var app\models\Teacher[] $teachers */
+/** @var string|null $initial_results */
 /** @var app\models\StaticContent $staticContent */
-/** @var string|null $q */
 
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -27,5 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'placeholder' => Yii::t('app', 'Search teachers by name or description'),
         'type' => 'teachers',
         'per_page' => 12,
+        'initial_results' => $initial_results,
     ]) ?>
 </div>

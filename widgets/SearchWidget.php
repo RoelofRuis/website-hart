@@ -19,6 +19,7 @@ class SearchWidget extends Widget
     public int $per_page = 12;
     public int $debounce_ms = 250;
     public bool $show_categories = false;
+    public ?string $initial_results = null;
 
     public function init(): void
     {
@@ -72,6 +73,7 @@ class SearchWidget extends Widget
             'per_page' => $this->per_page,
             'debounce_ms' => $this->debounce_ms,
             'categories' => $categories,
+            'initial_results' => $this->initial_results,
         ]);
     }
 }

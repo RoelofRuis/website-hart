@@ -28,6 +28,7 @@ use yii\helpers\Html;
                     'class' => $hide_on_mobile ? 'card-img-top d-none d-md-block' : 'card-img-top',
                     'alt' => Html::encode($title),
                     'style' => 'aspect-ratio: 16/9; object-fit: cover;',
+                    'loading' => 'lazy',
                 ]) ?>
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-between p-3" style="background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 50%);">
                     <div class="d-flex justify-content-between align-items-start">

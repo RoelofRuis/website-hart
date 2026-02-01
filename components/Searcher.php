@@ -3,7 +3,7 @@
 namespace app\components;
 
 use app\models\forms\SearchForm;
-use app\models\Teacher;
+use Yii;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\Url;
@@ -12,6 +12,13 @@ class Searcher
 {
     public function search(SearchForm $form): SearchResult
     {
+        $cache = Yii::$app->cache;
+        $cacheKey = 'search_' . md5(serialize($form->getAttributes()));
+        $cached = $cache->get($cacheKey);
+        if ($cached instanceof SearchResult) {
+            return $cached;
+        }
+
         if ($form->type === 'courses') {
             $data_query = $this->buildCourseSubquery($form);
         } elseif ($form->type === 'teachers') {
@@ -50,7 +57,7 @@ class Searcher
             $type = (string)$row['type'];
             $title = (string)$row['title'];
             $slug = (string)$row['slug'];
-            $snippet = '';
+            $snippet = (string)($row['snippet'] ?? '');
             $image = isset($row['image']) && !empty($row['image']) ? (string)$row['image'] : null;
 
             if ($type === 'course') {
@@ -59,10 +66,6 @@ class Searcher
             } elseif ($type === 'teacher') {
                 $url = Url::to(['teacher/view', 'slug' => $slug]);
                 $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_TEACHER);
-                $teacher = Teacher::find()->where(['slug' => $slug])->one();
-                if ($teacher) {
-                    $snippet = $teacher->getFormattedTaughtCourses();
-                }
             } elseif ($type === 'static') {
                 $url = Url::to([$slug]);
                 $image = $image ?: Placeholder::getUrl(Placeholder::TYPE_STATIC);
@@ -81,7 +84,9 @@ class Searcher
 
         $next_page = $has_next_page ? ($form->page + 1) : null;
 
-        return new SearchResult($results, $has_next_page, $next_page, $form->q);
+        $result = new SearchResult($results, $has_next_page, $next_page, $form->q);
+        $cache->set($cacheKey, $result, 3600); // Cache for 1 hour
+        return $result;
     }
 
     private function buildCourseSubquery(SearchForm $form): Query
@@ -92,10 +97,11 @@ class Searcher
                 'cn.name AS title',
                 'cn.slug AS slug',
                 'cn.cover_image AS image',
+                'cat.name AS snippet',
             ])
             ->distinct()
-            ->andFilterWhere(['cn.category_id' => $form->category_id])
             ->from(['cn' => '{{%course}}'])
+            ->leftJoin(['cat' => '{{%category}}'], 'cat.id = cn.category_id')
             ->innerJoin(['ct_v' => '{{%course_teacher}}'], 'ct_v.course_id = cn.id')
             ->innerJoin(['t_v' => '{{%teacher}}'], 't_v.id = ct_v.teacher_id')
             ->innerJoin(['u_v' => '{{%user}}'], 'u_v.id = t_v.user_id')
@@ -127,6 +133,7 @@ class Searcher
                 'u.full_name AS title',
                 't.slug AS slug',
                 't.profile_picture AS image',
+                new Expression("(SELECT string_agg(c.name, ', ') FROM course_teacher ct JOIN course c ON c.id = ct.course_id WHERE ct.teacher_id = t.id) AS snippet"),
             ])
             ->from(['t' => '{{%teacher}}'])
             ->innerJoin(['u' => '{{%user}}'], 't.user_id = u.id')
@@ -167,6 +174,7 @@ class Searcher
                 'sc.title AS title',
                 'sc.slug AS slug',
                 'sc.cover_image AS image',
+                'sc.explainer AS snippet',
             ])
             ->from(['sc' => '{{%static_content}}'])
             ->andWhere(['sc.searchable' => true]);

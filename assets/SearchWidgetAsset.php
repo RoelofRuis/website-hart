@@ -12,6 +12,9 @@ class SearchWidgetAsset extends AssetBundle
     public $js = [
         'js/search-widget.js',
     ];
+    public $jsOptions = [
+        'defer' => 'defer',
+    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',

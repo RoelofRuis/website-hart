@@ -2,10 +2,11 @@
 
 namespace app\controllers;
 
-use app\models\Teacher;
+use app\components\Searcher;
+use app\models\forms\SearchForm;
 use app\models\StaticContent;
+use app\models\Teacher;
 use Yii;
-use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -13,30 +14,21 @@ class TeacherController extends Controller
 {
     public function actionIndex()
     {
-        $q = Yii::$app->request->get('q');
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->get(), '');
+        $form->type = 'teachers';
+        $form->per_page = 12;
 
-        $query = Teacher::findIndexable();
-        if ($q !== null && $q !== '') {
-            $query->andFilterWhere(['or',
-                ['ILIKE', 'user.full_name', $q],
-                ['ILIKE', 'description', $q],
-            ]);
-            // Prefer name matches over description matches
-            $query->orderBy(new Expression(
-                "CASE WHEN user.full_name ILIKE :qprefix THEN 0 WHEN user.full_name ILIKE :qany THEN 1 ELSE 2 END, user.full_name ASC",
-            ))
-                ->addParams([
-                    ':qprefix' => $q . '%',
-                    ':qany' => '%' . $q . '%',
-                ]);
-        } else {
-            $query->orderBy(['user.full_name' => SORT_ASC]);
-        }
-        $teachers = $query->all();
+        $searcher = new Searcher();
+        $result = $searcher->search($form);
+
+        $initial_results = $this->renderPartial('/search/_results', [
+            'result' => $result,
+        ]);
+
         $staticContent = StaticContent::findByKey('teachers-index');
         return $this->render('index', [
-            'teachers' => $teachers,
-            'q' => $q,
+            'initial_results' => $initial_results,
             'staticContent' => $staticContent,
         ]);
     }

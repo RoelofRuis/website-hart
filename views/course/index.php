@@ -1,9 +1,8 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var app\models\Course[] $courses */
+/** @var string|null $initial_results */
 /** @var app\models\StaticContent $staticContent */
-/** @var string|null $q */
 
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -28,5 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'type' => 'courses',
         'per_page' => 12,
         'show_categories' => true,
+        'initial_results' => $initial_results,
     ]) ?>
 </div>
