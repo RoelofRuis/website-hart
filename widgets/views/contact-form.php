@@ -46,6 +46,12 @@ use yii\bootstrap5\Html;
         <?= $form->field($model, 'email')->input('email', ['maxlength' => true, 'placeholder' => 'you@example.com']) ?>
         <?= $form->field($model, 'message')->textarea(['rows' => 6, 'placeholder' => Yii::t('app', 'Write your message...')]) ?>
 
+        <div class="text-muted small mb-3">
+            <?= Yii::t('app', 'Your personal data is processed according to our {privacy_policy}.', [
+                'privacy_policy' => Html::a(Yii::t('app', 'Privacy Policy'), ['static/avg'], ['class' => 'text-muted text-decoration-underline'])
+            ]) ?>
+        </div>
+
         <div class="d-grid">
             <?= Html::submitButton(Yii::t('app', 'Send') . ' <i class="bi bi-send ms-2"></i>', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>

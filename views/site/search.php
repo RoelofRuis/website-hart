@@ -13,12 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-search">
     <h1 class="mb-3"><?= Html::encode(Yii::t('app', 'Search')); ?></h1>
 
-    <div class="container my-4">
-        <?= SearchWidget::widget([
-            'endpoint' => Url::to(['search/index']),
-            'placeholder' => Yii::t('app', 'Search courses, teachers, information…'),
-            'show_categories' => true,
-            'initial_results' => $initial_results,
-        ]) ?>
-    </div>
+    <?= SearchWidget::widget([
+        'endpoint' => Url::to(['search/index']),
+        'placeholder' => Yii::t('app', 'Search courses, teachers, information…'),
+        'show_categories' => true,
+        'initial_results' => $initial_results,
+    ]) ?>
 </div>

@@ -50,6 +50,12 @@ use yii\bootstrap5\Html;
         <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
         <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message') . ' ' . Yii::t('app', '(Optional)')) ?>
 
+        <div class="text-muted small mb-3">
+            <?= Yii::t('app', 'Your personal data is processed according to our {privacy_policy}.', [
+                'privacy_policy' => Html::a(Yii::t('app', 'Privacy Policy'), ['static/avg'], ['class' => 'text-muted text-decoration-underline'])
+            ]) ?>
+        </div>
+
         <div class="d-grid mt-4">
             <?= Html::submitButton(Yii::t('app', 'Sign Up!') . ' <i class="bi bi-send ms-2"></i>', ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
