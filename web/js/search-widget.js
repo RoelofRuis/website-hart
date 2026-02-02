@@ -69,6 +69,26 @@ window.SearchWidget = window.SearchWidget || (function () {
     cfg.resultsEl.innerHTML = html;
   }
 
+  function updateBrowserUrl(cfg, q) {
+    const url = new URL(window.location.href);
+    if (q) {
+      url.searchParams.set(cfg.paramName, q);
+    } else {
+      url.searchParams.delete(cfg.paramName);
+    }
+
+    if (cfg.categoryId) {
+      url.searchParams.set('category_id', cfg.categoryId);
+    } else {
+      url.searchParams.delete('category_id');
+    }
+
+    // Don't update if it's the same URL
+    if (url.toString() !== window.location.href) {
+      window.history.replaceState({ path: url.toString() }, '', url.toString());
+    }
+  }
+
   async function fetchAndRender(cfg, q, page, append) {
     clearError(cfg);
     const st = state.get(cfg.root) || {};
@@ -84,6 +104,7 @@ window.SearchWidget = window.SearchWidget || (function () {
 
     if (!append) {
       renderSkeletons(cfg);
+      updateBrowserUrl(cfg, q);
     }
 
     try {
@@ -246,6 +267,8 @@ window.SearchWidget = window.SearchWidget || (function () {
       if (np) {
         cfg.loadMoreEl.classList.remove('d-none');
       }
+      // Even if pre-rendered, ensure the browser URL is in sync
+      updateBrowserUrl(cfg, q0);
     }
   }
 

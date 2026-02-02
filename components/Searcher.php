@@ -107,6 +107,10 @@ class Searcher
             ->innerJoin(['u_v' => '{{%user}}'], 'u_v.id = t_v.user_id')
             ->andWhere(['u_v.is_visible' => true]);
 
+        if ($form->category_id) {
+            $subquery->andWhere(['cn.category_id' => $form->category_id]);
+        }
+
         if (!$form->hasEmptyQuery()) {
             $tagSubquery = (new Query)
                 ->select('course_id')
