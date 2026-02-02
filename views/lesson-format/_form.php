@@ -24,6 +24,7 @@ $price_display_types = [
     LessonFormat::PRICE_DISPLAY_HIDDEN => Yii::t('app', 'Hidden'),
     LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_LESSON => Yii::t('app', 'Per person per lesson'),
     LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_YEAR => Yii::t('app', 'Per person per year'),
+    LessonFormat::PRICE_DISPLAY_PER_PERSON_PER_COURSE => Yii::t('app', 'Per person per course'),
     LessonFormat::PRICE_DISPLAY_ON_REQUEST => Yii::t('app', 'Price on request'),
 ];
 

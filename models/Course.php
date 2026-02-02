@@ -100,7 +100,8 @@ class Course extends ActiveRecord
 
     public function getLessonFormats(): ActiveQuery
     {
-        return $this->hasMany(LessonFormat::class, ['course_id' => 'id']);
+        return $this->hasMany(LessonFormat::class, ['course_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC]);
     }
 
     public function getTagsRelation(): ActiveQuery

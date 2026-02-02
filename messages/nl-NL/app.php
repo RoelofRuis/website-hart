@@ -159,6 +159,7 @@ return [
     'Number of teachers' => 'Aantal docenten',
     'One selected' => 'Één geselecteerd',
     'Open' => 'Open',
+    'Order' => 'Volgorde',
     'Organisation Page' => 'Verenigingspagina',
     'Organisational contact message' => 'Bericht aan de vereniging',
     'Other Frequency' => 'Andere frequentie',
@@ -167,6 +168,7 @@ return [
     'Parent phone' => 'Telefoon van ouder/begeleider',
     'Password' => 'Wachtwoord',
     'People' => 'Personen',
+    'Per person per course' => 'Per persoon per cursus',
     'Per person per lesson' => 'Per persoon per les',
     'Per person per year' => 'Per persoon per jaar',
     'Phone' => 'Telefoonnummer',
@@ -304,6 +306,7 @@ return [
     '{n,plural,=0{None selected} =1{One selected} other{# selected}}' => '{n,plural,=0{Niets geselecteerd} other{# geselecteerd}}',
     '{n} people, {m} minutes, {w} weeks, {f}' => '{n,plural,=1{Individueel} =2{Duo} other{Groepsles # personen}}, {m} minuten, {f}, {w} weken ',
     '{n} selected' => '{n} geselecteerd',
+    '€{n} per person per course' => '€ {n} per persoon per cursus',
     '€{n} per person per lesson' => '€ {n} per persoon per les',
     '€{n} per person per year' => '€ {n} per persoon per jaar',
 ];

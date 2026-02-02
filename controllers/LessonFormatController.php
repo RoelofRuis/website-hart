@@ -18,7 +18,7 @@ class LessonFormatController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['admin', 'create', 'update', 'delete', 'copy'],
+                'only' => ['admin', 'create', 'update', 'delete', 'copy', 'reorder'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -43,7 +43,10 @@ class LessonFormatController extends Controller
             throw new NotFoundHttpException('Not allowed.');
         }
 
-        $formats = $teacher->getLessonFormats()->with('course')->all();
+        $formats = $teacher->getLessonFormats()
+            ->with('course')
+            ->orderBy(['sort_order' => SORT_ASC])
+            ->all();
         $linked_courses = $teacher->getAccessibleCourses()->orderBy(['name' => SORT_ASC])->all();
 
         return $this->render('admin', [
@@ -205,5 +208,30 @@ class LessonFormatController extends Controller
             'model' => $model,
             'course' => $model->course ?? $source->course,
         ]);
+    }
+
+    public function actionReorder()
+    {
+        $ids = Yii::$app->request->post('ids');
+        if (!is_array($ids)) {
+            return $this->asJson(['success' => false]);
+        }
+
+        /** @var User $current */
+        $current = Yii::$app->user->identity;
+        $teacher = $current->getTeacher()->one();
+        if (!$teacher instanceof Teacher) {
+            return $this->asJson(['success' => false]);
+        }
+
+        foreach ($ids as $index => $id) {
+            $model = LessonFormat::findOne($id);
+            if ($model && ($current->is_admin || $model->teacher_id === $teacher->id)) {
+                $model->sort_order = $index;
+                $model->save(false);
+            }
+        }
+
+        return $this->asJson(['success' => true]);
     }
 }

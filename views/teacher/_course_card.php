@@ -46,7 +46,7 @@ $formats = $teacher->getLessonFormats()->where(['course_id' => $course->id])->al
                 </div>
             </div>
             <?php if (!empty($formats)): ?>
-            <div class="px-3 pb-3">
+            <div class="px-3">
                 <div class="list-group list-group-flush border-top">
                     <?php foreach ($formats as $index => $format): ?>
                         <div class="list-group-item px-0 py-2 border-bottom-light">

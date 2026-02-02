@@ -7,11 +7,39 @@
  */
 
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
 use yii\web\View;
 
 $this->title = Yii::t('app', 'My lesson formats');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Teacher Dashboard'), 'url' => ['site/manage']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile('https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js');
+
+$reorderUrl = Url::to(['lesson-format/reorder']);
+$js = <<<JS
+document.querySelectorAll('.sortable-lesson-formats').forEach(function(el) {
+    new Sortable(el, {
+        handle: '.drag-handle',
+        animation: 150,
+        onEnd: function() {
+            var ids = [];
+            el.querySelectorAll('li[data-id]').forEach(function(li) {
+                ids.push(li.getAttribute('data-id'));
+            });
+            fetch('$reorderUrl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-Token': yii.getCsrfToken()
+                },
+                body: 'ids[]=' + ids.join('&ids[]=')
+            });
+        }
+    });
+});
+JS;
+$this->registerJs($js);
 ?>
 
 <div class="teacher-lesson-formats">
@@ -71,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php endif; ?>
                     </div>
                 </div>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush sortable-lesson-formats">
                     <?php foreach ($items as $f): ?>
                         <?= $this->render('//lesson-format/_card', [
                             'model' => $f,
