@@ -52,6 +52,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => Yii::t('app', 'Teachers'), 'url' => ['/teacher/index']],
             ['label' => Yii::t('app', 'Search'), 'url' => ['/site/search']],
             ['label' => Yii::t('app', 'About VHM'), 'url' => ['/static/about']],
+            ['label' => Yii::t('app', 'Locations'), 'url' => ['/static/locations']],
+            ['label' => Yii::t('app', 'Contact'), 'url' => ['/static/contact']],
             [
                 'label' => Yii::t('app', 'Teacher Dashboard'),
                 'url' => ['/site/manage'],
@@ -104,9 +106,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <div class="row text-muted align-items-start gy-2">
             <div class="col-12 col-md-5 text-md-start text-center">
                 <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><a href="<?= Url::to(['static/locations']) ?>"><?= Html::encode(Yii::t('app', 'Locations')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['static/association']) ?>"><?= Html::encode(Yii::t('app', 'Association & Board')) ?></a></li>
-                    <li class="mb-2"><a href="<?= Url::to(['static/contact']) ?>"><?= Html::encode(Yii::t('app', 'Contact')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['static/avg']) ?>"><?= Html::encode(Yii::t('app', 'AVG / Privacy')) ?></a></li>
                     <li class="mb-2"><a href="<?= Url::to(['static/copyright']) ?>"><?= Html::encode(Yii::t('app', 'Copyright')) ?></a></li>
                 </ul>

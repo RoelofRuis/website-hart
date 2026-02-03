@@ -42,6 +42,8 @@ use yii\bootstrap5\Html;
             <?= $form->field($model, 'type')->hiddenInput(['value' => array_key_first($reasons)])->label(false) ?>
         <?php endif; ?>
 
+        <?= $form->field($model, 'verify_email', ['options' => ['class' => 'verify-email-field']])->textInput(['tabindex' => '-1', 'autocomplete' => 'off']) ?>
+
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => Yii::t('app', 'Your name')]) ?>
         <?= $form->field($model, 'email')->input('email', ['maxlength' => true, 'placeholder' => 'you@example.com']) ?>
         <?= $form->field($model, 'message')->textarea(['rows' => 6, 'placeholder' => Yii::t('app', 'Write your message...')]) ?>

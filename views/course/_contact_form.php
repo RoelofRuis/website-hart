@@ -46,8 +46,8 @@ use yii\bootstrap5\Html;
 
         <?= $form->field($contact, 'age')->input('number', ['id' => 'contactmessage-age', 'min' => 0, 'max' => 100]) ?>
         <?= $form->field($contact, 'name')->textInput(['id' => 'contactmessage-name', 'maxlength' => true]) ?>
-        <?= $form->field($contact, 'email')->input('email') ?>
-        <?= $form->field($contact, 'telephone')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($contact, 'email')->input('email', ['id' => 'contactmessage-email']) ?>
+        <?= $form->field($contact, 'telephone')->textInput(['id' => 'contactmessage-telephone', 'maxlength' => true]) ?>
         <?= $form->field($contact, 'message')->textarea(['rows' => 3, 'maxlength' => true])->label(Yii::t('app', 'Message') . ' ' . Yii::t('app', '(Optional)')) ?>
 
         <div class="text-muted small mb-3">
@@ -63,22 +63,36 @@ use yii\bootstrap5\Html;
     </div>
 </div>
 <?php
+$studentName = Yii::t('app', 'Student name');
+$parentName = Yii::t('app', 'Parent');
+$studentEmail = Yii::t('app', 'Student email');
+$parentEmail = Yii::t('app', 'Parent email');
+$studentPhone = Yii::t('app', 'Student phone');
+$parentPhone = Yii::t('app', 'Parent phone');
+
 $js = <<<JS
 (function(){
   var ageInput = document.getElementById('contactmessage-age');
   var nameLabel = document.querySelector('label[for="contactmessage-name"]');
-  function updateLabel(){
-    if (!ageInput || !nameLabel) return;
+  var emailLabel = document.querySelector('label[for="contactmessage-email"]');
+  var telephoneLabel = document.querySelector('label[for="contactmessage-telephone"]');
+
+  function updateLabels(){
+    if (!ageInput) return;
     var age = parseInt(ageInput.value, 10);
     if (!isNaN(age) && age < 18) {
-      nameLabel.textContent = 'Naam ouder/verzorger';
+      if (nameLabel) nameLabel.textContent = '$parentName';
+      if (emailLabel) emailLabel.textContent = '$parentEmail';
+      if (telephoneLabel) telephoneLabel.textContent = '$parentPhone';
     } else {
-      nameLabel.textContent = 'Naam cursist';
+      if (nameLabel) nameLabel.textContent = '$studentName';
+      if (emailLabel) emailLabel.textContent = '$studentEmail';
+      if (telephoneLabel) telephoneLabel.textContent = '$studentPhone';
     }
   }
   if (ageInput) {
-    ageInput.addEventListener('input', updateLabel);
-    updateLabel();
+    ageInput.addEventListener('input', updateLabels);
+    updateLabels();
   }
 })();
 JS;

@@ -18,6 +18,8 @@ use yii\db\Expression;
  * @property string|null $telephone
  * @property int|null $user_id
  * @property int $created_at
+ *
+ * @property string $verify_email Honeypot field
  */
 class ContactMessage extends ActiveRecord
 {
@@ -25,6 +27,11 @@ class ContactMessage extends ActiveRecord
      * @var ?int For collecting a pre-set teacher id.
      */
     public $user_id = null;
+
+    /**
+     * @var string Honeypot field
+     */
+    public $verify_email;
 
     const TYPE_TEACHER_CONTACT = 'teacher_contact';
     const TYPE_TEACHER_PLAN = 'teacher_plan';
@@ -75,6 +82,7 @@ class ContactMessage extends ActiveRecord
     {
         return [
             [['name', 'email'], 'required'],
+            ['verify_email', 'compare', 'compareValue' => '', 'message' => 'Spam detected'],
             [['type'], 'string', 'max' => 16],
             [['type'], 'in', 'range' => [
                 self::TYPE_TEACHER_CONTACT,
