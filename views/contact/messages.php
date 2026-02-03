@@ -62,17 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'type',
                 'label' => Yii::t('app', 'Type'),
                 'value' => function (ContactMessage $model) {
-                    $info = [];
-                    if ($model->type === 'signup') {
-                        $info[] = Yii::t('app', 'Signup');
-                    } elseif ($model->type === 'trial') {
-                        $info[] = Yii::t('app', 'Trial');
-                    } elseif ($model->type === 'plan') {
-                        $info[] = Yii::t('app', 'Lesson plan');
-                    } else {
-                        $info[] = Yii::t('app', 'Contact');
-                    }
-                    return implode('<br>', $info);
+                    return $model::typeLabels()[$model->type] ?? '';
                 },
                 'format' => 'raw',
             ],

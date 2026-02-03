@@ -101,6 +101,18 @@ class ContactMessage extends ActiveRecord
         ];
     }
 
+    public static function typeLabels(): array
+    {
+        return [
+            ContactMessage::TYPE_TEACHER_CONTACT => Yii::t('app', 'Teacher contact'),
+            ContactMessage::TYPE_COURSE_SIGNUP => Yii::t('app', 'General Course signup'),
+            ContactMessage::TYPE_COURSE_TRIAL => Yii::t('app', 'Trial lesson'),
+            ContactMessage::TYPE_TEACHER_PLAN => Yii::t('app', 'Teacher plan lesson'),
+            ContactMessage::TYPE_GENERAL_CONTACT => Yii::t('app', 'General contact'),
+            ContactMessage::TYPE_ORGANISATION_CONTACT => Yii::t('app', 'Organisation contact'),
+        ];
+    }
+
     public function attributeLabels(): array
     {
         return [

@@ -20,7 +20,7 @@ class ContactController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['messages', 'all-messages', 'update-receivers', 'settings'],
+                'only' => ['messages', 'all-messages', 'update-receivers', 'settings', 'stats'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -29,7 +29,7 @@ class ContactController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['all-messages', 'update-receivers', 'settings'],
+                        'actions' => ['all-messages', 'update-receivers', 'settings', 'stats'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
                             return Yii::$app->user->identity->isAdmin();
@@ -113,6 +113,21 @@ class ContactController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'users' => User::find()->all(),
+        ]);
+    }
+
+    public function actionStats()
+    {
+        $stats = ContactMessage::find()
+            ->select(['date' => 'DATE(created_at)', 'type', 'count' => 'COUNT(*)'])
+            ->groupBy(['DATE(created_at)', 'type'])
+            ->orderBy(['date' => SORT_ASC])
+            ->asArray()
+            ->all();
+
+        return $this->render('stats', [
+            'stats' => $stats,
+            'types' => ContactMessage::typeLabels(),
         ]);
     }
 

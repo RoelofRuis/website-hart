@@ -24,6 +24,7 @@ $userList = ArrayHelper::map($users, 'id', 'full_name');
 <div class="all-messages">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
+        <?= Html::a(Yii::t('app', 'Statistics'), ['stats'], ['class' => 'btn btn-petrol me-2']) ?>
         <?= Html::a(Yii::t('app', 'Show your messages'), ['messages'], ['class' => 'btn btn-outline-primary me-2']) ?>
     </div>
 
@@ -71,21 +72,7 @@ $userList = ArrayHelper::map($users, 'id', 'full_name');
                 'attribute' => 'type',
                 'label' => Yii::t('app', 'Type'),
                 'value' => function (ContactMessage $model) {
-                    $info = [];
-                    if ($model->type === ContactMessage::TYPE_COURSE_SIGNUP) {
-                        $info[] = Yii::t('app', 'Signup');
-                    } elseif ($model->type === ContactMessage::TYPE_COURSE_TRIAL) {
-                        $info[] = Yii::t('app', 'Trial');
-                    } elseif ($model->type === ContactMessage::TYPE_TEACHER_PLAN) {
-                        $info[] = Yii::t('app', 'Lesson plan');
-                    } elseif ($model->type === ContactMessage::TYPE_GENERAL_CONTACT) {
-                        $info[] = Yii::t('app', 'General contact message');
-                    } elseif ($model->type === ContactMessage::TYPE_ORGANISATION_CONTACT) {
-                        $info[] = Yii::t('app', 'Organisational contact message');
-                    } else {
-                        $info[] = Yii::t('app', 'Contact');
-                    }
-                    return implode('<br>', $info);
+                    return $model::typeLabels()[$model->type] ?? '';
                 },
                 'format' => 'raw',
             ],
