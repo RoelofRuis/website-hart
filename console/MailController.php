@@ -33,7 +33,7 @@ class MailController extends Controller
         try {
             $message = Yii::$app->mailer->compose()
                 ->setTo($to)
-                ->setFrom([$adminEmail => $appName])
+                ->setFrom($adminEmail)
                 ->setSubject("Test Email from $appName")
                 ->setTextBody("This is a test email to verify the mailing setup for $appName.")
                 ->setHtmlBody("<p>This is a test email to verify the mailing setup for <b>$appName</b>.</p>");

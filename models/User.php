@@ -171,7 +171,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
             ['user' => $this]
         )
-            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom(Yii::$app->params['adminEmail'])
             ->setTo($this->email)
             ->setSubject(Yii::t('app', 'Password reset for {name}', ['name' => Yii::$app->name]))
             ->send();
@@ -190,7 +190,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['html' => 'user-activation-html', 'text' => 'user-activation-text'],
             ['user' => $this]
         )
-            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom(Yii::$app->params['adminEmail'])
             ->setTo($this->email)
             ->setSubject(Yii::t('app', 'Account activation for {name}', ['name' => Yii::$app->name]))
             ->send();
