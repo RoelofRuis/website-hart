@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\Searcher;
 use app\models\ContactMessageUser;
 use app\models\Course;
+use app\models\forms\ActivateAccountForm;
 use app\models\forms\LoginForm;
 use app\models\forms\PasswordResetRequestForm;
 use app\models\forms\ResetPasswordForm;
@@ -145,19 +146,20 @@ class SiteController extends Controller
 
     public function actionActivate(string $token)
     {
-        $user = User::findOne(['activation_token' => $token]);
-        if (!$user || !$user->isActivationTokenValid($token)) {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'The activation link is invalid or has expired. Please contact an administrator.'));
-            return $this->goHome();
+        try {
+            $model = new ActivateAccountForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($user->activate()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->activate()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Your account has been activated! You can now log in.'));
-        } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we could not activate your account. Please contact an administrator.'));
+            return $this->redirect(['site/login']);
         }
 
-        return $this->redirect(['site/login']);
+        return $this->render('activate', [
+            'model' => $model,
+        ]);
     }
 
     public function actionManage()

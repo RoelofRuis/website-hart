@@ -7,11 +7,11 @@ use yii\helpers\Html;
 $activationLink = Yii::$app->urlManager->createAbsoluteUrl(['site/activate', 'token' => $user->activation_token]);
 ?>
 <div class="user-activation">
-    <p>Hello <?= Html::encode($user->full_name) ?>,</p>
+    <p><?= Yii::t('app', 'Hello {name},', ['name' => Html::encode($user->full_name)]) ?></p>
 
-    <p>Follow the link below to activate your account:</p>
+    <p><?= Yii::t('app', 'Follow the link below to activate your account:') ?></p>
 
     <p><?= Html::a(Html::encode($activationLink), $activationLink) ?></p>
 
-    <p>This link is valid for 24 hours.</p>
+    <p><?= Yii::t('app', 'This link is valid for 24 hours.') ?></p>
 </div>

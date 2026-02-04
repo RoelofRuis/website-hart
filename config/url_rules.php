@@ -6,6 +6,7 @@ return [
     '' => 'site/index',
     'portaal/login' => 'site/login',
     'portaal/wachtwoord-vergeten' => 'site/request-password-reset',
+    'portaal/activeren/<token:.+>' => 'site/activate',
     'zoeken' => 'site/search',
     'sitemap.xml' => 'site/sitemap',
     'contact' => 'static/contact',

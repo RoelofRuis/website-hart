@@ -70,11 +70,15 @@ class UserFlowCest
 
         // Test activation
         $I->amOnPage('/site/activate?token=' . $token);
+        $I->see('Account activeren');
+        $I->fillField('Wachtwoord', 'newpassword');
+        $I->click('Activeren');
         $I->see('Je account is geactiveerd! Je kunt nu inloggen.');
         
         $user->refresh();
         $I->assertTrue($user->is_active);
         $I->assertNull($user->activation_token);
+        $I->assertTrue($user->validatePassword('newpassword'));
     }
 
     public function testAdminCanSendPasswordResetEmail(FunctionalTester $I)

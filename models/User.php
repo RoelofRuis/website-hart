@@ -173,7 +173,7 @@ class User extends ActiveRecord implements IdentityInterface
         )
             ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
             ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
+            ->setSubject(Yii::t('app', 'Password reset for {name}', ['name' => Yii::$app->name]))
             ->send();
     }
 
@@ -192,7 +192,7 @@ class User extends ActiveRecord implements IdentityInterface
         )
             ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
             ->setTo($this->email)
-            ->setSubject('Account activation for ' . Yii::$app->name)
+            ->setSubject(Yii::t('app', 'Account activation for {name}', ['name' => Yii::$app->name]))
             ->send();
     }
 
