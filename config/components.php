@@ -8,7 +8,7 @@ use yii\i18n\PhpMessageSource;
 use yii\log\FileTarget;
 use yii\symfonymailer\Mailer;
 
-$env = function(string $key, $default = null) {
+$env = function (string $key, $default = null) {
     $v = getenv($key);
     return $v !== false ? $v : $default;
 };
@@ -36,13 +36,29 @@ return [
             'pgsql' => Schema::class,
         ]
     ],
-    'mailer' => [
-        'class' => Mailer::class,
-        'useFileTransport' => true,
-        'transport' => [
-            'dsn' => $env('MAILER_DSN', 'smtp://mailhog:1025'),
-        ],
-    ],
+    'mailer' => function () use ($env) {
+        $dns = $env('MAILER_DSN', '');
+
+        if ($dns === 'resend') {
+            $key = $env('MAILER_API_KEY', '');
+            return [
+                'class' => \yusham\resend\Mailer::class,
+                'useFileTransport' => false,
+                'viewPath' => '@app/mail',
+                'transport' => [
+                    'apiKey' => $key,
+                ]
+            ];
+        }
+
+        return [
+            'class' => Mailer::class,
+            'useFileTransport' => true,
+            'transport' => [
+                'dsn' => $dns,
+            ],
+        ];
+    },
     'log' => [
         'traceLevel' => YII_DEBUG ? 3 : 0,
         'targets' => [

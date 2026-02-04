@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e1567585046ec700b2d660875b928a6",
+    "content-hash": "70a6ce9f9fd95030482a40718e75480d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1570,6 +1570,63 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
+            "name": "resend/resend-php",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/resend/resend-php.git",
+                "reference": "c1ce4ee5dc8ca90a5e6a2dc6d772a06abbe7c9d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/resend/resend-php/zipball/c1ce4ee5dc8ca90a5e6a2dc6d772a06abbe7c9d3",
+                "reference": "c1ce4ee5dc8ca90a5e6a2dc6d772a06abbe7c9d3",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "mockery/mockery": "^1.6",
+                "pestphp/pest": "^2.0|^3.0|^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Resend.php"
+                ],
+                "psr-4": {
+                    "Resend\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Resend and contributors",
+                    "homepage": "https://github.com/resend/resend-php/contributors"
+                }
+            ],
+            "description": "Resend PHP library.",
+            "homepage": "https://resend.com/",
+            "keywords": [
+                "api",
+                "client",
+                "php",
+                "resend",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/resend/resend-php/issues",
+                "source": "https://github.com/resend/resend-php/tree/v1.1.0"
+            },
+            "time": "2025-11-26T08:41:40+00:00"
+        },
+        {
             "name": "symfony/deprecation-contracts",
             "version": "v3.6.0",
             "source": {
@@ -2747,6 +2804,59 @@
                 }
             ],
             "time": "2022-09-04T10:48:21+00:00"
+        },
+        {
+            "name": "yus-ham/yii2-resend",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yus-ham/yii2-resend.git",
+                "reference": "262a847db6e7b5245f64e2bba771607898ac78e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yus-ham/yii2-resend/zipball/262a847db6e7b5245f64e2bba771607898ac78e4",
+                "reference": "262a847db6e7b5245f64e2bba771607898ac78e4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">8.0",
+                "resend/resend-php": "*",
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yusham\\resend\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yusup Hambali",
+                    "email": "sup.alpuket@gmail.com"
+                }
+            ],
+            "description": "Yii 2 extension for [Resend](https://resend.com)",
+            "homepage": "https://github.com/yus-ham/yii2-resend",
+            "keywords": [
+                "extension",
+                "resend-php",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/yus-ham/yii2-resend/issues",
+                "source": "https://github.com/yus-ham/yii2-resend/tree/v1.0.0"
+            },
+            "time": "2023-06-18T16:15:14+00:00"
         }
     ],
     "packages-dev": [
@@ -6180,7 +6290,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0",
+        "php": "^8.2",
+        "ext-gd": "*",
         "ext-mbstring": "*"
     },
     "platform-dev": {},
