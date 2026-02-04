@@ -13,7 +13,6 @@ use app\models\forms\SearchForm;
 use app\models\StaticContent;
 use app\models\Teacher;
 use app\models\UrlRule;
-use app\models\User;
 use InvalidArgumentException;
 use Yii;
 use yii\filters\AccessControl;
