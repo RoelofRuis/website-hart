@@ -1,7 +1,11 @@
 <?php
-/** @var \yii\web\View $this */
-/** @var \yii\mail\MessageInterface $message */
+/** @var View $this */
+/** @var MessageInterface $message */
 /** @var string $content */
+
+use yii\mail\MessageInterface;
+use yii\web\View;
+
 ?>
 <?php $this->beginPage() ?>
 <?php $this->beginBody() ?>

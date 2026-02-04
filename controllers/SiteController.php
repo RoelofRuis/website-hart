@@ -6,14 +6,18 @@ use app\components\Searcher;
 use app\models\ContactMessageUser;
 use app\models\Course;
 use app\models\forms\LoginForm;
+use app\models\forms\PasswordResetRequestForm;
+use app\models\forms\ResetPasswordForm;
 use app\models\forms\SearchForm;
 use app\models\StaticContent;
 use app\models\Teacher;
 use app\models\UrlRule;
 use app\models\User;
+use InvalidArgumentException;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\NotFoundHttpException;
@@ -103,6 +107,40 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Check your email for further instructions.'));
+                return $this->goHome();
+            }
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we are unable to reset password for the provided email address.'));
+        }
+
+        return $this->render('request_password_reset_token', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'New password saved.'));
+            return $this->redirect(['site/login']);
+        }
+
+        return $this->render('reset_password', [
+            'model' => $model,
+        ]);
     }
 
     public function actionActivate(string $token)

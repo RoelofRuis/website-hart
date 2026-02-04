@@ -21,7 +21,7 @@ class UserController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['update', 'admin', 'create', 'delete', 'resend-activation'],
+                        'actions' => ['update', 'admin', 'create', 'delete', 'resend-activation', 'request-password-reset'],
                         'roles' => ['@'],
                     ]
                 ]
@@ -57,11 +57,10 @@ class UserController extends Controller
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             if ($user->load($post)) {
-                if (!empty($user->password)) {
-                    $user->setPassword($user->password);
-                }
                 $user->generateAuthKey();
                 $user->generateActivationToken();
+                // Admin cannot set password directly for others
+                $user->password_hash = Yii::$app->security->generateRandomString(); 
 
                 if (!empty($post['make_teacher'])) {
                     $teacher = new Teacher();
@@ -168,7 +167,10 @@ class UserController extends Controller
 
                 if ($valid) {
                     if (!empty($user->password)) {
-                        $user->setPassword($user->password);
+                        // Only allow user to set their OWN password
+                        if ($current->id === $user->id) {
+                            $user->setPassword($user->password);
+                        }
                     }
                     $user->save(false);
                     if ($teacher) {
@@ -215,5 +217,24 @@ class UserController extends Controller
         return $this->redirect(['admin']);
     }
 
+    public function actionRequestPasswordReset(int $id)
+    {
+        if (!Yii::$app->user->identity->is_admin) {
+            throw new ForbiddenHttpException('Not allowed.');
+        }
 
+        $user = User::findOne($id);
+        if (!$user) {
+            throw new NotFoundHttpException('User not found.');
+        }
+
+        $user->generatePasswordResetToken();
+        if ($user->save(false) && $user->sendPasswordResetEmail()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Check your email for further instructions.'));
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we are unable to reset password for the provided email address.'));
+        }
+
+        return $this->redirect(['admin']);
+    }
 }

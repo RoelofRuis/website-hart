@@ -36,7 +36,7 @@ $is_admin = !Yii::$app->user->isGuest && Yii::$app->user->identity->is_admin;
                 <div class="col-md-6">
                     <?= $form->field($user, 'job_title')->textInput(['maxlength' => true]) ?>
                 </div>
-                <?php if ($user->isNewRecord || $is_admin || Yii::$app->user->id === $user->id): ?>
+                <?php if (Yii::$app->user->id === $user->id): ?>
                     <div class="col-md-6">
                         <?= PasswordInput::widget([
                                 'field' => $form->field($user, 'password'),

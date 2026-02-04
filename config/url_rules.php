@@ -5,6 +5,7 @@ return [
     // Static pages
     '' => 'site/index',
     'portaal/login' => 'site/login',
+    'portaal/wachtwoord-vergeten' => 'site/request-password-reset',
     'zoeken' => 'site/search',
     'sitemap.xml' => 'site/sitemap',
     'contact' => 'static/contact',
@@ -40,6 +41,8 @@ return [
     'portaal/gebruikers' => 'user/admin',
     'portaal/gebruiker/<id:\d+>' => 'user/update',
     'portaal/gebruiker-maken' => 'user/create',
+    'portaal/gebruiker/wachtwoordherstel/<id:\d+>' => 'user/request-password-reset',
+    'portaal/gebruiker/activeer/<id:\d+>' => 'user/resend-activation',
     'portaal/lesvormen' => 'lesson-format/admin',
     'portaal/lesvorm/<id:\d+>' => 'lesson-format/update',
     'portaal/lesvorm-maken' => 'lesson-format/create',

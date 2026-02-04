@@ -15,7 +15,15 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 ?>
 <div class="user-update">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="me-auto mb-0"><?= Html::encode($this->title) ?></h1>
+        <?php if (Yii::$app->user->identity->is_admin && Yii::$app->user->id !== $user->id): ?>
+            <?php if (!$user->is_active): ?>
+                <?= Html::a('<i class="bi bi-send me-1"></i>' . Yii::t('app', 'Send activation email'), ['resend-activation', 'id' => $user->id], ['class' => 'btn btn-outline-primary me-2']) ?>
+            <?php endif; ?>
+            <?= Html::a('<i class="bi bi-key me-1"></i>' . Yii::t('app', 'Send password reset email'), ['request-password-reset', 'id' => $user->id], ['class' => 'btn btn-outline-warning']) ?>
+        <?php endif; ?>
+    </div>
 
     <?= $this->render('_form', [
         'user' => $user,

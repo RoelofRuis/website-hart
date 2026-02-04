@@ -20,6 +20,7 @@ use yii\web\IdentityInterface;
  * @property bool $is_active
  * @property bool $is_visible
  * @property string|null $activation_token
+ * @property string|null $password_reset_token
  * @property DateTime|null $last_login
  * @property string|null $password
  */
@@ -32,7 +33,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'changelog' => [
                 'class' => ChangelogBehavior::class,
-                'excludeAttributes' => ['password_hash', 'auth_key', 'activation_token'],
+                'excludeAttributes' => ['password_hash', 'auth_key', 'activation_token', 'password_reset_token'],
             ],
         ];
     }
@@ -52,7 +53,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['password'], 'string', 'min' => 8, 'skipOnEmpty' => true],
             [['email'], 'email'],
             [['email'], 'unique'],
-            [['activation_token'], 'string'],
+            [['activation_token', 'password_reset_token'], 'string'],
         ];
     }
 
@@ -129,6 +130,51 @@ class User extends ActiveRecord implements IdentityInterface
         $timestamp = (int) substr($this->activation_token, strrpos($this->activation_token, '_') + 1);
         $expire = 86400; // 24 hours
         return $timestamp + $expire >= time();
+    }
+
+    public static function findByPasswordResetToken(string $token): ?self
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            return null;
+        }
+
+        return static::findOne([
+            'password_reset_token' => $token,
+            'is_active' => true,
+        ]);
+    }
+
+    public static function isPasswordResetTokenValid(string $token): bool
+    {
+        if (empty($token)) {
+            return false;
+        }
+
+        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'] ?? 3600;
+        return $timestamp + $expire >= time();
+    }
+
+    public function generatePasswordResetToken(): void
+    {
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    public function removePasswordResetToken(): void
+    {
+        $this->password_reset_token = null;
+    }
+
+    public function sendPasswordResetEmail(): bool
+    {
+        return Yii::$app->mailer->compose(
+            ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
+            ['user' => $this]
+        )
+            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
+            ->setTo($this->email)
+            ->setSubject('Password reset for ' . Yii::$app->name)
+            ->send();
     }
 
     public function activate(): bool

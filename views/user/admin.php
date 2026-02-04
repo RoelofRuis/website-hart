@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{update} {resend-activation} {request-password-reset} {delete}',
                 'buttons' => [
                     'update' => function ($url) {
                         return Html::a('<i class="bi bi-pencil me-1"></i>' . Yii::t('app', 'Edit'), $url, ['class' => 'btn btn-sm btn-outline-secondary']);
@@ -139,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                 ],
-                'contentOptions' => ['style' => 'width: 280px; white-space: nowrap;'],
+                'contentOptions' => ['style' => 'width: 450px; white-space: nowrap;'],
             ],
         ],
     ]) ?>

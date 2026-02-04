@@ -1,8 +1,10 @@
 <?php
 use yii\helpers\Html;
+use yii\mail\MessageInterface;
+use yii\web\View;
 
-/** @var \yii\web\View $this */
-/** @var \yii\mail\MessageInterface $message */
+/** @var View $this */
+/** @var MessageInterface $message */
 /** @var string $content */
 ?>
 <?php $this->beginPage() ?>
