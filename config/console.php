@@ -2,6 +2,7 @@
 
 use app\console\ChangelogController;
 use app\console\ContactController;
+use app\console\MailController;
 use app\console\NotificationController;
 use app\console\PlaceholderController;
 use app\console\StaticController;
@@ -54,6 +55,9 @@ $config = [
         ],
         'changelog' => [
             'class' => ChangelogController::class,
+        ],
+        'mail' => [
+            'class' => MailController::class,
         ]
     ],
     'params' => $params,

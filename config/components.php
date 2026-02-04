@@ -19,6 +19,26 @@ $dbname = $env('DB_DATABASE', 'vhm');
 $user = $env('DB_USER', 'developer');
 $pass = $env('DB_PASSWORD', 'secret');
 
+$mailerDsn = $env('MAILER_DSN', '');
+if ($mailerDsn === 'resend') {
+    $mailerConfig = [
+        'class' => \yusham\resend\Mailer::class,
+        'useFileTransport' => false,
+        'viewPath' => '@app/mail',
+        'transport' => [
+            'apiKey' => $env('MAILER_API_KEY', ''),
+        ]
+    ];
+} else {
+    $mailerConfig = [
+        'class' => Mailer::class,
+        'useFileTransport' => true,
+        'transport' => [
+            'dsn' => $mailerDsn,
+        ],
+    ];
+}
+
 return [
     'storage' => [
         'class' => Storage::class,
@@ -36,29 +56,7 @@ return [
             'pgsql' => Schema::class,
         ]
     ],
-    'mailer' => function () use ($env) {
-        $dns = $env('MAILER_DSN', '');
-
-        if ($dns === 'resend') {
-            $key = $env('MAILER_API_KEY', '');
-            return [
-                'class' => \yusham\resend\Mailer::class,
-                'useFileTransport' => false,
-                'viewPath' => '@app/mail',
-                'transport' => [
-                    'apiKey' => $key,
-                ]
-            ];
-        }
-
-        return [
-            'class' => Mailer::class,
-            'useFileTransport' => true,
-            'transport' => [
-                'dsn' => $dns,
-            ],
-        ];
-    },
+    'mailer' => $mailerConfig,
     'log' => [
         'traceLevel' => YII_DEBUG ? 3 : 0,
         'targets' => [
